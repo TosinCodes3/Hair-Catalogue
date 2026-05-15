@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Hair Catalogue — LTC</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#111;--bg2:#1a1a1a;--bg3:#222;
+  --text:#f0f0f0;--text2:#aaa;--text3:#555;
+  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.13);
+  --overlay:linear-gradient(transparent,rgba(0,0,0,0.78));
+  --lock-bg:#f0f0f0;--lock-text:#111;
+  --opt-on-bg:#2a2a2a;--opt-on-border:rgba(255,255,255,0.35);
+}
+.light{
+  --bg:#fff;--bg2:#f7f7f5;--bg3:#efefed;
+  --text:#111;--text2:#777;--text3:#bbb;
+  --border:rgba(0,0,0,0.07);--border2:rgba(0,0,0,0.13);
+  --overlay:linear-gradient(transparent,rgba(0,0,0,0.65));
+  --lock-bg:#111;--lock-text:#fff;
+  --opt-on-bg:#ebebeb;--opt-on-border:rgba(0,0,0,0.3);
+}
+body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+.app{max-width:420px;margin:0 auto;background:var(--bg);min-height:100vh;display:flex;flex-direction:column;transition:background 0.2s;}
+.screen{display:none;flex-direction:column;flex:1;padding-bottom:72px;}
+.screen.active{display:flex;}
+.topbar{padding:14px 16px 12px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;position:relative;}
+.back-btn{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text2);cursor:pointer;flex-shrink:0;}
+.back-btn i{font-size:17px;}
+.topbar-title{font-size:15px;font-weight:500;color:var(--text);flex:1;text-align:center;}
+.screen#s5 .topbar{padding:32px 16px 32px;}
+.screen#s5 .topbar-title{position:absolute;left:50%;transform:translateX(-50%);flex:0;}
+.theme-btn{width:34px;height:34px;border-radius:50%;border:0.5px solid var(--border2);background:var(--bg2);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
+.theme-btn i{font-size:17px;color:var(--text2);}
+.view-toggle-btn{width:34px;height:34px;border-radius:50%;border:0.5px solid var(--border2);background:var(--bg2);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin-left:8px;}
+.view-toggle-btn i{font-size:17px;color:var(--text2);}
+
+/* INTRO */
+#s0{align-items:center;justify-content:center;background:var(--bg);position:relative;overflow:hidden;}
+.intro-inner{display:flex;flex-direction:column;align-items:center;text-align:center;padding:40px 32px;opacity:0;transform:translateY(16px);animation:introFadeIn 0.7s ease 0.2s forwards;}
+@keyframes introFadeIn{to{opacity:1;transform:translateY(0);}}
+.intro-logo{width:56px;height:56px;border-radius:16px;background:var(--bg2);border:0.5px solid var(--border2);display:flex;align-items:center;justify-content:center;margin-bottom:22px;}
+.intro-logo i{font-size:26px;color:var(--text2);}
+.intro-brand{font-size:11px;font-weight:500;color:var(--text3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px;}
+.intro-title{font-size:30px;font-weight:600;color:var(--text);letter-spacing:-0.03em;margin-bottom:10px;line-height:1.15;}
+.intro-btn{width:100%;max-width:260px;margin-top:22px;padding:15px 24px;background:var(--lock-bg);color:var(--lock-text);border:none;border-radius:8px;font-size:15px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:opacity 0.15s;}
+.intro-btn:active{opacity:0.8;}
+.intro-dots{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--text3);letter-spacing:0.06em;}
+
+/* SCREEN 1 */
+.home-header{padding:32px 16px 16px;}
+.home-title{font-size:24px;font-weight:500;color:var(--text);letter-spacing:-0.02em;}
+.home-sub{font-size:13px;color:var(--text2);margin-top:3px;}
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 24px;}
+.cat-card{border-radius:4px;overflow:hidden;position:relative;aspect-ratio:1;cursor:pointer;background:var(--bg2);}
+.cat-card:active{opacity:0.85;}
+.cat-card img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity 0.3s;}
+.cat-card img.loaded{opacity:1;}
+.cat-card-overlay{position:absolute;inset:0;background:var(--overlay);display:flex;flex-direction:column;justify-content:flex-end;padding:12px;}
+.cat-card-name{font-size:15px;font-weight:600;color:#fff;letter-spacing:-0.01em;}
+.cat-card-count{font-size:11px;color:rgba(255,255,255,0.6);margin-top:2px;}
+.filter-bar{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 14px;}
+.filter-chip{padding:8px 12px;border-radius:999px;border:0.5px solid var(--border2);background:var(--bg2);color:var(--text2);font-size:12px;cursor:pointer;transition:all 0.15s;}
+.filter-chip.active{background:var(--opt-on-bg);border-color:var(--opt-on-border);color:var(--text);}
+.cat-grid.list-view{display:flex;flex-direction:column;gap:10px;}
+.cat-grid.list-view .cat-card{display:flex;align-items:center;aspect-ratio:auto;min-height:100px;padding:0;}
+.cat-grid.list-view .cat-card img{width:110px;height:100%;object-fit:cover;}
+.cat-grid.list-view .cat-card-overlay{position:static;inset:auto;background:transparent;display:flex;flex-direction:column;justify-content:center;padding:12px;flex:1;}
+.cat-grid.list-view .cat-card-name{color:var(--text);}
+.cat-grid.list-view .cat-card-count{color:var(--text2);margin-top:4px;}
+.cat-grid.list-view .cat-card{border-radius:12px;}
+.search-input{width:100%;padding:12px 14px;border-radius:14px;border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);margin-bottom:12px;outline:none;}
+.search-results{display:grid;gap:10px;}
+.search-card{display:flex;gap:10px;align-items:center;background:var(--bg2);border:0.5px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;}
+.search-card img{width:90px;height:90px;object-fit:cover;flex-shrink:0;}
+.search-card-body{padding:12px;display:flex;flex-direction:column;justify-content:center;}
+.search-card-title{font-size:14px;font-weight:600;color:var(--text);}
+.search-card-meta{font-size:12px;color:var(--text2);margin-top:4px;}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:420px;background:var(--bg);border-top:0.5px solid var(--border);display:none;justify-content:space-around;align-items:center;padding:10px 0;z-index:20;}
+.nav-item{background:transparent;border:none;color:var(--text2);font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;padding:6px 4px;min-width:70px;font-size:12px;}
+.nav-item span{font-size:12px;}
+.nav-item.active{color:var(--text);}
+.nav-item i{font-size:16px;}
+.saved-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:16px;overflow:hidden;}
+.saved-card img{width:100%;height:340px;object-fit:cover;display:block;}
+.saved-card-body{padding:16px;}
+.saved-card-title{font-size:18px;font-weight:600;color:var(--text);margin-bottom:6px;}
+.saved-card-meta{font-size:13px;color:var(--text2);line-height:1.5;}
+.saved-empty{font-size:14px;color:var(--text2);line-height:1.6;}
+
+/* SCREEN 2 */
+.cut-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;flex:1;align-content:start;}
+.cut-card{cursor:pointer;overflow:hidden;position:relative;aspect-ratio:1;background:var(--bg2);}
+.cut-card:active{opacity:0.85;}
+.cut-card img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity 0.3s;}
+.cut-card img.loaded{opacity:1;}
+.cut-overlay{position:absolute;bottom:0;left:0;right:0;background:var(--overlay);padding:7px;}
+.cut-name-sm{font-size:10px;font-weight:500;color:#fff;line-height:1.2;}
+.cut-cat-sm{font-size:9px;color:rgba(255,255,255,0.6);margin-top:1px;}
+
+/* SCREEN 3 — SWIPEABLE HERO */
+.detail-hero{width:100%;height:380px;overflow:hidden;flex-shrink:0;background:var(--bg2);position:relative;}
+
+.hero-track{display:flex;height:100%;will-change:transform;transition:transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);}
+.hero-track.dragging{transition:none;}
+/* Each slide is exactly the hero container width — set via JS */
+.hero-slide{flex:none;height:100%;}
+.hero-slide img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity 0.3s;}
+.hero-slide img.loaded{opacity:1;}
+
+/* Dot strip */
+.hero-dots{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:5;pointer-events:none;}
+.hero-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.35);transition:all 0.22s;}
+.hero-dot.active{background:#fff;width:18px;border-radius:3px;}
+
+/* Angle counter badge */
+.hero-badge{position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.52);border-radius:20px;padding:4px 10px;font-size:11px;color:rgba(255,255,255,0.92);z-index:5;letter-spacing:0.02em;display:none;}
+
+.detail-body{padding:14px 16px;padding-bottom:160px;overflow-y:auto;}
+.detail-title{font-size:22px;font-weight:500;color:var(--text);letter-spacing:-0.02em;}
+.detail-sub{font-size:13px;color:var(--text2);margin-top:4px;}
+.badge-row{display:flex;gap:7px;margin-top:11px;flex-wrap:wrap;}
+.badge{padding:4px 10px;background:var(--bg3);border-radius:20px;font-size:11px;color:var(--text2);font-weight:500;border:0.5px solid var(--border);}
+.detail-desc{font-size:14px;color:var(--text2);line-height:1.7;margin-top:13px;}
+.opts-section{margin-top:18px;}
+.opts-label{font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:9px;}
+.opts-row{display:flex;gap:7px;flex-wrap:wrap;}
+.opt{padding:8px 14px;border-radius:8px;border:0.5px solid var(--border2);font-size:13px;color:var(--text);cursor:pointer;background:transparent;transition:all 0.15s;}
+.opt.on{border-color:var(--opt-on-border);background:var(--opt-on-bg);font-weight:500;}
+.cta-bar{position:fixed;bottom:76px;left:50%;transform:translateX(-50%);width:100%;max-width:420px;padding:11px 16px 28px;background:var(--bg);border-top:0.5px solid var(--border);}
+.confirm-row{display:flex;align-items:center;gap:10px;background:var(--bg2);border-radius:11px;padding:9px 12px;margin-bottom:10px;border:0.5px solid var(--border);}
+.confirm-thumb{width:34px;height:34px;border-radius:7px;overflow:hidden;flex-shrink:0;background:var(--bg3);}
+.confirm-thumb img{width:100%;height:100%;object-fit:cover;}
+.confirm-info{flex:1;}
+.confirm-name{font-size:13px;font-weight:500;color:var(--text);}
+.confirm-opts{font-size:11px;color:var(--text2);margin-top:2px;}
+.change-link{font-size:12px;color:var(--text2);cursor:pointer;text-decoration:underline;}
+.lock-btn{width:100%;padding:14px;background:var(--lock-bg);color:var(--lock-text);border:none;border-radius:12px;font-size:15px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
+.share-btn{flex:1;min-width:120px;padding:14px;background:var(--bg2);color:var(--text);border:0.5px solid var(--border2);border-radius:12px;font-size:15px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
+
+/* SCREEN 4 */
+.done-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:36px 24px;text-align:center;}
+.done-thumb{width:100px;height:100px;border-radius:14px;overflow:hidden;margin-bottom:20px;border:0.5px solid var(--border);}
+.done-thumb img{width:100%;height:100%;object-fit:cover;}
+.done-label{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;}
+.done-cut{font-size:24px;font-weight:500;color:var(--text);letter-spacing:-0.02em;}
+.done-opts{font-size:14px;color:var(--text2);margin-top:6px;margin-bottom:24px;}
+.done-card{background:var(--bg2);border-radius:12px;padding:16px;width:100%;text-align:left;border:0.5px solid var(--border);margin-bottom:24px;}
+.done-card-label{font-size:11px;color:var(--text2);margin-bottom:6px;}
+.done-card-text{font-size:13px;color:var(--text2);line-height:1.6;}
+.reset-link{font-size:13px;color:var(--text2);cursor:pointer;text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+  <!-- SCREEN 0: INTRO -->
+  <div class="screen active" id="s0">
+    <div class="intro-inner">
+      <div class="intro-logo"><i class="ti ti-scissors"></i></div>
+      <div class="intro-brand">Learn To Cut</div>
+      <div class="intro-title">Haircut Catalogue</div>
+      <button class="intro-btn" onclick="go('s1')">Browse Haircuts</button>
+    </div>
+    <div class="intro-dots">Est. 2024</div>
+  </div>
+
+  <!-- SCREEN 1: CATEGORIES -->
+  <div class="screen" id="s1">
+    <div class="home-header">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+        <div>
+          <div class="home-title">Pick your style</div>
+          <div class="home-sub">Choose a category to get started</div>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <div class="theme-btn" onclick="toggleTheme()" style="margin-top:4px;"><i class="ti ti-sun" id="ti1"></i></div>
+          <div class="view-toggle-btn" onclick="toggleCatView()"><i class="ti ti-layout-grid" id="viewToggleIcon"></i></div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-bar" id="filterBar"></div>
+    <div class="cat-grid" id="catGrid"></div>
+  </div>
+
+  <!-- SCREEN 2: CUTS IN CATEGORY -->
+  <div class="screen" id="s2">
+    <div class="topbar">
+      <div class="back-btn" onclick="go('s1')"><i class="ti ti-arrow-left"></i></div>
+      <div class="topbar-title" id="s2Title"></div>
+    </div>
+    <div class="cut-grid" id="cutGrid"></div>
+  </div>
+
+  <!-- SCREEN 3: CUT DETAIL -->
+  <div class="screen" id="s3">
+
+    <!-- Swipeable image hero -->
+    <div class="detail-hero" id="heroBox">
+      <div class="hero-track" id="heroTrack"></div>
+      <div class="hero-dots" id="heroDots"></div>
+      <div class="hero-badge" id="heroBadge"></div>
+    </div>
+
+    <div class="topbar" style="border-bottom:none;">
+      <div class="back-btn" onclick="goBackToCategory()"><i class="ti ti-arrow-left"></i><span id="s3Back"></span></div>
+    </div>
+    <div class="detail-body">
+      <div class="detail-title" id="dName"></div>
+      <div class="detail-sub" id="dSub"></div>
+      <div class="badge-row" id="dBadges"></div>
+      <div class="detail-desc" id="dDesc"></div>
+      <div class="opts-section">
+        <div class="opts-label">Fade level</div>
+        <div class="opts-row" id="fadeRow">
+          <div class="opt" onclick="pick(this,'fade')">Low</div>
+          <div class="opt on" onclick="pick(this,'fade')">Mid</div>
+          <div class="opt" onclick="pick(this,'fade')">High</div>
+          <div class="opt" onclick="pick(this,'fade')">Skin</div>
+        </div>
+      </div>
+      <div class="opts-section">
+        <div class="opts-label">Top finish</div>
+        <div class="opts-row" id="topRow">
+          <div class="opt on" onclick="pick(this,'top')">Neat</div>
+          <div class="opt" onclick="pick(this,'top')">Textured</div>
+          <div class="opt" onclick="pick(this,'top')">Waves</div>
+          <div class="opt" onclick="pick(this,'top')">Caesar</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-bar">
+      <div class="confirm-row">
+        <div class="confirm-thumb"><img id="cThumb" src="" alt=""></div>
+        <div class="confirm-info">
+          <div class="confirm-name" id="cName"></div>
+          <div class="confirm-opts" id="cOpts"></div>
+        </div>
+        <div class="change-link" onclick="goBackToCategory()">Change</div>
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button class="share-btn" onclick="shareCutToWhatsApp()"><i class="ti ti-brand-whatsapp" style="font-size:17px"></i> Share</button>
+        <button class="lock-btn" onclick="lockIn()"><i class="ti ti-scissors" style="font-size:17px"></i> Lock in this cut</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: CONFIRMED -->
+  <div class="screen" id="s4">
+    <div class="topbar"><div style="flex:1"></div></div>
+    <div class="done-wrap">
+      <div class="done-thumb"><img id="doneImg" src="" alt=""></div>
+      <div class="done-label">Locked in</div>
+      <div class="done-cut" id="doneCut"></div>
+      <div class="done-opts" id="doneOpts"></div>
+      <button class="lock-btn" style="margin-top:14px;" onclick="viewMyCut()">View my cut</button>
+      <div class="done-card">
+        <div class="done-card-label">Note from the chair</div>
+        <div class="done-card-text">Selection confirmed. Sit back and relax — we're getting started.</div>
+      </div>
+      <div class="reset-link" onclick="go('s0')">Start over</div>
+    </div>
+  </div>
+
+  <!-- SCREEN 5: MY CUT -->
+  <div class="screen" id="s5">
+    <div class="topbar">
+      <div style="flex:1"></div>
+      <div class="topbar-title">My Cut</div>
+      <div style="width:34px"></div>
+    </div>
+    <div class="detail-body">
+      <div id="savedEmpty" class="saved-empty">No locked cut yet. Lock a haircut and revisit it from this tab.</div>
+      <div id="savedCard" class="saved-card" style="display:none;">
+        <img id="savedImg" src="" alt="Saved cut">
+        <div class="saved-card-body">
+          <div class="saved-card-title" id="savedName"></div>
+          <div class="saved-card-meta" id="savedOpts"></div>
+          <div class="saved-card-meta" id="savedDesc"></div>
+          <button class="lock-btn" style="margin-top:14px;" onclick="openSavedCut()">View details</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 6: SEARCH -->
+  <div class="screen" id="s6">
+    <div class="topbar">
+      <div class="back-btn" onclick="go('s1')"><i class="ti ti-arrow-left"></i></div>
+      <div class="topbar-title">Search</div>
+      <div style="width:34px"></div>
+    </div>
+    <div class="detail-body">
+      <input id="searchInput" class="search-input" type="text" placeholder="Search cuts or categories..." oninput="runSearch()">
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="bottom-nav">
+  <button class="nav-item active" id="navExplore" onclick="switchTab('explore')"><i class="ti ti-layout-grid"></i><span>Explore</span></button>
+  <button class="nav-item" id="navSaved"   onclick="switchTab('saved')">  <i class="ti ti-heart"></i>      <span>My Cut</span></button>
+  <button class="nav-item" id="navSearch"  onclick="switchTab('search')"> <i class="ti ti-search"></i>     <span>Search</span></button>
+</div>
+
+<script>
+/* ─────────────────────────────────────────
+   DATA
+   To add multiple angles to any cut, replace
+     img: 'path/to/image.png'
+   with
+     imgs: [
+       { src: 'path/front.png', label: 'Front' },
+       { src: 'path/side.png',  label: 'Side'  },
+       { src: 'path/back.png',  label: 'Back'  },
+     ]
+   Single-image cuts keep img: '...' as normal.
+───────────────────────────────────────── */
+const cats=[
+  {id:'brushback',   name:'Brush Back',    img:'images/brushback4.png'},
+  {id:'burstfade',   name:'Burst Fade',    img:'images/burstfade2.png'},
+  {id:'fringe',      name:'Fringe',        img:'images/fringe.png'},
+  {id:'mullet',      name:'Mullet',        img:'images/mullet.png'},
+  {id:'modCut',      name:'Mod Cut',       img:'images/modcut2.png'},
+  {id:'elordi',      name:'Jacob Elordi',  img:'images/elordi.png'},
+  {id:'layered',     name:'Layered Cut',   img:'images/layeredflow.png'},
+  {id:'midLength',   name:'Mid Length',    img:'images/midlength.png'},
+  {id:'middlePart',  name:'Middle Part',   img:'images/middlepart.png'},
+  {id:'cropHaircuts',name:'Crop Haircuts', img:'images/texturedcrop.png'},
+  {id:'rafael',      name:'Rafael',        img:'images/rafael.png'},
+];
+
+const cuts=[
+   {id:1, name:'Brush Back', cat:'brushback', hairType:'straight', tags:['Skin Fade'],
+   desc:'Brush back elevated with a sharp skin fade on the sides.',
+   imgs:[
+     {src:'images/brushback4.png', label:'Front'},
+     {src:'images/brushback4a.png', label:'Side'},
+   ]},
+
+  {id:2, name:'Brush Back', cat:'brushback', hairType:'straight', tags:[''],
+   desc:'Clean swept back style, versatile and timeless.',
+   img:'images/brushback.png'},
+
+  {id:4, name:'Brush Back', cat:'brushback', hairType:'curly', tags:['Curly'],
+   desc:'Natural curl texture swept back for effortless volume.',
+   img:'images/brushback2.png'},
+
+  {id:5, name:'Brush Back + Taper', cat:'brushback', hairType:'straight', tags:['Taper'],
+   desc:'Brush back paired with a tapered neckline for a polished finish.',
+   img:'images/brushback5.png'},
+
+  {id:6, name:'Burst Fade', cat:'burstfade', hairType:'straight', tags:[''],
+   desc:'Semicircular fade that bursts around the ear — clean and impactful.',
+   img:'images/burstfade2.png'},
+
+  {id:7, name:'Burst Fade', cat:'burstfade', hairType:'textured', tags:['Textured'],
+   desc:'Textured top over a crisp burst fade.',
+   img:'images/burstfade.png'},
+
+  {id:8, name:'Jacob Elordi', cat:'elordi', hairType:'straight', tags:[''],
+   desc:'Long, swept, effortlessly cool — the signature Elordi look.',
+   img:'images/elordi.png'},
+
+  {id:9, name:'The Rafael', cat:'rafael', hairType:'straight', tags:[''],
+   desc:'Relaxed mid-length with natural movement.',
+   img:'images/rafael.png'},
+
+  {id:10, name:'Middle Part', cat:'middlePart', hairType:'straight', tags:[''],
+   desc:'Symmetrical parting down the centre for a clean, balanced look.',
+   img:'images/middlepart2.png'},
+
+  {id:11, name:'Middle Part', cat:'middlePart', hairType:'textured', tags:['Textured'],
+   desc:'Textured finish on a classic middle part.',
+   img:'images/middlepart.png'},
+
+  {id:12, name:'Fringe', cat:'fringe', hairType:'wavy', tags:['Textured Fringe'],
+   desc:'Textured fringe with natural wave — relaxed and modern.',
+   img:'images/fringe.png'},
+
+  {id:13, name:'Saiyan', cat:'saiyan', hairType:'textured', tags:['Textured Saiyan'],
+   desc:'High-energy textured spikes with serious volume.',
+   img:'images/saiyan.png'},
+
+  {id:14, name:'Mod Cut', cat:'modCut', hairType:'straight', tags:['Mod Cut'],
+   desc:'Geometric bowl-adjacent shape — retro roots, modern feel.',
+   imgs:[
+     {src:'images/modcut2.png', label:'Front'},
+     {src:'images/modcut1.png', label:'Side'},
+   ]},
+
+  {id:15, name:'Mod Cut', cat:'modCut', hairType:'straight', tags:['Short Textured'],
+   desc:'Shorter, more textured take on the classic mod cut.',
+   img:'images/modcut1.png'},
+
+    {id:16, name:'Brush Back + Taper', cat:'brushback', hairType:'straight', tags:['Taper'],
+   desc:'Brush back paired with a tapered neckline for a polished finish.',
+   img:'images/brushback3.png'},
+
+];
+
+/* ─────────────────────────────────────────
+   SWIPER
+───────────────────────────────────────── */
+let heroImgs=[], heroIdx=0;
+let txStart=0, tyStart=0, txDelta=0, swipeActive=false, axisLocked=false;
+
+function getImgs(cut){
+  if(cut.imgs && cut.imgs.length) return cut.imgs;
+  return [{src: cut.img||'', label:''}];
+}
+
+function buildHero(cut){
+  heroImgs = getImgs(cut);
+  heroIdx  = 0;
+
+  const box   = document.getElementById('heroBox');
+  const track = document.getElementById('heroTrack');
+  const dots  = document.getElementById('heroDots');
+  const badge = document.getElementById('heroBadge');
+  const multi = heroImgs.length > 1;
+  /* offsetWidth is 0 when the screen is still display:none; fall back to container or window */
+  const W     = box.getBoundingClientRect().width || box.offsetWidth || box.parentElement.offsetWidth || window.innerWidth || 420;
+
+  /* Slides — explicit pixel width so track can translate correctly */
+  track.innerHTML = '';
+  track.style.width = (W * heroImgs.length) + 'px';
+  heroImgs.forEach(img => {
+    const slide = document.createElement('div');
+    slide.className = 'hero-slide';
+    slide.style.width = W + 'px';
+    const el = document.createElement('img');
+    el.src = img.src; el.alt = img.label || cut.name;
+    el.onload  = () => el.classList.add('loaded');
+    el.onerror = () => { el.style.opacity = '0.15'; };
+    slide.appendChild(el);
+    track.appendChild(slide);
+  });
+
+  /* Dots */
+  dots.innerHTML = '';
+  badge.style.display = 'none';
+  if(multi){
+    heroImgs.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'hero-dot' + (i===0 ? ' active' : '');
+      dots.appendChild(d);
+    });
+    badge.style.display = 'block';
+  }
+
+  _applySlide(0, false);
+
+  /* Remove old listeners then re-attach */
+  const newBox = box.cloneNode(false);
+  while(box.firstChild) newBox.appendChild(box.firstChild);
+  box.parentNode.replaceChild(newBox, box);
+  newBox.id = 'heroBox';
+
+  newBox.addEventListener('touchstart', onTS, {passive:true});
+  newBox.addEventListener('touchmove',  onTM, {passive:false});
+  newBox.addEventListener('touchend',   onTE);
+}
+
+function _applySlide(idx, animate){
+  heroIdx = idx;
+  const box   = document.getElementById('heroBox');
+  const track = document.getElementById('heroTrack');
+  const badge = document.getElementById('heroBadge');
+  const W     = box.offsetWidth || 420;
+
+  track.classList.toggle('dragging', !animate);
+  track.style.transform = 'translateX(' + (-idx * W) + 'px)';
+
+  document.querySelectorAll('.hero-dot').forEach((d,i) => d.classList.toggle('active', i===idx));
+
+  if(heroImgs.length > 1){
+    const lbl = heroImgs[idx].label;
+    badge.textContent = lbl ? lbl : (idx+1) + ' / ' + heroImgs.length;
+  }
+
+  /* Sync confirm thumb */
+  const thumb = document.getElementById('cThumb');
+  if(thumb) thumb.src = heroImgs[idx].src;
+}
+
+function goSlide(idx){
+  idx = Math.max(0, Math.min(heroImgs.length-1, idx));
+  _applySlide(idx, true);
+}
+
+function onTS(e){
+  txStart = e.touches[0].clientX;
+  tyStart = e.touches[0].clientY;
+  txDelta = 0; swipeActive = false; axisLocked = false;
+  document.getElementById('heroTrack').classList.add('dragging');
+}
+
+function onTM(e){
+  const dx = e.touches[0].clientX - txStart;
+  const dy = e.touches[0].clientY - tyStart;
+
+  if(!axisLocked){
+    if(Math.abs(dx) > 6 || Math.abs(dy) > 6){
+      axisLocked  = true;
+      swipeActive = Math.abs(dx) > Math.abs(dy);
+    }
+    return;
+  }
+  if(!swipeActive) return;
+  e.preventDefault(); /* only called when horizontal — won't block page scroll */
+
+  txDelta = dx;
+  const W    = document.getElementById('heroBox').offsetWidth || 420;
+  const base = -heroIdx * W;
+  const edge = (heroIdx===0 && dx>0) || (heroIdx===heroImgs.length-1 && dx<0);
+  const drag = edge ? dx * 0.18 : dx;
+  document.getElementById('heroTrack').style.transform = 'translateX(' + (base + drag) + 'px)';
+}
+
+function onTE(){
+  if(!swipeActive){ _applySlide(heroIdx, true); return; }
+  const W = document.getElementById('heroBox').offsetWidth || 420;
+  if(txDelta < -(W * 0.2) && heroIdx < heroImgs.length-1) goSlide(heroIdx+1);
+  else if(txDelta > (W * 0.2) && heroIdx > 0)             goSlide(heroIdx-1);
+  else                                                     _applySlide(heroIdx, true);
+}
+
+/* ─────────────────────────────────────────
+   APP STATE
+───────────────────────────────────────── */
+let cur=null, curCat=null, fv='Mid', tv='Neat', isDark=true, isListView=false, selectedHairType='all';
+const hairTypes=['All','Curly','Straight','Wavy','Textured'];
+const STORAGE_KEY='lockedCut';
+
+function syncIcons(){
+  const el = document.getElementById('ti1');
+  if(el) el.className = 'ti ' + (isDark ? 'ti-sun' : 'ti-moon');
+}
+
+function toggleTheme(){
+  isDark = !isDark;
+  document.getElementById('app').classList.toggle('light', !isDark);
+  document.documentElement.classList.toggle('light', !isDark);
+  document.body.style.background = isDark ? '#111' : '#fff';
+  syncIcons();
+}
+
+function toggleCatView(){
+  isListView = !isListView;
+  document.getElementById('viewToggleIcon').className = 'ti ' + (isListView ? 'ti-list' : 'ti-layout-grid');
+  buildCats();
+}
+
+function renderHairTypeFilters(){
+  const bar = document.getElementById('filterBar');
+  bar.innerHTML = '';
+  hairTypes.forEach(type => {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'filter-chip' + (selectedHairType===type.toLowerCase() ? ' active' : '');
+    chip.textContent = type;
+    chip.onclick = () => selectHairType(type.toLowerCase());
+    bar.appendChild(chip);
+  });
+}
+
+function selectHairType(type){
+  selectedHairType = type;
+  renderHairTypeFilters();
+  buildCats();
+}
+
+function switchTab(tab){
+  document.getElementById('navExplore').classList.toggle('active', tab==='explore');
+  document.getElementById('navSaved').classList.toggle('active',   tab==='saved');
+  document.getElementById('navSearch').classList.toggle('active',  tab==='search');
+  if(tab==='explore')     go('s1');
+  else if(tab==='saved')  { loadSavedCut(); go('s5'); }
+  else if(tab==='search') { runSearch();    go('s6'); }
+}
+
+function viewMyCut(){
+  switchTab('saved');
+}
+
+function saveLockedCut(){
+  if(!cur) return;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({id:cur.id, fv, tv}));
+}
+
+function loadSavedCut(){
+  const raw = localStorage.getItem(STORAGE_KEY);
+  const emptyEl = document.getElementById('savedEmpty');
+  const cardEl  = document.getElementById('savedCard');
+  if(!raw){ emptyEl.style.display='block'; cardEl.style.display='none'; return; }
+  try{
+    const saved = JSON.parse(raw);
+    const cut   = cuts.find(c => c.id===saved.id);
+    if(!cut){ emptyEl.style.display='block'; cardEl.style.display='none'; return; }
+    emptyEl.style.display = 'none'; cardEl.style.display = 'block';
+    const fi = getImgs(cut)[0].src;
+    loadImg(document.getElementById('savedImg'), fi, cut.name);
+    document.getElementById('savedName').textContent = cut.name;
+    document.getElementById('savedOpts').textContent = (saved.fv||'Mid') + ' fade · ' + (saved.tv||'Neat') + ' top';
+    document.getElementById('savedDesc').textContent = cut.desc;
+    cur = cut;
+  }catch(e){ emptyEl.style.display='block'; cardEl.style.display='none'; }
+}
+
+function openSavedCut(){
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if(!raw) return;
+  try{
+    const saved = JSON.parse(raw);
+    fv = saved.fv||'Mid'; tv = saved.tv||'Neat';
+    openCut(saved.id, true);
+  }catch(e){}
+}
+
+function runSearch(){
+  const query = (document.getElementById('searchInput').value||'').trim().toLowerCase();
+  const results = document.getElementById('searchResults');
+  results.innerHTML = '';
+  if(!query){ results.innerHTML='<div class="detail-desc">Start typing to search haircut styles and categories.</div>'; return; }
+  const matches = cuts.filter(c => {
+    const catName = (cats.find(cat => cat.id===c.cat)||{}).name||'';
+    return c.name.toLowerCase().includes(query)
+        || c.tags.join(' ').toLowerCase().includes(query)
+        || catName.toLowerCase().includes(query);
+  });
+  if(!matches.length){ results.innerHTML='<div class="detail-desc">No results found.</div>'; return; }
+  matches.forEach(c => {
+    const card = document.createElement('div');
+    card.className = 'search-card';
+    card.onclick = () => openCut(c.id);
+    const img = document.createElement('img');
+    loadImg(img, getImgs(c)[0].src, c.name);
+    const body = document.createElement('div');
+    body.className = 'search-card-body';
+    body.innerHTML = '<div class="search-card-title">'+c.name+'</div><div class="search-card-meta">'+(c.tags.filter(Boolean).join(', ')||'Haircut')+'</div>';
+    card.appendChild(img); card.appendChild(body);
+    results.appendChild(card);
+  });
+}
+
+function go(sid){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(sid).classList.add('active');
+  document.querySelector('.bottom-nav').style.display = sid==='s0' ? 'none' : 'flex';
+  window.scrollTo(0,0);
+}
+
+function loadImg(el, src, alt){
+  el.src = src; el.alt = alt||'';
+  el.onload  = () => el.classList.add('loaded');
+  el.onerror = () => { el.style.opacity='0.15'; };
+}
+
+function buildCats(){
+  const g = document.getElementById('catGrid');
+  g.classList.toggle('list-view', isListView);
+  const fc = selectedHairType==='all' ? cuts : cuts.filter(c => c.hairType===selectedHairType);
+  g.innerHTML = '';
+  const vc = cats.filter(c => selectedHairType==='all' || fc.some(x => x.cat===c.id));
+  if(!vc.length){ g.innerHTML='<div class="detail-desc" style="padding:16px;">No styles found for this hair type.</div>'; return; }
+  vc.forEach(c => {
+    const count = fc.filter(x => x.cat===c.id).length;
+    const card  = document.createElement('div');
+    card.className = 'cat-card';
+    card.onclick = () => openCat(c.id, c.name);
+    const img = document.createElement('img');
+    /* fallback: if cat image fails, try the first cut in that category */
+    img.src = c.img; img.alt = c.name;
+    img.onload = () => img.classList.add('loaded');
+    img.onerror = () => {
+      const fallbackCut = fc.find(x => x.cat===c.id);
+      const fallbackSrc = fallbackCut ? getImgs(fallbackCut)[0].src : '';
+      if(fallbackSrc && img.src !== fallbackSrc){
+        img.src = fallbackSrc;
+      } else {
+        img.style.opacity = '0.15';
+      }
+    };
+    const ov = document.createElement('div');
+    ov.className = 'cat-card-overlay';
+    ov.innerHTML = '<div class="cat-card-name">'+c.name+'</div><div class="cat-card-count">'+count+' style'+(count!==1?'s':'')+'</div>';
+    card.appendChild(img); card.appendChild(ov);
+    g.appendChild(card);
+  });
+}
+
+function openCat(catId, catName){
+  curCat = {id:catId, name:catName};
+  document.getElementById('s2Title').textContent = catName;
+  const fc = selectedHairType==='all' ? cuts : cuts.filter(c => c.hairType===selectedHairType);
+  const filtered = fc.filter(c => c.cat===catId);
+  const g = document.getElementById('cutGrid');
+  g.innerHTML = '';
+  filtered.forEach(c => {
+    const card = document.createElement('div');
+    card.className = 'cut-card';
+    card.onclick = () => openCut(c.id);
+    const img = document.createElement('img');
+    loadImg(img, getImgs(c)[0].src, c.name);
+    const ov = document.createElement('div');
+    ov.className = 'cut-overlay';
+    ov.innerHTML = '<div class="cut-name-sm">'+c.name+'</div><div class="cut-cat-sm">'+c.tags.join(', ')+'</div>';
+    card.appendChild(img); card.appendChild(ov);
+    g.appendChild(card);
+  });
+  go('s2');
+}
+
+function openCut(id, preserveOpts=false){
+  cur = cuts.find(c => c.id===id);
+
+  const fi = getImgs(cur)[0].src;
+  document.getElementById('cThumb').src = fi;
+  loadImg(document.getElementById('cThumb'), fi, cur.name);
+
+  document.getElementById('dName').textContent  = cur.name;
+  document.getElementById('dSub').textContent   = cur.tags.join(' · ');
+  document.getElementById('dBadges').innerHTML  = cur.tags.map(t=>'<div class="badge">'+t+'</div>').join('');
+  document.getElementById('dDesc').textContent  = cur.desc;
+  document.getElementById('cName').textContent  = cur.name;
+  document.getElementById('s3Back').textContent = curCat ? curCat.name : 'Back';
+
+  if(preserveOpts){
+    document.querySelectorAll('#fadeRow .opt').forEach(b => b.classList.toggle('on', b.textContent===fv));
+    document.querySelectorAll('#topRow .opt').forEach(b  => b.classList.toggle('on', b.textContent===tv));
+    updateConfirm();
+  } else {
+    resetOpts();
+  }
+
+  /* Show screen first so heroBox has layout dimensions, then build swiper */
+  go('s3');
+  requestAnimationFrame(() => buildHero(cur));
+}
+
+function goBackToCategory(){
+  if(curCat) openCat(curCat.id, curCat.name);
+  else go('s1');
+}
+
+function resetOpts(){
+  fv='Mid'; tv='Neat';
+  document.querySelectorAll('#fadeRow .opt').forEach((b,i) => b.classList.toggle('on', i===1));
+  document.querySelectorAll('#topRow .opt').forEach((b,i)  => b.classList.toggle('on', i===0));
+  updateConfirm();
+}
+
+function pick(el, type){
+  const row = type==='fade' ? 'fadeRow' : 'topRow';
+  document.querySelectorAll('#'+row+' .opt').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+  if(type==='fade') fv=el.textContent; else tv=el.textContent;
+  updateConfirm();
+}
+
+function updateConfirm(){
+  document.getElementById('cOpts').textContent = fv + ' fade · ' + tv + ' top';
+}
+
+function shareCutToWhatsApp(){
+  if(!cur) return;
+  const fi   = getImgs(cur)[0].src;
+  const text = 'Check out this haircut: '+cur.name+'\n'+cur.desc+'\n'+window.location.origin+window.location.pathname+'\nImage: '+new URL(fi, window.location.href).href;
+  window.open('https://wa.me/?text='+encodeURIComponent(text), '_blank');
+}
+
+function lockIn(){
+  saveLockedCut();
+  const fi = getImgs(cur)[0].src;
+  loadImg(document.getElementById('doneImg'), fi, cur.name);
+  document.getElementById('doneCut').textContent  = cur.name;
+  document.getElementById('doneOpts').textContent = fv + ' fade · ' + tv + ' top';
+  go('s4');
+}
+
+function restoreLockedCut(){
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if(!raw) return;
+  try{
+    const saved = JSON.parse(raw);
+    const cut   = cuts.find(c => c.id===saved.id);
+    if(!cut) return;
+    cur=cut; fv=saved.fv||'Mid'; tv=saved.tv||'Neat';
+  }catch(e){}
+}
+
+renderHairTypeFilters();
+buildCats();
+syncIcons();
+restoreLockedCut();
+</script>
+</body>
+</html>
