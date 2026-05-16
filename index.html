@@ -324,6 +324,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 const cats=[
   {id:'brushback',   name:'Brush Back',    img:'images/brushback4.png'},
   {id:'burstfade',   name:'Burst Fade',    img:'images/burstfade2.png'},
+  {id:'taper',       name:'Taper',         img:'images/taperfade2.png'},
   {id:'fringe',      name:'Fringe',        img:'images/fringe.png'},
   {id:'mullet',      name:'Mullet',        img:'images/mullet.png'},
   {id:'modCut',      name:'Mod Cut',       img:'images/modcut2.png'},
@@ -333,6 +334,7 @@ const cats=[
   {id:'middlePart',  name:'Middle Part',   img:'images/middlepart.png'},
   {id:'cropHaircuts',name:'Crop Haircuts', img:'images/texturedcrop.png'},
   {id:'rafael',      name:'Rafael',        img:'images/rafael.png'},
+  {id:'johnnydepp',  name:'Johnny Depp Haircut',        img:'images/johnnydepp1.png'},
 ];
 
 const cuts=[
@@ -353,7 +355,11 @@ const cuts=[
 
   {id:5, name:'Brush Back + Taper', cat:'brushback', hairType:'straight', tags:['Taper'],
    desc:'Brush back paired with a tapered neckline for a polished finish.',
-   img:'images/brushback5.png'},
+    imgs:[
+     {src:'images/brushback5.png', label:'Front'},
+     {src:'images/brushback5a.png', label:'Side'},
+     {src:'images/brushback5b.png', label:'Side'},
+   ]},
 
   {id:6, name:'Burst Fade', cat:'burstfade', hairType:'straight', tags:[''],
    desc:'Semicircular fade that bursts around the ear — clean and impactful.',
@@ -402,6 +408,80 @@ const cuts=[
    desc:'Brush back paired with a tapered neckline for a polished finish.',
    img:'images/brushback3.png'},
 
+    {id:17, name:'Johnny Depp', cat:'johnnydepp', hairType:'straight', tags:['Johnny Depp'],
+   desc:'A Johnny Depp Inspired Haircut',
+   imgs:[
+     {src:'images/Johnnydepp1.png', label:'Front'},
+     {src:'images/Johnnydepp2.png', label:'Side'},
+     {src:'images/Johnnydepp3.png', label:'Side'},
+   ]},
+
+    {id:18, name:'Middle Part', cat:'middlePart', hairType:'textured', tags:['Textured'],
+   desc:'Textured finish on a classic middle part.',
+   imgs:[
+     {src:'images/middlepart3.png', label:'Front'},
+     {src:'images/middlepart3a.png', label:'Side'},
+     {src:'images/middlepart3b.png', label:'Side'},
+   ]},
+
+    {id:19, name:'Brush Back + Taper', cat:'brushback', hairType:'straight', tags:['Taper'],
+   desc:'Brush back paired with a tapered neckline for a polished finish.',
+    imgs:[
+     {src:'images/brushback7.png', label:'Front'},
+     {src:'images/brushback7a.png', label:'Side'},
+   ]},
+
+  {id:20, name:'Brush Back', cat:'brushback', hairType:'straight', tags:[''],
+   desc:'Clean swept back style, versatile and timeless.',
+   img:'images/brushback11.png'},
+
+    {id:21, name:'Brush Back', cat:'brushback', hairType:'straight', tags:[''],
+   desc:'Clean swept back style, versatile and timeless.',
+   img:'images/brushback10.png'},
+
+    {id:22, name:'Burst Fade', cat:'burstfade', hairType:'straight', tags:['Taper'],
+   desc:'Brush back paired with a tapered neckline for a polished finish.',
+    imgs:[
+     {src:'images/burstfade9.png', label:'Front'},
+     {src:'images/burstfade9a.png', label:'Side'},
+   ]},
+
+    {id:23, name:'Burst Fade', cat:'burstfade', hairType:'straight', tags:[''],
+   desc:'Semicircular fade that bursts around the ear — clean and impactful.',
+   img:'images/burstfade5.png'},
+
+    {id:24, name:'Taper Fade', cat:'taper', hairType:'wavy', tags:['Taper'],
+   desc:'Textured fringe with natural wave — relaxed and modern.',
+   img:'images/taperfade2.png'},
+
+    {id:25, name:'Taper Fade', cat:'taper', hairType:'wavy', tags:['Taper'],
+   desc:'Textured fringe with natural wave — relaxed and modern.',
+    imgs:[
+     {src:'images/taperfade.png', label:'Front'},
+     {src:'images/taperfade1a.png', label:'Side'},
+   ]},
+
+    {id:26, name:'Taper Fade', cat:'taper', hairType:'curly', tags:['Curly'],
+   desc:'Textured fringe with natural wave — relaxed and modern.',
+    imgs:[
+     {src:'images/curlytaperfade.png', label:'Front'},
+     {src:'images/curlytaperfade2.png', label:'Side'},
+     {src:'images/curlytaperfade3.png', label:'Side'},
+
+   ]},
+
+
+    {id:27, name:'Mid Length', cat:'midLength', hairType:'curly', tags:['Taper'],
+   desc:'Textured fringe with natural wave — relaxed and modern.',
+    imgs:[
+     {src:'images/mediumlength1.png', label:'Front'},
+     {src:'images/mediumlength2.png', label:'Side'},
+
+   ]},
+
+    {id:28, name:'Mid Length', cat:'midLength', hairType:'straight', tags:[''],
+   desc:'Semicircular fade that bursts around the ear — clean and impactful.',
+   img:'images/midlength.png'},
 ];
 
 /* ─────────────────────────────────────────
