@@ -185,12 +185,12 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .compare-divider{width:1px;background:var(--border2);flex-shrink:0;align-self:stretch;}
 .compare-pick-btn{margin:10px;padding:11px;background:var(--lock-bg);color:var(--lock-text);border:none;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;width:calc(100% - 20px);}
 .compare-vs{position:absolute;top:calc(50% - 60px);left:50%;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;background:var(--bg);border:0.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--text2);z-index:10;pointer-events:none;}
-/* picker overlay */
-.compare-picker{display:none;position:absolute;inset:0;background:var(--bg);z-index:30;flex-direction:column;}
+/* picker overlay — fixed so it always fills the full viewport */
+.compare-picker{display:none;position:fixed;inset:0;background:var(--bg);z-index:60;flex-direction:column;}
 .compare-picker.open{display:flex;}
-.compare-picker-top{padding:14px 16px 12px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:10px;}
+.compare-picker-top{padding:14px 16px 12px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0;}
 .compare-picker-title{font-size:15px;font-weight:500;color:var(--text);flex:1;text-align:center;}
-.compare-picker-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;overflow-y:auto;flex:1;}
+.compare-picker-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;overflow-y:auto;flex:1;align-content:start;}
 .compare-picker-card{cursor:pointer;overflow:hidden;position:relative;aspect-ratio:1;background:var(--bg2);}
 .compare-picker-card:active{opacity:0.8;}
 .compare-picker-card img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity 0.3s;}
@@ -429,18 +429,19 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
         <div id="panelBContent"></div>
       </div>
     </div>
-    <!-- Cut picker overlay (full screen over s8) -->
-    <div class="compare-picker" id="comparePicker">
-      <div class="compare-picker-top">
-        <div class="back-btn" onclick="closePicker()"><i class="ti ti-arrow-left"></i></div>
-        <div class="compare-picker-title">Pick a cut to compare</div>
-        <div style="width:34px"></div>
-      </div>
-      <div class="compare-picker-grid" id="comparePickerGrid"></div>
-    </div>
   </div>
 
 </div><!-- /.app -->
+
+<!-- Compare picker — fixed overlay outside .app so position:fixed fills viewport correctly -->
+<div class="compare-picker" id="comparePicker">
+  <div class="compare-picker-top">
+    <div class="back-btn" onclick="closePicker()"><i class="ti ti-arrow-left"></i></div>
+    <div class="compare-picker-title">Pick a cut to compare</div>
+    <div style="width:34px"></div>
+  </div>
+  <div class="compare-picker-grid" id="comparePickerGrid"></div>
+</div>
 
 <!-- HISTORY BOTTOM SHEET -->
 <div class="sheet-backdrop" id="sheetBackdrop" onclick="closeHistorySheet()"></div>
