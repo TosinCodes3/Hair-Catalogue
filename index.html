@@ -33,10 +33,6 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .topbar-title{font-size:15px;font-weight:500;color:var(--text);flex:1;text-align:center;}
 .screen#s5 .topbar{padding:32px 16px 32px;}
 .screen#s5 .topbar-title{position:absolute;left:50%;transform:translateX(-50%);flex:0;}
-.theme-btn{width:34px;height:34px;border-radius:50%;border:0.5px solid var(--border2);background:var(--bg2);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
-.theme-btn i{font-size:17px;color:var(--text2);}
-.view-toggle-btn{width:34px;height:34px;border-radius:50%;border:0.5px solid var(--border2);background:var(--bg2);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin-left:8px;}
-.view-toggle-btn i{font-size:17px;color:var(--text2);}
 
 /* INTRO */
 #s0{align-items:center;justify-content:center;background:var(--bg);position:relative;overflow:hidden;}
@@ -80,8 +76,8 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .search-card-title{font-size:14px;font-weight:600;color:var(--text);}
 .search-card-meta{font-size:12px;color:var(--text2);margin-top:4px;}
 .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:420px;background:var(--bg);border-top:0.5px solid var(--border);display:none;justify-content:space-around;align-items:center;padding:10px 0;z-index:20;}
-.nav-item{background:transparent;border:none;color:var(--text2);font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;padding:6px 4px;min-width:70px;font-size:12px;}
-.nav-item span{font-size:12px;}
+.nav-item{background:transparent;border:none;color:var(--text2);font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;padding:6px 4px;min-width:60px;font-size:11px;}
+.nav-item span{font-size:11px;}
 .nav-item.active{color:var(--text);}
 .nav-item i{font-size:16px;}
 .saved-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:16px;overflow:hidden;}
@@ -103,20 +99,14 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 
 /* SCREEN 3 — SWIPEABLE HERO */
 .detail-hero{width:100%;height:380px;overflow:hidden;flex-shrink:0;background:var(--bg2);position:relative;}
-
 .hero-track{display:flex;height:100%;will-change:transform;transition:transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);}
 .hero-track.dragging{transition:none;}
-/* Each slide is exactly the hero container width — set via JS */
 .hero-slide{flex:none;height:100%;}
 .hero-slide img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity 0.3s;}
 .hero-slide img.loaded{opacity:1;}
-
-/* Dot strip */
 .hero-dots{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:5;pointer-events:none;}
 .hero-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.35);transition:all 0.22s;}
 .hero-dot.active{background:#fff;width:18px;border-radius:3px;}
-
-/* Angle counter badge */
 .hero-badge{position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.52);border-radius:20px;padding:4px 10px;font-size:11px;color:rgba(255,255,255,0.92);z-index:5;letter-spacing:0.02em;display:none;}
 
 .detail-body{padding:14px 16px;padding-bottom:160px;overflow-y:auto;}
@@ -152,6 +142,32 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .done-card-label{font-size:11px;color:var(--text2);margin-bottom:6px;}
 .done-card-text{font-size:13px;color:var(--text2);line-height:1.6;}
 .reset-link{font-size:13px;color:var(--text2);cursor:pointer;text-decoration:underline;}
+
+/* SCREEN 7 — SETTINGS */
+.settings-body{padding:0 16px;padding-bottom:80px;overflow-y:auto;}
+.settings-section{margin-top:24px;}
+.settings-section-label{font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;padding-left:2px;}
+.settings-row{display:flex;align-items:center;justify-content:space-between;background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:13px 14px;margin-bottom:8px;}
+.settings-row-left{display:flex;align-items:center;gap:11px;}
+.settings-row-icon{width:30px;height:30px;border-radius:8px;background:var(--bg3);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.settings-row-icon i{font-size:15px;color:var(--text2);}
+.settings-row-label{font-size:14px;color:var(--text);}
+.settings-row-sub{font-size:11px;color:var(--text2);margin-top:2px;}
+/* Toggle switch */
+.toggle-track{width:44px;height:26px;border-radius:13px;background:var(--bg3);border:0.5px solid var(--border2);position:relative;cursor:pointer;transition:background 0.2s;flex-shrink:0;}
+.toggle-track.on{background:var(--lock-bg);}
+.toggle-knob{width:20px;height:20px;border-radius:50%;background:var(--text2);position:absolute;top:2px;left:2px;transition:left 0.2s, background 0.2s;}
+.toggle-track.on .toggle-knob{left:20px;background:var(--lock-text);}
+/* View chips */
+.view-chips{display:flex;gap:8px;}
+.view-chip{display:flex;align-items:center;gap:7px;padding:9px 14px;border-radius:10px;border:0.5px solid var(--border2);background:transparent;color:var(--text2);font-size:13px;cursor:pointer;transition:all 0.15s;}
+.view-chip i{font-size:15px;}
+.view-chip.on{background:var(--opt-on-bg);border-color:var(--opt-on-border);color:var(--text);}
+.settings-about{background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:16px 14px;display:flex;align-items:center;gap:12px;margin-bottom:8px;}
+.settings-about-icon{width:36px;height:36px;border-radius:10px;background:var(--bg3);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.settings-about-icon i{font-size:18px;color:var(--text2);}
+.settings-about-name{font-size:14px;font-weight:500;color:var(--text);}
+.settings-about-version{font-size:12px;color:var(--text2);margin-top:2px;}
 </style>
 </head>
 <body>
@@ -171,16 +187,8 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
   <!-- SCREEN 1: CATEGORIES -->
   <div class="screen" id="s1">
     <div class="home-header">
-      <div style="display:flex;align-items:flex-start;justify-content:space-between;">
-        <div>
-          <div class="home-title">Pick your style</div>
-          <div class="home-sub">Choose a category to get started</div>
-        </div>
-        <div style="display:flex;align-items:center;">
-          <div class="theme-btn" onclick="toggleTheme()" style="margin-top:4px;"><i class="ti ti-sun" id="ti1"></i></div>
-          <div class="view-toggle-btn" onclick="toggleCatView()"><i class="ti ti-layout-grid" id="viewToggleIcon"></i></div>
-        </div>
-      </div>
+      <div class="home-title">Pick your style</div>
+      <div class="home-sub">Choose a category to get started</div>
     </div>
     <div class="filter-bar" id="filterBar"></div>
     <div class="cat-grid" id="catGrid"></div>
@@ -197,14 +205,11 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 
   <!-- SCREEN 3: CUT DETAIL -->
   <div class="screen" id="s3">
-
-    <!-- Swipeable image hero -->
     <div class="detail-hero" id="heroBox">
       <div class="hero-track" id="heroTrack"></div>
       <div class="hero-dots" id="heroDots"></div>
       <div class="hero-badge" id="heroBadge"></div>
     </div>
-
     <div class="topbar" style="border-bottom:none;">
       <div class="back-btn" onclick="goBackToCategory()"><i class="ti ti-arrow-left"></i><span id="s3Back"></span></div>
     </div>
@@ -232,7 +237,6 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
         </div>
       </div>
     </div>
-
     <div class="cta-bar">
       <div class="confirm-row">
         <div class="confirm-thumb"><img id="cThumb" src="" alt=""></div>
@@ -300,27 +304,72 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
     </div>
   </div>
 
+  <!-- SCREEN 7: SETTINGS -->
+  <div class="screen" id="s7">
+    <div class="topbar">
+      <div style="flex:1"></div>
+      <div class="topbar-title">Settings</div>
+      <div style="width:34px"></div>
+    </div>
+    <div class="settings-body">
+
+      <div class="settings-section">
+        <div class="settings-section-label">Appearance</div>
+        <div class="settings-row">
+          <div class="settings-row-left">
+            <div class="settings-row-icon"><i class="ti ti-moon" id="themeIcon"></i></div>
+            <div>
+              <div class="settings-row-label">Dark mode</div>
+              <div class="settings-row-sub" id="themeSubLabel">Currently dark</div>
+            </div>
+          </div>
+          <div class="toggle-track on" id="themeToggle" onclick="toggleTheme()">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-label">Catalogue view</div>
+        <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:12px;">
+          <div class="settings-row-left">
+            <div class="settings-row-icon"><i class="ti ti-layout-grid"></i></div>
+            <div>
+              <div class="settings-row-label">Layout</div>
+              <div class="settings-row-sub">How categories are displayed</div>
+            </div>
+          </div>
+          <div class="view-chips">
+            <div class="view-chip on" id="chipGrid" onclick="setView('grid')"><i class="ti ti-layout-grid"></i> Grid</div>
+            <div class="view-chip" id="chipList" onclick="setView('list')"><i class="ti ti-list"></i> List</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-section-label">About</div>
+        <div class="settings-about">
+          <div class="settings-about-icon"><i class="ti ti-scissors"></i></div>
+          <div>
+            <div class="settings-about-name">LTC Hair Catalogue</div>
+            <div class="settings-about-version">Version 1.0 · Learn To Cut</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 </div>
 
 <div class="bottom-nav">
   <button class="nav-item active" id="navExplore" onclick="switchTab('explore')"><i class="ti ti-layout-grid"></i><span>Explore</span></button>
-  <button class="nav-item" id="navSaved"   onclick="switchTab('saved')">  <i class="ti ti-heart"></i>      <span>My Cut</span></button>
-  <button class="nav-item" id="navSearch"  onclick="switchTab('search')"> <i class="ti ti-search"></i>     <span>Search</span></button>
+  <button class="nav-item" id="navSaved"    onclick="switchTab('saved')">  <i class="ti ti-heart"></i>      <span>My Cut</span></button>
+  <button class="nav-item" id="navSearch"   onclick="switchTab('search')"> <i class="ti ti-search"></i>     <span>Search</span></button>
+  <button class="nav-item" id="navSettings" onclick="switchTab('settings')"><i class="ti ti-settings"></i>  <span>Settings</span></button>
 </div>
 
 <script>
-/* ─────────────────────────────────────────
-   DATA
-   To add multiple angles to any cut, replace
-     img: 'path/to/image.png'
-   with
-     imgs: [
-       { src: 'path/front.png', label: 'Front' },
-       { src: 'path/side.png',  label: 'Side'  },
-       { src: 'path/back.png',  label: 'Back'  },
-     ]
-   Single-image cuts keep img: '...' as normal.
-───────────────────────────────────────── */
 const cats=[
   {id:'brushback',   name:'Brush Back',    img:'images/brushback4.png'},
   {id:'burstfade',   name:'Burst Fade',    img:'images/burstfade2.png'},
@@ -334,7 +383,7 @@ const cats=[
   {id:'middlePart',  name:'Middle Part',   img:'images/middlepart.png'},
   {id:'cropHaircuts',name:'Crop Haircuts', img:'images/texturedcrop.png'},
   {id:'rafael',      name:'Rafael',        img:'images/rafael.png'},
-  {id:'johnnydepp',  name:'Johnny Depp Haircut',        img:'images/johnnydepp1.png'},
+  {id:'johnnydepp',  name:'Johnny Depp Haircut', img:'images/johnnydepp1.png'},
 ];
 
 const cuts=[
@@ -344,149 +393,118 @@ const cuts=[
      {src:'images/brushback4.png', label:'Front'},
      {src:'images/brushback4a.png', label:'Side'},
    ]},
-
   {id:2, name:'Brush Back', cat:'brushback', hairType:'straight', tags:[''],
    desc:'Clean swept back style, versatile and timeless.',
    img:'images/brushback.png'},
-
   {id:4, name:'Brush Back', cat:'brushback', hairType:'curly', tags:['Curly'],
    desc:'Natural curl texture swept back for effortless volume.',
    img:'images/brushback2.png'},
-
   {id:5, name:'Brush Back + Taper', cat:'brushback', hairType:'straight', tags:['Taper'],
    desc:'Brush back paired with a tapered neckline for a polished finish.',
-    imgs:[
+   imgs:[
      {src:'images/brushback5.png', label:'Front'},
      {src:'images/brushback5a.png', label:'Side'},
      {src:'images/brushback5b.png', label:'Side'},
    ]},
-
   {id:6, name:'Burst Fade', cat:'burstfade', hairType:'straight', tags:[''],
    desc:'Semicircular fade that bursts around the ear — clean and impactful.',
    img:'images/burstfade2.png'},
-
   {id:7, name:'Burst Fade', cat:'burstfade', hairType:'textured', tags:['Textured'],
    desc:'Textured top over a crisp burst fade.',
    img:'images/burstfade.png'},
-
   {id:8, name:'Jacob Elordi', cat:'elordi', hairType:'straight', tags:[''],
    desc:'Long, swept, effortlessly cool — the signature Elordi look.',
    img:'images/elordi.png'},
-
   {id:9, name:'The Rafael', cat:'rafael', hairType:'straight', tags:[''],
    desc:'Relaxed mid-length with natural movement.',
    img:'images/rafael.png'},
-
   {id:10, name:'Middle Part', cat:'middlePart', hairType:'straight', tags:[''],
    desc:'Symmetrical parting down the centre for a clean, balanced look.',
    img:'images/middlepart2.png'},
-
   {id:11, name:'Middle Part', cat:'middlePart', hairType:'textured', tags:['Textured'],
    desc:'Textured finish on a classic middle part.',
    img:'images/middlepart.png'},
-
   {id:12, name:'Fringe', cat:'fringe', hairType:'wavy', tags:['Textured Fringe'],
    desc:'Textured fringe with natural wave — relaxed and modern.',
    img:'images/fringe.png'},
-
   {id:13, name:'Saiyan', cat:'saiyan', hairType:'textured', tags:['Textured Saiyan'],
    desc:'High-energy textured spikes with serious volume.',
    img:'images/saiyan.png'},
-
   {id:14, name:'Mod Cut', cat:'modCut', hairType:'straight', tags:['Mod Cut'],
    desc:'Geometric bowl-adjacent shape — retro roots, modern feel.',
    imgs:[
      {src:'images/modcut2.png', label:'Front'},
      {src:'images/modcut1.png', label:'Side'},
    ]},
-
   {id:15, name:'Mod Cut', cat:'modCut', hairType:'straight', tags:['Short Textured'],
    desc:'Shorter, more textured take on the classic mod cut.',
    img:'images/modcut1.png'},
-
-    {id:16, name:'Brush Back + Taper', cat:'brushback', hairType:'straight', tags:['Taper'],
+  {id:16, name:'Brush Back + Taper', cat:'brushback', hairType:'straight', tags:['Taper'],
    desc:'Brush back paired with a tapered neckline for a polished finish.',
    img:'images/brushback3.png'},
-
-    {id:17, name:'Johnny Depp', cat:'johnnydepp', hairType:'straight', tags:['Johnny Depp'],
+  {id:17, name:'Johnny Depp', cat:'johnnydepp', hairType:'straight', tags:['Johnny Depp'],
    desc:'A Johnny Depp Inspired Haircut',
    imgs:[
      {src:'images/Johnnydepp1.png', label:'Front'},
      {src:'images/Johnnydepp2.png', label:'Side'},
      {src:'images/Johnnydepp3.png', label:'Side'},
    ]},
-
-    {id:18, name:'Middle Part', cat:'middlePart', hairType:'textured', tags:['Textured'],
+  {id:18, name:'Middle Part', cat:'middlePart', hairType:'textured', tags:['Textured'],
    desc:'Textured finish on a classic middle part.',
    imgs:[
      {src:'images/middlepart3.png', label:'Front'},
      {src:'images/middlepart3a.png', label:'Side'},
      {src:'images/middlepart3b.png', label:'Side'},
    ]},
-
-    {id:19, name:'Brush Back + Taper', cat:'brushback', hairType:'straight', tags:['Taper'],
+  {id:19, name:'Brush Back + Taper', cat:'brushback', hairType:'straight', tags:['Taper'],
    desc:'Brush back paired with a tapered neckline for a polished finish.',
-    imgs:[
+   imgs:[
      {src:'images/brushback7.png', label:'Front'},
      {src:'images/brushback7a.png', label:'Side'},
    ]},
-
   {id:20, name:'Brush Back', cat:'brushback', hairType:'straight', tags:[''],
    desc:'Clean swept back style, versatile and timeless.',
    img:'images/brushback11.png'},
-
-    {id:21, name:'Brush Back', cat:'brushback', hairType:'straight', tags:[''],
+  {id:21, name:'Brush Back', cat:'brushback', hairType:'straight', tags:[''],
    desc:'Clean swept back style, versatile and timeless.',
    img:'images/brushback10.png'},
-
-    {id:22, name:'Burst Fade', cat:'burstfade', hairType:'straight', tags:['Taper'],
+  {id:22, name:'Burst Fade', cat:'burstfade', hairType:'straight', tags:['Taper'],
    desc:'Brush back paired with a tapered neckline for a polished finish.',
-    imgs:[
+   imgs:[
      {src:'images/burstfade9.png', label:'Front'},
      {src:'images/burstfade9a.png', label:'Side'},
    ]},
-
-    {id:23, name:'Burst Fade', cat:'burstfade', hairType:'straight', tags:[''],
+  {id:23, name:'Burst Fade', cat:'burstfade', hairType:'straight', tags:[''],
    desc:'Semicircular fade that bursts around the ear — clean and impactful.',
    img:'images/burstfade5.png'},
-
-    {id:24, name:'Taper Fade', cat:'taper', hairType:'wavy', tags:['Taper'],
+  {id:24, name:'Taper Fade', cat:'taper', hairType:'wavy', tags:['Taper'],
    desc:'Textured fringe with natural wave — relaxed and modern.',
    img:'images/taperfade2.png'},
-
-    {id:25, name:'Taper Fade', cat:'taper', hairType:'wavy', tags:['Taper'],
+  {id:25, name:'Taper Fade', cat:'taper', hairType:'wavy', tags:['Taper'],
    desc:'Textured fringe with natural wave — relaxed and modern.',
-    imgs:[
+   imgs:[
      {src:'images/taperfade.png', label:'Front'},
      {src:'images/taperfade1a.png', label:'Side'},
    ]},
-
-    {id:26, name:'Taper Fade', cat:'taper', hairType:'curly', tags:['Curly'],
+  {id:26, name:'Taper Fade', cat:'taper', hairType:'curly', tags:['Curly'],
    desc:'Textured fringe with natural wave — relaxed and modern.',
-    imgs:[
+   imgs:[
      {src:'images/curlytaperfade.png', label:'Front'},
      {src:'images/curlytaperfade2.png', label:'Side'},
      {src:'images/curlytaperfade3.png', label:'Side'},
-
    ]},
-
-
-    {id:27, name:'Mid Length', cat:'midLength', hairType:'curly', tags:['Taper'],
+  {id:27, name:'Mid Length', cat:'midLength', hairType:'curly', tags:['Taper'],
    desc:'Textured fringe with natural wave — relaxed and modern.',
-    imgs:[
+   imgs:[
      {src:'images/mediumlength1.png', label:'Front'},
      {src:'images/mediumlength2.png', label:'Side'},
-
    ]},
-
-    {id:28, name:'Mid Length', cat:'midLength', hairType:'straight', tags:[''],
+  {id:28, name:'Mid Length', cat:'midLength', hairType:'straight', tags:[''],
    desc:'Semicircular fade that bursts around the ear — clean and impactful.',
    img:'images/midlength.png'},
 ];
 
-/* ─────────────────────────────────────────
-   SWIPER
-───────────────────────────────────────── */
+/* ─── SWIPER ─── */
 let heroImgs=[], heroIdx=0;
 let txStart=0, tyStart=0, txDelta=0, swipeActive=false, axisLocked=false;
 
@@ -498,16 +516,12 @@ function getImgs(cut){
 function buildHero(cut){
   heroImgs = getImgs(cut);
   heroIdx  = 0;
-
   const box   = document.getElementById('heroBox');
   const track = document.getElementById('heroTrack');
   const dots  = document.getElementById('heroDots');
   const badge = document.getElementById('heroBadge');
   const multi = heroImgs.length > 1;
-  /* offsetWidth is 0 when the screen is still display:none; fall back to container or window */
   const W     = box.getBoundingClientRect().width || box.offsetWidth || box.parentElement.offsetWidth || window.innerWidth || 420;
-
-  /* Slides — explicit pixel width so track can translate correctly */
   track.innerHTML = '';
   track.style.width = (W * heroImgs.length) + 'px';
   heroImgs.forEach(img => {
@@ -521,8 +535,6 @@ function buildHero(cut){
     slide.appendChild(el);
     track.appendChild(slide);
   });
-
-  /* Dots */
   dots.innerHTML = '';
   badge.style.display = 'none';
   if(multi){
@@ -533,15 +545,11 @@ function buildHero(cut){
     });
     badge.style.display = 'block';
   }
-
   _applySlide(0, false);
-
-  /* Remove old listeners then re-attach */
   const newBox = box.cloneNode(false);
   while(box.firstChild) newBox.appendChild(box.firstChild);
   box.parentNode.replaceChild(newBox, box);
   newBox.id = 'heroBox';
-
   newBox.addEventListener('touchstart', onTS, {passive:true});
   newBox.addEventListener('touchmove',  onTM, {passive:false});
   newBox.addEventListener('touchend',   onTE);
@@ -553,18 +561,13 @@ function _applySlide(idx, animate){
   const track = document.getElementById('heroTrack');
   const badge = document.getElementById('heroBadge');
   const W     = box.offsetWidth || 420;
-
   track.classList.toggle('dragging', !animate);
   track.style.transform = 'translateX(' + (-idx * W) + 'px)';
-
   document.querySelectorAll('.hero-dot').forEach((d,i) => d.classList.toggle('active', i===idx));
-
   if(heroImgs.length > 1){
     const lbl = heroImgs[idx].label;
     badge.textContent = lbl ? lbl : (idx+1) + ' / ' + heroImgs.length;
   }
-
-  /* Sync confirm thumb */
   const thumb = document.getElementById('cThumb');
   if(thumb) thumb.src = heroImgs[idx].src;
 }
@@ -580,11 +583,9 @@ function onTS(e){
   txDelta = 0; swipeActive = false; axisLocked = false;
   document.getElementById('heroTrack').classList.add('dragging');
 }
-
 function onTM(e){
   const dx = e.touches[0].clientX - txStart;
   const dy = e.touches[0].clientY - tyStart;
-
   if(!axisLocked){
     if(Math.abs(dx) > 6 || Math.abs(dy) > 6){
       axisLocked  = true;
@@ -593,8 +594,7 @@ function onTM(e){
     return;
   }
   if(!swipeActive) return;
-  e.preventDefault(); /* only called when horizontal — won't block page scroll */
-
+  e.preventDefault();
   txDelta = dx;
   const W    = document.getElementById('heroBox').offsetWidth || 420;
   const base = -heroIdx * W;
@@ -602,7 +602,6 @@ function onTM(e){
   const drag = edge ? dx * 0.18 : dx;
   document.getElementById('heroTrack').style.transform = 'translateX(' + (base + drag) + 'px)';
 }
-
 function onTE(){
   if(!swipeActive){ _applySlide(heroIdx, true); return; }
   const W = document.getElementById('heroBox').offsetWidth || 420;
@@ -611,16 +610,18 @@ function onTE(){
   else                                                     _applySlide(heroIdx, true);
 }
 
-/* ─────────────────────────────────────────
-   APP STATE
-───────────────────────────────────────── */
+/* ─── APP STATE ─── */
 let cur=null, curCat=null, fv='Mid', tv='Neat', isDark=true, isListView=false, selectedHairType='all';
 const hairTypes=['All','Curly','Straight','Wavy','Textured'];
 const STORAGE_KEY='lockedCut';
 
-function syncIcons(){
-  const el = document.getElementById('ti1');
-  if(el) el.className = 'ti ' + (isDark ? 'ti-sun' : 'ti-moon');
+function syncThemeUI(){
+  const icon  = document.getElementById('themeIcon');
+  const sub   = document.getElementById('themeSubLabel');
+  const track = document.getElementById('themeToggle');
+  if(icon)  icon.className  = 'ti ' + (isDark ? 'ti-moon' : 'ti-sun');
+  if(sub)   sub.textContent = isDark ? 'Currently dark' : 'Currently light';
+  if(track) track.classList.toggle('on', isDark);
 }
 
 function toggleTheme(){
@@ -628,12 +629,13 @@ function toggleTheme(){
   document.getElementById('app').classList.toggle('light', !isDark);
   document.documentElement.classList.toggle('light', !isDark);
   document.body.style.background = isDark ? '#111' : '#fff';
-  syncIcons();
+  syncThemeUI();
 }
 
-function toggleCatView(){
-  isListView = !isListView;
-  document.getElementById('viewToggleIcon').className = 'ti ' + (isListView ? 'ti-list' : 'ti-layout-grid');
+function setView(type){
+  isListView = type === 'list';
+  document.getElementById('chipGrid').classList.toggle('on', !isListView);
+  document.getElementById('chipList').classList.toggle('on',  isListView);
   buildCats();
 }
 
@@ -657,17 +659,17 @@ function selectHairType(type){
 }
 
 function switchTab(tab){
-  document.getElementById('navExplore').classList.toggle('active', tab==='explore');
-  document.getElementById('navSaved').classList.toggle('active',   tab==='saved');
-  document.getElementById('navSearch').classList.toggle('active',  tab==='search');
-  if(tab==='explore')     go('s1');
-  else if(tab==='saved')  { loadSavedCut(); go('s5'); }
-  else if(tab==='search') { runSearch();    go('s6'); }
+  document.getElementById('navExplore').classList.toggle('active',  tab==='explore');
+  document.getElementById('navSaved').classList.toggle('active',    tab==='saved');
+  document.getElementById('navSearch').classList.toggle('active',   tab==='search');
+  document.getElementById('navSettings').classList.toggle('active', tab==='settings');
+  if(tab==='explore')      go('s1');
+  else if(tab==='saved')   { loadSavedCut(); go('s5'); }
+  else if(tab==='search')  { runSearch();    go('s6'); }
+  else if(tab==='settings'){ syncThemeUI();  go('s7'); }
 }
 
-function viewMyCut(){
-  switchTab('saved');
-}
+function viewMyCut(){ switchTab('saved'); }
 
 function saveLockedCut(){
   if(!cur) return;
@@ -755,17 +757,13 @@ function buildCats(){
     card.className = 'cat-card';
     card.onclick = () => openCat(c.id, c.name);
     const img = document.createElement('img');
-    /* fallback: if cat image fails, try the first cut in that category */
     img.src = c.img; img.alt = c.name;
     img.onload = () => img.classList.add('loaded');
     img.onerror = () => {
       const fallbackCut = fc.find(x => x.cat===c.id);
       const fallbackSrc = fallbackCut ? getImgs(fallbackCut)[0].src : '';
-      if(fallbackSrc && img.src !== fallbackSrc){
-        img.src = fallbackSrc;
-      } else {
-        img.style.opacity = '0.15';
-      }
+      if(fallbackSrc && img.src !== fallbackSrc){ img.src = fallbackSrc; }
+      else { img.style.opacity = '0.15'; }
     };
     const ov = document.createElement('div');
     ov.className = 'cat-card-overlay';
@@ -799,18 +797,15 @@ function openCat(catId, catName){
 
 function openCut(id, preserveOpts=false){
   cur = cuts.find(c => c.id===id);
-
   const fi = getImgs(cur)[0].src;
   document.getElementById('cThumb').src = fi;
   loadImg(document.getElementById('cThumb'), fi, cur.name);
-
   document.getElementById('dName').textContent  = cur.name;
   document.getElementById('dSub').textContent   = cur.tags.join(' · ');
   document.getElementById('dBadges').innerHTML  = cur.tags.map(t=>'<div class="badge">'+t+'</div>').join('');
   document.getElementById('dDesc').textContent  = cur.desc;
   document.getElementById('cName').textContent  = cur.name;
   document.getElementById('s3Back').textContent = curCat ? curCat.name : 'Back';
-
   if(preserveOpts){
     document.querySelectorAll('#fadeRow .opt').forEach(b => b.classList.toggle('on', b.textContent===fv));
     document.querySelectorAll('#topRow .opt').forEach(b  => b.classList.toggle('on', b.textContent===tv));
@@ -818,8 +813,6 @@ function openCut(id, preserveOpts=false){
   } else {
     resetOpts();
   }
-
-  /* Show screen first so heroBox has layout dimensions, then build swiper */
   go('s3');
   requestAnimationFrame(() => buildHero(cur));
 }
@@ -877,7 +870,7 @@ function restoreLockedCut(){
 
 renderHairTypeFilters();
 buildCats();
-syncIcons();
+syncThemeUI();
 restoreLockedCut();
 </script>
 </body>
