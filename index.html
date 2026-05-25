@@ -6,6 +6,14 @@
 <title>Hair Catalogue — LTC</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <style>
+@font-face {
+  font-family: 'DMSans';
+  src: url('fonts/DMSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
   --bg:#111;--bg2:#1a1a1a;--bg3:#222;
@@ -23,7 +31,7 @@
   --lock-bg:#111;--lock-text:#fff;
   --opt-on-bg:#ebebeb;--opt-on-border:rgba(0,0,0,0.3);
 }
-body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-family:'DMSans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
 .app{max-width:420px;margin:0 auto;background:var(--bg);min-height:100vh;display:flex;flex-direction:column;transition:background 0.2s;}
 .screen{display:none;flex-direction:column;flex:1;padding-bottom:72px;}
 .screen.active{display:flex;}
