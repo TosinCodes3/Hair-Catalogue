@@ -22,6 +22,15 @@
   --lock-bg:#f0f0f0;--lock-text:#111;
   --opt-on-bg:#2a2a2a;--opt-on-border:rgba(255,255,255,0.35);
   --client-color:#4a9eff;--model-color:#c97aff;--freestyle-color:#5dbb8a;
+  /* Neutral metric palette — no rainbow */
+  --m-bar-primary:#f0f0f0;
+  --m-bar-secondary:rgba(240,240,240,0.45);
+  --m-bar-tertiary:rgba(240,240,240,0.22);
+  --m-bar-quaternary:rgba(240,240,240,0.12);
+  --m-accent:#f0f0f0;
+  --m-client:rgba(240,240,240,0.85);
+  --m-model:rgba(240,240,240,0.45);
+  --m-freestyle:rgba(240,240,240,0.2);
 }
 .light{
   --bg:#fff;--bg2:#f7f7f5;--bg3:#efefed;
@@ -30,6 +39,14 @@
   --overlay:linear-gradient(transparent,rgba(0,0,0,0.65));
   --lock-bg:#111;--lock-text:#fff;
   --opt-on-bg:#ebebeb;--opt-on-border:rgba(0,0,0,0.3);
+  --m-bar-primary:#111;
+  --m-bar-secondary:rgba(17,17,17,0.5);
+  --m-bar-tertiary:rgba(17,17,17,0.25);
+  --m-bar-quaternary:rgba(17,17,17,0.12);
+  --m-accent:#111;
+  --m-client:rgba(17,17,17,0.85);
+  --m-model:rgba(17,17,17,0.45);
+  --m-freestyle:rgba(17,17,17,0.2);
 }
 body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-family:'DMSans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
 .app{max-width:420px;margin:0 auto;background:var(--bg);min-height:100vh;display:flex;flex-direction:column;transition:background 0.2s;}
@@ -322,64 +339,87 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .history-type-pill.model{background:rgba(201,122,255,0.15);color:var(--model-color);}
 .history-type-pill.freestyle{background:rgba(93,187,138,0.15);color:var(--freestyle-color);}
 
-/* METRICS */
+/* ═══════════════════════════════════════
+   METRICS — MONOCHROME / NEUTRAL PALETTE
+   Inspired by the referenced dark trading app:
+   no rainbow fills, pure white/gray hierarchy
+   ═══════════════════════════════════════ */
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
 .stat-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:14px;padding:14px 14px 12px;opacity:0;transform:translateY(12px);animation:metricsFadeIn 0.45s ease forwards;}
-.stat-grid .stat-card:nth-child(1){animation-delay:0.05s;} .stat-grid .stat-card:nth-child(2){animation-delay:0.12s;} .stat-grid .stat-card:nth-child(3){animation-delay:0.19s;} .stat-grid .stat-card:nth-child(4){animation-delay:0.26s;}
-.stat-label{font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;}
-.stat-value{font-size:22px;font-weight:700;color:var(--text);letter-spacing:-0.02em;line-height:1;}
-.stat-sub{font-size:11px;color:var(--text2);margin-top:4px;}
-.stat-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;}
-.stat-icon i{font-size:14px;}
-.si-blue{background:rgba(74,158,255,0.15);} .si-blue i{color:#4a9eff;}
-.si-purple{background:rgba(201,122,255,0.15);} .si-purple i{color:#c97aff;}
-.si-green{background:rgba(93,187,138,0.15);} .si-green i{color:#5dbb8a;}
-.si-amber{background:rgba(239,159,39,0.15);} .si-amber i{color:#ef9f27;}
-.m-section-header{display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:18px;}
-.m-section-title{font-size:13px;font-weight:700;color:var(--text);flex:1;}
+.stat-grid .stat-card:nth-child(1){animation-delay:0.05s;}
+.stat-grid .stat-card:nth-child(2){animation-delay:0.12s;}
+.stat-grid .stat-card:nth-child(3){animation-delay:0.19s;}
+.stat-grid .stat-card:nth-child(4){animation-delay:0.26s;}
+.stat-label{font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:0.09em;margin-bottom:6px;}
+.stat-value{font-size:24px;font-weight:700;color:var(--text);letter-spacing:-0.03em;line-height:1;}
+.stat-sub{font-size:11px;color:var(--text3);margin-top:5px;}
+.stat-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;background:var(--bg3);}
+.stat-icon i{font-size:14px;color:var(--text2);}
+/* Override color classes — all neutral */
+.si-blue,.si-purple,.si-green,.si-amber{background:var(--bg3);}
+.si-blue i,.si-purple i,.si-green i,.si-amber i{color:var(--text2);}
+
+.m-section-header{display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:20px;}
+.m-section-title{font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;flex:1;}
 .m-section-chip{font-size:10px;color:var(--text3);background:var(--bg3);border-radius:20px;padding:3px 9px;}
-/* tappable chart card */
-.m-chart-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:14px;padding:14px;margin-bottom:4px;opacity:0;transform:translateY(12px);animation:metricsFadeIn 0.45s ease forwards;animation-delay:0.18s;}
-.m-chart-card.tappable{cursor:pointer;transition:opacity 0.15s;}
-.m-chart-card.tappable:active{opacity:0.75;}
-.m-chart-card.tappable .m-tap-hint{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3);margin-top:10px;padding-top:10px;border-top:0.5px solid var(--border);}
-.m-tap-hint i{font-size:13px;}
-.m-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:9px;}
-.m-bar-label{font-size:11px;color:var(--text2);width:100px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.m-bar-track{flex:1;height:7px;border-radius:4px;background:var(--bg3);overflow:hidden;}
-.m-bar-fill{height:100%;border-radius:4px;transition:width 0.8s ease;}
-.m-bar-count{font-size:11px;color:var(--text2);width:22px;text-align:right;flex-shrink:0;}
-.m-donut-wrap{display:flex;align-items:center;gap:16px;}
-.m-donut-svg{width:80px;height:80px;flex-shrink:0;}
-.m-donut-legend{flex:1;display:flex;flex-direction:column;gap:7px;}
+
+.m-chart-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:14px;padding:16px;margin-bottom:4px;opacity:0;transform:translateY(12px);animation:metricsFadeIn 0.45s ease forwards;animation-delay:0.18s;}
+.m-chart-card.tappable{cursor:pointer;transition:border-color 0.15s,opacity 0.15s;}
+.m-chart-card.tappable:active{opacity:0.7;}
+.m-chart-card.tappable:hover{border-color:var(--border2);}
+.m-chart-card.tappable .m-tap-hint{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3);margin-top:12px;padding-top:12px;border-top:0.5px solid var(--border);}
+.m-tap-hint i{font-size:12px;}
+
+/* BARS — white primary, descending opacity for rank */
+.m-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.m-bar-row:last-child{margin-bottom:0;}
+.m-bar-label{font-size:11px;color:var(--text2);width:96px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.m-bar-track{flex:1;height:6px;border-radius:3px;background:var(--bg3);overflow:hidden;}
+.m-bar-fill{height:100%;border-radius:3px;transition:width 0.9s cubic-bezier(.4,0,.2,1);}
+.m-bar-count{font-size:11px;color:var(--text3);width:22px;text-align:right;flex-shrink:0;font-variant-numeric:tabular-nums;}
+
+/* Neutral bar color classes — all use CSS var */
+.m-bar-rank-1{background:var(--m-bar-primary);}
+.m-bar-rank-2{background:var(--m-bar-secondary);}
+.m-bar-rank-3{background:var(--m-bar-tertiary);}
+.m-bar-rank-4{background:var(--m-bar-quaternary);}
+.m-bar-rank-5{background:var(--m-bar-quaternary);}
+
+/* DONUT — neutral strokes */
+.m-donut-wrap{display:flex;align-items:center;gap:18px;}
+.m-donut-svg{width:76px;height:76px;flex-shrink:0;}
+.m-donut-legend{flex:1;display:flex;flex-direction:column;gap:8px;}
 .m-donut-leg-row{display:flex;align-items:center;gap:8px;}
-.m-donut-leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.m-donut-leg-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
 .m-donut-leg-label{font-size:12px;color:var(--text2);flex:1;}
-.m-donut-leg-val{font-size:12px;font-weight:700;color:var(--text);}
-.m-pill-legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;}
-.m-pill-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);}
-.m-pill-dot{width:8px;height:8px;border-radius:50%;}
+.m-donut-leg-val{font-size:12px;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums;}
+
+/* PILL LEGENDS — all neutral */
+.m-pill-legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
+.m-pill-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3);}
+.m-pill-dot{width:7px;height:7px;border-radius:50%;}
+
 .m-empty{text-align:center;padding:20px 0;}
 .m-empty i{font-size:26px;color:var(--text3);}
 .m-empty p{font-size:12px;color:var(--text3);margin-top:6px;}
-.m-stack-fill{transition:height 0.8s ease;}
-.m-donut-svg circle.anim-donut{transition:stroke-dashoffset 0.85s ease;}
+.m-stack-fill{transition:height 0.9s cubic-bezier(.4,0,.2,1);}
+.m-donut-svg circle.anim-donut{transition:stroke-dashoffset 0.9s cubic-bezier(.4,0,.2,1);}
 @keyframes metricsFadeIn{to{opacity:1;transform:translateY(0);}}
+
+/* Rank number */
+.m-rank-num{width:14px;font-size:10px;font-weight:700;flex-shrink:0;font-variant-numeric:tabular-nums;}
 
 /* METRIC DRILL-DOWN SCREEN (s10) */
 #s10{padding-bottom:72px;}
 .drill-body{padding:16px 16px 32px;overflow-y:auto;flex:1;}
-/* Summary row at top of drill */
 .drill-summary{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
 .drill-stat{flex:1;min-width:80px;background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:12px 12px 10px;}
 .drill-stat-label{font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;}
 .drill-stat-value{font-size:20px;font-weight:700;color:var(--text);}
 .drill-stat-sub{font-size:10px;color:var(--text2);margin-top:2px;}
-/* Month section in drill */
 .drill-month-header{display:flex;align-items:center;justify-content:space-between;padding:10px 0 6px;}
 .drill-month-label{font-size:13px;font-weight:700;color:var(--text);}
 .drill-month-count{font-size:11px;color:var(--text2);}
-/* Session row */
 .drill-session{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:0.5px solid var(--border);}
 .drill-session:last-child{border-bottom:none;}
 .drill-session-thumb{width:48px;height:48px;border-radius:10px;object-fit:cover;flex-shrink:0;opacity:0;transition:opacity 0.3s;background:var(--bg3);}
@@ -387,21 +427,17 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .drill-session-info{flex:1;min-width:0;}
 .drill-session-name{font-size:13px;font-weight:700;color:var(--text);}
 .drill-session-opts{font-size:11px;color:var(--text2);margin-top:2px;}
-.drill-session-person{font-size:11px;margin-top:2px;}
-.drill-session-person.client{color:var(--client-color);}
-.drill-session-person.model{color:var(--model-color);}
-.drill-session-person.freestyle{color:var(--freestyle-color);}
+.drill-session-person{font-size:11px;margin-top:2px;color:var(--text2);}
 .drill-session-date{font-size:10px;color:var(--text3);margin-top:3px;}
 .drill-session-go{font-size:12px;color:var(--text2);cursor:pointer;text-decoration:underline;flex-shrink:0;align-self:center;}
 .drill-empty{font-size:14px;color:var(--text2);padding:24px 0;line-height:1.6;text-align:center;}
 .drill-type-row{display:flex;align-items:center;gap:12px;background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer;transition:opacity 0.15s;}
 .drill-type-row:active{opacity:0.75;}
-.drill-type-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.drill-type-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
 .drill-type-info{flex:1;}
 .drill-type-label{font-size:14px;font-weight:700;color:var(--text);}
 .drill-type-sub{font-size:12px;color:var(--text2);margin-top:2px;}
 .drill-type-arrow{color:var(--text3);font-size:16px;}
-/* cut popularity drill */
 .drill-cut-row{display:flex;align-items:center;gap:12px;background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:10px 12px;margin-bottom:8px;cursor:pointer;transition:opacity 0.15s;}
 .drill-cut-row:active{opacity:0.75;}
 .drill-cut-thumb{width:44px;height:44px;border-radius:8px;object-fit:cover;flex-shrink:0;opacity:0;transition:opacity 0.3s;background:var(--bg3);}
@@ -410,7 +446,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .drill-cut-name{font-size:13px;font-weight:700;color:var(--text);}
 .drill-cut-count{font-size:11px;color:var(--text2);margin-top:2px;}
 .drill-rank{font-size:11px;font-weight:700;color:var(--text3);width:18px;flex-shrink:0;}
-.drill-rank.gold{color:#ef9f27;}
+.drill-rank.gold{color:var(--text);}
 </style>
 </head>
 <body>
@@ -593,7 +629,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
             <div class="settings-row-icon"><i class="ti ti-chart-bar"></i></div>
             <div>
               <div class="settings-row-label">Metrics</div>
-              <div class="settings-row-sub">Locks, trends & top cuts</div>
+              <div class="settings-row-sub">Locks, trends &amp; top cuts</div>
             </div>
           </div>
           <i class="ti ti-chevron-right" style="color:var(--text3);font-size:16px;"></i>
@@ -648,7 +684,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
       <div class="topbar-title">Metrics</div>
       <div style="width:34px"></div>
     </div>
-    <div class="detail-body" id="metricsBody" style="padding-top:12px;"></div>
+    <div class="detail-body" id="metricsBody" style="padding-top:16px;"></div>
   </div>
 
   <!-- SCREEN 10: METRIC DRILL-DOWN -->
@@ -771,7 +807,6 @@ function ptDist(t){return Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1]
 function ptMid(t){return{x:(t[0].clientX+t[1].clientX)/2,y:(t[0].clientY+t[1].clientY)/2};}
 function initials(name){return name.trim().split(/\s+/).map(w=>w[0]).join('').toUpperCase().slice(0,2);}
 function formatDate(iso){const d=new Date(iso);return d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})+' · '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});}
-function formatMonth(iso){const d=new Date(iso);return d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});}
 
 /* ─── HERO SWIPER ─── */
 let heroImgs=[],heroIdx=0,hTxStart=0,hTyStart=0,hTxDelta=0,hSwipe=false,hAxisLocked=false,tapHintShown=false;
@@ -789,13 +824,7 @@ function buildHero(cut){
   newBox.addEventListener('touchstart',hTS,{passive:true});newBox.addEventListener('touchmove',hTM,{passive:false});newBox.addEventListener('touchend',hTE,{passive:true});
   newBox.addEventListener('click',()=>openLightbox(heroIdx));
 }
-function _heroApply(idx,animate){
-  heroIdx=idx;const box=document.getElementById('heroBox'),track=document.getElementById('heroTrack'),badge=document.getElementById('heroBadge');const W=box.offsetWidth||420;
-  track.classList.toggle('dragging',!animate);track.style.transform='translateX('+ (-idx*W) +'px)';
-  document.querySelectorAll('.hero-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
-  if(heroImgs.length>1){const lbl=heroImgs[idx].label;badge.textContent=lbl?lbl:(idx+1)+' / '+heroImgs.length;}
-  const thumb=document.getElementById('cThumb');if(thumb)thumb.src=heroImgs[idx].src;
-}
+function _heroApply(idx,animate){heroIdx=idx;const box=document.getElementById('heroBox'),track=document.getElementById('heroTrack'),badge=document.getElementById('heroBadge');const W=box.offsetWidth||420;track.classList.toggle('dragging',!animate);track.style.transform='translateX('+ (-idx*W) +'px)';document.querySelectorAll('.hero-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));if(heroImgs.length>1){const lbl=heroImgs[idx].label;badge.textContent=lbl?lbl:(idx+1)+' / '+heroImgs.length;}const thumb=document.getElementById('cThumb');if(thumb)thumb.src=heroImgs[idx].src;}
 function hGoSlide(idx){idx=Math.max(0,Math.min(heroImgs.length-1,idx));_heroApply(idx,true);}
 function hTS(e){hTxStart=e.touches[0].clientX;hTyStart=e.touches[0].clientY;hTxDelta=0;hSwipe=false;hAxisLocked=false;document.getElementById('heroTrack').classList.add('dragging');}
 function hTM(e){if(e.touches.length!==1)return;const dx=e.touches[0].clientX-hTxStart,dy=e.touches[0].clientY-hTyStart;if(!hAxisLocked){if(Math.abs(dx)>6||Math.abs(dy)>6){hAxisLocked=true;hSwipe=Math.abs(dx)>Math.abs(dy);}return;}if(!hSwipe)return;e.preventDefault();hTxDelta=dx;const W=document.getElementById('heroBox').offsetWidth||420,base=-heroIdx*W,edge=(heroIdx===0&&dx>0)||(heroIdx===heroImgs.length-1&&dx<0);document.getElementById('heroTrack').style.transform='translateX('+(base+(edge?dx*0.18:dx))+'px)';}
@@ -803,16 +832,7 @@ function hTE(){if(!hSwipe){_heroApply(heroIdx,true);return;}const W=document.get
 
 /* ─── LIGHTBOX ─── */
 let lbImgs=[],lbIdx=0,LB_MIN=1,LB_MAX=4,lbScale=1,lbTx=0,lbTy=0,lbScaleStart=1,lbTxStart=0,lbTyStart=0,lbPinching=false,lbPinchDist=0,lbPinchMid={x:0,y:0},lbTouches=[],lbSxStart=0,lbSyStart=0,lbSDelta=0,lbSwiping=false,lbAxisLocked=false,lbDyDelta=0,lbZoomTimer=null,_lbLastTap=0;
-function openLightbox(startIdx){
-  lbImgs=heroImgs;lbIdx=startIdx;lbScale=1;lbTx=0;lbTy=0;lbPinching=false;
-  if(!tapHintShown){tapHintShown=true;document.getElementById('heroTapHint').classList.add('hidden');}
-  const lb=document.getElementById('lightbox'),track=document.getElementById('lbTrack'),dots=document.getElementById('lbDots');const W=window.innerWidth,H=window.innerHeight;
-  track.innerHTML='';track.style.width=(W*lbImgs.length)+'px';
-  lbImgs.forEach(img=>{const slide=document.createElement('div');slide.className='lb-slide';slide.style.cssText=`width:${W}px;height:${H}px;`;const zoom=document.createElement('div');zoom.className='lb-zoom';zoom.style.cssText=`width:${W}px;height:${H}px;`;const el=document.createElement('img');el.src=img.src;el.alt=img.label||'';el.onload=()=>el.classList.add('loaded');el.onerror=()=>{el.style.opacity='0.2';};zoom.appendChild(el);slide.appendChild(zoom);track.appendChild(slide);});
-  dots.innerHTML='';if(lbImgs.length>1){lbImgs.forEach((_,i)=>{const d=document.createElement('div');d.className='lb-dot'+(i===lbIdx?' active':'');dots.appendChild(d);});}
-  lb.classList.add('open');_lbApplySlide(lbIdx,false);
-  track.addEventListener('touchstart',lbTouchStart,{passive:false});track.addEventListener('touchmove',lbTouchMove,{passive:false});track.addEventListener('touchend',lbTouchEnd,{passive:true});track.addEventListener('touchcancel',lbTouchEnd,{passive:true});
-}
+function openLightbox(startIdx){lbImgs=heroImgs;lbIdx=startIdx;lbScale=1;lbTx=0;lbTy=0;lbPinching=false;if(!tapHintShown){tapHintShown=true;document.getElementById('heroTapHint').classList.add('hidden');}const lb=document.getElementById('lightbox'),track=document.getElementById('lbTrack'),dots=document.getElementById('lbDots');const W=window.innerWidth,H=window.innerHeight;track.innerHTML='';track.style.width=(W*lbImgs.length)+'px';lbImgs.forEach(img=>{const slide=document.createElement('div');slide.className='lb-slide';slide.style.cssText=`width:${W}px;height:${H}px;`;const zoom=document.createElement('div');zoom.className='lb-zoom';zoom.style.cssText=`width:${W}px;height:${H}px;`;const el=document.createElement('img');el.src=img.src;el.alt=img.label||'';el.onload=()=>el.classList.add('loaded');el.onerror=()=>{el.style.opacity='0.2';};zoom.appendChild(el);slide.appendChild(zoom);track.appendChild(slide);});dots.innerHTML='';if(lbImgs.length>1){lbImgs.forEach((_,i)=>{const d=document.createElement('div');d.className='lb-dot'+(i===lbIdx?' active':'');dots.appendChild(d);});}lb.classList.add('open');_lbApplySlide(lbIdx,false);track.addEventListener('touchstart',lbTouchStart,{passive:false});track.addEventListener('touchmove',lbTouchMove,{passive:false});track.addEventListener('touchend',lbTouchEnd,{passive:true});track.addEventListener('touchcancel',lbTouchEnd,{passive:true});}
 function closeLightbox(){document.getElementById('lightbox').classList.remove('open');_lbResetZoom(false);const track=document.getElementById('lbTrack');const clone=track.cloneNode(true);track.parentNode.replaceChild(clone,track);clone.id='lbTrack';}
 function _lbApplySlide(idx,animate){lbIdx=idx;lbScale=1;lbTx=0;lbTy=0;document.querySelectorAll('#lbTrack .lb-zoom').forEach(el=>{el.style.transform='';el.classList.remove('no-anim');});const W=window.innerWidth,track=document.getElementById('lbTrack');track.classList.toggle('dragging',!animate);track.style.transform=`translateX(${-idx*W}px)`;document.querySelectorAll('.lb-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));const ctr=document.getElementById('lbCounter');if(lbImgs.length>1){const lbl=lbImgs[idx].label;ctr.textContent=lbl?lbl:`${idx+1} / ${lbImgs.length}`;}else{ctr.textContent=lbImgs[0]?.label||'';}document.getElementById('lbZoomBadge').classList.remove('visible');}
 function lbGoSlide(idx){idx=Math.max(0,Math.min(lbImgs.length-1,idx));_lbApplySlide(idx,true);}
@@ -831,27 +851,11 @@ const STORAGE_KEY='lockedCut',HISTORY_KEY='cutHistory';
 
 /* ─── HISTORY ─── */
 function getHistory(){try{return JSON.parse(localStorage.getItem(HISTORY_KEY)||'[]');}catch(e){return[];}}
-function addToHistory(cut,fade,top,type,personName,personDesc){
-  const h=getHistory();
-  h.unshift({id:cut.id,name:cut.name,fade,top,img:getImgs(cut)[0].src,date:new Date().toISOString(),type:type||'freestyle',personName:personName||'',personDesc:personDesc||''});
-  if(h.length>200)h.pop();
-  localStorage.setItem(HISTORY_KEY,JSON.stringify(h));
-}
+function addToHistory(cut,fade,top,type,personName,personDesc){const h=getHistory();h.unshift({id:cut.id,name:cut.name,fade,top,img:getImgs(cut)[0].src,date:new Date().toISOString(),type:type||'freestyle',personName:personName||'',personDesc:personDesc||''});if(h.length>200)h.pop();localStorage.setItem(HISTORY_KEY,JSON.stringify(h));}
 function openHistorySheet(){
   const h=getHistory(),body=document.getElementById('historySheetBody');body.innerHTML='';
   if(!h.length){body.innerHTML='<div class="history-empty">No locks yet. Lock a haircut to start building your history.</div>';}
-  else{
-    h.forEach((item,idx)=>{
-      const row=document.createElement('div');row.className='history-item';
-      const thumb=document.createElement('div');thumb.className='history-thumb';const img=document.createElement('img');img.src=item.img||'';img.onload=()=>img.classList.add('loaded');img.onerror=()=>{img.style.opacity='0.15';};thumb.appendChild(img);
-      const info=document.createElement('div');info.className='history-info';
-      const typePill=item.type&&item.type!=='freestyle'?`<span class="history-type-pill ${item.type}">${item.type}</span>`:'';
-      info.innerHTML='<div class="history-name">'+item.name+typePill+'</div>'+'<div class="history-opts">'+(item.fade||'Mid')+' fade · '+(item.top||'Neat')+' top'+(item.personName?'<br><span>'+item.personName+'</span>':'')+'</div>'+'<div class="history-date">'+formatDate(item.date)+(idx===0?' · <span style="color:var(--text2)">Latest</span>':'')+'</div>';
-      const reopen=document.createElement('div');reopen.className='history-reopen';reopen.textContent='View';reopen.onclick=()=>{closeHistorySheet();fv=item.fade||'Mid';tv=item.top||'Neat';openCut(item.id,true);};
-      row.appendChild(thumb);row.appendChild(info);row.appendChild(reopen);body.appendChild(row);
-    });
-    const btn=document.createElement('button');btn.className='sheet-clear';btn.textContent='Clear history';btn.onclick=()=>{if(confirm('Clear all lock history?')){localStorage.removeItem(HISTORY_KEY);openHistorySheet();}};body.appendChild(btn);
-  }
+  else{h.forEach((item,idx)=>{const row=document.createElement('div');row.className='history-item';const thumb=document.createElement('div');thumb.className='history-thumb';const img=document.createElement('img');img.src=item.img||'';img.onload=()=>img.classList.add('loaded');img.onerror=()=>{img.style.opacity='0.15';};thumb.appendChild(img);const info=document.createElement('div');info.className='history-info';const typePill=item.type&&item.type!=='freestyle'?`<span class="history-type-pill ${item.type}">${item.type}</span>`:'';info.innerHTML='<div class="history-name">'+item.name+typePill+'</div>'+'<div class="history-opts">'+(item.fade||'Mid')+' fade · '+(item.top||'Neat')+' top'+(item.personName?'<br><span>'+item.personName+'</span>':'')+'</div>'+'<div class="history-date">'+formatDate(item.date)+(idx===0?' · <span style="color:var(--text2)">Latest</span>':'')+'</div>';const reopen=document.createElement('div');reopen.className='history-reopen';reopen.textContent='View';reopen.onclick=()=>{closeHistorySheet();fv=item.fade||'Mid';tv=item.top||'Neat';openCut(item.id,true);};row.appendChild(thumb);row.appendChild(info);row.appendChild(reopen);body.appendChild(row);});const btn=document.createElement('button');btn.className='sheet-clear';btn.textContent='Clear history';btn.onclick=()=>{if(confirm('Clear all lock history?')){localStorage.removeItem(HISTORY_KEY);openHistorySheet();}};body.appendChild(btn);}
   document.getElementById('sheetBackdrop').classList.add('open');document.getElementById('historySheet').classList.add('open');
 }
 function closeHistorySheet(){document.getElementById('sheetBackdrop').classList.remove('open');document.getElementById('historySheet').classList.remove('open');}
@@ -860,35 +864,10 @@ function closeHistorySheet(){document.getElementById('sheetBackdrop').classList.
 let _lockType=null;
 function openLockInSheet(){_lockType=null;renderLockStep1();document.getElementById('lockinBackdrop').classList.add('open');document.getElementById('lockinSheet').classList.add('open');document.getElementById('lockinSheet').querySelector('.lockin-sub').textContent='Who is this cut for?';}
 function closeLockInSheet(){document.getElementById('lockinBackdrop').classList.remove('open');document.getElementById('lockinSheet').classList.remove('open');}
-function renderLockStep1(){
-  const body=document.getElementById('lockinBody');body.innerHTML='';
-  const types=[{id:'freestyle',icon:'ti-scissors',label:'Freestyle',desc:'Mannequin or personal practice — no name needed'},{id:'client',icon:'ti-user',label:'Client',desc:'A paying client — record their name'},{id:'model',icon:'ti-star',label:'Model',desc:'A model or shoot subject — record their name'}];
-  const cards=document.createElement('div');cards.className='lockin-type-cards';
-  types.forEach(t=>{const card=document.createElement('div');card.className='lockin-type-card';card.innerHTML=`<div class="lockin-type-icon ${t.id}"><i class="ti ${t.icon}"></i></div><div><div class="lockin-type-label">${t.label}</div><div class="lockin-type-desc">${t.desc}</div></div>`;card.onclick=()=>{_lockType=t.id;if(t.id==='freestyle')renderLockStepFreestyle();else renderLockStepNamed(t.id);};cards.appendChild(card);});
-  body.appendChild(cards);
-}
-function renderLockStepFreestyle(){
-  const body=document.getElementById('lockinBody');body.innerHTML='';document.getElementById('lockinSheet').querySelector('.lockin-sub').textContent='Freestyle — no name required';
-  const form=document.createElement('div');form.className='lockin-form';form.innerHTML=`<div class="lockin-field"><label>Notes (optional)</label><textarea id="liDesc" rows="3" placeholder="Any notes on this cut…"></textarea></div>`;
-  const btn=document.createElement('button');btn.className='lockin-confirm-btn';btn.innerHTML='<i class="ti ti-scissors"></i> Confirm Lock';btn.onclick=()=>{const desc=document.getElementById('liDesc').value.trim();closeLockInSheet();commitLockIn('freestyle','',desc);};form.appendChild(btn);
-  const back=document.createElement('div');back.className='lockin-back-link';back.textContent='← Change type';back.onclick=()=>renderLockStep1();form.appendChild(back);body.appendChild(form);
-}
-function renderLockStepNamed(type){
-  const body=document.getElementById('lockinBody');body.innerHTML='';const label=type==='client'?'Client':'Model';document.getElementById('lockinSheet').querySelector('.lockin-sub').textContent=`${label} — enter their name`;
-  const form=document.createElement('div');form.className='lockin-form';form.innerHTML=`<div class="lockin-field"><label>${label} Name *</label><input id="liName" type="text" placeholder="e.g. ${type==='client'?'James Okafor':'Sofia Martins'}"></div><div class="lockin-field"><label>Notes (optional)</label><textarea id="liDesc" rows="3" placeholder="Any notes on this cut…"></textarea></div>`;
-  const btn=document.createElement('button');btn.className='lockin-confirm-btn';btn.innerHTML=`<i class="ti ti-scissors"></i> Lock in for ${label}`;btn.onclick=()=>{const name=document.getElementById('liName').value.trim();if(!name){document.getElementById('liName').focus();document.getElementById('liName').style.borderColor='#e55';return;}const desc=document.getElementById('liDesc').value.trim();closeLockInSheet();commitLockIn(type,name,desc);};form.appendChild(btn);
-  const back=document.createElement('div');back.className='lockin-back-link';back.textContent='← Change type';back.onclick=()=>renderLockStep1();form.appendChild(back);body.appendChild(form);
-}
-function commitLockIn(type,personName,personDesc){
-  addToHistory(cur,fv,tv,type,personName,personDesc);saveLockedCut(type,personName,personDesc);
-  const fi=getImgs(cur)[0].src;loadImg(document.getElementById('doneImg'),fi,cur.name);
-  document.getElementById('doneCut').textContent=cur.name;document.getElementById('doneOpts').textContent=fv+' fade · '+tv+' top';
-  const badgeEl=document.getElementById('donePersonBadge');
-  if(type==='freestyle'){badgeEl.innerHTML='<div class="done-person-badge freestyle"><i class="ti ti-scissors" style="font-size:12px"></i> Freestyle</div>';}
-  else{const icon=type==='client'?'ti-user':'ti-star';badgeEl.innerHTML=`<div class="done-person-badge ${type}"><i class="ti ${icon}" style="font-size:12px"></i> ${personName||type}</div>`;}
-  document.getElementById('doneNote').textContent=personDesc||'Selection confirmed. Sit back and relax — we\'re getting started.';
-  go('s4');
-}
+function renderLockStep1(){const body=document.getElementById('lockinBody');body.innerHTML='';const types=[{id:'freestyle',icon:'ti-scissors',label:'Freestyle',desc:'Mannequin or personal practice — no name needed'},{id:'client',icon:'ti-user',label:'Client',desc:'A paying client — record their name'},{id:'model',icon:'ti-star',label:'Model',desc:'A model or shoot subject — record their name'}];const cards=document.createElement('div');cards.className='lockin-type-cards';types.forEach(t=>{const card=document.createElement('div');card.className='lockin-type-card';card.innerHTML=`<div class="lockin-type-icon ${t.id}"><i class="ti ${t.icon}"></i></div><div><div class="lockin-type-label">${t.label}</div><div class="lockin-type-desc">${t.desc}</div></div>`;card.onclick=()=>{_lockType=t.id;if(t.id==='freestyle')renderLockStepFreestyle();else renderLockStepNamed(t.id);};cards.appendChild(card);});body.appendChild(cards);}
+function renderLockStepFreestyle(){const body=document.getElementById('lockinBody');body.innerHTML='';document.getElementById('lockinSheet').querySelector('.lockin-sub').textContent='Freestyle — no name required';const form=document.createElement('div');form.className='lockin-form';form.innerHTML=`<div class="lockin-field"><label>Notes (optional)</label><textarea id="liDesc" rows="3" placeholder="Any notes on this cut…"></textarea></div>`;const btn=document.createElement('button');btn.className='lockin-confirm-btn';btn.innerHTML='<i class="ti ti-scissors"></i> Confirm Lock';btn.onclick=()=>{const desc=document.getElementById('liDesc').value.trim();closeLockInSheet();commitLockIn('freestyle','',desc);};form.appendChild(btn);const back=document.createElement('div');back.className='lockin-back-link';back.textContent='← Change type';back.onclick=()=>renderLockStep1();form.appendChild(back);body.appendChild(form);}
+function renderLockStepNamed(type){const body=document.getElementById('lockinBody');body.innerHTML='';const label=type==='client'?'Client':'Model';document.getElementById('lockinSheet').querySelector('.lockin-sub').textContent=`${label} — enter their name`;const form=document.createElement('div');form.className='lockin-form';form.innerHTML=`<div class="lockin-field"><label>${label} Name *</label><input id="liName" type="text" placeholder="e.g. ${type==='client'?'James Okafor':'Sofia Martins'}"></div><div class="lockin-field"><label>Notes (optional)</label><textarea id="liDesc" rows="3" placeholder="Any notes on this cut…"></textarea></div>`;const btn=document.createElement('button');btn.className='lockin-confirm-btn';btn.innerHTML=`<i class="ti ti-scissors"></i> Lock in for ${label}`;btn.onclick=()=>{const name=document.getElementById('liName').value.trim();if(!name){document.getElementById('liName').focus();document.getElementById('liName').style.borderColor='#e55';return;}const desc=document.getElementById('liDesc').value.trim();closeLockInSheet();commitLockIn(type,name,desc);};form.appendChild(btn);const back=document.createElement('div');back.className='lockin-back-link';back.textContent='← Change type';back.onclick=()=>renderLockStep1();form.appendChild(back);body.appendChild(form);}
+function commitLockIn(type,personName,personDesc){addToHistory(cur,fv,tv,type,personName,personDesc);saveLockedCut(type,personName,personDesc);const fi=getImgs(cur)[0].src;loadImg(document.getElementById('doneImg'),fi,cur.name);document.getElementById('doneCut').textContent=cur.name;document.getElementById('doneOpts').textContent=fv+' fade · '+tv+' top';const badgeEl=document.getElementById('donePersonBadge');if(type==='freestyle'){badgeEl.innerHTML='<div class="done-person-badge freestyle"><i class="ti ti-scissors" style="font-size:12px"></i> Freestyle</div>';}else{const icon=type==='client'?'ti-user':'ti-star';badgeEl.innerHTML=`<div class="done-person-badge ${type}"><i class="ti ${icon}" style="font-size:12px"></i> ${personName||type}</div>`;}document.getElementById('doneNote').textContent=personDesc||'Selection confirmed. Sit back and relax — we\'re getting started.';go('s4');}
 
 /* ─── COMPARE ─── */
 let compareA=null,compareB=null,pickerTarget=null;
@@ -917,34 +896,14 @@ function handleSwipeInPeopleScreen(){const ps=document.getElementById('s5');if(!
 
 /* ─── PEOPLE ─── */
 function loadPeopleScreen(){loadSavedCut();if(activeSeg==='clients')loadPersonList('client');else if(activeSeg==='models')loadPersonList('model');}
-function loadPersonList(type,query=''){
-  const listId=type==='client'?'clientList':'modelList';const listEl=document.getElementById(listId);listEl.innerHTML='';
-  const h=getHistory(),byPerson={};
-  h.forEach(item=>{if(item.type!==type||!item.personName)return;const key=item.personName.trim().toLowerCase();if(!byPerson[key]){byPerson[key]={name:item.personName,latest:item,count:0,img:item.img};}byPerson[key].count++;if(new Date(item.date)>new Date(byPerson[key].latest.date)){byPerson[key].latest=item;byPerson[key].img=item.img;}});
-  let people=Object.values(byPerson);if(query.trim()){const q=query.trim().toLowerCase();people=people.filter(p=>p.name.toLowerCase().includes(q));}
-  if(!people.length){const empty=document.createElement('div');empty.className='people-empty';empty.textContent=query.trim()?`No ${type==='client'?'clients':'models'} found matching "${query}".`:type==='client'?'No clients yet. Lock a cut and select "Client" to add one.':'No models yet. Lock a cut and select "Model" to add one.';listEl.appendChild(empty);return;}
-  people.sort((a,b)=>new Date(b.latest.date)-new Date(a.latest.date));
-  people.forEach(p=>{const row=document.createElement('div');row.className='person-row';const av=document.createElement('div');av.className='person-avatar';if(p.img){const img=document.createElement('img');img.src=p.img;img.onload=()=>img.classList.add('loaded');img.onerror=()=>{av.innerHTML=`<span class="person-avatar-initials">${initials(p.name)}</span>`;};av.appendChild(img);}else{av.innerHTML=`<span class="person-avatar-initials">${initials(p.name)}</span>`;}const info=document.createElement('div');info.className='person-info';info.innerHTML=`<div class="person-name">${p.name}</div><div class="person-meta">${p.count} cut${p.count!==1?'s':''} · Last: ${formatDate(p.latest.date).split(' · ')[0]}</div>`;const arrow=document.createElement('i');arrow.className='ti ti-chevron-right person-arrow';row.appendChild(av);row.appendChild(info);row.appendChild(arrow);row.onclick=()=>openPersonDetail(p.name,type);listEl.appendChild(row);});
-}
+function loadPersonList(type,query=''){const listId=type==='client'?'clientList':'modelList';const listEl=document.getElementById(listId);listEl.innerHTML='';const h=getHistory(),byPerson={};h.forEach(item=>{if(item.type!==type||!item.personName)return;const key=item.personName.trim().toLowerCase();if(!byPerson[key]){byPerson[key]={name:item.personName,latest:item,count:0,img:item.img};}byPerson[key].count++;if(new Date(item.date)>new Date(byPerson[key].latest.date)){byPerson[key].latest=item;byPerson[key].img=item.img;}});let people=Object.values(byPerson);if(query.trim()){const q=query.trim().toLowerCase();people=people.filter(p=>p.name.toLowerCase().includes(q));}if(!people.length){const empty=document.createElement('div');empty.className='people-empty';empty.textContent=query.trim()?`No ${type==='client'?'clients':'models'} found matching "${query}".`:type==='client'?'No clients yet. Lock a cut and select "Client" to add one.':'No models yet. Lock a cut and select "Model" to add one.';listEl.appendChild(empty);return;}people.sort((a,b)=>new Date(b.latest.date)-new Date(a.latest.date));people.forEach(p=>{const row=document.createElement('div');row.className='person-row';const av=document.createElement('div');av.className='person-avatar';if(p.img){const img=document.createElement('img');img.src=p.img;img.onload=()=>img.classList.add('loaded');img.onerror=()=>{av.innerHTML=`<span class="person-avatar-initials">${initials(p.name)}</span>`;};av.appendChild(img);}else{av.innerHTML=`<span class="person-avatar-initials">${initials(p.name)}</span>`;}const info=document.createElement('div');info.className='person-info';info.innerHTML=`<div class="person-name">${p.name}</div><div class="person-meta">${p.count} cut${p.count!==1?'s':''} · Last: ${formatDate(p.latest.date).split(' · ')[0]}</div>`;const arrow=document.createElement('i');arrow.className='ti ti-chevron-right person-arrow';row.appendChild(av);row.appendChild(info);row.appendChild(arrow);row.onclick=()=>openPersonDetail(p.name,type);listEl.appendChild(row);});}
 function filterPersonList(type){const searchId=type==='client'?'clientSearch':'modelSearch';loadPersonList(type,document.getElementById(searchId).value);}
-function openPersonDetail(name,type){
-  const h=getHistory();const cuts_=h.filter(item=>item.type===type&&item.personName&&item.personName.trim().toLowerCase()===name.trim().toLowerCase());
-  document.getElementById('personDetailTitle').textContent=name;const typeEl=document.getElementById('personDetailType');typeEl.textContent=type.charAt(0).toUpperCase()+type.slice(1);typeEl.className='person-detail-type '+type;
-  const bodyEl=document.getElementById('personDetailBody');bodyEl.innerHTML='';
-  if(!cuts_.length){bodyEl.innerHTML='<div class="person-detail-empty">No cuts found for this person.</div>';}
-  else{cuts_.forEach(item=>{const card=document.createElement('div');card.className='person-cut-card';card.onclick=()=>{fv=item.fade||'Mid';tv=item.top||'Neat';openCut(item.id,true);closePersonDetail();};const img=document.createElement('img');img.className='person-cut-thumb';img.src=item.img||'';img.alt=item.name;img.onload=()=>img.classList.add('loaded');img.onerror=()=>{img.style.opacity='0.1';};const info=document.createElement('div');info.className='person-cut-info';info.innerHTML=`<div class="person-cut-name">${item.name}</div><div class="person-cut-opts">${item.fade||'Mid'} fade · ${item.top||'Neat'} top</div>${item.personDesc?`<div class="person-cut-desc">${item.personDesc}</div>`:''}<div class="person-cut-date">${formatDate(item.date)}</div>`;card.appendChild(img);card.appendChild(info);bodyEl.appendChild(card);});}
-  document.getElementById('personDetailSheet').classList.add('open');
-}
+function openPersonDetail(name,type){const h=getHistory();const cuts_=h.filter(item=>item.type===type&&item.personName&&item.personName.trim().toLowerCase()===name.trim().toLowerCase());document.getElementById('personDetailTitle').textContent=name;const typeEl=document.getElementById('personDetailType');typeEl.textContent=type.charAt(0).toUpperCase()+type.slice(1);typeEl.className='person-detail-type '+type;const bodyEl=document.getElementById('personDetailBody');bodyEl.innerHTML='';if(!cuts_.length){bodyEl.innerHTML='<div class="person-detail-empty">No cuts found for this person.</div>';}else{cuts_.forEach(item=>{const card=document.createElement('div');card.className='person-cut-card';card.onclick=()=>{fv=item.fade||'Mid';tv=item.top||'Neat';openCut(item.id,true);closePersonDetail();};const img=document.createElement('img');img.className='person-cut-thumb';img.src=item.img||'';img.alt=item.name;img.onload=()=>img.classList.add('loaded');img.onerror=()=>{img.style.opacity='0.1';};const info=document.createElement('div');info.className='person-cut-info';info.innerHTML=`<div class="person-cut-name">${item.name}</div><div class="person-cut-opts">${item.fade||'Mid'} fade · ${item.top||'Neat'} top</div>${item.personDesc?`<div class="person-cut-desc">${item.personDesc}</div>`:''}<div class="person-cut-date">${formatDate(item.date)}</div>`;card.appendChild(img);card.appendChild(info);bodyEl.appendChild(card);});}document.getElementById('personDetailSheet').classList.add('open');}
 function closePersonDetail(){document.getElementById('personDetailSheet').classList.remove('open');}
 
 /* ─── SAVED CUT ─── */
 function saveLockedCut(type,personName,personDesc){if(!cur)return;localStorage.setItem(STORAGE_KEY,JSON.stringify({id:cur.id,fv,tv,type:type||'freestyle',personName:personName||'',personDesc:personDesc||''}));}
-function loadSavedCut(){
-  const raw=localStorage.getItem(STORAGE_KEY),emptyEl=document.getElementById('savedEmpty'),cardEl=document.getElementById('savedCard');
-  if(!raw){emptyEl.style.display='block';cardEl.style.display='none';return;}
-  try{const saved=JSON.parse(raw),cut=cuts.find(c=>c.id===saved.id);if(!cut){emptyEl.style.display='block';cardEl.style.display='none';return;}emptyEl.style.display='none';cardEl.style.display='block';loadImg(document.getElementById('savedImg'),getImgs(cut)[0].src,cut.name);document.getElementById('savedName').textContent=cut.name;const typeLabel=saved.type&&saved.type!=='freestyle'?` · ${saved.type.charAt(0).toUpperCase()+saved.type.slice(1)}${saved.personName?' ('+saved.personName+')':''}`:'';;document.getElementById('savedOpts').textContent=(saved.fv||'Mid')+' fade · '+(saved.tv||'Neat')+' top'+typeLabel;document.getElementById('savedDesc').textContent=saved.personDesc||cut.desc;cur=cut;}
-  catch(e){emptyEl.style.display='block';cardEl.style.display='none';}
-}
+function loadSavedCut(){const raw=localStorage.getItem(STORAGE_KEY),emptyEl=document.getElementById('savedEmpty'),cardEl=document.getElementById('savedCard');if(!raw){emptyEl.style.display='block';cardEl.style.display='none';return;}try{const saved=JSON.parse(raw),cut=cuts.find(c=>c.id===saved.id);if(!cut){emptyEl.style.display='block';cardEl.style.display='none';return;}emptyEl.style.display='none';cardEl.style.display='block';loadImg(document.getElementById('savedImg'),getImgs(cut)[0].src,cut.name);document.getElementById('savedName').textContent=cut.name;const typeLabel=saved.type&&saved.type!=='freestyle'?` · ${saved.type.charAt(0).toUpperCase()+saved.type.slice(1)}${saved.personName?' ('+saved.personName+')':''}`:'';;document.getElementById('savedOpts').textContent=(saved.fv||'Mid')+' fade · '+(saved.tv||'Neat')+' top'+typeLabel;document.getElementById('savedDesc').textContent=saved.personDesc||cut.desc;cur=cut;}catch(e){emptyEl.style.display='block';cardEl.style.display='none';}}
 function openSavedCut(){const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return;try{const s=JSON.parse(raw);fv=s.fv||'Mid';tv=s.tv||'Neat';openCut(s.id,true);}catch(e){}}
 
 /* ─── SEARCH ─── */
@@ -963,9 +922,24 @@ function updateConfirm(){document.getElementById('cOpts').textContent=fv+' fade 
 function shareCutToWhatsApp(){if(!cur)return;const fi=getImgs(cur)[0].src;const text='Check out this haircut: '+cur.name+'\n'+cur.desc+'\n'+window.location.origin+window.location.pathname+'\nImage: '+new URL(fi,window.location.href).href;window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');}
 function restoreLockedCut(){const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return;try{const s=JSON.parse(raw),cut=cuts.find(c=>c.id===s.id);if(!cut)return;cur=cut;fv=s.fv||'Mid';tv=s.tv||'Neat';}catch(e){}}
 
-/* ─── METRICS ─── */
+/* ════════════════════════════════════════════
+   METRICS — neutral monochrome system
+   Bars use white→gray opacity descending order
+   Donut uses segmented white/gray strokes
+   No rainbow palette anywhere
+   ════════════════════════════════════════════ */
 const HAIR_TYPES_MAP={1:'straight',2:'straight',4:'curly',5:'straight',6:'straight',7:'textured',8:'straight',9:'straight',10:'straight',11:'textured',12:'wavy',13:'textured',14:'straight',15:'straight',16:'straight',17:'straight',18:'textured',19:'straight',20:'straight',21:'straight',22:'straight',23:'straight',24:'wavy',25:'wavy',26:'curly',27:'curly',28:'straight'};
 const MONTH_SHORT=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+// Neutral color scale — dark theme: white→gray; light theme handled via CSS vars
+const NEUTRAL_BARS=['var(--m-bar-primary)','var(--m-bar-secondary)','var(--m-bar-tertiary)','var(--m-bar-quaternary)','var(--m-bar-quaternary)'];
+// Donut strokes — four neutral shades
+const DONUT_STROKES=['rgba(240,240,240,0.9)','rgba(240,240,240,0.55)','rgba(240,240,240,0.28)','rgba(240,240,240,0.13)'];
+// Stacked bar — client solid, model hatched-feel (50% opacity), freestyle dim
+const STACK_CLIENT='var(--m-client)';
+const STACK_MODEL='var(--m-model)';
+const STACK_FREESTYLE='var(--m-freestyle)';
+
 function getLast6Months(){const now=new Date(),m=[];for(let i=5;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1);m.push({key:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`,label:MONTH_SHORT[d.getMonth()],full:d.toLocaleDateString('en-GB',{month:'long',year:'numeric'})});}return m;}
 function itemMonthKey(item){const d=new Date(item.date);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;}
 
@@ -977,74 +951,117 @@ function renderMetricsScreen(){
   const clientsH=h.filter(x=>x.type==='client'),modelsH=h.filter(x=>x.type==='model'),named=[...clientsH,...modelsH];
   const uniqueNames=new Set(named.filter(x=>x.personName).map(x=>x.personName.trim().toLowerCase()));
 
+  // ── SUMMARY CARDS
   body.innerHTML+=`<div class="stat-grid">
-    <div class="stat-card"><div class="stat-icon si-blue"><i class="ti ti-scissors"></i></div><div class="stat-label">Total locks</div><div class="stat-value anim-stat" data-target="${h.length}">0</div><div class="stat-sub">all time</div></div>
-    <div class="stat-card"><div class="stat-icon si-purple"><i class="ti ti-users"></i></div><div class="stat-label">Unique people</div><div class="stat-value anim-stat" data-target="${uniqueNames.size}">0</div><div class="stat-sub">clients & models</div></div>
-    <div class="stat-card"><div class="stat-icon si-green"><i class="ti ti-user"></i></div><div class="stat-label">Clients</div><div class="stat-value anim-stat" data-target="${clientsH.length}">0</div><div class="stat-sub">named sessions</div></div>
-    <div class="stat-card"><div class="stat-icon si-amber"><i class="ti ti-star"></i></div><div class="stat-label">Models</div><div class="stat-value anim-stat" data-target="${modelsH.length}">0</div><div class="stat-sub">named sessions</div></div>
+    <div class="stat-card"><div class="stat-icon"><i class="ti ti-scissors"></i></div><div class="stat-label">Total locks</div><div class="stat-value anim-stat" data-target="${h.length}">0</div><div class="stat-sub">all time</div></div>
+    <div class="stat-card"><div class="stat-icon"><i class="ti ti-users"></i></div><div class="stat-label">Unique people</div><div class="stat-value anim-stat" data-target="${uniqueNames.size}">0</div><div class="stat-sub">clients &amp; models</div></div>
+    <div class="stat-card"><div class="stat-icon"><i class="ti ti-user"></i></div><div class="stat-label">Clients</div><div class="stat-value anim-stat" data-target="${clientsH.length}">0</div><div class="stat-sub">named sessions</div></div>
+    <div class="stat-card"><div class="stat-icon"><i class="ti ti-star"></i></div><div class="stat-label">Models</div><div class="stat-value anim-stat" data-target="${modelsH.length}">0</div><div class="stat-sub">named sessions</div></div>
   </div>`;
 
-  // Most locked cut — tappable → drill: cut popularity
+  // ── MOST LOCKED CUT
   const lockCount={};h.forEach(x=>{lockCount[x.name]=(lockCount[x.name]||0)+1;});
   const sortedCuts=Object.entries(lockCount).sort((a,b)=>b[1]-a[1]).slice(0,5);
   const maxLock=sortedCuts[0]?sortedCuts[0][1]:1;
-  const lockColors=['#ef9f27','#4a9eff','#1d9e75','#c97aff','#5dbb8a'];
-  body.innerHTML+=`<div class="m-section-header"><i class="ti ti-trophy" style="font-size:14px;color:#ef9f27"></i><div class="m-section-title">Most locked cut</div></div>
+  body.innerHTML+=`<div class="m-section-header"><i class="ti ti-trophy" style="font-size:13px;color:var(--text3)"></i><div class="m-section-title">Most locked cut</div></div>
   <div class="m-chart-card tappable" onclick="openDrill('top-cuts')" style="margin-bottom:14px;">
-    ${sortedCuts.length?sortedCuts.map(([name,count],i)=>`<div class="m-bar-row"><div style="width:14px;font-size:10px;font-weight:700;color:${i===0?'#ef9f27':'var(--text3)'};flex-shrink:0;">${i+1}</div><div class="m-bar-label">${name}</div><div class="m-bar-track"><div class="m-bar-fill" data-width="${Math.round(count/maxLock*100)}%" style="width:0;background:${lockColors[i]};"></div></div><div class="m-bar-count" data-count="${count}">0</div></div>`).join(''):'<div class="m-empty"><i class="ti ti-trophy"></i><p>No locks yet</p></div>'}
-    <div class="m-tap-hint"><i class="ti ti-arrow-right"></i> Tap to see full ranking</div>
+    ${sortedCuts.length?sortedCuts.map(([name,count],i)=>`
+    <div class="m-bar-row">
+      <div class="m-rank-num" style="${i===0?'color:var(--text)':'color:var(--text3)'}">${i+1}</div>
+      <div class="m-bar-label">${name}</div>
+      <div class="m-bar-track"><div class="m-bar-fill" data-width="${Math.round(count/maxLock*100)}%" style="width:0;background:${NEUTRAL_BARS[i]};"></div></div>
+      <div class="m-bar-count" data-count="${count}">0</div>
+    </div>`).join(''):'<div class="m-empty"><i class="ti ti-trophy"></i><p>No locks yet</p></div>'}
+    <div class="m-tap-hint"><i class="ti ti-arrow-right"></i> See full ranking</div>
   </div>`;
 
-  // Haircut types donut — tappable → drill: cuts by hair type
+  // ── HAIRCUT TYPES DONUT
   const typeCount={straight:0,curly:0,wavy:0,textured:0};h.forEach(x=>{const t=HAIR_TYPES_MAP[x.id];if(t&&typeCount[t]!==undefined)typeCount[t]++;});
   const typeTotal=Object.values(typeCount).reduce((a,b)=>a+b,0)||1;
-  const typeColors={straight:'#4a9eff',curly:'#5dbb8a',wavy:'#c97aff',textured:'#ef9f27'};
   const typeLabels={straight:'Straight',curly:'Curly',wavy:'Wavy',textured:'Textured'};
   const typeEntries=Object.entries(typeCount).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);
   const R=28,cx=40,cy=40,circ=2*Math.PI*R;let offset=0;
-  const segments=typeEntries.map(([type,count])=>{const pct=count/typeTotal,dash=pct*circ,gap=circ-dash,fo=(-offset*circ+circ/4).toFixed(2);const seg=`<circle class="anim-donut" cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${typeColors[type]}" stroke-width="10" stroke-dasharray="${dash.toFixed(2)} ${gap.toFixed(2)}" stroke-dashoffset="${circ.toFixed(2)}" data-final-offset="${fo}" transform="rotate(-90 ${cx} ${cy})"/>`;offset+=pct;return seg;}).join('');
-  body.innerHTML+=`<div class="m-section-header"><i class="ti ti-chart-bar" style="font-size:14px;color:#4a9eff"></i><div class="m-section-title">Most selected haircut types</div></div>
+  const segments=typeEntries.map(([type,count],i)=>{
+    const pct=count/typeTotal,dash=pct*circ,gap=circ-dash,fo=(-offset*circ+circ/4).toFixed(2);
+    const strokeColor=DONUT_STROKES[i]||DONUT_STROKES[DONUT_STROKES.length-1];
+    const seg=`<circle class="anim-donut" cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${strokeColor}" stroke-width="10" stroke-dasharray="${dash.toFixed(2)} ${gap.toFixed(2)}" stroke-dashoffset="${circ.toFixed(2)}" data-final-offset="${fo}" transform="rotate(-90 ${cx} ${cy})"/>`;
+    offset+=pct;return seg;
+  }).join('');
+  body.innerHTML+=`<div class="m-section-header"><i class="ti ti-chart-donut" style="font-size:13px;color:var(--text3)"></i><div class="m-section-title">Most selected haircut types</div></div>
   <div class="m-chart-card tappable" onclick="openDrill('hair-types')" style="margin-bottom:14px;">
-    <div class="m-donut-wrap"><svg class="m-donut-svg" viewBox="0 0 80 80"><circle cx="40" cy="40" r="28" fill="none" stroke="var(--bg3)" stroke-width="10"/>${segments}</svg>
-    <div class="m-donut-legend">${typeEntries.map(([type,count])=>`<div class="m-donut-leg-row"><div class="m-donut-leg-dot" style="background:${typeColors[type]}"></div><div class="m-donut-leg-label">${typeLabels[type]}</div><div class="m-donut-leg-val">${Math.round(count/typeTotal*100)}%</div></div>`).join('')||'<div style="font-size:12px;color:var(--text3)">No data yet</div>'}</div></div>
-    <div class="m-tap-hint"><i class="ti ti-arrow-right"></i> Tap to see sessions by type</div>
+    <div class="m-donut-wrap">
+      <svg class="m-donut-svg" viewBox="0 0 80 80">
+        <circle cx="40" cy="40" r="28" fill="none" stroke="var(--bg3)" stroke-width="10"/>
+        ${segments}
+      </svg>
+      <div class="m-donut-legend">
+        ${typeEntries.map(([type,count],i)=>`<div class="m-donut-leg-row"><div class="m-donut-leg-dot" style="background:${DONUT_STROKES[i]||DONUT_STROKES[DONUT_STROKES.length-1]}"></div><div class="m-donut-leg-label">${typeLabels[type]}</div><div class="m-donut-leg-val">${Math.round(count/typeTotal*100)}%</div></div>`).join('')||'<div style="font-size:12px;color:var(--text3)">No data yet</div>'}
+      </div>
+    </div>
+    <div class="m-tap-hint"><i class="ti ti-arrow-right"></i> See sessions by type</div>
   </div>`;
 
-  // Trend sparkline — tappable → drill: monthly sessions
+  // ── TREND SPARKLINE
   const trendData=months.map(m=>h.filter(x=>itemMonthKey(x)===m.key).length);
   const maxT=Math.max(...trendData,1);const W=290,H=70;
   const pts=trendData.map((v,i)=>`${Math.round(i*(W/(trendData.length-1||1)))},${Math.round(H-v/maxT*H)}`);
   const areaPath=`M${pts.join('L')} L${W},${H} L0,${H} Z`;
-  body.innerHTML+=`<div class="m-section-header"><i class="ti ti-trending-up" style="font-size:14px;color:#5dbb8a"></i><div class="m-section-title">Lock trend over time</div><span class="m-section-chip">last 6 months</span></div>
+  body.innerHTML+=`<div class="m-section-header"><i class="ti ti-trending-up" style="font-size:13px;color:var(--text3)"></i><div class="m-section-title">Lock trend over time</div><span class="m-section-chip">last 6 months</span></div>
   <div class="m-chart-card tappable" onclick="openDrill('trend')" style="margin-bottom:14px;">
-    <svg viewBox="0 0 ${W} 80" style="width:100%;height:80px;"><defs><linearGradient id="mtg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#5dbb8a" stop-opacity="0.22"/><stop offset="100%" stop-color="#5dbb8a" stop-opacity="0"/></linearGradient></defs>
-    <path d="M${pts.join('L')}" fill="none" stroke="#5dbb8a" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
-    <path d="${areaPath}" fill="url(#mtg)"/>
-    ${trendData.map((v,i)=>`<circle cx="${Math.round(i*(W/(trendData.length-1||1)))}" cy="${Math.round(H-v/maxT*H)}" r="3.5" fill="#5dbb8a"/><text x="${Math.round(i*(W/(trendData.length-1||1)))}" y="${Math.round(H-v/maxT*H)-7}" text-anchor="middle" font-size="9" fill="#5dbb8a">${v||''}</text>`).join('')}</svg>
-    <div style="display:flex;gap:4px;margin-top:4px;">${months.map(m=>`<div style="flex:1;text-align:center;font-size:9px;color:var(--text3);">${m.label}</div>`).join('')}</div>
-    <div class="m-tap-hint"><i class="ti ti-arrow-right"></i> Tap to see sessions by month</div>
+    <svg viewBox="0 0 ${W} 80" style="width:100%;height:80px;">
+      <defs>
+        <linearGradient id="mtg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="var(--text)" stop-opacity="0.18"/>
+          <stop offset="100%" stop-color="var(--text)" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <path d="M${pts.join('L')}" fill="none" stroke="var(--text2)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="${areaPath}" fill="url(#mtg)"/>
+      ${trendData.map((v,i)=>`<circle cx="${Math.round(i*(W/(trendData.length-1||1)))}" cy="${Math.round(H-v/maxT*H)}" r="3" fill="var(--text)"/><text x="${Math.round(i*(W/(trendData.length-1||1)))}" y="${Math.round(H-v/maxT*H)-8}" text-anchor="middle" font-size="9" fill="var(--text2)">${v||''}</text>`).join('')}
+    </svg>
+    <div style="display:flex;gap:4px;margin-top:6px;">${months.map(m=>`<div style="flex:1;text-align:center;font-size:9px;color:var(--text3);">${m.label}</div>`).join('')}</div>
+    <div class="m-tap-hint"><i class="ti ti-arrow-right"></i> See sessions by month</div>
   </div>`;
 
-  // Stacked bar — tappable → drill: by session type per month
+  // ── LOCKS PER MONTH BY TYPE (stacked)
   const typeMonthData=months.map(m=>({label:m.label,key:m.key,client:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='client').length,model:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='model').length,freestyle:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='freestyle').length}));
   const maxStack=Math.max(...typeMonthData.map(m=>m.client+m.model+m.freestyle),1);
-  body.innerHTML+=`<div class="m-section-header"><i class="ti ti-calendar-plus" style="font-size:14px;color:#c97aff"></i><div class="m-section-title">Locks per month by type</div></div>
+  body.innerHTML+=`<div class="m-section-header"><i class="ti ti-calendar-plus" style="font-size:13px;color:var(--text3)"></i><div class="m-section-title">Locks per month by type</div></div>
   <div class="m-chart-card tappable" onclick="openDrill('by-type-month')" style="margin-bottom:14px;">
-    <div class="m-pill-legend"><div class="m-pill-item"><div class="m-pill-dot" style="background:#4a9eff"></div>Client</div><div class="m-pill-item"><div class="m-pill-dot" style="background:#c97aff"></div>Model</div><div class="m-pill-item"><div class="m-pill-dot" style="background:#5dbb8a"></div>Freestyle</div></div>
-    <div style="display:flex;gap:6px;align-items:flex-end;height:60px;margin-bottom:4px;">${typeMonthData.map(m=>{const cH=Math.round(m.client/maxStack*60),mH=Math.round(m.model/maxStack*60),fH=Math.round(m.freestyle/maxStack*60);return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;">${m.client?`<div style="width:100%;height:${cH}px;background:#4a9eff;border-radius:2px 2px 0 0;"></div>`:''  }${m.model?`<div style="width:100%;height:${mH}px;background:#c97aff;"></div>`:''  }${m.freestyle?`<div style="width:100%;height:${fH}px;background:#5dbb8a;${!m.client&&!m.model?'border-radius:2px 2px 0 0':''}"></div>`:''  }${!m.client&&!m.model&&!m.freestyle?`<div style="width:100%;height:3px;background:var(--bg3);border-radius:2px;margin-top:auto;"></div>`:''  }</div>`;}).join('')}</div>
+    <div class="m-pill-legend">
+      <div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_CLIENT}"></div>Client</div>
+      <div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_MODEL}"></div>Model</div>
+      <div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_FREESTYLE}"></div>Freestyle</div>
+    </div>
+    <div style="display:flex;gap:6px;align-items:flex-end;height:60px;margin-bottom:4px;">
+      ${typeMonthData.map(m=>{const cH=Math.round(m.client/maxStack*60),mH=Math.round(m.model/maxStack*60),fH=Math.round(m.freestyle/maxStack*60);return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;">
+        ${m.client?`<div class="m-stack-fill" data-height="${cH}" style="width:100%;height:0;background:${STACK_CLIENT};border-radius:2px 2px 0 0;"></div>`:''}
+        ${m.model?`<div class="m-stack-fill" data-height="${mH}" style="width:100%;height:0;background:${STACK_MODEL};"></div>`:''}
+        ${m.freestyle?`<div class="m-stack-fill" data-height="${fH}" style="width:100%;height:0;background:${STACK_FREESTYLE};${!m.client&&!m.model?'border-radius:2px 2px 0 0':''}"></div>`:''}
+        ${!m.client&&!m.model&&!m.freestyle?`<div style="width:100%;height:3px;background:var(--bg3);border-radius:2px;margin-top:auto;"></div>`:''}
+      </div>`;}).join('')}
+    </div>
     <div style="display:flex;gap:6px;">${typeMonthData.map(m=>`<div style="flex:1;text-align:center;font-size:9px;color:var(--text3);">${m.label}</div>`).join('')}</div>
-    <div class="m-tap-hint"><i class="ti ti-arrow-right"></i> Tap to see breakdown</div>
+    <div class="m-tap-hint"><i class="ti ti-arrow-right"></i> See breakdown</div>
   </div>`;
 
-  // Client & model per month — tappable → drill: client vs model monthly
+  // ── CLIENT & MODEL PER MONTH
   const cmData=months.map(m=>({label:m.label,key:m.key,client:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='client').length,model:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='model').length}));
   const maxCM=Math.max(...cmData.map(m=>Math.max(m.client,m.model)),1);
-  body.innerHTML+=`<div class="m-section-header"><i class="ti ti-photo" style="font-size:14px;color:#c97aff"></i><div class="m-section-title">Client & model cuts per month</div></div>
+  body.innerHTML+=`<div class="m-section-header"><i class="ti ti-photo" style="font-size:13px;color:var(--text3)"></i><div class="m-section-title">Client &amp; model cuts per month</div></div>
   <div class="m-chart-card tappable" onclick="openDrill('client-model-month')" style="margin-bottom:32px;">
-    <div class="m-pill-legend"><div class="m-pill-item"><div class="m-pill-dot" style="background:#4a9eff"></div>Client</div><div class="m-pill-item"><div class="m-pill-dot" style="background:#c97aff"></div>Model</div></div>
-    <div style="display:flex;gap:4px;align-items:flex-end;height:60px;margin-bottom:4px;">${cmData.map(m=>`<div style="flex:1;display:flex;gap:2px;align-items:flex-end;"><div class="m-stack-fill" data-height="${Math.max(2,Math.round(m.client/maxCM*60))}" style="flex:1;height:0;background:#4a9eff;border-radius:3px 3px 0 0;"></div><div class="m-stack-fill" data-height="${Math.max(2,Math.round(m.model/maxCM*60))}" style="flex:1;height:0;background:#c97aff;border-radius:3px 3px 0 0;"></div></div>`).join('')}</div>
+    <div class="m-pill-legend">
+      <div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_CLIENT}"></div>Client</div>
+      <div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_MODEL}"></div>Model</div>
+    </div>
+    <div style="display:flex;gap:4px;align-items:flex-end;height:60px;margin-bottom:4px;">
+      ${cmData.map(m=>`<div style="flex:1;display:flex;gap:2px;align-items:flex-end;">
+        <div class="m-stack-fill" data-height="${Math.max(2,Math.round(m.client/maxCM*60))}" style="flex:1;height:0;background:${STACK_CLIENT};border-radius:3px 3px 0 0;"></div>
+        <div class="m-stack-fill" data-height="${Math.max(2,Math.round(m.model/maxCM*60))}" style="flex:1;height:0;background:${STACK_MODEL};border-radius:3px 3px 0 0;"></div>
+      </div>`).join('')}
+    </div>
     <div style="display:flex;gap:4px;">${cmData.map(m=>`<div style="flex:1;text-align:center;font-size:9px;color:var(--text3);">${m.label}</div>`).join('')}</div>
-    <div class="m-tap-hint"><i class="ti ti-arrow-right"></i> Tap to see sessions</div>
+    <div class="m-tap-hint"><i class="ti ti-arrow-right"></i> See sessions</div>
   </div>`;
 
   requestAnimationFrame(()=>animateMetricsScreen());
@@ -1062,148 +1079,73 @@ function animateMetricsScreen(){
 /* ─── DRILL-DOWN (s10) ─── */
 function openDrill(type){
   document.getElementById('drillBackBtn').onclick=()=>go('s9');
-  const h=getHistory();
-  const months=getLast6Months();
-  const body=document.getElementById('drillBody');
-  body.innerHTML='';
+  const h=getHistory(),months=getLast6Months();
+  const body=document.getElementById('drillBody');body.innerHTML='';
 
   if(type==='trend'){
     document.getElementById('drillTitle').textContent='Monthly Sessions';
-    // Group all sessions by month
-    const grouped={};
-    h.forEach(item=>{const mk=itemMonthKey(item);if(!grouped[mk])grouped[mk]=[];grouped[mk].push(item);});
-    // Show all months that have data, sorted newest first
+    const grouped={};h.forEach(item=>{const mk=itemMonthKey(item);if(!grouped[mk])grouped[mk]=[];grouped[mk].push(item);});
     const allMonthKeys=Object.keys(grouped).sort((a,b)=>b.localeCompare(a));
     if(!allMonthKeys.length){body.innerHTML='<div class="drill-empty"><i class="ti ti-calendar" style="font-size:28px;color:var(--text3)"></i><p>No sessions recorded yet.</p></div>';go('s10');return;}
-    // Summary
     const total=h.length;const thisMonth=grouped[months[months.length-1].key]||[];
     body.innerHTML+=`<div class="drill-summary"><div class="drill-stat"><div class="drill-stat-label">All time</div><div class="drill-stat-value">${total}</div><div class="drill-stat-sub">total locks</div></div><div class="drill-stat"><div class="drill-stat-label">This month</div><div class="drill-stat-value">${thisMonth.length}</div><div class="drill-stat-sub">sessions</div></div></div>`;
-    allMonthKeys.forEach(mk=>{
-      const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
-      body.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length} session${items.length!==1?'s':''}</div></div>`;
-      const section=document.createElement('div');
-      items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));
-      body.appendChild(section);
-    });
+    allMonthKeys.forEach(mk=>{const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});body.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length} session${items.length!==1?'s':''}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));body.appendChild(section);});
   }
-
   else if(type==='by-type-month'){
     document.getElementById('drillTitle').textContent='Breakdown by Type';
-    const typeColors={client:'#4a9eff',model:'#c97aff',freestyle:'#5dbb8a'};
-    const typeLabels={client:'Client',model:'Model',freestyle:'Freestyle'};
-    // Per month per type rows
     const summary={client:h.filter(x=>x.type==='client').length,model:h.filter(x=>x.type==='model').length,freestyle:h.filter(x=>x.type==='freestyle').length};
-    body.innerHTML+=`<div class="drill-summary"><div class="drill-stat"><div class="drill-stat-label">Clients</div><div class="drill-stat-value" style="color:#4a9eff">${summary.client}</div></div><div class="drill-stat"><div class="drill-stat-label">Models</div><div class="drill-stat-value" style="color:#c97aff">${summary.model}</div></div><div class="drill-stat"><div class="drill-stat-label">Freestyle</div><div class="drill-stat-value" style="color:#5dbb8a">${summary.freestyle}</div></div></div>`;
-    // Tappable type rows → show all sessions for that type
-    ['client','model','freestyle'].forEach(t=>{
-      const count=summary[t];
-      const row=document.createElement('div');row.className='drill-type-row';
-      row.innerHTML=`<div class="drill-type-dot" style="background:${typeColors[t]}"></div><div class="drill-type-info"><div class="drill-type-label">${typeLabels[t]}</div><div class="drill-type-sub">${count} session${count!==1?'s':''} total</div></div><i class="ti ti-chevron-right drill-type-arrow"></i>`;
-      row.onclick=()=>openDrillTypeDetail(t);
-      body.appendChild(row);
-    });
-    // Per month table
-    body.innerHTML+=`<div class="m-section-header" style="margin-top:20px;"><div class="m-section-title" style="font-size:13px;">Monthly breakdown</div></div>`;
-    months.slice().reverse().forEach(m=>{
-      const cl=h.filter(x=>itemMonthKey(x)===m.key&&x.type==='client').length;
-      const mo=h.filter(x=>itemMonthKey(x)===m.key&&x.type==='model').length;
-      const fr=h.filter(x=>itemMonthKey(x)===m.key&&x.type==='freestyle').length;
-      const total=cl+mo+fr;
-      if(!total)return;
-      const row=document.createElement('div');row.style.cssText='background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;';
-      row.innerHTML=`<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">${m.full||m.label} <span style="font-size:11px;font-weight:400;color:var(--text2)">(${total} total)</span></div><div style="display:flex;gap:14px;flex-wrap:wrap;">${cl?`<span style="font-size:12px;color:#4a9eff;">● ${cl} client${cl!==1?'s':''}</span>`:''  }${mo?`<span style="font-size:12px;color:#c97aff;">● ${mo} model${mo!==1?'s':''}</span>`:''  }${fr?`<span style="font-size:12px;color:#5dbb8a;">● ${fr} freestyle</span>`:''  }</div>`;
-      body.appendChild(row);
-    });
+    body.innerHTML+=`<div class="drill-summary"><div class="drill-stat"><div class="drill-stat-label">Clients</div><div class="drill-stat-value">${summary.client}</div></div><div class="drill-stat"><div class="drill-stat-label">Models</div><div class="drill-stat-value">${summary.model}</div></div><div class="drill-stat"><div class="drill-stat-label">Freestyle</div><div class="drill-stat-value">${summary.freestyle}</div></div></div>`;
+    ['client','model','freestyle'].forEach(t=>{const count=summary[t];const typeLabels={client:'Client',model:'Model',freestyle:'Freestyle'};const row=document.createElement('div');row.className='drill-type-row';row.innerHTML=`<div class="drill-type-dot" style="background:var(--text2)"></div><div class="drill-type-info"><div class="drill-type-label">${typeLabels[t]}</div><div class="drill-type-sub">${count} session${count!==1?'s':''} total</div></div><i class="ti ti-chevron-right drill-type-arrow"></i>`;row.onclick=()=>openDrillTypeDetail(t);body.appendChild(row);});
+    body.innerHTML+=`<div class="m-section-header" style="margin-top:20px;"><div class="m-section-title">Monthly breakdown</div></div>`;
+    months.slice().reverse().forEach(m=>{const cl=h.filter(x=>itemMonthKey(x)===m.key&&x.type==='client').length;const mo=h.filter(x=>itemMonthKey(x)===m.key&&x.type==='model').length;const fr=h.filter(x=>itemMonthKey(x)===m.key&&x.type==='freestyle').length;const total=cl+mo+fr;if(!total)return;const row=document.createElement('div');row.style.cssText='background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;';row.innerHTML=`<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">${m.full||m.label} <span style="font-size:11px;font-weight:400;color:var(--text2)">(${total} total)</span></div><div style="display:flex;gap:14px;flex-wrap:wrap;">${cl?`<span style="font-size:12px;color:var(--text2);">● ${cl} client${cl!==1?'s':''}</span>`:''  }${mo?`<span style="font-size:12px;color:var(--text2);">● ${mo} model${mo!==1?'s':''}</span>`:''  }${fr?`<span style="font-size:12px;color:var(--text3);">● ${fr} freestyle</span>`:''  }</div>`;body.appendChild(row);});
   }
-
   else if(type==='client-model-month'){
     document.getElementById('drillTitle').textContent='Clients & Models';
     const totalC=h.filter(x=>x.type==='client').length,totalM=h.filter(x=>x.type==='model').length;
     const uniqueC=new Set(h.filter(x=>x.type==='client'&&x.personName).map(x=>x.personName.trim().toLowerCase())).size;
     const uniqueM=new Set(h.filter(x=>x.type==='model'&&x.personName).map(x=>x.personName.trim().toLowerCase())).size;
-    body.innerHTML+=`<div class="drill-summary"><div class="drill-stat"><div class="drill-stat-label">Client sessions</div><div class="drill-stat-value" style="color:#4a9eff">${totalC}</div><div class="drill-stat-sub">${uniqueC} unique</div></div><div class="drill-stat"><div class="drill-stat-label">Model sessions</div><div class="drill-stat-value" style="color:#c97aff">${totalM}</div><div class="drill-stat-sub">${uniqueM} unique</div></div></div>`;
-    // Per month, show client+model sessions grouped
+    body.innerHTML+=`<div class="drill-summary"><div class="drill-stat"><div class="drill-stat-label">Client sessions</div><div class="drill-stat-value">${totalC}</div><div class="drill-stat-sub">${uniqueC} unique</div></div><div class="drill-stat"><div class="drill-stat-label">Model sessions</div><div class="drill-stat-value">${totalM}</div><div class="drill-stat-sub">${uniqueM} unique</div></div></div>`;
     const allMonthKeys=[...new Set(h.filter(x=>x.type==='client'||x.type==='model').map(x=>itemMonthKey(x)))].sort((a,b)=>b.localeCompare(a));
     if(!allMonthKeys.length){const e=document.createElement('div');e.className='drill-empty';e.innerHTML='<i class="ti ti-users" style="font-size:28px;color:var(--text3)"></i><p>No client or model sessions yet.</p>';body.appendChild(e);go('s10');return;}
-    allMonthKeys.forEach(mk=>{
-      const items=h.filter(x=>itemMonthKey(x)===mk&&(x.type==='client'||x.type==='model'));
-      if(!items.length)return;
-      const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
-      body.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length} session${items.length!==1?'s':''}</div></div>`;
-      const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));body.appendChild(section);
-    });
+    allMonthKeys.forEach(mk=>{const items=h.filter(x=>itemMonthKey(x)===mk&&(x.type==='client'||x.type==='model'));if(!items.length)return;const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});body.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length} session${items.length!==1?'s':''}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));body.appendChild(section);});
   }
-
   else if(type==='top-cuts'){
     document.getElementById('drillTitle').textContent='Cut Rankings';
-    const lockCount={};const lockImg={};const lockId={};
-    h.forEach(x=>{lockCount[x.name]=(lockCount[x.name]||0)+1;if(!lockImg[x.name])lockImg[x.name]=x.img;if(!lockId[x.name])lockId[x.name]=x.id;});
-    const ranked=Object.entries(lockCount).sort((a,b)=>b[1]-a[1]);
-    const total=h.length;
+    const lockCount={};const lockImg={};const lockId={};h.forEach(x=>{lockCount[x.name]=(lockCount[x.name]||0)+1;if(!lockImg[x.name])lockImg[x.name]=x.img;if(!lockId[x.name])lockId[x.name]=x.id;});
+    const ranked=Object.entries(lockCount).sort((a,b)=>b[1]-a[1]);const total=h.length;
     body.innerHTML+=`<div class="drill-summary"><div class="drill-stat"><div class="drill-stat-label">Unique cuts</div><div class="drill-stat-value">${ranked.length}</div></div><div class="drill-stat"><div class="drill-stat-label">Total locks</div><div class="drill-stat-value">${total}</div></div></div>`;
-    ranked.forEach(([name,count],i)=>{
-      const row=document.createElement('div');row.className='drill-cut-row';
-      const thumb=document.createElement('img');thumb.className='drill-cut-thumb';thumb.src=lockImg[name]||'';thumb.onload=()=>thumb.classList.add('loaded');thumb.onerror=()=>{thumb.style.opacity='0.1';};
-      const rank=document.createElement('div');rank.className='drill-rank'+(i===0?' gold':'');rank.textContent=i+1;
-      const info=document.createElement('div');info.className='drill-cut-info';const pct=Math.round(count/total*100);info.innerHTML=`<div class="drill-cut-name">${name}</div><div class="drill-cut-count">${count} lock${count!==1?'s':''} · ${pct}% of total</div>`;
-      const arrow=document.createElement('i');arrow.className='ti ti-chevron-right';arrow.style.cssText='color:var(--text3);font-size:15px;align-self:center;';
-      row.appendChild(rank);row.appendChild(thumb);row.appendChild(info);row.appendChild(arrow);
-      row.onclick=()=>openDrillCutDetail(name,lockId[name]);
-      body.appendChild(row);
-    });
+    ranked.forEach(([name,count],i)=>{const row=document.createElement('div');row.className='drill-cut-row';const thumb=document.createElement('img');thumb.className='drill-cut-thumb';thumb.src=lockImg[name]||'';thumb.onload=()=>thumb.classList.add('loaded');thumb.onerror=()=>{thumb.style.opacity='0.1';};const rank=document.createElement('div');rank.className='drill-rank'+(i===0?' gold':'');rank.textContent=i+1;const info=document.createElement('div');info.className='drill-cut-info';const pct=Math.round(count/total*100);info.innerHTML=`<div class="drill-cut-name">${name}</div><div class="drill-cut-count">${count} lock${count!==1?'s':''} · ${pct}% of total</div>`;const arrow=document.createElement('i');arrow.className='ti ti-chevron-right';arrow.style.cssText='color:var(--text3);font-size:15px;align-self:center;';row.appendChild(rank);row.appendChild(thumb);row.appendChild(info);row.appendChild(arrow);row.onclick=()=>openDrillCutDetail(name,lockId[name]);body.appendChild(row);});
     if(!ranked.length){body.innerHTML+='<div class="drill-empty"><i class="ti ti-scissors" style="font-size:28px;color:var(--text3)"></i><p>No locks yet.</p></div>';}
   }
-
   else if(type==='hair-types'){
     document.getElementById('drillTitle').textContent='Sessions by Hair Type';
-    const typeColors={straight:'#4a9eff',curly:'#5dbb8a',wavy:'#c97aff',textured:'#ef9f27'};
     const typeLabels={straight:'Straight',curly:'Curly',wavy:'Wavy',textured:'Textured'};
-    const typeCount={straight:0,curly:0,wavy:0,textured:0};
-    h.forEach(x=>{const t=HAIR_TYPES_MAP[x.id];if(t&&typeCount[t]!==undefined)typeCount[t]++;});
-    const sorted=Object.entries(typeCount).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);
-    const total=sorted.reduce((a,[,v])=>a+v,0)||1;
-    sorted.forEach(([type,count])=>{
-      const row=document.createElement('div');row.className='drill-type-row';
-      row.innerHTML=`<div class="drill-type-dot" style="background:${typeColors[type]}"></div><div class="drill-type-info"><div class="drill-type-label">${typeLabels[type]}</div><div class="drill-type-sub">${count} session${count!==1?'s':''} · ${Math.round(count/total*100)}% of total</div></div><i class="ti ti-chevron-right drill-type-arrow"></i>`;
-      row.onclick=()=>openDrillHairTypeDetail(type);body.appendChild(row);
-    });
+    const typeCount={straight:0,curly:0,wavy:0,textured:0};h.forEach(x=>{const t=HAIR_TYPES_MAP[x.id];if(t&&typeCount[t]!==undefined)typeCount[t]++;});
+    const sorted=Object.entries(typeCount).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);const total=sorted.reduce((a,[,v])=>a+v,0)||1;
+    sorted.forEach(([type,count])=>{const row=document.createElement('div');row.className='drill-type-row';row.innerHTML=`<div class="drill-type-dot" style="background:var(--text2)"></div><div class="drill-type-info"><div class="drill-type-label">${typeLabels[type]}</div><div class="drill-type-sub">${count} session${count!==1?'s':''} · ${Math.round(count/total*100)}% of total</div></div><i class="ti ti-chevron-right drill-type-arrow"></i>`;row.onclick=()=>openDrillHairTypeDetail(type);body.appendChild(row);});
     if(!sorted.length){body.innerHTML='<div class="drill-empty"><i class="ti ti-scissors" style="font-size:28px;color:var(--text3)"></i><p>No data yet.</p></div>';}
   }
-
   go('s10');
 }
 
-/* sub-drills */
 function openDrillTypeDetail(type){
   const typeLabels={client:'Client Sessions',model:'Model Sessions',freestyle:'Freestyle Sessions'};
   document.getElementById('drillTitle').textContent=typeLabels[type]||type;
   document.getElementById('drillBackBtn').onclick=()=>openDrill('by-type-month');
-  const h=getHistory().filter(x=>x.type===type);
-  const body=document.getElementById('drillBody');body.innerHTML='';
+  const h=getHistory().filter(x=>x.type===type);const body=document.getElementById('drillBody');body.innerHTML='';
   if(!h.length){body.innerHTML='<div class="drill-empty"><p>No sessions of this type yet.</p></div>';return;}
   const grouped={};h.forEach(item=>{const mk=itemMonthKey(item);if(!grouped[mk])grouped[mk]=[];grouped[mk].push(item);});
-  Object.keys(grouped).sort((a,b)=>b.localeCompare(a)).forEach(mk=>{
-    const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
-    body.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length} session${items.length!==1?'s':''}</div></div>`;
-    const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));body.appendChild(section);
-  });
+  Object.keys(grouped).sort((a,b)=>b.localeCompare(a)).forEach(mk=>{const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});body.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length} session${items.length!==1?'s':''}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));body.appendChild(section);});
 }
 
 function openDrillCutDetail(name,cutId){
   document.getElementById('drillTitle').textContent=name;
   document.getElementById('drillBackBtn').onclick=()=>openDrill('top-cuts');
-  const h=getHistory().filter(x=>x.name===name);
-  const body=document.getElementById('drillBody');body.innerHTML='';
-  const clientCount=h.filter(x=>x.type==='client').length;
-  const modelCount=h.filter(x=>x.type==='model').length;
-  const freeCount=h.filter(x=>x.type==='freestyle').length;
-  body.innerHTML+=`<div class="drill-summary"><div class="drill-stat"><div class="drill-stat-label">Total</div><div class="drill-stat-value">${h.length}</div></div><div class="drill-stat"><div class="drill-stat-label">Client</div><div class="drill-stat-value" style="color:#4a9eff">${clientCount}</div></div><div class="drill-stat"><div class="drill-stat-label">Model</div><div class="drill-stat-value" style="color:#c97aff">${modelCount}</div></div></div>`;
+  const h=getHistory().filter(x=>x.name===name);const body=document.getElementById('drillBody');body.innerHTML='';
+  const clientCount=h.filter(x=>x.type==='client').length;const modelCount=h.filter(x=>x.type==='model').length;
+  body.innerHTML+=`<div class="drill-summary"><div class="drill-stat"><div class="drill-stat-label">Total</div><div class="drill-stat-value">${h.length}</div></div><div class="drill-stat"><div class="drill-stat-label">Client</div><div class="drill-stat-value">${clientCount}</div></div><div class="drill-stat"><div class="drill-stat-label">Model</div><div class="drill-stat-value">${modelCount}</div></div></div>`;
   const grouped={};h.forEach(item=>{const mk=itemMonthKey(item);if(!grouped[mk])grouped[mk]=[];grouped[mk].push(item);});
-  Object.keys(grouped).sort((a,b)=>b.localeCompare(a)).forEach(mk=>{
-    const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
-    body.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length}</div></div>`;
-    const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));body.appendChild(section);
-  });
+  Object.keys(grouped).sort((a,b)=>b.localeCompare(a)).forEach(mk=>{const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});body.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));body.appendChild(section);});
   const viewBtn=document.createElement('button');viewBtn.className='lock-btn';viewBtn.style.marginTop='16px';viewBtn.innerHTML='<i class="ti ti-eye"></i> View this cut';viewBtn.onclick=()=>{const c=cuts.find(x=>x.id===cutId);if(c)openCut(c.id);};body.appendChild(viewBtn);
 }
 
@@ -1211,28 +1153,20 @@ function openDrillHairTypeDetail(type){
   const typeLabels={straight:'Straight Hair',curly:'Curly Hair',wavy:'Wavy Hair',textured:'Textured Hair'};
   document.getElementById('drillTitle').textContent=typeLabels[type]||type;
   document.getElementById('drillBackBtn').onclick=()=>openDrill('hair-types');
-  const h=getHistory().filter(x=>HAIR_TYPES_MAP[x.id]===type);
-  const body=document.getElementById('drillBody');body.innerHTML='';
-  // Most common cut within this hair type
-  const nameCount={};h.forEach(x=>{nameCount[x.name]=(nameCount[x.name]||0)+1;});
-  const topCut=Object.entries(nameCount).sort((a,b)=>b[1]-a[1])[0];
-  body.innerHTML+=`<div class="drill-summary"><div class="drill-stat"><div class="drill-stat-label">Total sessions</div><div class="drill-stat-value">${h.length}</div></div>${topCut?`<div class="drill-stat"><div class="drill-stat-label">Top cut</div><div class="drill-stat-value" style="font-size:13px;line-height:1.3;">${topCut[0]}</div><div class="drill-stat-sub">${topCut[1]} time${topCut[1]!==1?'s':''}</div></div>`:'  '}</div>`;
+  const h=getHistory().filter(x=>HAIR_TYPES_MAP[x.id]===type);const body=document.getElementById('drillBody');body.innerHTML='';
+  const nameCount={};h.forEach(x=>{nameCount[x.name]=(nameCount[x.name]||0)+1;});const topCut=Object.entries(nameCount).sort((a,b)=>b[1]-a[1])[0];
+  body.innerHTML+=`<div class="drill-summary"><div class="drill-stat"><div class="drill-stat-label">Total sessions</div><div class="drill-stat-value">${h.length}</div></div>${topCut?`<div class="drill-stat"><div class="drill-stat-label">Top cut</div><div class="drill-stat-value" style="font-size:13px;line-height:1.3;">${topCut[0]}</div><div class="drill-stat-sub">${topCut[1]} time${topCut[1]!==1?'s':''}</div></div>`:''}</div>`;
   const grouped={};h.forEach(item=>{const mk=itemMonthKey(item);if(!grouped[mk])grouped[mk]=[];grouped[mk].push(item);});
   if(!Object.keys(grouped).length){body.innerHTML+='<div class="drill-empty"><p>No sessions for this hair type yet.</p></div>';return;}
-  Object.keys(grouped).sort((a,b)=>b.localeCompare(a)).forEach(mk=>{
-    const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
-    body.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length}</div></div>`;
-    const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));body.appendChild(section);
-  });
+  Object.keys(grouped).sort((a,b)=>b.localeCompare(a)).forEach(mk=>{const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});body.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));body.appendChild(section);});
 }
 
 function buildDrillSessionRow(item){
   const row=document.createElement('div');row.className='drill-session';
   const thumb=document.createElement('img');thumb.className='drill-session-thumb';thumb.src=item.img||'';thumb.alt=item.name;thumb.onload=()=>thumb.classList.add('loaded');thumb.onerror=()=>{thumb.style.opacity='0.1';};
   const info=document.createElement('div');info.className='drill-session-info';
-  const typeColors={client:'client',model:'model',freestyle:'freestyle'};
   const typeLabels={client:'Client',model:'Model',freestyle:'Freestyle'};
-  const personLine=item.personName?`<div class="drill-session-person ${typeColors[item.type]||''}">${typeLabels[item.type]||''} · ${item.personName}</div>`:`<div class="drill-session-person ${typeColors[item.type]||''}">${typeLabels[item.type]||'Freestyle'}</div>`;
+  const personLine=item.personName?`<div class="drill-session-person">${typeLabels[item.type]||''} · ${item.personName}</div>`:`<div class="drill-session-person" style="color:var(--text3)">${typeLabels[item.type]||'Freestyle'}</div>`;
   info.innerHTML=`<div class="drill-session-name">${item.name}</div><div class="drill-session-opts">${item.fade||'Mid'} fade · ${item.top||'Neat'} top</div>${personLine}${item.personDesc?`<div class="drill-session-date" style="color:var(--text2);font-size:11px;">${item.personDesc}</div>`:''}<div class="drill-session-date">${formatDate(item.date)}</div>`;
   const go_btn=document.createElement('div');go_btn.className='drill-session-go';go_btn.textContent='View';go_btn.onclick=()=>{fv=item.fade||'Mid';tv=item.top||'Neat';openCut(item.id,true);};
   row.appendChild(thumb);row.appendChild(info);row.appendChild(go_btn);
