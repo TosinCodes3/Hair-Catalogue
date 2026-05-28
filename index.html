@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +23,6 @@
   --lock-bg:#f0f0f0;--lock-text:#111;
   --opt-on-bg:#2a2a2a;--opt-on-border:rgba(255,255,255,0.35);
   --client-color:#4a9eff;--model-color:#c97aff;--freestyle-color:#5dbb8a;
-  /* Neutral metric palette — no rainbow */
   --m-bar-primary:#f0f0f0;
   --m-bar-secondary:rgba(240,240,240,0.45);
   --m-bar-tertiary:rgba(240,240,240,0.22);
@@ -56,8 +56,6 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .back-btn{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text2);cursor:pointer;flex-shrink:0;}
 .back-btn i{font-size:17px;}
 .topbar-title{font-size:15px;font-weight:700;color:var(--text);flex:1;text-align:center;}
-
-/* INTRO */
 #s0{align-items:center;justify-content:center;background:var(--bg);position:relative;overflow:hidden;}
 .intro-inner{display:flex;flex-direction:column;align-items:center;text-align:center;padding:40px 32px;opacity:0;transform:translateY(16px);animation:introFadeIn 0.7s ease 0.2s forwards;}
 @keyframes introFadeIn{to{opacity:1;transform:translateY(0);}}
@@ -65,11 +63,9 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .intro-logo i{font-size:26px;color:var(--text2);}
 .intro-brand{font-size:11px;font-weight:500;color:var(--text3);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px;}
 .intro-title{font-size:30px;font-weight:700;color:var(--text);letter-spacing:-0.03em;margin-bottom:10px;line-height:1.15;}
-.intro-btn{width:100%;max-width:260px;margin-top:22px;padding:15px 24px;background:var(--lock-bg);color:var(--lock-text);border:none;border-radius:8px;font-size:15px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:opacity 0.15s;}
+.intro-btn{width:100%;max-width:260px;margin-top:22px;padding:15px 24px;background:var(--lock-bg);color:var(--lock-text);border:none;border-radius:8px;font-size:15px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:opacity 0.15s;font-family:inherit;}
 .intro-btn:active{opacity:0.8;}
 .intro-dots{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--text3);letter-spacing:0.06em;}
-
-/* SCREEN 1 */
 .home-header{padding:32px 16px 16px;}
 .home-title{font-size:24px;font-weight:700;color:var(--text);letter-spacing:-0.02em;}
 .home-sub{font-size:13px;color:var(--text2);margin-top:3px;}
@@ -82,7 +78,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .cat-card-name{font-size:15px;font-weight:600;color:#fff;letter-spacing:-0.01em;}
 .cat-card-count{font-size:11px;color:rgba(255,255,255,0.6);margin-top:2px;}
 .filter-bar{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 14px;}
-.filter-chip{padding:8px 12px;border-radius:999px;border:0.5px solid var(--border2);background:var(--bg2);color:var(--text2);font-size:12px;cursor:pointer;transition:all 0.15s;}
+.filter-chip{padding:8px 12px;border-radius:999px;border:0.5px solid var(--border2);background:var(--bg2);color:var(--text2);font-size:12px;cursor:pointer;transition:all 0.15s;font-family:inherit;}
 .filter-chip.active{background:var(--opt-on-bg);border-color:var(--opt-on-border);color:var(--text);}
 .cat-grid.list-view{display:flex;flex-direction:column;gap:10px;}
 .cat-grid.list-view .cat-card{display:flex;align-items:center;aspect-ratio:auto;min-height:100px;padding:0;}
@@ -103,8 +99,6 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .nav-item span{font-size:10px;}
 .nav-item.active{color:var(--text);}
 .nav-item i{font-size:16px;}
-
-/* SCREEN 2 */
 .cut-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;flex:1;align-content:start;}
 .cut-card{cursor:pointer;overflow:hidden;position:relative;aspect-ratio:1;background:var(--bg2);}
 .cut-card:active{opacity:0.85;}
@@ -113,8 +107,6 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .cut-overlay{position:absolute;bottom:0;left:0;right:0;background:var(--overlay);padding:7px;}
 .cut-name-sm{font-size:10px;font-weight:500;color:#fff;line-height:1.2;}
 .cut-cat-sm{font-size:9px;color:rgba(255,255,255,0.6);margin-top:1px;}
-
-/* SCREEN 3 */
 .detail-hero{width:100%;height:380px;overflow:hidden;flex-shrink:0;background:var(--bg2);position:relative;cursor:pointer;}
 .hero-track{display:flex;height:100%;will-change:transform;transition:transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);}
 .hero-track.dragging{transition:none;}
@@ -167,8 +159,6 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .lock-btn{width:100%;padding:14px;background:var(--lock-bg);color:var(--lock-text);border:none;border-radius:12px;font-size:15px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;}
 .share-btn{flex:1;min-width:100px;padding:14px;background:var(--bg2);color:var(--text);border:0.5px solid var(--border2);border-radius:12px;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;}
 .compare-btn{flex:1;min-width:100px;padding:14px;background:var(--bg2);color:var(--text);border:0.5px solid var(--border2);border-radius:12px;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;}
-
-/* SCREEN 4 */
 .done-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:36px 24px;text-align:center;}
 .done-thumb{width:100px;height:100px;border-radius:14px;overflow:hidden;margin-bottom:20px;border:0.5px solid var(--border);}
 .done-thumb img{width:100%;height:100%;object-fit:cover;}
@@ -183,8 +173,6 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .done-person-badge.client{background:rgba(74,158,255,0.15);color:var(--client-color);}
 .done-person-badge.model{background:rgba(201,122,255,0.15);color:var(--model-color);}
 .done-person-badge.freestyle{background:rgba(93,187,138,0.15);color:var(--freestyle-color);}
-
-/* PEOPLE SCREEN (s5) */
 .people-seg{display:flex;gap:0;padding:12px 16px 0;border-bottom:0.5px solid var(--border);}
 .seg-btn{flex:1;padding:10px 8px;background:transparent;border:none;border-bottom:2px solid transparent;font-family:inherit;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;transition:all 0.15s;text-align:center;}
 .seg-btn.active{color:var(--text);border-bottom-color:var(--text);}
@@ -225,8 +213,6 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .person-cut-desc{font-size:11px;color:var(--text3);margin-top:4px;line-height:1.4;}
 .person-cut-date{font-size:11px;color:var(--text3);margin-top:5px;}
 .person-detail-empty{font-size:14px;color:var(--text2);padding:16px 0;line-height:1.6;}
-
-/* SETTINGS */
 .settings-body{padding:0 16px;padding-bottom:80px;overflow-y:auto;}
 .settings-section{margin-top:24px;}
 .settings-section-label{font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;padding-left:2px;}
@@ -249,8 +235,6 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .settings-about-icon i{font-size:18px;color:var(--text2);}
 .settings-about-name{font-size:14px;font-weight:700;color:var(--text);}
 .settings-about-version{font-size:12px;color:var(--text2);margin-top:2px;}
-
-/* COMPARE */
 #s8{padding-bottom:72px;}
 .compare-header{padding:14px 16px 12px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:10px;}
 .compare-title{font-size:15px;font-weight:700;color:var(--text);flex:1;text-align:center;}
@@ -278,8 +262,6 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .compare-picker-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity 0.3s;}
 .compare-picker-card img.loaded{opacity:1;}
 .compare-picker-label{position:absolute;bottom:0;left:0;right:0;background:var(--overlay);padding:5px 6px;font-size:10px;font-weight:500;color:#fff;}
-
-/* LOCK-IN SHEET */
 .lockin-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:70;}
 .lockin-backdrop.open{display:block;}
 .lockin-sheet{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:420px;background:var(--bg);border-radius:20px 20px 0 0;border-top:0.5px solid var(--border2);z-index:75;display:flex;flex-direction:column;transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);max-height:90vh;overflow:hidden;}
@@ -310,8 +292,6 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .lockin-confirm-btn{width:100%;padding:15px;background:var(--lock-bg);color:var(--lock-text);border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;margin-top:4px;transition:opacity 0.15s;}
 .lockin-confirm-btn:active{opacity:0.85;}
 .lockin-back-link{text-align:center;font-size:13px;color:var(--text2);cursor:pointer;text-decoration:underline;margin-top:12px;}
-
-/* HISTORY SHEET */
 .sheet-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:40;}
 .sheet-backdrop.open{display:block;}
 .history-sheet{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:420px;background:var(--bg);border-radius:20px 20px 0 0;border-top:0.5px solid var(--border2);z-index:50;max-height:75vh;display:flex;flex-direction:column;transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);}
@@ -338,12 +318,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .history-type-pill.client{background:rgba(74,158,255,0.15);color:var(--client-color);}
 .history-type-pill.model{background:rgba(201,122,255,0.15);color:var(--model-color);}
 .history-type-pill.freestyle{background:rgba(93,187,138,0.15);color:var(--freestyle-color);}
-
-/* ═══════════════════════════════════════
-   METRICS — MONOCHROME / NEUTRAL PALETTE
-   Inspired by the referenced dark trading app:
-   no rainbow fills, pure white/gray hierarchy
-   ═══════════════════════════════════════ */
+/* METRICS */
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
 .stat-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:14px;padding:14px 14px 12px;opacity:0;transform:translateY(12px);animation:metricsFadeIn 0.45s ease forwards;}
 .stat-grid .stat-card:nth-child(1){animation-delay:0.05s;}
@@ -355,37 +330,28 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .stat-sub{font-size:11px;color:var(--text3);margin-top:5px;}
 .stat-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;background:var(--bg3);}
 .stat-icon i{font-size:14px;color:var(--text2);}
-/* Override color classes — all neutral */
-.si-blue,.si-purple,.si-green,.si-amber{background:var(--bg3);}
-.si-blue i,.si-purple i,.si-green i,.si-amber i{color:var(--text2);}
-
 .m-section-header{display:flex;align-items:center;gap:8px;margin-bottom:12px;margin-top:20px;}
 .m-section-title{font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;flex:1;}
 .m-section-chip{font-size:10px;color:var(--text3);background:var(--bg3);border-radius:20px;padding:3px 9px;}
-
 .m-chart-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:14px;padding:16px;margin-bottom:4px;opacity:0;transform:translateY(12px);animation:metricsFadeIn 0.45s ease forwards;animation-delay:0.18s;}
 .m-chart-card.tappable{cursor:pointer;transition:border-color 0.15s,opacity 0.15s;}
 .m-chart-card.tappable:active{opacity:0.7;}
 .m-chart-card.tappable:hover{border-color:var(--border2);}
 .m-chart-card.tappable .m-tap-hint{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3);margin-top:12px;padding-top:12px;border-top:0.5px solid var(--border);}
 .m-tap-hint i{font-size:12px;}
-
-/* BARS — white primary, descending opacity for rank */
+/* drill cards should not have the entry animation */
+.drill-body .m-chart-card{opacity:1;transform:none;animation:none;}
 .m-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
 .m-bar-row:last-child{margin-bottom:0;}
 .m-bar-label{font-size:11px;color:var(--text2);width:96px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .m-bar-track{flex:1;height:6px;border-radius:3px;background:var(--bg3);overflow:hidden;}
 .m-bar-fill{height:100%;border-radius:3px;transition:width 0.9s cubic-bezier(.4,0,.2,1);}
 .m-bar-count{font-size:11px;color:var(--text3);width:22px;text-align:right;flex-shrink:0;font-variant-numeric:tabular-nums;}
-
-/* Neutral bar color classes — all use CSS var */
 .m-bar-rank-1{background:var(--m-bar-primary);}
 .m-bar-rank-2{background:var(--m-bar-secondary);}
 .m-bar-rank-3{background:var(--m-bar-tertiary);}
 .m-bar-rank-4{background:var(--m-bar-quaternary);}
 .m-bar-rank-5{background:var(--m-bar-quaternary);}
-
-/* DONUT — neutral strokes */
 .m-donut-wrap{display:flex;align-items:center;gap:18px;}
 .m-donut-svg{width:76px;height:76px;flex-shrink:0;}
 .m-donut-legend{flex:1;display:flex;flex-direction:column;gap:8px;}
@@ -393,23 +359,16 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .m-donut-leg-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
 .m-donut-leg-label{font-size:12px;color:var(--text2);flex:1;}
 .m-donut-leg-val{font-size:12px;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums;}
-
-/* PILL LEGENDS — all neutral */
 .m-pill-legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
 .m-pill-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text3);}
 .m-pill-dot{width:7px;height:7px;border-radius:50%;}
-
 .m-empty{text-align:center;padding:20px 0;}
 .m-empty i{font-size:26px;color:var(--text3);}
 .m-empty p{font-size:12px;color:var(--text3);margin-top:6px;}
 .m-stack-fill{transition:height 0.9s cubic-bezier(.4,0,.2,1);}
 .m-donut-svg circle.anim-donut{transition:stroke-dashoffset 0.9s cubic-bezier(.4,0,.2,1);}
 @keyframes metricsFadeIn{to{opacity:1;transform:translateY(0);}}
-
-/* Rank number */
 .m-rank-num{width:14px;font-size:10px;font-weight:700;flex-shrink:0;font-variant-numeric:tabular-nums;}
-
-/* METRIC DRILL-DOWN SCREEN (s10) */
 #s10{padding-bottom:72px;}
 .drill-body{padding:16px 16px 32px;overflow-y:auto;flex:1;}
 .drill-summary{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
@@ -447,12 +406,13 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .drill-cut-count{font-size:11px;color:var(--text2);margin-top:2px;}
 .drill-rank{font-size:11px;font-weight:700;color:var(--text3);width:18px;flex-shrink:0;}
 .drill-rank.gold{color:var(--text);}
+/* Interactive drill chart states */
+.drill-chart-col-active{opacity:1 !important;}
+.drill-selected-label{font-size:12px;font-weight:600;color:var(--text);background:var(--bg3);border-radius:8px;padding:5px 10px;margin-top:8px;display:inline-block;}
 </style>
 </head>
 <body>
 <div class="app" id="app">
-
-  <!-- SCREEN 0: INTRO -->
   <div class="screen active" id="s0">
     <div class="intro-inner">
       <div class="intro-logo"><i class="ti ti-scissors"></i></div>
@@ -462,27 +422,15 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
     </div>
     <div class="intro-dots">Est. 2024</div>
   </div>
-
-  <!-- SCREEN 1: CATEGORIES -->
   <div class="screen" id="s1">
-    <div class="home-header">
-      <div class="home-title">Pick your style</div>
-      <div class="home-sub">Choose a category to get started</div>
-    </div>
+    <div class="home-header"><div class="home-title">Pick your style</div><div class="home-sub">Choose a category to get started</div></div>
     <div class="filter-bar" id="filterBar"></div>
     <div class="cat-grid" id="catGrid"></div>
   </div>
-
-  <!-- SCREEN 2: CUTS IN CATEGORY -->
   <div class="screen" id="s2">
-    <div class="topbar">
-      <div class="back-btn" onclick="go('s1')"><i class="ti ti-arrow-left"></i></div>
-      <div class="topbar-title" id="s2Title"></div>
-    </div>
+    <div class="topbar"><div class="back-btn" onclick="go('s1')"><i class="ti ti-arrow-left"></i></div><div class="topbar-title" id="s2Title"></div></div>
     <div class="cut-grid" id="cutGrid"></div>
   </div>
-
-  <!-- SCREEN 3: CUT DETAIL -->
   <div class="screen" id="s3">
     <div class="detail-hero" id="heroBox">
       <div class="hero-track" id="heroTrack"></div>
@@ -490,40 +438,19 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
       <div class="hero-badge" id="heroBadge"></div>
       <div class="hero-tap-hint" id="heroTapHint"><i class="ti ti-zoom-in" style="font-size:13px"></i> Tap to view full screen</div>
     </div>
-    <div class="topbar" style="border-bottom:none;">
-      <div class="back-btn" onclick="goBackToCategory()"><i class="ti ti-arrow-left"></i><span id="s3Back"></span></div>
-    </div>
+    <div class="topbar" style="border-bottom:none;"><div class="back-btn" onclick="goBackToCategory()"><i class="ti ti-arrow-left"></i><span id="s3Back"></span></div></div>
     <div class="detail-body">
       <div class="detail-title" id="dName"></div>
       <div class="detail-sub" id="dSub"></div>
       <div class="badge-row" id="dBadges"></div>
       <div class="detail-desc" id="dDesc"></div>
-      <div class="opts-section">
-        <div class="opts-label">Fade level</div>
-        <div class="opts-row" id="fadeRow">
-          <div class="opt" onclick="pick(this,'fade')">Low</div>
-          <div class="opt on" onclick="pick(this,'fade')">Mid</div>
-          <div class="opt" onclick="pick(this,'fade')">High</div>
-          <div class="opt" onclick="pick(this,'fade')">Skin</div>
-        </div>
-      </div>
-      <div class="opts-section">
-        <div class="opts-label">Top finish</div>
-        <div class="opts-row" id="topRow">
-          <div class="opt on" onclick="pick(this,'top')">Neat</div>
-          <div class="opt" onclick="pick(this,'top')">Textured</div>
-          <div class="opt" onclick="pick(this,'top')">Waves</div>
-          <div class="opt" onclick="pick(this,'top')">Caesar</div>
-        </div>
-      </div>
+      <div class="opts-section"><div class="opts-label">Fade level</div><div class="opts-row" id="fadeRow"><div class="opt" onclick="pick(this,'fade')">Low</div><div class="opt on" onclick="pick(this,'fade')">Mid</div><div class="opt" onclick="pick(this,'fade')">High</div><div class="opt" onclick="pick(this,'fade')">Skin</div></div></div>
+      <div class="opts-section"><div class="opts-label">Top finish</div><div class="opts-row" id="topRow"><div class="opt on" onclick="pick(this,'top')">Neat</div><div class="opt" onclick="pick(this,'top')">Textured</div><div class="opt" onclick="pick(this,'top')">Waves</div><div class="opt" onclick="pick(this,'top')">Caesar</div></div></div>
     </div>
     <div class="cta-bar">
       <div class="confirm-row">
         <div class="confirm-thumb"><img id="cThumb" src="" alt=""></div>
-        <div class="confirm-info">
-          <div class="confirm-name" id="cName"></div>
-          <div class="confirm-opts" id="cOpts"></div>
-        </div>
+        <div class="confirm-info"><div class="confirm-name" id="cName"></div><div class="confirm-opts" id="cOpts"></div></div>
         <div class="change-link" onclick="goBackToCategory()">Change</div>
       </div>
       <div style="display:flex;gap:8px;">
@@ -533,8 +460,6 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
       </div>
     </div>
   </div>
-
-  <!-- SCREEN 4: CONFIRMED -->
   <div class="screen" id="s4">
     <div class="topbar"><div style="flex:1"></div></div>
     <div class="done-wrap">
@@ -544,22 +469,15 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
       <div class="done-cut" id="doneCut"></div>
       <div class="done-opts" id="doneOpts"></div>
       <button class="lock-btn" style="margin-top:14px;" onclick="switchTab('people')">View People</button>
-      <div class="done-card">
-        <div class="done-card-label">Note from the chair</div>
-        <div class="done-card-text" id="doneNote">Selection confirmed. Sit back and relax — we're getting started.</div>
-      </div>
+      <div class="done-card"><div class="done-card-label">Note from the chair</div><div class="done-card-text" id="doneNote">Selection confirmed. Sit back and relax — we're getting started.</div></div>
       <div class="reset-link" onclick="go('s0')">Start over</div>
     </div>
   </div>
-
-  <!-- SCREEN 5: PEOPLE -->
   <div class="screen" id="s5">
     <div class="topbar" style="padding-bottom:0;border-bottom:none;">
       <div style="width:34px"></div>
       <div class="topbar-title">People</div>
-      <div class="back-btn" style="justify-content:flex-end;" onclick="openHistorySheet()">
-        <i class="ti ti-history" style="font-size:20px;color:var(--text2);"></i>
-      </div>
+      <div class="back-btn" style="justify-content:flex-end;" onclick="openHistorySheet()"><i class="ti ti-history" style="font-size:20px;color:var(--text2);"></i></div>
     </div>
     <div class="people-seg">
       <button class="seg-btn active" id="segMycut"  onclick="switchSeg('mycut')">My Cut</button>
@@ -587,64 +505,34 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
       <div class="person-list" id="modelList"></div>
     </div>
   </div>
-
-  <!-- SCREEN 6: SEARCH -->
   <div class="screen" id="s6">
-    <div class="topbar">
-      <div class="back-btn" onclick="go('s1')"><i class="ti ti-arrow-left"></i></div>
-      <div class="topbar-title">Search</div>
-      <div style="width:34px"></div>
-    </div>
+    <div class="topbar"><div class="back-btn" onclick="go('s1')"><i class="ti ti-arrow-left"></i></div><div class="topbar-title">Search</div><div style="width:34px"></div></div>
     <div class="detail-body">
       <input id="searchInput" class="search-input" type="text" placeholder="Search cuts or categories..." oninput="runSearch()">
       <div class="search-results" id="searchResults"></div>
     </div>
   </div>
-
-  <!-- SCREEN 7: SETTINGS -->
   <div class="screen" id="s7">
-    <div class="topbar">
-      <div style="flex:1"></div>
-      <div class="topbar-title">Settings</div>
-      <div style="width:34px"></div>
-    </div>
+    <div class="topbar"><div style="flex:1"></div><div class="topbar-title">Settings</div><div style="width:34px"></div></div>
     <div class="settings-body">
       <div class="settings-section">
         <div class="settings-section-label">Appearance</div>
         <div class="settings-row">
-          <div class="settings-row-left">
-            <div class="settings-row-icon"><i class="ti ti-moon" id="themeIcon"></i></div>
-            <div>
-              <div class="settings-row-label">Dark mode</div>
-              <div class="settings-row-sub" id="themeSubLabel">Currently dark</div>
-            </div>
-          </div>
+          <div class="settings-row-left"><div class="settings-row-icon"><i class="ti ti-moon" id="themeIcon"></i></div><div><div class="settings-row-label">Dark mode</div><div class="settings-row-sub" id="themeSubLabel">Currently dark</div></div></div>
           <div class="toggle-track on" id="themeToggle" onclick="toggleTheme()"><div class="toggle-knob"></div></div>
         </div>
       </div>
       <div class="settings-section">
         <div class="settings-section-label">Analytics</div>
         <div class="settings-row" style="cursor:pointer;" onclick="openMetrics()">
-          <div class="settings-row-left">
-            <div class="settings-row-icon"><i class="ti ti-chart-bar"></i></div>
-            <div>
-              <div class="settings-row-label">Metrics</div>
-              <div class="settings-row-sub">Locks, trends &amp; top cuts</div>
-            </div>
-          </div>
+          <div class="settings-row-left"><div class="settings-row-icon"><i class="ti ti-chart-bar"></i></div><div><div class="settings-row-label">Metrics</div><div class="settings-row-sub">Locks, trends &amp; top cuts</div></div></div>
           <i class="ti ti-chevron-right" style="color:var(--text3);font-size:16px;"></i>
         </div>
       </div>
       <div class="settings-section">
         <div class="settings-section-label">Catalogue view</div>
         <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:12px;">
-          <div class="settings-row-left">
-            <div class="settings-row-icon"><i class="ti ti-layout-grid"></i></div>
-            <div>
-              <div class="settings-row-label">Layout</div>
-              <div class="settings-row-sub">How categories are displayed</div>
-            </div>
-          </div>
+          <div class="settings-row-left"><div class="settings-row-icon"><i class="ti ti-layout-grid"></i></div><div><div class="settings-row-label">Layout</div><div class="settings-row-sub">How categories are displayed</div></div></div>
           <div class="view-chips">
             <div class="view-chip on" id="chipGrid" onclick="setView('grid')"><i class="ti ti-layout-grid"></i> Grid</div>
             <div class="view-chip" id="chipList" onclick="setView('list')"><i class="ti ti-list"></i> List</div>
@@ -653,155 +541,67 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
       </div>
       <div class="settings-section">
         <div class="settings-section-label">About</div>
-        <div class="settings-about">
-          <div class="settings-about-icon"><i class="ti ti-scissors"></i></div>
-          <div>
-            <div class="settings-about-name">LTC Hair Catalogue</div>
-            <div class="settings-about-version">Version 1.0 · Learn To Cut</div>
-          </div>
-        </div>
+        <div class="settings-about"><div class="settings-about-icon"><i class="ti ti-scissors"></i></div><div><div class="settings-about-name">LTC Hair Catalogue</div><div class="settings-about-version">Version 1.0 · Learn To Cut</div></div></div>
       </div>
     </div>
   </div>
-
-  <!-- SCREEN 8: COMPARE -->
   <div class="screen" id="s8" style="padding-bottom:72px;">
-    <div class="compare-header">
-      <div class="back-btn" onclick="closeCompare()"><i class="ti ti-arrow-left"></i></div>
-      <div class="compare-title">Quick Compare</div>
-      <div style="width:34px"></div>
-    </div>
+    <div class="compare-header"><div class="back-btn" onclick="closeCompare()"><i class="ti ti-arrow-left"></i></div><div class="compare-title">Quick Compare</div><div style="width:34px"></div></div>
     <div class="compare-panels" id="comparePanels">
       <div class="compare-panel" id="panelA"><div id="panelAContent"></div></div>
       <div class="compare-panel" id="panelB"><div id="panelBContent"></div></div>
     </div>
   </div>
-
-  <!-- SCREEN 9: METRICS -->
   <div class="screen" id="s9">
-    <div class="topbar">
-      <div class="back-btn" onclick="go('s7')"><i class="ti ti-arrow-left"></i></div>
-      <div class="topbar-title">Metrics</div>
-      <div style="width:34px"></div>
-    </div>
+    <div class="topbar"><div class="back-btn" onclick="go('s7')"><i class="ti ti-arrow-left"></i></div><div class="topbar-title">Metrics</div><div style="width:34px"></div></div>
     <div class="detail-body" id="metricsBody" style="padding-top:16px;"></div>
   </div>
-
-  <!-- SCREEN 10: METRIC DRILL-DOWN -->
   <div class="screen" id="s10">
-    <div class="topbar">
-      <div class="back-btn" id="drillBackBtn" onclick="go('s9')"><i class="ti ti-arrow-left"></i></div>
-      <div class="topbar-title" id="drillTitle">Detail</div>
-      <div style="width:34px"></div>
-    </div>
+    <div class="topbar"><div class="back-btn" id="drillBackBtn" onclick="go('s9')"><i class="ti ti-arrow-left"></i></div><div class="topbar-title" id="drillTitle">Detail</div><div style="width:34px"></div></div>
     <div class="drill-body" id="drillBody"></div>
   </div>
+</div>
 
-</div><!-- /.app -->
-
-<!-- FULLSCREEN LIGHTBOX -->
 <div class="lightbox" id="lightbox">
-  <div class="lb-bar">
-    <button class="lb-close" onclick="closeLightbox()"><i class="ti ti-x"></i></button>
-    <div class="lb-counter" id="lbCounter"></div>
-  </div>
+  <div class="lb-bar"><button class="lb-close" onclick="closeLightbox()"><i class="ti ti-x"></i></button><div class="lb-counter" id="lbCounter"></div></div>
   <div class="lb-track" id="lbTrack"></div>
   <div class="lb-dots" id="lbDots"></div>
   <div class="lb-zoom-badge" id="lbZoomBadge"></div>
 </div>
-
-<!-- Compare picker -->
 <div class="compare-picker" id="comparePicker">
-  <div class="compare-picker-top">
-    <div class="back-btn" onclick="closePicker()"><i class="ti ti-arrow-left"></i></div>
-    <div class="compare-picker-title">Pick a cut to compare</div>
-    <div style="width:34px"></div>
-  </div>
+  <div class="compare-picker-top"><div class="back-btn" onclick="closePicker()"><i class="ti ti-arrow-left"></i></div><div class="compare-picker-title">Pick a cut to compare</div><div style="width:34px"></div></div>
   <div class="compare-picker-grid" id="comparePickerGrid"></div>
 </div>
-
-<!-- LOCK-IN SHEET -->
 <div class="lockin-backdrop" id="lockinBackdrop" onclick="closeLockInSheet()"></div>
 <div class="lockin-sheet" id="lockinSheet">
   <div class="lockin-handle"></div>
-  <div class="lockin-header">
-    <div class="lockin-title">Lock in cut</div>
-    <div class="lockin-sub">Who is this cut for?</div>
-  </div>
+  <div class="lockin-header"><div class="lockin-title">Lock in cut</div><div class="lockin-sub">Who is this cut for?</div></div>
   <div class="lockin-body" id="lockinBody"></div>
 </div>
-
-<!-- Person detail sheet -->
 <div class="person-detail-sheet" id="personDetailSheet">
-  <div class="person-detail-top">
-    <div class="back-btn" onclick="closePersonDetail()"><i class="ti ti-arrow-left"></i></div>
-    <div class="person-detail-title" id="personDetailTitle"></div>
-    <div class="person-detail-type" id="personDetailType"></div>
-  </div>
+  <div class="person-detail-top"><div class="back-btn" onclick="closePersonDetail()"><i class="ti ti-arrow-left"></i></div><div class="person-detail-title" id="personDetailTitle"></div><div class="person-detail-type" id="personDetailType"></div></div>
   <div class="person-detail-body" id="personDetailBody"></div>
 </div>
-
-<!-- HISTORY SHEET -->
 <div class="sheet-backdrop" id="sheetBackdrop" onclick="closeHistorySheet()"></div>
 <div class="history-sheet" id="historySheet">
   <div class="sheet-handle"></div>
-  <div class="sheet-header">
-    <div class="sheet-title">Lock history</div>
-    <div class="sheet-close" onclick="closeHistorySheet()"><i class="ti ti-x"></i></div>
-  </div>
+  <div class="sheet-header"><div class="sheet-title">Lock history</div><div class="sheet-close" onclick="closeHistorySheet()"><i class="ti ti-x"></i></div></div>
   <div class="sheet-body" id="historySheetBody"></div>
 </div>
-
 <div class="bottom-nav">
-  <button class="nav-item active" id="navExplore"  onclick="switchTab('explore')"> <i class="ti ti-layout-grid"></i><span>Explore</span></button>
-  <button class="nav-item"        id="navPeople"    onclick="switchTab('people')">  <i class="ti ti-users"></i>      <span>People</span></button>
-  <button class="nav-item"        id="navSearch"    onclick="switchTab('search')">  <i class="ti ti-search"></i>     <span>Search</span></button>
-  <button class="nav-item"        id="navSettings"  onclick="switchTab('settings')"><i class="ti ti-settings"></i>   <span>Settings</span></button>
+  <button class="nav-item active" id="navExplore"  onclick="switchTab('explore')"><i class="ti ti-layout-grid"></i><span>Explore</span></button>
+  <button class="nav-item"        id="navPeople"    onclick="switchTab('people')"><i class="ti ti-users"></i><span>People</span></button>
+  <button class="nav-item"        id="navSearch"    onclick="switchTab('search')"><i class="ti ti-search"></i><span>Search</span></button>
+  <button class="nav-item"        id="navSettings"  onclick="switchTab('settings')"><i class="ti ti-settings"></i><span>Settings</span></button>
 </div>
 
 <script>
 /* ─── DATA ─── */
-const cats=[
-  {id:'brushback',name:'Brush Back',img:'images/brushback4.png'},{id:'burstfade',name:'Burst Fade',img:'images/burstfade2.png'},
-  {id:'taper',name:'Taper',img:'images/taperfade2.png'},{id:'fringe',name:'Fringe',img:'images/fringe.png'},
-  {id:'mullet',name:'Mullet',img:'images/mullet.png'},{id:'modCut',name:'Mod Cut',img:'images/modcut2.png'},
-  {id:'elordi',name:'Jacob Elordi',img:'images/elordi.png'},{id:'layered',name:'Layered Cut',img:'images/layeredflow.png'},
-  {id:'midLength',name:'Mid Length',img:'images/midlength.png'},{id:'middlePart',name:'Middle Part',img:'images/middlepart.png'},
-  {id:'cropHaircuts',name:'Crop Haircuts',img:'images/texturedcrop.png'},{id:'rafael',name:'Rafael',img:'images/rafael.png'},
-  {id:'johnnydepp',name:'Johnny Depp Haircut',img:'images/johnnydepp1.png'},
-];
-const cuts=[
-  {id:1,name:'Brush Back',cat:'brushback',hairType:'straight',tags:['Skin Fade'],desc:'Brush back elevated with a sharp skin fade on the sides.',imgs:[{src:'images/brushback4.png',label:'Front'},{src:'images/brushback4a.png',label:'Side'}]},
-  {id:2,name:'Brush Back',cat:'brushback',hairType:'straight',tags:[''],desc:'Clean swept back style, versatile and timeless.',img:'images/brushback.png'},
-  {id:4,name:'Brush Back',cat:'brushback',hairType:'curly',tags:['Curly'],desc:'Natural curl texture swept back for effortless volume.',img:'images/brushback2.png'},
-  {id:5,name:'Brush Back + Taper',cat:'brushback',hairType:'straight',tags:['Taper'],desc:'Brush back paired with a tapered neckline for a polished finish.',imgs:[{src:'images/brushback5.png',label:'Front'},{src:'images/brushback5a.png',label:'Side'},{src:'images/brushback5b.png',label:'Side'}]},
-  {id:6,name:'Burst Fade',cat:'burstfade',hairType:'straight',tags:[''],desc:'Semicircular fade that bursts around the ear — clean and impactful.',img:'images/burstfade2.png'},
-  {id:7,name:'Burst Fade',cat:'burstfade',hairType:'textured',tags:['Textured'],desc:'Textured top over a crisp burst fade.',img:'images/burstfade.png'},
-  {id:8,name:'Jacob Elordi',cat:'elordi',hairType:'straight',tags:[''],desc:'Long, swept, effortlessly cool — the signature Elordi look.',img:'images/elordi.png'},
-  {id:9,name:'The Rafael',cat:'rafael',hairType:'straight',tags:[''],desc:'Relaxed mid-length with natural movement.',img:'images/rafael.png'},
-  {id:10,name:'Middle Part',cat:'middlePart',hairType:'straight',tags:[''],desc:'Symmetrical parting down the centre for a clean, balanced look.',img:'images/middlepart2.png'},
-  {id:11,name:'Middle Part',cat:'middlePart',hairType:'textured',tags:['Textured'],desc:'Textured finish on a classic middle part.',img:'images/middlepart.png'},
-  {id:12,name:'Fringe',cat:'fringe',hairType:'wavy',tags:['Textured Fringe'],desc:'Textured fringe with natural wave — relaxed and modern.',img:'images/fringe.png'},
-  {id:13,name:'Saiyan',cat:'saiyan',hairType:'textured',tags:['Textured Saiyan'],desc:'High-energy textured spikes with serious volume.',img:'images/saiyan.png'},
-  {id:14,name:'Mod Cut',cat:'modCut',hairType:'straight',tags:['Mod Cut'],desc:'Geometric bowl-adjacent shape — retro roots, modern feel.',imgs:[{src:'images/modcut2.png',label:'Front'},{src:'images/modcut1.png',label:'Side'}]},
-  {id:15,name:'Mod Cut',cat:'modCut',hairType:'straight',tags:['Short Textured'],desc:'Shorter, more textured take on the classic mod cut.',img:'images/modcut1.png'},
-  {id:16,name:'Brush Back + Taper',cat:'brushback',hairType:'straight',tags:['Taper'],desc:'Brush back paired with a tapered neckline for a polished finish.',img:'images/brushback3.png'},
-  {id:17,name:'Johnny Depp',cat:'johnnydepp',hairType:'straight',tags:['Johnny Depp'],desc:'A Johnny Depp Inspired Haircut',imgs:[{src:'images/Johnnydepp1.png',label:'Front'},{src:'images/Johnnydepp2.png',label:'Side'},{src:'images/Johnnydepp3.png',label:'Side'}]},
-  {id:18,name:'Middle Part',cat:'middlePart',hairType:'textured',tags:['Textured'],desc:'Textured finish on a classic middle part.',imgs:[{src:'images/middlepart3.png',label:'Front'},{src:'images/middlepart3a.png',label:'Side'},{src:'images/middlepart3b.png',label:'Side'}]},
-  {id:19,name:'Brush Back + Taper',cat:'brushback',hairType:'straight',tags:['Taper'],desc:'Brush back paired with a tapered neckline for a polished finish.',imgs:[{src:'images/brushback7.png',label:'Front'},{src:'images/brushback7a.png',label:'Side'}]},
-  {id:20,name:'Brush Back',cat:'brushback',hairType:'straight',tags:[''],desc:'Clean swept back style, versatile and timeless.',img:'images/brushback11.png'},
-  {id:21,name:'Brush Back',cat:'brushback',hairType:'straight',tags:[''],desc:'Clean swept back style, versatile and timeless.',img:'images/brushback10.png'},
-  {id:22,name:'Burst Fade',cat:'burstfade',hairType:'straight',tags:['Taper'],desc:'Brush back paired with a tapered neckline for a polished finish.',imgs:[{src:'images/burstfade9.png',label:'Front'},{src:'images/burstfade9a.png',label:'Side'}]},
-  {id:23,name:'Burst Fade',cat:'burstfade',hairType:'straight',tags:[''],desc:'Semicircular fade that bursts around the ear — clean and impactful.',img:'images/burstfade5.png'},
-  {id:24,name:'Taper Fade',cat:'taper',hairType:'wavy',tags:['Taper'],desc:'Textured fringe with natural wave — relaxed and modern.',img:'images/taperfade2.png'},
-  {id:25,name:'Taper Fade',cat:'taper',hairType:'wavy',tags:['Taper'],desc:'Textured fringe with natural wave — relaxed and modern.',imgs:[{src:'images/taperfade.png',label:'Front'},{src:'images/taperfade1a.png',label:'Side'}]},
-  {id:26,name:'Taper Fade',cat:'taper',hairType:'curly',tags:['Curly'],desc:'Textured fringe with natural wave — relaxed and modern.',imgs:[{src:'images/curlytaperfade.png',label:'Front'},{src:'images/curlytaperfade2.png',label:'Side'},{src:'images/curlytaperfade3.png',label:'Side'}]},
-  {id:27,name:'Mid Length',cat:'midLength',hairType:'curly',tags:['Taper'],desc:'Textured fringe with natural wave — relaxed and modern.',imgs:[{src:'images/mediumlength1.png',label:'Front'},{src:'images/mediumlength2.png',label:'Side'}]},
-  {id:28,name:'Mid Length',cat:'midLength',hairType:'straight',tags:[''],desc:'Semicircular fade that bursts around the ear — clean and impactful.',img:'images/midlength.png'},
-];
+const cats=[{id:'brushback',name:'Brush Back',img:'images/brushback4.png'},{id:'burstfade',name:'Burst Fade',img:'images/burstfade2.png'},{id:'taper',name:'Taper',img:'images/taperfade2.png'},{id:'fringe',name:'Fringe',img:'images/fringe.png'},{id:'mullet',name:'Mullet',img:'images/mullet.png'},{id:'modCut',name:'Mod Cut',img:'images/modcut2.png'},{id:'elordi',name:'Jacob Elordi',img:'images/elordi.png'},{id:'layered',name:'Layered Cut',img:'images/layeredflow.png'},{id:'midLength',name:'Mid Length',img:'images/midlength.png'},{id:'middlePart',name:'Middle Part',img:'images/middlepart.png'},{id:'cropHaircuts',name:'Crop Haircuts',img:'images/texturedcrop.png'},{id:'rafael',name:'Rafael',img:'images/rafael.png'},{id:'johnnydepp',name:'Johnny Depp Haircut',img:'images/johnnydepp1.png'}];
+const cuts=[{id:1,name:'Brush Back',cat:'brushback',hairType:'straight',tags:['Skin Fade'],desc:'Brush back elevated with a sharp skin fade on the sides.',imgs:[{src:'images/brushback4.png',label:'Front'},{src:'images/brushback4a.png',label:'Side'}]},{id:2,name:'Brush Back',cat:'brushback',hairType:'straight',tags:[''],desc:'Clean swept back style, versatile and timeless.',img:'images/brushback.png'},{id:4,name:'Brush Back',cat:'brushback',hairType:'curly',tags:['Curly'],desc:'Natural curl texture swept back for effortless volume.',img:'images/brushback2.png'},{id:5,name:'Brush Back + Taper',cat:'brushback',hairType:'straight',tags:['Taper'],desc:'Brush back paired with a tapered neckline for a polished finish.',imgs:[{src:'images/brushback5.png',label:'Front'},{src:'images/brushback5a.png',label:'Side'},{src:'images/brushback5b.png',label:'Side'}]},{id:6,name:'Burst Fade',cat:'burstfade',hairType:'straight',tags:[''],desc:'Semicircular fade that bursts around the ear — clean and impactful.',img:'images/burstfade2.png'},{id:7,name:'Burst Fade',cat:'burstfade',hairType:'textured',tags:['Textured'],desc:'Textured top over a crisp burst fade.',img:'images/burstfade.png'},{id:8,name:'Jacob Elordi',cat:'elordi',hairType:'straight',tags:[''],desc:'Long, swept, effortlessly cool — the signature Elordi look.',img:'images/elordi.png'},{id:9,name:'The Rafael',cat:'rafael',hairType:'straight',tags:[''],desc:'Relaxed mid-length with natural movement.',img:'images/rafael.png'},{id:10,name:'Middle Part',cat:'middlePart',hairType:'straight',tags:[''],desc:'Symmetrical parting down the centre for a clean, balanced look.',img:'images/middlepart2.png'},{id:11,name:'Middle Part',cat:'middlePart',hairType:'textured',tags:['Textured'],desc:'Textured finish on a classic middle part.',img:'images/middlepart.png'},{id:12,name:'Fringe',cat:'fringe',hairType:'wavy',tags:['Textured Fringe'],desc:'Textured fringe with natural wave — relaxed and modern.',img:'images/fringe.png'},{id:13,name:'Saiyan',cat:'saiyan',hairType:'textured',tags:['Textured Saiyan'],desc:'High-energy textured spikes with serious volume.',img:'images/saiyan.png'},{id:14,name:'Mod Cut',cat:'modCut',hairType:'straight',tags:['Mod Cut'],desc:'Geometric bowl-adjacent shape — retro roots, modern feel.',imgs:[{src:'images/modcut2.png',label:'Front'},{src:'images/modcut1.png',label:'Side'}]},{id:15,name:'Mod Cut',cat:'modCut',hairType:'straight',tags:['Short Textured'],desc:'Shorter, more textured take on the classic mod cut.',img:'images/modcut1.png'},{id:16,name:'Brush Back + Taper',cat:'brushback',hairType:'straight',tags:['Taper'],desc:'Brush back paired with a tapered neckline for a polished finish.',img:'images/brushback3.png'},{id:17,name:'Johnny Depp',cat:'johnnydepp',hairType:'straight',tags:['Johnny Depp'],desc:'A Johnny Depp Inspired Haircut',imgs:[{src:'images/Johnnydepp1.png',label:'Front'},{src:'images/Johnnydepp2.png',label:'Side'},{src:'images/Johnnydepp3.png',label:'Side'}]},{id:18,name:'Middle Part',cat:'middlePart',hairType:'textured',tags:['Textured'],desc:'Textured finish on a classic middle part.',imgs:[{src:'images/middlepart3.png',label:'Front'},{src:'images/middlepart3a.png',label:'Side'},{src:'images/middlepart3b.png',label:'Side'}]},{id:19,name:'Brush Back + Taper',cat:'brushback',hairType:'straight',tags:['Taper'],desc:'Brush back paired with a tapered neckline for a polished finish.',imgs:[{src:'images/brushback7.png',label:'Front'},{src:'images/brushback7a.png',label:'Side'}]},{id:20,name:'Brush Back',cat:'brushback',hairType:'straight',tags:[''],desc:'Clean swept back style, versatile and timeless.',img:'images/brushback11.png'},{id:21,name:'Brush Back',cat:'brushback',hairType:'straight',tags:[''],desc:'Clean swept back style, versatile and timeless.',img:'images/brushback10.png'},{id:22,name:'Burst Fade',cat:'burstfade',hairType:'straight',tags:['Taper'],desc:'Brush back paired with a tapered neckline for a polished finish.',imgs:[{src:'images/burstfade9.png',label:'Front'},{src:'images/burstfade9a.png',label:'Side'}]},{id:23,name:'Burst Fade',cat:'burstfade',hairType:'straight',tags:[''],desc:'Semicircular fade that bursts around the ear — clean and impactful.',img:'images/burstfade5.png'},{id:24,name:'Taper Fade',cat:'taper',hairType:'wavy',tags:['Taper'],desc:'Textured fringe with natural wave — relaxed and modern.',img:'images/taperfade2.png'},{id:25,name:'Taper Fade',cat:'taper',hairType:'wavy',tags:['Taper'],desc:'Textured fringe with natural wave — relaxed and modern.',imgs:[{src:'images/taperfade.png',label:'Front'},{src:'images/taperfade1a.png',label:'Side'}]},{id:26,name:'Taper Fade',cat:'taper',hairType:'curly',tags:['Curly'],desc:'Textured fringe with natural wave — relaxed and modern.',imgs:[{src:'images/curlytaperfade.png',label:'Front'},{src:'images/curlytaperfade2.png',label:'Side'},{src:'images/curlytaperfade3.png',label:'Side'}]},{id:27,name:'Mid Length',cat:'midLength',hairType:'curly',tags:['Taper'],desc:'Textured fringe with natural wave — relaxed and modern.',imgs:[{src:'images/mediumlength1.png',label:'Front'},{src:'images/mediumlength2.png',label:'Side'}]},{id:28,name:'Mid Length',cat:'midLength',hairType:'straight',tags:[''],desc:'Semicircular fade that bursts around the ear — clean and impactful.',img:'images/midlength.png'}];
 
 /* ─── HELPERS ─── */
-function getImgs(cut){return (cut.imgs&&cut.imgs.length)?cut.imgs:[{src:cut.img||'',label:''}];}
+function getImgs(cut){return(cut.imgs&&cut.imgs.length)?cut.imgs:[{src:cut.img||'',label:''}];}
 function loadImg(el,src,alt){el.src=src;el.alt=alt||'';el.onload=()=>el.classList.add('loaded');el.onerror=()=>{el.style.opacity='0.15';};}
 function ptDist(t){return Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY);}
 function ptMid(t){return{x:(t[0].clientX+t[1].clientX)/2,y:(t[0].clientY+t[1].clientY)/2};}
@@ -810,20 +610,7 @@ function formatDate(iso){const d=new Date(iso);return d.toLocaleDateString('en-G
 
 /* ─── HERO SWIPER ─── */
 let heroImgs=[],heroIdx=0,hTxStart=0,hTyStart=0,hTxDelta=0,hSwipe=false,hAxisLocked=false,tapHintShown=false;
-function buildHero(cut){
-  heroImgs=getImgs(cut);heroIdx=0;
-  const box=document.getElementById('heroBox'),track=document.getElementById('heroTrack'),dots=document.getElementById('heroDots'),badge=document.getElementById('heroBadge');
-  const W=box.getBoundingClientRect().width||box.offsetWidth||window.innerWidth||420;
-  track.innerHTML='';track.style.width=(W*heroImgs.length)+'px';
-  heroImgs.forEach(img=>{const slide=document.createElement('div');slide.className='hero-slide';slide.style.width=W+'px';const el=document.createElement('img');el.src=img.src;el.alt=img.label||cut.name;el.onload=()=>el.classList.add('loaded');el.onerror=()=>{el.style.opacity='0.15';};slide.appendChild(el);track.appendChild(slide);});
-  dots.innerHTML='';badge.style.display='none';
-  if(heroImgs.length>1){heroImgs.forEach((_,i)=>{const d=document.createElement('div');d.className='hero-dot'+(i===0?' active':'');dots.appendChild(d);});badge.style.display='block';}
-  const hint=document.getElementById('heroTapHint');if(!tapHintShown){hint.classList.remove('hidden');}else{hint.classList.add('hidden');}
-  _heroApply(0,false);
-  const newBox=box.cloneNode(false);while(box.firstChild)newBox.appendChild(box.firstChild);box.parentNode.replaceChild(newBox,box);newBox.id='heroBox';
-  newBox.addEventListener('touchstart',hTS,{passive:true});newBox.addEventListener('touchmove',hTM,{passive:false});newBox.addEventListener('touchend',hTE,{passive:true});
-  newBox.addEventListener('click',()=>openLightbox(heroIdx));
-}
+function buildHero(cut){heroImgs=getImgs(cut);heroIdx=0;const box=document.getElementById('heroBox'),track=document.getElementById('heroTrack'),dots=document.getElementById('heroDots'),badge=document.getElementById('heroBadge');const W=box.getBoundingClientRect().width||box.offsetWidth||window.innerWidth||420;track.innerHTML='';track.style.width=(W*heroImgs.length)+'px';heroImgs.forEach(img=>{const slide=document.createElement('div');slide.className='hero-slide';slide.style.width=W+'px';const el=document.createElement('img');el.src=img.src;el.alt=img.label||cut.name;el.onload=()=>el.classList.add('loaded');el.onerror=()=>{el.style.opacity='0.15';};slide.appendChild(el);track.appendChild(slide);});dots.innerHTML='';badge.style.display='none';if(heroImgs.length>1){heroImgs.forEach((_,i)=>{const d=document.createElement('div');d.className='hero-dot'+(i===0?' active':'');dots.appendChild(d);});badge.style.display='block';}const hint=document.getElementById('heroTapHint');if(!tapHintShown){hint.classList.remove('hidden');}else{hint.classList.add('hidden');}_heroApply(0,false);const newBox=box.cloneNode(false);while(box.firstChild)newBox.appendChild(box.firstChild);box.parentNode.replaceChild(newBox,box);newBox.id='heroBox';newBox.addEventListener('touchstart',hTS,{passive:true});newBox.addEventListener('touchmove',hTM,{passive:false});newBox.addEventListener('touchend',hTE,{passive:true});newBox.addEventListener('click',()=>openLightbox(heroIdx));}
 function _heroApply(idx,animate){heroIdx=idx;const box=document.getElementById('heroBox'),track=document.getElementById('heroTrack'),badge=document.getElementById('heroBadge');const W=box.offsetWidth||420;track.classList.toggle('dragging',!animate);track.style.transform='translateX('+ (-idx*W) +'px)';document.querySelectorAll('.hero-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));if(heroImgs.length>1){const lbl=heroImgs[idx].label;badge.textContent=lbl?lbl:(idx+1)+' / '+heroImgs.length;}const thumb=document.getElementById('cThumb');if(thumb)thumb.src=heroImgs[idx].src;}
 function hGoSlide(idx){idx=Math.max(0,Math.min(heroImgs.length-1,idx));_heroApply(idx,true);}
 function hTS(e){hTxStart=e.touches[0].clientX;hTyStart=e.touches[0].clientY;hTxDelta=0;hSwipe=false;hAxisLocked=false;document.getElementById('heroTrack').classList.add('dragging');}
@@ -852,12 +639,7 @@ const STORAGE_KEY='lockedCut',HISTORY_KEY='cutHistory';
 /* ─── HISTORY ─── */
 function getHistory(){try{return JSON.parse(localStorage.getItem(HISTORY_KEY)||'[]');}catch(e){return[];}}
 function addToHistory(cut,fade,top,type,personName,personDesc){const h=getHistory();h.unshift({id:cut.id,name:cut.name,fade,top,img:getImgs(cut)[0].src,date:new Date().toISOString(),type:type||'freestyle',personName:personName||'',personDesc:personDesc||''});if(h.length>200)h.pop();localStorage.setItem(HISTORY_KEY,JSON.stringify(h));}
-function openHistorySheet(){
-  const h=getHistory(),body=document.getElementById('historySheetBody');body.innerHTML='';
-  if(!h.length){body.innerHTML='<div class="history-empty">No locks yet. Lock a haircut to start building your history.</div>';}
-  else{h.forEach((item,idx)=>{const row=document.createElement('div');row.className='history-item';const thumb=document.createElement('div');thumb.className='history-thumb';const img=document.createElement('img');img.src=item.img||'';img.onload=()=>img.classList.add('loaded');img.onerror=()=>{img.style.opacity='0.15';};thumb.appendChild(img);const info=document.createElement('div');info.className='history-info';const typePill=item.type&&item.type!=='freestyle'?`<span class="history-type-pill ${item.type}">${item.type}</span>`:'';info.innerHTML='<div class="history-name">'+item.name+typePill+'</div>'+'<div class="history-opts">'+(item.fade||'Mid')+' fade · '+(item.top||'Neat')+' top'+(item.personName?'<br><span>'+item.personName+'</span>':'')+'</div>'+'<div class="history-date">'+formatDate(item.date)+(idx===0?' · <span style="color:var(--text2)">Latest</span>':'')+'</div>';const reopen=document.createElement('div');reopen.className='history-reopen';reopen.textContent='View';reopen.onclick=()=>{closeHistorySheet();fv=item.fade||'Mid';tv=item.top||'Neat';openCut(item.id,true);};row.appendChild(thumb);row.appendChild(info);row.appendChild(reopen);body.appendChild(row);});const btn=document.createElement('button');btn.className='sheet-clear';btn.textContent='Clear history';btn.onclick=()=>{if(confirm('Clear all lock history?')){localStorage.removeItem(HISTORY_KEY);openHistorySheet();}};body.appendChild(btn);}
-  document.getElementById('sheetBackdrop').classList.add('open');document.getElementById('historySheet').classList.add('open');
-}
+function openHistorySheet(){const h=getHistory(),body=document.getElementById('historySheetBody');body.innerHTML='';if(!h.length){body.innerHTML='<div class="history-empty">No locks yet.</div>';}else{h.forEach((item,idx)=>{const row=document.createElement('div');row.className='history-item';const thumb=document.createElement('div');thumb.className='history-thumb';const img=document.createElement('img');img.src=item.img||'';img.onload=()=>img.classList.add('loaded');img.onerror=()=>{img.style.opacity='0.15';};thumb.appendChild(img);const info=document.createElement('div');info.className='history-info';const typePill=item.type&&item.type!=='freestyle'?`<span class="history-type-pill ${item.type}">${item.type}</span>`:'';info.innerHTML='<div class="history-name">'+item.name+typePill+'</div>'+'<div class="history-opts">'+(item.fade||'Mid')+' fade · '+(item.top||'Neat')+' top'+(item.personName?'<br><span>'+item.personName+'</span>':'')+'</div>'+'<div class="history-date">'+formatDate(item.date)+(idx===0?' · <span style="color:var(--text2)">Latest</span>':'')+'</div>';const reopen=document.createElement('div');reopen.className='history-reopen';reopen.textContent='View';reopen.onclick=()=>{closeHistorySheet();fv=item.fade||'Mid';tv=item.top||'Neat';openCut(item.id,true);};row.appendChild(thumb);row.appendChild(info);row.appendChild(reopen);body.appendChild(row);});const btn=document.createElement('button');btn.className='sheet-clear';btn.textContent='Clear history';btn.onclick=()=>{if(confirm('Clear all lock history?')){localStorage.removeItem(HISTORY_KEY);openHistorySheet();}};body.appendChild(btn);}document.getElementById('sheetBackdrop').classList.add('open');document.getElementById('historySheet').classList.add('open');}
 function closeHistorySheet(){document.getElementById('sheetBackdrop').classList.remove('open');document.getElementById('historySheet').classList.remove('open');}
 
 /* ─── LOCK-IN SHEET ─── */
@@ -922,20 +704,13 @@ function updateConfirm(){document.getElementById('cOpts').textContent=fv+' fade 
 function shareCutToWhatsApp(){if(!cur)return;const fi=getImgs(cur)[0].src;const text='Check out this haircut: '+cur.name+'\n'+cur.desc+'\n'+window.location.origin+window.location.pathname+'\nImage: '+new URL(fi,window.location.href).href;window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');}
 function restoreLockedCut(){const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return;try{const s=JSON.parse(raw),cut=cuts.find(c=>c.id===s.id);if(!cut)return;cur=cut;fv=s.fv||'Mid';tv=s.tv||'Neat';}catch(e){}}
 
-/* ════════════════════════════════════════════
-   METRICS — neutral monochrome system
-   Bars use white→gray opacity descending order
-   Donut uses segmented white/gray strokes
-   No rainbow palette anywhere
-   ════════════════════════════════════════════ */
+/* ═══════════════════════════════════
+   METRICS
+   ═══════════════════════════════════ */
 const HAIR_TYPES_MAP={1:'straight',2:'straight',4:'curly',5:'straight',6:'straight',7:'textured',8:'straight',9:'straight',10:'straight',11:'textured',12:'wavy',13:'textured',14:'straight',15:'straight',16:'straight',17:'straight',18:'textured',19:'straight',20:'straight',21:'straight',22:'straight',23:'straight',24:'wavy',25:'wavy',26:'curly',27:'curly',28:'straight'};
 const MONTH_SHORT=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-
-// Neutral color scale — dark theme: white→gray; light theme handled via CSS vars
 const NEUTRAL_BARS=['var(--m-bar-primary)','var(--m-bar-secondary)','var(--m-bar-tertiary)','var(--m-bar-quaternary)','var(--m-bar-quaternary)'];
-// Donut strokes — four neutral shades
 const DONUT_STROKES=['rgba(240,240,240,0.9)','rgba(240,240,240,0.55)','rgba(240,240,240,0.28)','rgba(240,240,240,0.13)'];
-// Stacked bar — client solid, model hatched-feel (50% opacity), freestyle dim
 const STACK_CLIENT='var(--m-client)';
 const STACK_MODEL='var(--m-model)';
 const STACK_FREESTYLE='var(--m-freestyle)';
@@ -950,120 +725,67 @@ function renderMetricsScreen(){
   const months=getLast6Months();
   const clientsH=h.filter(x=>x.type==='client'),modelsH=h.filter(x=>x.type==='model'),named=[...clientsH,...modelsH];
   const uniqueNames=new Set(named.filter(x=>x.personName).map(x=>x.personName.trim().toLowerCase()));
-
-  // ── SUMMARY CARDS
   body.innerHTML+=`<div class="stat-grid">
     <div class="stat-card"><div class="stat-icon"><i class="ti ti-scissors"></i></div><div class="stat-label">Total locks</div><div class="stat-value anim-stat" data-target="${h.length}">0</div><div class="stat-sub">all time</div></div>
     <div class="stat-card"><div class="stat-icon"><i class="ti ti-users"></i></div><div class="stat-label">Unique people</div><div class="stat-value anim-stat" data-target="${uniqueNames.size}">0</div><div class="stat-sub">clients &amp; models</div></div>
     <div class="stat-card"><div class="stat-icon"><i class="ti ti-user"></i></div><div class="stat-label">Clients</div><div class="stat-value anim-stat" data-target="${clientsH.length}">0</div><div class="stat-sub">named sessions</div></div>
     <div class="stat-card"><div class="stat-icon"><i class="ti ti-star"></i></div><div class="stat-label">Models</div><div class="stat-value anim-stat" data-target="${modelsH.length}">0</div><div class="stat-sub">named sessions</div></div>
   </div>`;
-
-  // ── MOST LOCKED CUT
   const lockCount={};h.forEach(x=>{lockCount[x.name]=(lockCount[x.name]||0)+1;});
   const sortedCuts=Object.entries(lockCount).sort((a,b)=>b[1]-a[1]).slice(0,5);
   const maxLock=sortedCuts[0]?sortedCuts[0][1]:1;
   body.innerHTML+=`<div class="m-section-header"><i class="ti ti-trophy" style="font-size:13px;color:var(--text3)"></i><div class="m-section-title">Most locked cut</div></div>
   <div class="m-chart-card tappable" onclick="openDrill('top-cuts')" style="margin-bottom:14px;">
-    ${sortedCuts.length?sortedCuts.map(([name,count],i)=>`
-    <div class="m-bar-row">
-      <div class="m-rank-num" style="${i===0?'color:var(--text)':'color:var(--text3)'}">${i+1}</div>
-      <div class="m-bar-label">${name}</div>
-      <div class="m-bar-track"><div class="m-bar-fill" data-width="${Math.round(count/maxLock*100)}%" style="width:0;background:${NEUTRAL_BARS[i]};"></div></div>
-      <div class="m-bar-count" data-count="${count}">0</div>
-    </div>`).join(''):'<div class="m-empty"><i class="ti ti-trophy"></i><p>No locks yet</p></div>'}
+    ${sortedCuts.length?sortedCuts.map(([name,count],i)=>`<div class="m-bar-row"><div class="m-rank-num" style="${i===0?'color:var(--text)':'color:var(--text3)'}">${i+1}</div><div class="m-bar-label">${name}</div><div class="m-bar-track"><div class="m-bar-fill" data-width="${Math.round(count/maxLock*100)}%" style="width:0;background:${NEUTRAL_BARS[i]};"></div></div><div class="m-bar-count" data-count="${count}">0</div></div>`).join(''):'<div class="m-empty"><i class="ti ti-trophy"></i><p>No locks yet</p></div>'}
     <div class="m-tap-hint"><i class="ti ti-arrow-right"></i> See full ranking</div>
   </div>`;
-
-  // ── HAIRCUT TYPES DONUT
   const typeCount={straight:0,curly:0,wavy:0,textured:0};h.forEach(x=>{const t=HAIR_TYPES_MAP[x.id];if(t&&typeCount[t]!==undefined)typeCount[t]++;});
   const typeTotal=Object.values(typeCount).reduce((a,b)=>a+b,0)||1;
-  const typeLabels={straight:'Straight',curly:'Curly',wavy:'Wavy',textured:'Textured'};
+  const typeLabelsMap={straight:'Straight',curly:'Curly',wavy:'Wavy',textured:'Textured'};
   const typeEntries=Object.entries(typeCount).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);
   const R=28,cx=40,cy=40,circ=2*Math.PI*R;let offset=0;
-  const segments=typeEntries.map(([type,count],i)=>{
-    const pct=count/typeTotal,dash=pct*circ,gap=circ-dash,fo=(-offset*circ+circ/4).toFixed(2);
-    const strokeColor=DONUT_STROKES[i]||DONUT_STROKES[DONUT_STROKES.length-1];
-    const seg=`<circle class="anim-donut" cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${strokeColor}" stroke-width="10" stroke-dasharray="${dash.toFixed(2)} ${gap.toFixed(2)}" stroke-dashoffset="${circ.toFixed(2)}" data-final-offset="${fo}" transform="rotate(-90 ${cx} ${cy})"/>`;
-    offset+=pct;return seg;
-  }).join('');
+  const segments=typeEntries.map(([type,count],i)=>{const pct=count/typeTotal,dash=pct*circ,gap=circ-dash,fo=(-offset*circ+circ/4).toFixed(2);const strokeColor=DONUT_STROKES[i]||DONUT_STROKES[DONUT_STROKES.length-1];const seg=`<circle class="anim-donut" cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${strokeColor}" stroke-width="10" stroke-dasharray="${dash.toFixed(2)} ${gap.toFixed(2)}" stroke-dashoffset="${circ.toFixed(2)}" data-final-offset="${fo}" transform="rotate(-90 ${cx} ${cy})"/>`;offset+=pct;return seg;}).join('');
   body.innerHTML+=`<div class="m-section-header"><i class="ti ti-chart-donut" style="font-size:13px;color:var(--text3)"></i><div class="m-section-title">Most selected haircut types</div></div>
   <div class="m-chart-card tappable" onclick="openDrill('hair-types')" style="margin-bottom:14px;">
-    <div class="m-donut-wrap">
-      <svg class="m-donut-svg" viewBox="0 0 80 80">
-        <circle cx="40" cy="40" r="28" fill="none" stroke="var(--bg3)" stroke-width="10"/>
-        ${segments}
-      </svg>
-      <div class="m-donut-legend">
-        ${typeEntries.map(([type,count],i)=>`<div class="m-donut-leg-row"><div class="m-donut-leg-dot" style="background:${DONUT_STROKES[i]||DONUT_STROKES[DONUT_STROKES.length-1]}"></div><div class="m-donut-leg-label">${typeLabels[type]}</div><div class="m-donut-leg-val">${Math.round(count/typeTotal*100)}%</div></div>`).join('')||'<div style="font-size:12px;color:var(--text3)">No data yet</div>'}
-      </div>
-    </div>
+    <div class="m-donut-wrap"><svg class="m-donut-svg" viewBox="0 0 80 80"><circle cx="40" cy="40" r="28" fill="none" stroke="var(--bg3)" stroke-width="10"/>${segments}</svg>
+    <div class="m-donut-legend">${typeEntries.map(([type,count],i)=>`<div class="m-donut-leg-row"><div class="m-donut-leg-dot" style="background:${DONUT_STROKES[i]||DONUT_STROKES[DONUT_STROKES.length-1]}"></div><div class="m-donut-leg-label">${typeLabelsMap[type]}</div><div class="m-donut-leg-val">${Math.round(count/typeTotal*100)}%</div></div>`).join('')||'<div style="font-size:12px;color:var(--text3)">No data yet</div>'}</div></div>
     <div class="m-tap-hint"><i class="ti ti-arrow-right"></i> See sessions by type</div>
   </div>`;
-
-  // ── TREND SPARKLINE
   const trendData=months.map(m=>h.filter(x=>itemMonthKey(x)===m.key).length);
   const maxT=Math.max(...trendData,1);const W=290,H=70;
   const pts=trendData.map((v,i)=>`${Math.round(i*(W/(trendData.length-1||1)))},${Math.round(H-v/maxT*H)}`);
   const areaPath=`M${pts.join('L')} L${W},${H} L0,${H} Z`;
   body.innerHTML+=`<div class="m-section-header"><i class="ti ti-trending-up" style="font-size:13px;color:var(--text3)"></i><div class="m-section-title">Lock trend over time</div><span class="m-section-chip">last 6 months</span></div>
   <div class="m-chart-card tappable" onclick="openDrill('trend')" style="margin-bottom:14px;">
-    <svg viewBox="0 0 ${W} 80" style="width:100%;height:80px;">
-      <defs>
-        <linearGradient id="mtg" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="var(--text)" stop-opacity="0.18"/>
-          <stop offset="100%" stop-color="var(--text)" stop-opacity="0"/>
-        </linearGradient>
-      </defs>
-      <path d="M${pts.join('L')}" fill="none" stroke="var(--text2)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
-      <path d="${areaPath}" fill="url(#mtg)"/>
-      ${trendData.map((v,i)=>`<circle cx="${Math.round(i*(W/(trendData.length-1||1)))}" cy="${Math.round(H-v/maxT*H)}" r="3" fill="var(--text)"/><text x="${Math.round(i*(W/(trendData.length-1||1)))}" y="${Math.round(H-v/maxT*H)-8}" text-anchor="middle" font-size="9" fill="var(--text2)">${v||''}</text>`).join('')}
+    <svg viewBox="0 0 ${W} 80" style="width:100%;height:80px;"><defs><linearGradient id="mtg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="var(--text)" stop-opacity="0.18"/><stop offset="100%" stop-color="var(--text)" stop-opacity="0"/></linearGradient></defs>
+    <path d="M${pts.join('L')}" fill="none" stroke="var(--text2)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><path d="${areaPath}" fill="url(#mtg)"/>
+    ${trendData.map((v,i)=>`<circle cx="${Math.round(i*(W/(trendData.length-1||1)))}" cy="${Math.round(H-v/maxT*H)}" r="3" fill="var(--text)"/><text x="${Math.round(i*(W/(trendData.length-1||1)))}" y="${Math.round(H-v/maxT*H)-8}" text-anchor="middle" font-size="9" fill="var(--text2)">${v||''}</text>`).join('')}
     </svg>
     <div style="display:flex;gap:4px;margin-top:6px;">${months.map(m=>`<div style="flex:1;text-align:center;font-size:9px;color:var(--text3);">${m.label}</div>`).join('')}</div>
     <div class="m-tap-hint"><i class="ti ti-arrow-right"></i> See sessions by month</div>
   </div>`;
-
-  // ── LOCKS PER MONTH BY TYPE (stacked)
   const typeMonthData=months.map(m=>({label:m.label,key:m.key,client:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='client').length,model:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='model').length,freestyle:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='freestyle').length}));
   const maxStack=Math.max(...typeMonthData.map(m=>m.client+m.model+m.freestyle),1);
   body.innerHTML+=`<div class="m-section-header"><i class="ti ti-calendar-plus" style="font-size:13px;color:var(--text3)"></i><div class="m-section-title">Locks per month by type</div></div>
   <div class="m-chart-card tappable" onclick="openDrill('by-type-month')" style="margin-bottom:14px;">
-    <div class="m-pill-legend">
-      <div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_CLIENT}"></div>Client</div>
-      <div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_MODEL}"></div>Model</div>
-      <div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_FREESTYLE}"></div>Freestyle</div>
-    </div>
+    <div class="m-pill-legend"><div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_CLIENT}"></div>Client</div><div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_MODEL}"></div>Model</div><div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_FREESTYLE}"></div>Freestyle</div></div>
     <div style="display:flex;gap:6px;align-items:flex-end;height:60px;margin-bottom:4px;">
-      ${typeMonthData.map(m=>{const cH=Math.round(m.client/maxStack*60),mH=Math.round(m.model/maxStack*60),fH=Math.round(m.freestyle/maxStack*60);return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;">
-        ${m.client?`<div class="m-stack-fill" data-height="${cH}" style="width:100%;height:0;background:${STACK_CLIENT};border-radius:2px 2px 0 0;"></div>`:''}
-        ${m.model?`<div class="m-stack-fill" data-height="${mH}" style="width:100%;height:0;background:${STACK_MODEL};"></div>`:''}
-        ${m.freestyle?`<div class="m-stack-fill" data-height="${fH}" style="width:100%;height:0;background:${STACK_FREESTYLE};${!m.client&&!m.model?'border-radius:2px 2px 0 0':''}"></div>`:''}
-        ${!m.client&&!m.model&&!m.freestyle?`<div style="width:100%;height:3px;background:var(--bg3);border-radius:2px;margin-top:auto;"></div>`:''}
-      </div>`;}).join('')}
+      ${typeMonthData.map(m=>{const cH=Math.round(m.client/maxStack*60),mH=Math.round(m.model/maxStack*60),fH=Math.round(m.freestyle/maxStack*60);return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;">${m.client?`<div class="m-stack-fill" data-height="${cH}" style="width:100%;height:0;background:${STACK_CLIENT};border-radius:2px 2px 0 0;"></div>`:''}${m.model?`<div class="m-stack-fill" data-height="${mH}" style="width:100%;height:0;background:${STACK_MODEL};"></div>`:''}${m.freestyle?`<div class="m-stack-fill" data-height="${fH}" style="width:100%;height:0;background:${STACK_FREESTYLE};"></div>`:''}${!m.client&&!m.model&&!m.freestyle?`<div style="width:100%;height:3px;background:var(--bg3);border-radius:2px;margin-top:auto;"></div>`:''}</div>`;}).join('')}
     </div>
     <div style="display:flex;gap:6px;">${typeMonthData.map(m=>`<div style="flex:1;text-align:center;font-size:9px;color:var(--text3);">${m.label}</div>`).join('')}</div>
     <div class="m-tap-hint"><i class="ti ti-arrow-right"></i> See breakdown</div>
   </div>`;
-
-  // ── CLIENT & MODEL PER MONTH
   const cmData=months.map(m=>({label:m.label,key:m.key,client:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='client').length,model:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='model').length}));
   const maxCM=Math.max(...cmData.map(m=>Math.max(m.client,m.model)),1);
   body.innerHTML+=`<div class="m-section-header"><i class="ti ti-photo" style="font-size:13px;color:var(--text3)"></i><div class="m-section-title">Client &amp; model cuts per month</div></div>
   <div class="m-chart-card tappable" onclick="openDrill('client-model-month')" style="margin-bottom:32px;">
-    <div class="m-pill-legend">
-      <div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_CLIENT}"></div>Client</div>
-      <div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_MODEL}"></div>Model</div>
-    </div>
+    <div class="m-pill-legend"><div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_CLIENT}"></div>Client</div><div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_MODEL}"></div>Model</div></div>
     <div style="display:flex;gap:4px;align-items:flex-end;height:60px;margin-bottom:4px;">
-      ${cmData.map(m=>`<div style="flex:1;display:flex;gap:2px;align-items:flex-end;">
-        <div class="m-stack-fill" data-height="${Math.max(2,Math.round(m.client/maxCM*60))}" style="flex:1;height:0;background:${STACK_CLIENT};border-radius:3px 3px 0 0;"></div>
-        <div class="m-stack-fill" data-height="${Math.max(2,Math.round(m.model/maxCM*60))}" style="flex:1;height:0;background:${STACK_MODEL};border-radius:3px 3px 0 0;"></div>
-      </div>`).join('')}
+      ${cmData.map(m=>`<div style="flex:1;display:flex;gap:2px;align-items:flex-end;"><div class="m-stack-fill" data-height="${Math.max(2,Math.round(m.client/maxCM*60))}" style="flex:1;height:0;background:${STACK_CLIENT};border-radius:3px 3px 0 0;"></div><div class="m-stack-fill" data-height="${Math.max(2,Math.round(m.model/maxCM*60))}" style="flex:1;height:0;background:${STACK_MODEL};border-radius:3px 3px 0 0;"></div></div>`).join('')}
     </div>
     <div style="display:flex;gap:4px;">${cmData.map(m=>`<div style="flex:1;text-align:center;font-size:9px;color:var(--text3);">${m.label}</div>`).join('')}</div>
     <div class="m-tap-hint"><i class="ti ti-arrow-right"></i> See sessions</div>
   </div>`;
-
   requestAnimationFrame(()=>animateMetricsScreen());
 }
 
@@ -1076,58 +798,241 @@ function animateMetricsScreen(){
   document.querySelectorAll('.m-bar-count[data-count]').forEach(el=>animN(el,Number(el.dataset.count),450));
 }
 
-/* ─── DRILL-DOWN (s10) ─── */
+/* ═══════════════════════════════════
+   DRILL-DOWN — interactive charts
+   ═══════════════════════════════════ */
+let drillFilter={month:null,type:null};
+
 function openDrill(type){
+  drillFilter={month:null,type:null};
   document.getElementById('drillBackBtn').onclick=()=>go('s9');
   const h=getHistory(),months=getLast6Months();
   const body=document.getElementById('drillBody');body.innerHTML='';
-
-  if(type==='trend'){
-    document.getElementById('drillTitle').textContent='Monthly Sessions';
-    const grouped={};h.forEach(item=>{const mk=itemMonthKey(item);if(!grouped[mk])grouped[mk]=[];grouped[mk].push(item);});
-    const allMonthKeys=Object.keys(grouped).sort((a,b)=>b.localeCompare(a));
-    if(!allMonthKeys.length){body.innerHTML='<div class="drill-empty"><i class="ti ti-calendar" style="font-size:28px;color:var(--text3)"></i><p>No sessions recorded yet.</p></div>';go('s10');return;}
-    const total=h.length;const thisMonth=grouped[months[months.length-1].key]||[];
-    body.innerHTML+=`<div class="drill-summary"><div class="drill-stat"><div class="drill-stat-label">All time</div><div class="drill-stat-value">${total}</div><div class="drill-stat-sub">total locks</div></div><div class="drill-stat"><div class="drill-stat-label">This month</div><div class="drill-stat-value">${thisMonth.length}</div><div class="drill-stat-sub">sessions</div></div></div>`;
-    allMonthKeys.forEach(mk=>{const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});body.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length} session${items.length!==1?'s':''}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));body.appendChild(section);});
-  }
-  else if(type==='by-type-month'){
-    document.getElementById('drillTitle').textContent='Breakdown by Type';
-    const summary={client:h.filter(x=>x.type==='client').length,model:h.filter(x=>x.type==='model').length,freestyle:h.filter(x=>x.type==='freestyle').length};
-    body.innerHTML+=`<div class="drill-summary"><div class="drill-stat"><div class="drill-stat-label">Clients</div><div class="drill-stat-value">${summary.client}</div></div><div class="drill-stat"><div class="drill-stat-label">Models</div><div class="drill-stat-value">${summary.model}</div></div><div class="drill-stat"><div class="drill-stat-label">Freestyle</div><div class="drill-stat-value">${summary.freestyle}</div></div></div>`;
-    ['client','model','freestyle'].forEach(t=>{const count=summary[t];const typeLabels={client:'Client',model:'Model',freestyle:'Freestyle'};const row=document.createElement('div');row.className='drill-type-row';row.innerHTML=`<div class="drill-type-dot" style="background:var(--text2)"></div><div class="drill-type-info"><div class="drill-type-label">${typeLabels[t]}</div><div class="drill-type-sub">${count} session${count!==1?'s':''} total</div></div><i class="ti ti-chevron-right drill-type-arrow"></i>`;row.onclick=()=>openDrillTypeDetail(t);body.appendChild(row);});
-    body.innerHTML+=`<div class="m-section-header" style="margin-top:20px;"><div class="m-section-title">Monthly breakdown</div></div>`;
-    months.slice().reverse().forEach(m=>{const cl=h.filter(x=>itemMonthKey(x)===m.key&&x.type==='client').length;const mo=h.filter(x=>itemMonthKey(x)===m.key&&x.type==='model').length;const fr=h.filter(x=>itemMonthKey(x)===m.key&&x.type==='freestyle').length;const total=cl+mo+fr;if(!total)return;const row=document.createElement('div');row.style.cssText='background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;';row.innerHTML=`<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">${m.full||m.label} <span style="font-size:11px;font-weight:400;color:var(--text2)">(${total} total)</span></div><div style="display:flex;gap:14px;flex-wrap:wrap;">${cl?`<span style="font-size:12px;color:var(--text2);">● ${cl} client${cl!==1?'s':''}</span>`:''  }${mo?`<span style="font-size:12px;color:var(--text2);">● ${mo} model${mo!==1?'s':''}</span>`:''  }${fr?`<span style="font-size:12px;color:var(--text3);">● ${fr} freestyle</span>`:''  }</div>`;body.appendChild(row);});
-  }
-  else if(type==='client-model-month'){
-    document.getElementById('drillTitle').textContent='Clients & Models';
-    const totalC=h.filter(x=>x.type==='client').length,totalM=h.filter(x=>x.type==='model').length;
-    const uniqueC=new Set(h.filter(x=>x.type==='client'&&x.personName).map(x=>x.personName.trim().toLowerCase())).size;
-    const uniqueM=new Set(h.filter(x=>x.type==='model'&&x.personName).map(x=>x.personName.trim().toLowerCase())).size;
-    body.innerHTML+=`<div class="drill-summary"><div class="drill-stat"><div class="drill-stat-label">Client sessions</div><div class="drill-stat-value">${totalC}</div><div class="drill-stat-sub">${uniqueC} unique</div></div><div class="drill-stat"><div class="drill-stat-label">Model sessions</div><div class="drill-stat-value">${totalM}</div><div class="drill-stat-sub">${uniqueM} unique</div></div></div>`;
-    const allMonthKeys=[...new Set(h.filter(x=>x.type==='client'||x.type==='model').map(x=>itemMonthKey(x)))].sort((a,b)=>b.localeCompare(a));
-    if(!allMonthKeys.length){const e=document.createElement('div');e.className='drill-empty';e.innerHTML='<i class="ti ti-users" style="font-size:28px;color:var(--text3)"></i><p>No client or model sessions yet.</p>';body.appendChild(e);go('s10');return;}
-    allMonthKeys.forEach(mk=>{const items=h.filter(x=>itemMonthKey(x)===mk&&(x.type==='client'||x.type==='model'));if(!items.length)return;const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});body.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length} session${items.length!==1?'s':''}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));body.appendChild(section);});
-  }
-  else if(type==='top-cuts'){
-    document.getElementById('drillTitle').textContent='Cut Rankings';
-    const lockCount={};const lockImg={};const lockId={};h.forEach(x=>{lockCount[x.name]=(lockCount[x.name]||0)+1;if(!lockImg[x.name])lockImg[x.name]=x.img;if(!lockId[x.name])lockId[x.name]=x.id;});
-    const ranked=Object.entries(lockCount).sort((a,b)=>b[1]-a[1]);const total=h.length;
-    body.innerHTML+=`<div class="drill-summary"><div class="drill-stat"><div class="drill-stat-label">Unique cuts</div><div class="drill-stat-value">${ranked.length}</div></div><div class="drill-stat"><div class="drill-stat-label">Total locks</div><div class="drill-stat-value">${total}</div></div></div>`;
-    ranked.forEach(([name,count],i)=>{const row=document.createElement('div');row.className='drill-cut-row';const thumb=document.createElement('img');thumb.className='drill-cut-thumb';thumb.src=lockImg[name]||'';thumb.onload=()=>thumb.classList.add('loaded');thumb.onerror=()=>{thumb.style.opacity='0.1';};const rank=document.createElement('div');rank.className='drill-rank'+(i===0?' gold':'');rank.textContent=i+1;const info=document.createElement('div');info.className='drill-cut-info';const pct=Math.round(count/total*100);info.innerHTML=`<div class="drill-cut-name">${name}</div><div class="drill-cut-count">${count} lock${count!==1?'s':''} · ${pct}% of total</div>`;const arrow=document.createElement('i');arrow.className='ti ti-chevron-right';arrow.style.cssText='color:var(--text3);font-size:15px;align-self:center;';row.appendChild(rank);row.appendChild(thumb);row.appendChild(info);row.appendChild(arrow);row.onclick=()=>openDrillCutDetail(name,lockId[name]);body.appendChild(row);});
-    if(!ranked.length){body.innerHTML+='<div class="drill-empty"><i class="ti ti-scissors" style="font-size:28px;color:var(--text3)"></i><p>No locks yet.</p></div>';}
-  }
-  else if(type==='hair-types'){
-    document.getElementById('drillTitle').textContent='Sessions by Hair Type';
-    const typeLabels={straight:'Straight',curly:'Curly',wavy:'Wavy',textured:'Textured'};
-    const typeCount={straight:0,curly:0,wavy:0,textured:0};h.forEach(x=>{const t=HAIR_TYPES_MAP[x.id];if(t&&typeCount[t]!==undefined)typeCount[t]++;});
-    const sorted=Object.entries(typeCount).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);const total=sorted.reduce((a,[,v])=>a+v,0)||1;
-    sorted.forEach(([type,count])=>{const row=document.createElement('div');row.className='drill-type-row';row.innerHTML=`<div class="drill-type-dot" style="background:var(--text2)"></div><div class="drill-type-info"><div class="drill-type-label">${typeLabels[type]}</div><div class="drill-type-sub">${count} session${count!==1?'s':''} · ${Math.round(count/total*100)}% of total</div></div><i class="ti ti-chevron-right drill-type-arrow"></i>`;row.onclick=()=>openDrillHairTypeDetail(type);body.appendChild(row);});
-    if(!sorted.length){body.innerHTML='<div class="drill-empty"><i class="ti ti-scissors" style="font-size:28px;color:var(--text3)"></i><p>No data yet.</p></div>';}
-  }
+  if(type==='trend')renderDrillTrend(body,h,months);
+  else if(type==='by-type-month')renderDrillByTypeMonth(body,h,months);
+  else if(type==='client-model-month')renderDrillClientModelMonth(body,h,months);
+  else if(type==='top-cuts')renderDrillTopCuts(body,h);
+  else if(type==='hair-types')renderDrillHairTypes(body,h);
   go('s10');
 }
 
+/* ── TREND ── */
+function renderDrillTrend(body,h,months){
+  const trendData=months.map(m=>({...m,count:h.filter(x=>itemMonthKey(x)===m.key).length}));
+  const maxT=Math.max(...trendData.map(d=>d.count),1);
+  const thisMonth=trendData[trendData.length-1];
+  const sumEl=document.createElement('div');sumEl.className='drill-summary';
+  sumEl.innerHTML=`<div class="drill-stat"><div class="drill-stat-label">All time</div><div class="drill-stat-value">${h.length}</div><div class="drill-stat-sub">total locks</div></div><div class="drill-stat"><div class="drill-stat-label">This month</div><div class="drill-stat-value">${thisMonth.count}</div><div class="drill-stat-sub">sessions</div></div>`;
+  body.appendChild(sumEl);
+  const chartCard=document.createElement('div');chartCard.className='m-chart-card';chartCard.style.marginBottom='16px';
+  chartCard.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;"><div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;">Tap a month to filter</div><div id="drillTrendReset" style="font-size:11px;color:var(--text2);cursor:pointer;text-decoration:underline;display:none;">All months</div></div><div id="drillTrendChart" style="display:flex;gap:6px;align-items:flex-end;height:72px;margin-bottom:6px;padding:0 2px;"></div><div id="drillTrendLabels" style="display:flex;gap:6px;"></div><div id="drillTrendInfo" style="font-size:12px;color:var(--text2);margin-top:10px;min-height:18px;"></div>`;
+  body.appendChild(chartCard);
+  const listEl=document.createElement('div');listEl.id='drillTrendList';body.appendChild(listEl);
+  const chartEl=chartCard.querySelector('#drillTrendChart'),labelsEl=chartCard.querySelector('#drillTrendLabels');
+  trendData.forEach(m=>{
+    const barH=Math.max(4,Math.round(m.count/maxT*68));
+    const col=document.createElement('div');col.style.cssText='flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:0;cursor:pointer;';col.dataset.key=m.key;
+    const valLabel=document.createElement('div');valLabel.style.cssText='font-size:9px;color:var(--text3);margin-bottom:3px;font-variant-numeric:tabular-nums;min-height:12px;';valLabel.textContent=m.count>0?m.count:'';
+    const bar=document.createElement('div');bar.style.cssText=`width:100%;height:0;background:var(--m-bar-primary);border-radius:3px 3px 0 0;transition:height 0.5s cubic-bezier(.4,0,.2,1),opacity 0.2s;`;bar.dataset.targetH=barH;
+    col.appendChild(valLabel);col.appendChild(bar);col.addEventListener('click',()=>selectTrendMonth(m.key,trendData));chartEl.appendChild(col);
+    const lbl=document.createElement('div');lbl.style.cssText='flex:1;text-align:center;font-size:9px;color:var(--text3);';lbl.textContent=m.label;labelsEl.appendChild(lbl);
+  });
+  chartCard.querySelector('#drillTrendReset').onclick=()=>selectTrendMonth(null,trendData);
+  requestAnimationFrame(()=>{chartEl.querySelectorAll('[data-target-h]').forEach(el=>{el.style.height=el.dataset.targetH+'px';});renderTrendList(listEl,h,null);});
+}
+function selectTrendMonth(key,trendData){
+  drillFilter.month=key;
+  const chartEl=document.getElementById('drillTrendChart'),infoEl=document.getElementById('drillTrendInfo'),resetEl=document.getElementById('drillTrendReset');
+  chartEl.querySelectorAll('[data-key]').forEach(col=>{const bar=col.querySelector('div:last-child');const active=!key||col.dataset.key===key;bar.style.opacity=active?'1':'0.25';col.querySelector('div:first-child').style.color=active?'var(--text2)':'var(--text3)';});
+  if(key){const m=trendData.find(x=>x.key===key);infoEl.textContent=m?`${m.label}: ${m.count} session${m.count!==1?'s':''}`:'';resetEl.style.display='block';}
+  else{infoEl.textContent='';resetEl.style.display='none';}
+  renderTrendList(document.getElementById('drillTrendList'),getHistory(),key);
+}
+function renderTrendList(listEl,h,filterKey){
+  listEl.innerHTML='';
+  const grouped={};h.forEach(item=>{const mk=itemMonthKey(item);if(filterKey&&mk!==filterKey)return;if(!grouped[mk])grouped[mk]=[];grouped[mk].push(item);});
+  const keys=Object.keys(grouped).sort((a,b)=>b.localeCompare(a));
+  if(!keys.length){listEl.innerHTML='<div class="drill-empty"><i class="ti ti-calendar" style="font-size:28px;color:var(--text3)"></i><p>No sessions'+(filterKey?' this period.':'.'  )+'</p></div>';return;}
+  keys.forEach(mk=>{const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});listEl.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length} session${items.length!==1?'s':''}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));listEl.appendChild(section);});
+}
+
+/* ── CLIENT + MODEL MONTH ── */
+function renderDrillClientModelMonth(body,h,months){
+  const totalC=h.filter(x=>x.type==='client').length,totalM=h.filter(x=>x.type==='model').length;
+  const uniqueC=new Set(h.filter(x=>x.type==='client'&&x.personName).map(x=>x.personName.trim().toLowerCase())).size;
+  const uniqueM=new Set(h.filter(x=>x.type==='model'&&x.personName).map(x=>x.personName.trim().toLowerCase())).size;
+  const sumEl=document.createElement('div');sumEl.className='drill-summary';
+  sumEl.innerHTML=`<div class="drill-stat"><div class="drill-stat-label">Client sessions</div><div class="drill-stat-value">${totalC}</div><div class="drill-stat-sub">${uniqueC} unique</div></div><div class="drill-stat"><div class="drill-stat-label">Model sessions</div><div class="drill-stat-value">${totalM}</div><div class="drill-stat-sub">${uniqueM} unique</div></div>`;
+  body.appendChild(sumEl);
+  const cmData=months.map(m=>({...m,client:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='client').length,model:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='model').length}));
+  const maxCM=Math.max(...cmData.map(m=>Math.max(m.client,m.model)),1);
+  const chartCard=document.createElement('div');chartCard.className='m-chart-card';chartCard.style.marginBottom='16px';
+  chartCard.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;"><div class="m-pill-legend" style="margin-bottom:0;"><div class="m-pill-item"><div class="m-pill-dot" style="background:var(--m-client)"></div>Client</div><div class="m-pill-item"><div class="m-pill-dot" style="background:var(--m-model)"></div>Model</div></div><div id="drillCMReset" style="font-size:11px;color:var(--text2);cursor:pointer;text-decoration:underline;display:none;">All months</div></div><div id="drillCMChart" style="display:flex;gap:6px;align-items:flex-end;height:72px;margin-bottom:6px;"></div><div id="drillCMLabels" style="display:flex;gap:6px;"></div><div id="drillCMInfo" style="font-size:12px;color:var(--text2);margin-top:10px;min-height:18px;"></div>`;
+  body.appendChild(chartCard);
+  const listEl=document.createElement('div');listEl.id='drillCMList';body.appendChild(listEl);
+  const chartEl=chartCard.querySelector('#drillCMChart'),labelsEl=chartCard.querySelector('#drillCMLabels');
+  cmData.forEach(m=>{
+    const cH=Math.max(m.client>0?4:0,Math.round(m.client/maxCM*68)),mH=Math.max(m.model>0?4:0,Math.round(m.model/maxCM*68));
+    const grp=document.createElement('div');grp.style.cssText='flex:1;display:flex;gap:2px;align-items:flex-end;cursor:pointer;';grp.dataset.key=m.key;
+    grp.innerHTML=`<div data-target-h="${cH}" style="flex:1;height:0;background:var(--m-client);border-radius:3px 3px 0 0;transition:height 0.5s cubic-bezier(.4,0,.2,1),opacity 0.2s;"></div><div data-target-h="${mH}" style="flex:1;height:0;background:var(--m-model);border-radius:3px 3px 0 0;transition:height 0.5s cubic-bezier(.4,0,.2,1),opacity 0.2s;"></div>`;
+    grp.addEventListener('click',()=>selectCMMonth(m.key,cmData));chartEl.appendChild(grp);
+    const lbl=document.createElement('div');lbl.style.cssText='flex:1;text-align:center;font-size:9px;color:var(--text3);';lbl.textContent=m.label;labelsEl.appendChild(lbl);
+  });
+  chartCard.querySelector('#drillCMReset').onclick=()=>selectCMMonth(null,cmData);
+  requestAnimationFrame(()=>{chartEl.querySelectorAll('[data-target-h]').forEach(el=>{el.style.height=el.dataset.targetH+'px';});renderCMList(listEl,h,null);});
+}
+function selectCMMonth(key,cmData){
+  drillFilter.month=key;
+  const chartEl=document.getElementById('drillCMChart'),infoEl=document.getElementById('drillCMInfo'),resetEl=document.getElementById('drillCMReset');
+  chartEl.querySelectorAll('[data-key]').forEach(grp=>{const active=!key||grp.dataset.key===key;grp.querySelectorAll('div').forEach(b=>b.style.opacity=active?'1':'0.2');});
+  if(key){const m=cmData.find(x=>x.key===key);infoEl.textContent=m?`${m.label}: ${m.client} client · ${m.model} model`:'';resetEl.style.display='block';}
+  else{infoEl.textContent='';resetEl.style.display='none';}
+  renderCMList(document.getElementById('drillCMList'),getHistory(),key);
+}
+function renderCMList(listEl,h,filterKey){
+  listEl.innerHTML='';
+  const filtered=h.filter(x=>(x.type==='client'||x.type==='model')&&(!filterKey||itemMonthKey(x)===filterKey));
+  const grouped={};filtered.forEach(item=>{const mk=itemMonthKey(item);if(!grouped[mk])grouped[mk]=[];grouped[mk].push(item);});
+  const keys=Object.keys(grouped).sort((a,b)=>b.localeCompare(a));
+  if(!keys.length){listEl.innerHTML='<div class="drill-empty"><i class="ti ti-users" style="font-size:28px;color:var(--text3)"></i><p>No client or model sessions'+(filterKey?' this month.':' yet.')+'</p></div>';return;}
+  keys.forEach(mk=>{const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});listEl.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length} session${items.length!==1?'s':''}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));listEl.appendChild(section);});
+}
+
+/* ── BY TYPE MONTH ── */
+function renderDrillByTypeMonth(body,h,months){
+  const summary={client:h.filter(x=>x.type==='client').length,model:h.filter(x=>x.type==='model').length,freestyle:h.filter(x=>x.type==='freestyle').length};
+  const sumEl=document.createElement('div');sumEl.className='drill-summary';
+  sumEl.innerHTML=`<div class="drill-stat"><div class="drill-stat-label">Clients</div><div class="drill-stat-value">${summary.client}</div></div><div class="drill-stat"><div class="drill-stat-label">Models</div><div class="drill-stat-value">${summary.model}</div></div><div class="drill-stat"><div class="drill-stat-label">Freestyle</div><div class="drill-stat-value">${summary.freestyle}</div></div>`;
+  body.appendChild(sumEl);
+  const typeMonthData=months.map(m=>({...m,client:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='client').length,model:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='model').length,freestyle:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='freestyle').length}));
+  const maxStack=Math.max(...typeMonthData.map(m=>m.client+m.model+m.freestyle),1);
+  const chartCard=document.createElement('div');chartCard.className='m-chart-card';chartCard.style.marginBottom='16px';
+  chartCard.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;"><div class="m-pill-legend" style="margin-bottom:0;"><div class="m-pill-item"><div class="m-pill-dot" style="background:var(--m-client)"></div>Client</div><div class="m-pill-item"><div class="m-pill-dot" style="background:var(--m-model)"></div>Model</div><div class="m-pill-item"><div class="m-pill-dot" style="background:var(--m-freestyle)"></div>Freestyle</div></div><div id="drillBTMReset" style="font-size:11px;color:var(--text2);cursor:pointer;text-decoration:underline;display:none;">Reset</div></div><div id="drillBTMChart" style="display:flex;gap:6px;align-items:flex-end;height:72px;margin-bottom:6px;"></div><div id="drillBTMLabels" style="display:flex;gap:6px;"></div><div id="drillBTMInfo" style="font-size:12px;color:var(--text2);margin-top:10px;min-height:18px;"></div>`;
+  body.appendChild(chartCard);
+  const typeSection=document.createElement('div');typeSection.style.marginBottom='6px';
+  const typeLabels={client:'Client',model:'Model',freestyle:'Freestyle'};
+  ['client','model','freestyle'].forEach(t=>{const count=summary[t];const row=document.createElement('div');row.className='drill-type-row';row.dataset.type=t;row.innerHTML=`<div class="drill-type-dot" style="background:var(--text2)"></div><div class="drill-type-info"><div class="drill-type-label">${typeLabels[t]}</div><div class="drill-type-sub">${count} session${count!==1?'s':''} total</div></div><i class="ti ti-chevron-right drill-type-arrow"></i>`;row.onclick=()=>openDrillTypeDetail(t);typeSection.appendChild(row);});
+  body.appendChild(typeSection);
+  const listHeader=document.createElement('div');listHeader.className='m-section-header';listHeader.style.marginTop='16px';listHeader.innerHTML='<div class="m-section-title">Monthly breakdown</div>';body.appendChild(listHeader);
+  const listEl=document.createElement('div');listEl.id='drillBTMList';body.appendChild(listEl);
+  const chartEl=chartCard.querySelector('#drillBTMChart'),labelsEl=chartCard.querySelector('#drillBTMLabels');
+  typeMonthData.forEach(m=>{
+    const cH=Math.round(m.client/maxStack*68),mH=Math.round(m.model/maxStack*68),fH=Math.round(m.freestyle/maxStack*68),total=m.client+m.model+m.freestyle;
+    const col=document.createElement('div');col.style.cssText='flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;justify-content:flex-end;cursor:pointer;';col.dataset.key=m.key;
+    if(m.client)col.innerHTML+=`<div data-target-h="${cH}" style="width:100%;height:0;background:var(--m-client);border-radius:2px 2px 0 0;transition:height 0.5s cubic-bezier(.4,0,.2,1),opacity 0.2s;"></div>`;
+    if(m.model)col.innerHTML+=`<div data-target-h="${mH}" style="width:100%;height:0;background:var(--m-model);transition:height 0.5s cubic-bezier(.4,0,.2,1),opacity 0.2s;"></div>`;
+    if(m.freestyle)col.innerHTML+=`<div data-target-h="${fH}" style="width:100%;height:0;background:var(--m-freestyle);transition:height 0.5s cubic-bezier(.4,0,.2,1),opacity 0.2s;"></div>`;
+    if(!total)col.innerHTML+=`<div style="width:100%;height:3px;background:var(--bg3);border-radius:2px;"></div>`;
+    col.addEventListener('click',()=>selectBTMMonth(m.key,typeMonthData));chartEl.appendChild(col);
+    const lbl=document.createElement('div');lbl.style.cssText='flex:1;text-align:center;font-size:9px;color:var(--text3);';lbl.textContent=m.label;labelsEl.appendChild(lbl);
+  });
+  chartCard.querySelector('#drillBTMReset').onclick=()=>selectBTMMonth(null,typeMonthData);
+  requestAnimationFrame(()=>{chartEl.querySelectorAll('[data-target-h]').forEach(el=>{el.style.height=el.dataset.targetH+'px';});renderBTMList(listEl,h,null);});
+}
+function selectBTMMonth(key,typeMonthData){
+  drillFilter.month=key;
+  const chartEl=document.getElementById('drillBTMChart'),infoEl=document.getElementById('drillBTMInfo'),resetEl=document.getElementById('drillBTMReset');
+  chartEl.querySelectorAll('[data-key]').forEach(col=>{const active=!key||col.dataset.key===key;col.querySelectorAll('[data-target-h]').forEach(b=>b.style.opacity=active?'1':'0.15');});
+  if(key){const m=typeMonthData.find(x=>x.key===key);infoEl.textContent=m?`${m.label}: ${m.client} client · ${m.model} model · ${m.freestyle} freestyle`:'';resetEl.style.display='block';}
+  else{infoEl.textContent='';resetEl.style.display='none';}
+  renderBTMList(document.getElementById('drillBTMList'),getHistory(),key);
+}
+function renderBTMList(listEl,h,filterKey){
+  listEl.innerHTML='';
+  const allMonthKeys=[...new Set(h.map(x=>itemMonthKey(x)))].filter(mk=>!filterKey||mk===filterKey).sort((a,b)=>b.localeCompare(a));
+  if(!allMonthKeys.length){listEl.innerHTML='<div class="drill-empty"><p>No sessions'+(filterKey?' this month.':'.')+'</p></div>';return;}
+  allMonthKeys.forEach(mk=>{
+    const items=h.filter(x=>itemMonthKey(x)===mk&&(!filterKey||mk===filterKey));if(!items.length)return;
+    const cl=items.filter(x=>x.type==='client').length,mo=items.filter(x=>x.type==='model').length,fr=items.filter(x=>x.type==='freestyle').length,total=cl+mo+fr;
+    const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+    const row=document.createElement('div');row.style.cssText='background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;';
+    row.innerHTML=`<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">${mLabel} <span style="font-size:11px;font-weight:400;color:var(--text2)">(${total} total)</span></div><div style="display:flex;gap:14px;flex-wrap:wrap;">${cl?`<span style="font-size:12px;color:var(--text2);">● ${cl} client${cl!==1?'s':''}</span>`:''}${mo?`<span style="font-size:12px;color:var(--text2);">● ${mo} model${mo!==1?'s':''}</span>`:''}${fr?`<span style="font-size:12px;color:var(--text3);">● ${fr} freestyle</span>`:''}</div>`;
+    listEl.appendChild(row);
+  });
+}
+
+/* ── TOP CUTS ── */
+function renderDrillTopCuts(body,h){
+  const lockCount={},lockImg={},lockId={};h.forEach(x=>{lockCount[x.name]=(lockCount[x.name]||0)+1;if(!lockImg[x.name])lockImg[x.name]=x.img;if(!lockId[x.name])lockId[x.name]=x.id;});
+  const ranked=Object.entries(lockCount).sort((a,b)=>b[1]-a[1]);const total=h.length;const maxLock=ranked[0]?ranked[0][1]:1;
+  const sumEl=document.createElement('div');sumEl.className='drill-summary';
+  sumEl.innerHTML=`<div class="drill-stat"><div class="drill-stat-label">Unique cuts</div><div class="drill-stat-value">${ranked.length}</div></div><div class="drill-stat"><div class="drill-stat-label">Total locks</div><div class="drill-stat-value">${total}</div></div>`;
+  body.appendChild(sumEl);
+  if(!ranked.length){body.innerHTML+='<div class="drill-empty"><i class="ti ti-scissors" style="font-size:28px;color:var(--text3)"></i><p>No locks yet.</p></div>';return;}
+  const top5=ranked.slice(0,5);
+  const chartCard=document.createElement('div');chartCard.className='m-chart-card';chartCard.style.marginBottom='14px';
+  chartCard.innerHTML=`<div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px;">Top cuts — tap to drill in</div><div id="drillTCBars"></div>`;
+  body.appendChild(chartCard);
+  const barsEl=chartCard.querySelector('#drillTCBars');
+  top5.forEach(([name,count],i)=>{
+    const pct=Math.round(count/maxLock*100);
+    const row=document.createElement('div');row.className='m-bar-row';row.style.cursor='pointer';
+    row.innerHTML=`<div class="m-rank-num" style="${i===0?'color:var(--text)':'color:var(--text3)'}">${i+1}</div><div class="m-bar-label" style="color:var(--text2);">${name}</div><div class="m-bar-track"><div class="m-bar-fill" data-width="${pct}%" style="width:0;background:${NEUTRAL_BARS[i]};"></div></div><div class="m-bar-count" data-count="${count}">0</div>`;
+    row.addEventListener('click',()=>openDrillCutDetail(name,lockId[name]));barsEl.appendChild(row);
+  });
+  const listHeader=document.createElement('div');listHeader.className='m-section-header';listHeader.innerHTML='<div class="m-section-title">Full ranking</div>';body.appendChild(listHeader);
+  ranked.forEach(([name,count],i)=>{
+    const row=document.createElement('div');row.className='drill-cut-row';
+    const thumb=document.createElement('img');thumb.className='drill-cut-thumb';thumb.src=lockImg[name]||'';thumb.onload=()=>thumb.classList.add('loaded');thumb.onerror=()=>{thumb.style.opacity='0.1';};
+    const rank=document.createElement('div');rank.className='drill-rank'+(i===0?' gold':'');rank.textContent=i+1;
+    const info=document.createElement('div');info.className='drill-cut-info';const pct=Math.round(count/total*100);
+    info.innerHTML=`<div class="drill-cut-name">${name}</div><div class="drill-cut-count">${count} lock${count!==1?'s':''} · ${pct}% of total</div>`;
+    const arrow=document.createElement('i');arrow.className='ti ti-chevron-right';arrow.style.cssText='color:var(--text3);font-size:15px;align-self:center;';
+    row.appendChild(rank);row.appendChild(thumb);row.appendChild(info);row.appendChild(arrow);
+    row.onclick=()=>openDrillCutDetail(name,lockId[name]);body.appendChild(row);
+  });
+  requestAnimationFrame(()=>{
+    barsEl.querySelectorAll('.m-bar-fill[data-width]').forEach(el=>{el.style.width=el.dataset.width;});
+    const animN=(el,target,dur=450)=>{let start=null;const step=ts=>{if(start===null)start=ts;const p=Math.min(1,(ts-start)/dur);el.textContent=Math.round(target*p);if(p<1)requestAnimationFrame(step);};requestAnimationFrame(step);};
+    barsEl.querySelectorAll('.m-bar-count[data-count]').forEach(el=>animN(el,Number(el.dataset.count)));
+  });
+}
+
+/* ── HAIR TYPES ── */
+function renderDrillHairTypes(body,h){
+  const typeCount={straight:0,curly:0,wavy:0,textured:0};h.forEach(x=>{const t=HAIR_TYPES_MAP[x.id];if(t&&typeCount[t]!==undefined)typeCount[t]++;});
+  const typeTotal=Object.values(typeCount).reduce((a,b)=>a+b,0)||1;
+  const typeLabels={straight:'Straight',curly:'Curly',wavy:'Wavy',textured:'Textured'};
+  const typeEntries=Object.entries(typeCount).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);
+  const sumEl=document.createElement('div');sumEl.className='drill-summary';
+  sumEl.innerHTML=`<div class="drill-stat"><div class="drill-stat-label">Total sessions</div><div class="drill-stat-value">${h.length}</div></div><div class="drill-stat"><div class="drill-stat-label">Hair types</div><div class="drill-stat-value">${typeEntries.length}</div></div>`;
+  body.appendChild(sumEl);
+  const R=28,cx=40,cy=40,circ=2*Math.PI*R;let offset=0;
+  const segments=typeEntries.map(([type,count],i)=>{const pct=count/typeTotal,dash=pct*circ,gap=circ-dash,fo=(-offset*circ+circ/4).toFixed(2);const strokeColor=DONUT_STROKES[i]||DONUT_STROKES[DONUT_STROKES.length-1];const seg=`<circle class="anim-donut drill-donut-seg" data-type="${type}" cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${strokeColor}" stroke-width="10" stroke-dasharray="${dash.toFixed(2)} ${gap.toFixed(2)}" stroke-dashoffset="${circ.toFixed(2)}" data-final-offset="${fo}" transform="rotate(-90 ${cx} ${cy})" style="cursor:pointer;transition:stroke-dashoffset 0.9s cubic-bezier(.4,0,.2,1),opacity 0.2s;"/>`;offset+=pct;return seg;}).join('');
+  const chartCard=document.createElement('div');chartCard.className='m-chart-card';chartCard.style.marginBottom='16px';
+  chartCard.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;"><div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;">Tap a type to filter sessions</div><div id="drillHTReset" style="font-size:11px;color:var(--text2);cursor:pointer;text-decoration:underline;display:none;">All types</div></div><div class="m-donut-wrap"><svg class="m-donut-svg" viewBox="0 0 80 80" id="drillHTDonut"><circle cx="40" cy="40" r="28" fill="none" stroke="var(--bg3)" stroke-width="10"/>${segments}</svg><div class="m-donut-legend" id="drillHTLegend">${typeEntries.map(([type,count],i)=>`<div class="m-donut-leg-row drill-ht-leg" data-type="${type}" style="cursor:pointer;border-radius:6px;padding:2px 4px;margin:-2px -4px;transition:opacity 0.2s;"><div class="m-donut-leg-dot" style="background:${DONUT_STROKES[i]||DONUT_STROKES[DONUT_STROKES.length-1]}"></div><div class="m-donut-leg-label">${typeLabels[type]}</div><div class="m-donut-leg-val">${Math.round(count/typeTotal*100)}%</div></div>`).join('')||'<div style="font-size:12px;color:var(--text3)">No data yet</div>'}</div></div><div id="drillHTInfo" style="font-size:12px;color:var(--text2);margin-top:10px;min-height:18px;"></div>`;
+  body.appendChild(chartCard);
+  const listEl=document.createElement('div');listEl.id='drillHTList';body.appendChild(listEl);
+  requestAnimationFrame(()=>{
+    chartCard.querySelectorAll('.anim-donut').forEach(el=>{el.style.strokeDashoffset=el.dataset.finalOffset;});
+    chartCard.querySelectorAll('.drill-donut-seg').forEach(el=>{el.addEventListener('click',()=>selectHTType(el.dataset.type,typeEntries,typeLabels));});
+    chartCard.querySelectorAll('.drill-ht-leg').forEach(el=>{el.addEventListener('click',()=>selectHTType(el.dataset.type,typeEntries,typeLabels));});
+    chartCard.querySelector('#drillHTReset').onclick=()=>selectHTType(null,typeEntries,typeLabels);
+    renderHTList(listEl,h,null);
+  });
+}
+function selectHTType(type,typeEntries,typeLabels){
+  drillFilter.type=type;
+  const donut=document.getElementById('drillHTDonut'),infoEl=document.getElementById('drillHTInfo'),resetEl=document.getElementById('drillHTReset');
+  donut.querySelectorAll('.drill-donut-seg').forEach(el=>{el.style.opacity=(!type||el.dataset.type===type)?'1':'0.2';});
+  document.querySelectorAll('.drill-ht-leg').forEach(el=>{el.style.opacity=(!type||el.dataset.type===type)?'1':'0.35';});
+  if(type){const entry=typeEntries.find(([t])=>t===type);infoEl.textContent=entry?`${typeLabels[type]}: ${entry[1]} session${entry[1]!==1?'s':''}`:'' ;resetEl.style.display='block';}
+  else{infoEl.textContent='';resetEl.style.display='none';}
+  renderHTList(document.getElementById('drillHTList'),getHistory(),type);
+}
+function renderHTList(listEl,h,filterType){
+  listEl.innerHTML='';
+  const filtered=h.filter(x=>!filterType||HAIR_TYPES_MAP[x.id]===filterType);
+  const nameCount={};filtered.forEach(x=>{nameCount[x.name]=(nameCount[x.name]||0)+1;});
+  const topCut=Object.entries(nameCount).sort((a,b)=>b[1]-a[1])[0];
+  if(filterType&&topCut){const note=document.createElement('div');note.style.cssText='font-size:12px;color:var(--text2);margin-bottom:10px;padding:10px 12px;background:var(--bg2);border-radius:10px;border:0.5px solid var(--border);';note.textContent=`Top cut: ${topCut[0]} (${topCut[1]} time${topCut[1]!==1?'s':''})`;listEl.appendChild(note);}
+  const grouped={};filtered.forEach(item=>{const mk=itemMonthKey(item);if(!grouped[mk])grouped[mk]=[];grouped[mk].push(item);});
+  const keys=Object.keys(grouped).sort((a,b)=>b.localeCompare(a));
+  if(!keys.length){listEl.innerHTML='<div class="drill-empty"><i class="ti ti-scissors" style="font-size:28px;color:var(--text3)"></i><p>No sessions'+(filterType?' for this hair type.':'.')+'</p></div>';return;}
+  keys.forEach(mk=>{const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});listEl.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));listEl.appendChild(section);});
+}
+
+/* ── SUB-DRILL DETAILS ── */
 function openDrillTypeDetail(type){
   const typeLabels={client:'Client Sessions',model:'Model Sessions',freestyle:'Freestyle Sessions'};
   document.getElementById('drillTitle').textContent=typeLabels[type]||type;
@@ -1137,18 +1042,16 @@ function openDrillTypeDetail(type){
   const grouped={};h.forEach(item=>{const mk=itemMonthKey(item);if(!grouped[mk])grouped[mk]=[];grouped[mk].push(item);});
   Object.keys(grouped).sort((a,b)=>b.localeCompare(a)).forEach(mk=>{const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});body.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length} session${items.length!==1?'s':''}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));body.appendChild(section);});
 }
-
 function openDrillCutDetail(name,cutId){
   document.getElementById('drillTitle').textContent=name;
   document.getElementById('drillBackBtn').onclick=()=>openDrill('top-cuts');
   const h=getHistory().filter(x=>x.name===name);const body=document.getElementById('drillBody');body.innerHTML='';
-  const clientCount=h.filter(x=>x.type==='client').length;const modelCount=h.filter(x=>x.type==='model').length;
+  const clientCount=h.filter(x=>x.type==='client').length,modelCount=h.filter(x=>x.type==='model').length;
   body.innerHTML+=`<div class="drill-summary"><div class="drill-stat"><div class="drill-stat-label">Total</div><div class="drill-stat-value">${h.length}</div></div><div class="drill-stat"><div class="drill-stat-label">Client</div><div class="drill-stat-value">${clientCount}</div></div><div class="drill-stat"><div class="drill-stat-label">Model</div><div class="drill-stat-value">${modelCount}</div></div></div>`;
   const grouped={};h.forEach(item=>{const mk=itemMonthKey(item);if(!grouped[mk])grouped[mk]=[];grouped[mk].push(item);});
   Object.keys(grouped).sort((a,b)=>b.localeCompare(a)).forEach(mk=>{const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});body.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));body.appendChild(section);});
   const viewBtn=document.createElement('button');viewBtn.className='lock-btn';viewBtn.style.marginTop='16px';viewBtn.innerHTML='<i class="ti ti-eye"></i> View this cut';viewBtn.onclick=()=>{const c=cuts.find(x=>x.id===cutId);if(c)openCut(c.id);};body.appendChild(viewBtn);
 }
-
 function openDrillHairTypeDetail(type){
   const typeLabels={straight:'Straight Hair',curly:'Curly Hair',wavy:'Wavy Hair',textured:'Textured Hair'};
   document.getElementById('drillTitle').textContent=typeLabels[type]||type;
@@ -1183,3 +1086,4 @@ document.addEventListener('touchend',e=>{touchEndX=e.changedTouches[0].screenX;h
 </script>
 </body>
 </html>
+
