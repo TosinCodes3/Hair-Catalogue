@@ -515,10 +515,12 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
     </div>
     <!-- Clients pane -->
     <div class="people-pane" id="paneClients">
+      <input type="text" id="clientSearch" class="search-input" placeholder="Search clients..." style="margin-bottom:12px;" oninput="filterPersonList('client')">
       <div class="person-list" id="clientList"></div>
     </div>
     <!-- Models pane -->
     <div class="people-pane" id="paneModels">
+      <input type="text" id="modelSearch" class="search-input" placeholder="Search models..." style="margin-bottom:12px;" oninput="filterPersonList('model')">
       <div class="person-list" id="modelList"></div>
     </div>
   </div>
@@ -1161,6 +1163,11 @@ function switchSeg(seg){
   document.getElementById('paneMyCut').classList.toggle('active',seg==='mycut');
   document.getElementById('paneClients').classList.toggle('active',seg==='clients');
   document.getElementById('paneModels').classList.toggle('active',seg==='models');
+  // Clear search inputs
+  const clientSearch=document.getElementById('clientSearch');
+  const modelSearch=document.getElementById('modelSearch');
+  if(clientSearch)clientSearch.value='';
+  if(modelSearch)modelSearch.value='';
   if(seg==='clients')loadPersonList('client');
   if(seg==='models')loadPersonList('model');
 }
@@ -1182,7 +1189,7 @@ function loadPeopleScreen(){
   else if(activeSeg==='models')loadPersonList('model');
 }
 
-function loadPersonList(type){
+function loadPersonList(type, query=''){
   const listId=type==='client'?'clientList':'modelList';
   const listEl=document.getElementById(listId); listEl.innerHTML='';
   const h=getHistory();
@@ -1194,10 +1201,19 @@ function loadPersonList(type){
     byPerson[key].count++;
     if(new Date(item.date)>new Date(byPerson[key].latest.date)){byPerson[key].latest=item;byPerson[key].img=item.img;}
   });
-  const people=Object.values(byPerson);
+  let people=Object.values(byPerson);
+  // Filter by search query
+  if(query.trim()){
+    const q=query.trim().toLowerCase();
+    people=people.filter(p=>p.name.toLowerCase().includes(q));
+  }
   if(!people.length){
     const empty=document.createElement('div'); empty.className='people-empty';
-    empty.textContent=type==='client'?'No clients yet. Lock a cut and select "Client" to add one.':'No models yet. Lock a cut and select "Model" to add one.';
+    if(query.trim()){
+      empty.textContent=`No ${type==='client'?'clients':'models'} found matching "${query}".`;
+    } else {
+      empty.textContent=type==='client'?'No clients yet. Lock a cut and select "Client" to add one.':'No models yet. Lock a cut and select "Model" to add one.';
+    }
     listEl.appendChild(empty); return;
   }
   // sort by most recent
@@ -1221,6 +1237,12 @@ function loadPersonList(type){
     row.onclick=()=>openPersonDetail(p.name,type);
     listEl.appendChild(row);
   });
+}
+
+function filterPersonList(type){
+  const searchId=type==='client'?'clientSearch':'modelSearch';
+  const query=document.getElementById(searchId).value;
+  loadPersonList(type, query);
 }
 
 function openPersonDetail(name, type){
