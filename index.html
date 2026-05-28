@@ -417,6 +417,17 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .m-empty i{font-size:26px;color:var(--text3);}
 .m-empty p{font-size:12px;color:var(--text3);margin-top:6px;}
 
+.stat-card{opacity:0;transform:translateY(12px);animation:metricsFadeIn 0.45s ease forwards;}
+.stat-grid .stat-card:nth-child(1){animation-delay:0.05s;}
+.stat-grid .stat-card:nth-child(2){animation-delay:0.12s;}
+.stat-grid .stat-card:nth-child(3){animation-delay:0.19s;}
+.stat-grid .stat-card:nth-child(4){animation-delay:0.26s;}
+.m-chart-card{opacity:0;transform:translateY(12px);animation:metricsFadeIn 0.45s ease forwards;animation-delay:0.18s;}
+.m-bar-fill{height:100%;border-radius:4px;transition:width 0.8s ease,height 0.8s ease;}
+.m-stack-fill{transition:height 0.8s ease;}
+.m-donut-svg circle.anim-donut{transition:stroke-dashoffset 0.85s ease;}
+@keyframes metricsFadeIn{to{opacity:1;transform:translateY(0);}}
+
 </style>
 </head>
 <body>
@@ -1509,10 +1520,10 @@ function renderMetricsScreen(){
 
   body.innerHTML+=`
   <div class="stat-grid">
-    <div class="stat-card"><div class="stat-icon si-blue"><i class="ti ti-scissors"></i></div><div class="stat-label">Total locks</div><div class="stat-value">${h.length}</div><div class="stat-sub">all time</div></div>
-    <div class="stat-card"><div class="stat-icon si-purple"><i class="ti ti-users"></i></div><div class="stat-label">Unique people</div><div class="stat-value">${uniqueNames.size}</div><div class="stat-sub">clients & models</div></div>
-    <div class="stat-card"><div class="stat-icon si-green"><i class="ti ti-user"></i></div><div class="stat-label">Clients</div><div class="stat-value">${clientsH.length}</div><div class="stat-sub">named sessions</div></div>
-    <div class="stat-card"><div class="stat-icon si-amber"><i class="ti ti-star"></i></div><div class="stat-label">Models</div><div class="stat-value">${modelsH.length}</div><div class="stat-sub">named sessions</div></div>
+    <div class="stat-card"><div class="stat-icon si-blue"><i class="ti ti-scissors"></i></div><div class="stat-label">Total locks</div><div class="stat-value anim-stat" data-target="${h.length}">0</div><div class="stat-sub">all time</div></div>
+    <div class="stat-card"><div class="stat-icon si-purple"><i class="ti ti-users"></i></div><div class="stat-label">Unique people</div><div class="stat-value anim-stat" data-target="${uniqueNames.size}">0</div><div class="stat-sub">clients & models</div></div>
+    <div class="stat-card"><div class="stat-icon si-green"><i class="ti ti-user"></i></div><div class="stat-label">Clients</div><div class="stat-value anim-stat" data-target="${clientsH.length}">0</div><div class="stat-sub">named sessions</div></div>
+    <div class="stat-card"><div class="stat-icon si-amber"><i class="ti ti-star"></i></div><div class="stat-label">Models</div><div class="stat-value anim-stat" data-target="${modelsH.length}">0</div><div class="stat-sub">named sessions</div></div>
   </div>`;
 
   // Most locked cut
@@ -1527,8 +1538,8 @@ function renderMetricsScreen(){
     <div class="m-bar-row">
       <div style="width:14px;font-size:10px;font-weight:700;color:${i===0?'#ef9f27':'var(--text3)'};flex-shrink:0;">${i+1}</div>
       <div class="m-bar-label">${name}</div>
-      <div class="m-bar-track"><div class="m-bar-fill" style="width:${Math.round(count/maxLock*100)}%;background:${lockColors[i]};"></div></div>
-      <div class="m-bar-count">${count}</div>
+      <div class="m-bar-track"><div class="m-bar-fill" data-width="${Math.round(count/maxLock*100)}%" style="width:0;background:${lockColors[i]};"></div></div>
+      <div class="m-bar-count" data-count="${count}">0</div>
     </div>`).join(''):'<div class="m-empty"><i class="ti ti-trophy"></i><p>No locks yet</p></div>'}
   </div>`;
 
@@ -1542,7 +1553,8 @@ function renderMetricsScreen(){
   const R=28,cx=40,cy=40,circ=2*Math.PI*R;
   let offset=0;
   const segments=typeEntries.map(([type,count])=>{
-    const pct=count/typeTotal,dash=pct*circ,gap=circ-dash,seg=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${typeColors[type]}" stroke-width="10" stroke-dasharray="${dash.toFixed(2)} ${gap.toFixed(2)}" stroke-dashoffset="${(-offset*circ+circ/4).toFixed(2)}" transform="rotate(-90 ${cx} ${cy})"/>`;
+    const pct=count/typeTotal,dash=pct*circ,gap=circ-dash,finalOffset=(-offset*circ+circ/4).toFixed(2);
+    const seg=`<circle class="anim-donut" cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${typeColors[type]}" stroke-width="10" stroke-dasharray="${dash.toFixed(2)} ${gap.toFixed(2)}" stroke-dashoffset="${circ.toFixed(2)}" data-final-offset="${finalOffset}" transform="rotate(-90 ${cx} ${cy})"/>`;
     offset+=pct;return seg;
   }).join('');
   body.innerHTML+=`<div class="m-section-header"><i class="ti ti-chart-bar" style="font-size:14px;color:#4a9eff"></i><div class="m-section-title">Most selected haircut types</div></div>
@@ -1587,7 +1599,7 @@ function renderMetricsScreen(){
   const vColors=['#4a9eff','#c97aff','#5dbb8a','#ef9f27','#1d9e75','#e24b4a'];
   body.innerHTML+=`<div class="m-section-header"><i class="ti ti-eye" style="font-size:14px;color:#4a9eff"></i><div class="m-section-title">Most viewed haircut</div></div>
   <div class="m-chart-card" style="margin-bottom:14px;">
-    ${viewedEntries.length?viewedEntries.map(([name,count],i)=>`<div class="m-bar-row"><div class="m-bar-label">${name}</div><div class="m-bar-track"><div class="m-bar-fill" style="width:${Math.round(count/maxV*100)}%;background:${vColors[i]};"></div></div><div class="m-bar-count">${count}</div></div>`).join(''):'<div class="m-empty"><i class="ti ti-eye"></i><p>No data yet</p></div>'}
+    ${viewedEntries.length?viewedEntries.map(([name,count],i)=>`<div class="m-bar-row"><div class="m-bar-label">${name}</div><div class="m-bar-track"><div class="m-bar-fill" data-width="${Math.round(count/maxV*100)}%" style="width:0;background:${vColors[i]};"></div></div><div class="m-bar-count" data-count="${count}">0</div></div>`).join(''):'<div class="m-empty"><i class="ti ti-eye"></i><p>No data yet</p></div>'}
   </div>`;
 
   // Client & model per month
@@ -1597,10 +1609,32 @@ function renderMetricsScreen(){
   <div class="m-chart-card" style="margin-bottom:32px;">
     <div class="m-pill-legend"><div class="m-pill-item"><div class="m-pill-dot" style="background:#4a9eff"></div>Client</div><div class="m-pill-item"><div class="m-pill-dot" style="background:#c97aff"></div>Model</div></div>
     <div style="display:flex;gap:4px;align-items:flex-end;height:60px;margin-bottom:4px;">
-      ${cmData.map(m=>`<div style="flex:1;display:flex;gap:2px;align-items:flex-end;"><div style="flex:1;height:${Math.max(2,Math.round(m.client/maxCM*60))}px;background:#4a9eff;border-radius:3px 3px 0 0;"></div><div style="flex:1;height:${Math.max(2,Math.round(m.model/maxCM*60))}px;background:#c97aff;border-radius:3px 3px 0 0;"></div></div>`).join('')}
+      ${cmData.map(m=>`<div style="flex:1;display:flex;gap:2px;align-items:flex-end;"><div class="m-stack-fill" data-height="${Math.max(2,Math.round(m.client/maxCM*60))}" style="flex:1;height:0;background:#4a9eff;border-radius:3px 3px 0 0;"></div><div class="m-stack-fill" data-height="${Math.max(2,Math.round(m.model/maxCM*60))}" style="flex:1;height:0;background:#c97aff;border-radius:3px 3px 0 0;"></div></div>`).join('')}
     </div>
     <div style="display:flex;gap:4px;">${cmData.map(m=>`<div style="flex:1;text-align:center;font-size:9px;color:var(--text3);">${m.label}</div>`).join('')}</div>
   </div>`;
+  requestAnimationFrame(()=>animateMetricsScreen());
+}
+
+function animateMetricsScreen(){
+  const animateNumber=(el,target,duration=700)=>{
+    let start=null;
+    const step=ts=>{
+      if(start===null) start=ts;
+      const progress=Math.min(1,(ts-start)/duration);
+      el.textContent=Math.round(target*progress);
+      if(progress<1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  document.querySelectorAll('.anim-stat').forEach(el=>animateNumber(el,Number(el.dataset.target)));
+  document.querySelectorAll('.m-bar-fill[data-width]').forEach(el=>el.style.width=el.dataset.width);
+  document.querySelectorAll('.m-stack-fill[data-height]').forEach(el=>el.style.height=el.dataset.height+'px');
+  document.querySelectorAll('.m-donut-svg circle.anim-donut').forEach(el=>el.style.strokeDashoffset=el.dataset.finalOffset);
+  document.querySelectorAll('.m-bar-count[data-count]').forEach(el=>{
+    el.style.opacity='1';
+    animateNumber(el,Number(el.dataset.count),450);
+  });
 }
 
 renderHairTypeFilters();
