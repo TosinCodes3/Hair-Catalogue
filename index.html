@@ -1150,6 +1150,9 @@ function go(sid){
 
 /* ─────────────── SEGMENTS ─────────────── */
 let activeSeg='mycut';
+const segOrder=['mycut','clients','models'];
+let touchStartX=0, touchEndX=0;
+
 function switchSeg(seg){
   activeSeg=seg;
   ['mycut','clients','models'].forEach(s=>{
@@ -1160,6 +1163,16 @@ function switchSeg(seg){
   document.getElementById('paneModels').classList.toggle('active',seg==='models');
   if(seg==='clients')loadPersonList('client');
   if(seg==='models')loadPersonList('model');
+}
+
+function handleSwipeInPeopleScreen(e){
+  const peopleScreen=document.getElementById('s5');
+  if(!peopleScreen||!peopleScreen.classList.contains('active'))return;
+  const delta=touchEndX-touchStartX;
+  if(Math.abs(delta)<50)return; // min swipe distance
+  const currentIdx=segOrder.indexOf(activeSeg);
+  if(delta>0 && currentIdx>0){switchSeg(segOrder[currentIdx-1]);}
+  else if(delta<0 && currentIdx<segOrder.length-1){switchSeg(segOrder[currentIdx+1]);}
 }
 
 /* ─────────────── PEOPLE SCREEN ─────────────── */
@@ -1382,6 +1395,10 @@ renderHairTypeFilters();
 buildCats();
 syncThemeUI();
 restoreLockedCut();
+
+// Add swipe handlers for people screen
+document.addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX;},false);
+document.addEventListener('touchend',e=>{touchEndX=e.changedTouches[0].screenX;handleSwipeInPeopleScreen(e);},false);
 </script>
 </body>
 </html>
