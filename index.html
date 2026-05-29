@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -213,6 +212,36 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .person-cut-desc{font-size:11px;color:var(--text3);margin-top:4px;line-height:1.4;}
 .person-cut-date{font-size:11px;color:var(--text3);margin-top:5px;}
 .person-detail-empty{font-size:14px;color:var(--text2);padding:16px 0;line-height:1.6;}
+
+/* ── MODEL PROFILE ── */
+.model-profile-section{margin-top:20px;padding-top:18px;border-top:0.5px solid var(--border);}
+.model-profile-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.model-profile-title{font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:7px;}
+.model-profile-title i{font-size:15px;color:var(--model-color);}
+.model-edit-btn{font-size:12px;color:var(--text2);background:var(--bg2);border:0.5px solid var(--border2);border-radius:8px;padding:5px 11px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px;transition:opacity 0.15s;}
+.model-edit-btn:active{opacity:0.7;}
+.model-profile-view{display:flex;flex-direction:column;gap:10px;}
+.model-profile-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg2);border-radius:10px;border:0.5px solid var(--border);}
+.model-profile-row i{font-size:16px;color:var(--text3);flex-shrink:0;}
+.model-profile-row-label{font-size:11px;color:var(--text3);margin-bottom:2px;}
+.model-profile-row-value{font-size:13px;color:var(--text);font-weight:500;}
+.model-profile-empty{font-size:13px;color:var(--text3);font-style:italic;line-height:1.5;padding:4px 0;}
+.model-profile-chip-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+.model-profile-chip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;background:rgba(201,122,255,0.12);color:var(--model-color);font-size:11px;font-weight:500;}
+.model-profile-chip i{font-size:12px;}
+
+/* ── MODEL PROFILE EDIT FORM ── */
+.model-edit-form{display:none;flex-direction:column;gap:14px;margin-top:14px;}
+.model-edit-form.open{display:flex;}
+.model-field label{display:block;font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:7px;}
+.model-field input,.model-field select,.model-field textarea{width:100%;padding:12px 14px;border-radius:12px;border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);font-family:inherit;font-size:14px;outline:none;transition:border-color 0.15s;appearance:none;-webkit-appearance:none;}
+.model-field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
+.model-field input:focus,.model-field select:focus{border-color:var(--opt-on-border);}
+.model-field input::placeholder{color:var(--text3);}
+.model-edit-save-btn{width:100%;padding:14px;background:var(--lock-bg);color:var(--lock-text);border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;transition:opacity 0.15s;}
+.model-edit-save-btn:active{opacity:0.85;}
+.model-edit-cancel{text-align:center;font-size:13px;color:var(--text2);cursor:pointer;text-decoration:underline;margin-top:4px;}
+
 .settings-body{padding:0 16px;padding-bottom:80px;overflow-y:auto;}
 .settings-section{margin-top:24px;}
 .settings-section-label{font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;padding-left:2px;}
@@ -278,13 +307,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .lockin-type-card{display:flex;align-items:center;gap:14px;background:var(--bg2);border:0.5px solid var(--border2);border-radius:14px;padding:14px 16px;cursor:pointer;transition:all 0.15s;}
 .lockin-type-card:active{opacity:0.8;}
 .lockin-type-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--bg3);}
-.lockin-type-icon.freestyle{background:var(--bg3);}
-.lockin-type-icon.client{background:var(--bg3);}
-.lockin-type-icon.model{background:var(--bg3);}
 .lockin-type-icon i{font-size:20px;color:var(--text2);}
-.lockin-type-icon.freestyle i{color:var(--text2);}
-.lockin-type-icon.client i{color:var(--text2);}
-.lockin-type-icon.model i{color:var(--text2);}
 .lockin-type-label{font-size:15px;font-weight:700;color:var(--text);}
 .lockin-type-desc{font-size:12px;color:var(--text2);margin-top:2px;}
 .lockin-form{display:flex;flex-direction:column;gap:14px;}
@@ -321,7 +344,6 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .history-type-pill.client{background:rgba(74,158,255,0.15);color:var(--client-color);}
 .history-type-pill.model{background:rgba(201,122,255,0.15);color:var(--model-color);}
 .history-type-pill.freestyle{background:rgba(93,187,138,0.15);color:var(--freestyle-color);}
-/* METRICS */
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
 .stat-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:14px;padding:14px 14px 12px;opacity:0;transform:translateY(12px);animation:metricsFadeIn 0.45s ease forwards;}
 .stat-grid .stat-card:nth-child(1){animation-delay:0.05s;}
@@ -342,7 +364,6 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .m-chart-card.tappable:hover{border-color:var(--border2);}
 .m-chart-card.tappable .m-tap-hint{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3);margin-top:12px;padding-top:12px;border-top:0.5px solid var(--border);}
 .m-tap-hint i{font-size:12px;}
-/* drill cards should not have the entry animation */
 .drill-body .m-chart-card{opacity:1;transform:none;animation:none;}
 .m-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
 .m-bar-row:last-child{margin-bottom:0;}
@@ -409,10 +430,8 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .drill-cut-count{font-size:11px;color:var(--text2);margin-top:2px;}
 .drill-rank{font-size:11px;font-weight:700;color:var(--text3);width:18px;flex-shrink:0;}
 .drill-rank.gold{color:var(--text);}
-/* Interactive drill chart states */
 .drill-chart-col-active{opacity:1 !important;}
 .drill-selected-label{font-size:12px;font-weight:600;color:var(--text);background:var(--bg3);border-radius:8px;padding:5px 10px;margin-top:8px;display:inline-block;}
-/* Tooltip Walkthrough */
 .tooltip-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;}
 .tooltip-overlay.active{display:block;}
 .tooltip-highlight{position:fixed;border:2px solid #fff;border-radius:8px;pointer-events:none;box-shadow:0 0 0 9999px rgba(0,0,0,0.5);z-index:201;transition:all 0.3s ease;}
@@ -476,7 +495,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
     </div>
   </div>
   <div class="screen" id="s4">
-    <div class="topbar"><div style="flex:1"></div></div>
+    <div class="topbar" style="padding-bottom:0;border-bottom:none;"><div style="flex:1"></div></div>
     <div class="done-wrap">
       <div class="done-thumb"><img id="doneImg" src="" alt=""></div>
       <div class="done-label">Locked in</div>
@@ -650,7 +669,133 @@ function lbTouchEnd(e){const remaining=Array.from(e.touches);if(lbPinching&&rema
 let cur=null,curCat=null,fv='Mid',tv='Neat',isDark=true,isListView=false,selectedHairType='all';
 let metricsWalkthroughStep=0,metricsWalkthroughActive=false;
 const hairTypes=['All','Curly','Straight','Wavy','Textured'];
-const STORAGE_KEY='lockedCut',HISTORY_KEY='cutHistory';
+const STORAGE_KEY='lockedCut',HISTORY_KEY='cutHistory',MODEL_PROFILES_KEY='modelProfiles';
+
+/* ─── MODEL PROFILES ─── */
+function getModelProfiles(){try{return JSON.parse(localStorage.getItem(MODEL_PROFILES_KEY)||'{}');}catch(e){return{};}}
+function saveModelProfile(name,profile){const all=getModelProfiles();all[name.trim().toLowerCase()]=profile;localStorage.setItem(MODEL_PROFILES_KEY,JSON.stringify(all));}
+function getModelProfile(name){return getModelProfiles()[name.trim().toLowerCase()]||{};}
+
+const MODEL_HAIR_TYPES=['Straight','Wavy','Curly','Coily / 4C','Fine','Thick','Thinning'];
+const MODEL_FACE_SHAPES=['Oval','Round','Square','Heart','Diamond','Oblong / Rectangle','Triangle'];
+
+function renderModelProfileSection(container,modelName){
+  const profile=getModelProfile(modelName);
+  const sec=document.createElement('div');
+  sec.className='model-profile-section';
+  sec.id='modelProfileSection';
+
+  const header=document.createElement('div');
+  header.className='model-profile-header';
+  header.innerHTML=`<div class="model-profile-title"><i class="ti ti-id-badge"></i> Model profile</div>`;
+  const editBtn=document.createElement('button');
+  editBtn.className='model-edit-btn';
+  editBtn.id='modelEditBtn';
+  editBtn.innerHTML='<i class="ti ti-edit" style="font-size:13px"></i> Edit';
+  editBtn.onclick=()=>toggleModelEditForm(modelName,true);
+  header.appendChild(editBtn);
+  sec.appendChild(header);
+
+  // View state
+  const view=document.createElement('div');
+  view.id='modelProfileView';
+  view.className='model-profile-view';
+  const hasAny=profile.ig||profile.contact||profile.hairType||profile.faceShape;
+  if(!hasAny){
+    view.innerHTML='<div class="model-profile-empty">No profile info yet. Tap Edit to add Instagram, contact, hair type, and face shape.</div>';
+  } else {
+    if(profile.ig){
+      view.appendChild(buildProfileRow('ti-brand-instagram','Instagram','@'+profile.ig.replace(/^@/,'')));
+    }
+    if(profile.contact){
+      view.appendChild(buildProfileRow('ti-phone','Contact',profile.contact));
+    }
+    if(profile.hairType||profile.faceShape){
+      const chipRow=document.createElement('div');
+      chipRow.className='model-profile-chip-row';
+      if(profile.hairType){
+        chipRow.innerHTML+=`<span class="model-profile-chip"><i class="ti ti-scissors"></i>${profile.hairType} hair</span>`;
+      }
+      if(profile.faceShape){
+        chipRow.innerHTML+=`<span class="model-profile-chip"><i class="ti ti-hexagon"></i>${profile.faceShape} face</span>`;
+      }
+      view.appendChild(chipRow);
+    }
+  }
+  sec.appendChild(view);
+
+  // Edit form (hidden by default)
+  const form=document.createElement('div');
+  form.className='model-edit-form';
+  form.id='modelEditForm';
+  form.innerHTML=`
+    <div class="model-field">
+      <label>Instagram handle</label>
+      <input id="mfIg" type="text" placeholder="e.g. @username" value="${escHtml(profile.ig||'')}">
+    </div>
+    <div class="model-field">
+      <label>Contact number</label>
+      <input id="mfContact" type="tel" placeholder="e.g. +234 800 000 0000" value="${escHtml(profile.contact||'')}">
+    </div>
+    <div class="model-field">
+      <label>Hair type</label>
+      <select id="mfHairType">
+        <option value="">— Select hair type —</option>
+        ${MODEL_HAIR_TYPES.map(t=>`<option value="${t}"${profile.hairType===t?' selected':''}>${t}</option>`).join('')}
+      </select>
+    </div>
+    <div class="model-field">
+      <label>Face shape</label>
+      <select id="mfFaceShape">
+        <option value="">— Select face shape —</option>
+        ${MODEL_FACE_SHAPES.map(s=>`<option value="${s}"${profile.faceShape===s?' selected':''}>${s}</option>`).join('')}
+      </select>
+    </div>
+    <button class="model-edit-save-btn" onclick="saveModelProfileFromForm('${escHtml(modelName)}')">
+      <i class="ti ti-check"></i> Save profile
+    </button>
+    <div class="model-edit-cancel" onclick="toggleModelEditForm('${escHtml(modelName)}',false)">Cancel</div>
+  `;
+  sec.appendChild(form);
+  container.appendChild(sec);
+}
+
+function buildProfileRow(icon,label,value){
+  const row=document.createElement('div');
+  row.className='model-profile-row';
+  row.innerHTML=`<i class="ti ${icon}"></i><div><div class="model-profile-row-label">${label}</div><div class="model-profile-row-value">${escHtml(value)}</div></div>`;
+  return row;
+}
+
+function toggleModelEditForm(name,open){
+  const form=document.getElementById('modelEditForm');
+  const view=document.getElementById('modelProfileView');
+  const btn=document.getElementById('modelEditBtn');
+  if(!form||!view)return;
+  if(open){
+    form.classList.add('open');
+    view.style.display='none';
+    btn.style.display='none';
+  } else {
+    form.classList.remove('open');
+    view.style.display='';
+    btn.style.display='';
+  }
+}
+
+function saveModelProfileFromForm(name){
+  const ig=(document.getElementById('mfIg').value||'').trim();
+  const contact=(document.getElementById('mfContact').value||'').trim();
+  const hairType=document.getElementById('mfHairType').value;
+  const faceShape=document.getElementById('mfFaceShape').value;
+  saveModelProfile(name,{ig,contact,hairType,faceShape});
+  // Re-render detail sheet for this model from history
+  const h=getHistory();
+  const items=h.filter(x=>x.type==='model'&&x.personName&&x.personName.trim().toLowerCase()===name.trim().toLowerCase());
+  if(items.length) openPersonDetail(name,'model');
+}
+
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
 /* ─── HISTORY ─── */
 function getHistory(){try{return JSON.parse(localStorage.getItem(HISTORY_KEY)||'[]');}catch(e){return[];}}
@@ -697,9 +842,63 @@ function handleSwipeInPeopleScreen(){const ps=document.getElementById('s5');if(!
 
 /* ─── PEOPLE ─── */
 function loadPeopleScreen(){loadSavedCut();if(activeSeg==='clients')loadPersonList('client');else if(activeSeg==='models')loadPersonList('model');}
-function loadPersonList(type,query=''){const listId=type==='client'?'clientList':'modelList';const listEl=document.getElementById(listId);listEl.innerHTML='';const h=getHistory(),byPerson={};h.forEach(item=>{if(item.type!==type||!item.personName)return;const key=item.personName.trim().toLowerCase();if(!byPerson[key]){byPerson[key]={name:item.personName,latest:item,count:0,img:item.img};}byPerson[key].count++;if(new Date(item.date)>new Date(byPerson[key].latest.date)){byPerson[key].latest=item;byPerson[key].img=item.img;}});let people=Object.values(byPerson);if(query.trim()){const q=query.trim().toLowerCase();people=people.filter(p=>p.name.toLowerCase().includes(q));}if(!people.length){const empty=document.createElement('div');empty.className='people-empty';empty.textContent=query.trim()?`No ${type==='client'?'clients':'models'} found matching "${query}".`:type==='client'?'No clients yet. Lock a cut and select "Client" to add one.':'No models yet. Lock a cut and select "Model" to add one.';listEl.appendChild(empty);return;}people.sort((a,b)=>new Date(b.latest.date)-new Date(a.latest.date));people.forEach(p=>{const row=document.createElement('div');row.className='person-row';const av=document.createElement('div');av.className='person-avatar';if(p.img){const img=document.createElement('img');img.src=p.img;img.onload=()=>img.classList.add('loaded');img.onerror=()=>{av.innerHTML=`<span class="person-avatar-initials">${initials(p.name)}</span>`;};av.appendChild(img);}else{av.innerHTML=`<span class="person-avatar-initials">${initials(p.name)}</span>`;}const info=document.createElement('div');info.className='person-info';info.innerHTML=`<div class="person-name">${p.name}</div><div class="person-meta">${p.count} cut${p.count!==1?'s':''} · Last: ${formatDate(p.latest.date).split(' · ')[0]}</div>`;const arrow=document.createElement('i');arrow.className='ti ti-chevron-right person-arrow';row.appendChild(av);row.appendChild(info);row.appendChild(arrow);row.onclick=()=>openPersonDetail(p.name,type);listEl.appendChild(row);});}
+function loadPersonList(type,query=''){const listId=type==='client'?'clientList':'modelList';const listEl=document.getElementById(listId);listEl.innerHTML='';const h=getHistory(),byPerson={};h.forEach(item=>{if(item.type!==type||!item.personName)return;const key=item.personName.trim().toLowerCase();if(!byPerson[key]){byPerson[key]={name:item.personName,latest:item,count:0,img:item.img};}byPerson[key].count++;if(new Date(item.date)>new Date(byPerson[key].latest.date)){byPerson[key].latest=item;byPerson[key].img=item.img;}});let people=Object.values(byPerson);if(query.trim()){const q=query.trim().toLowerCase();people=people.filter(p=>p.name.toLowerCase().includes(q));}if(!people.length){const empty=document.createElement('div');empty.className='people-empty';empty.textContent=query.trim()?`No ${type==='client'?'clients':'models'} found matching "${query}".`:type==='client'?'No clients yet. Lock a cut and select "Client" to add one.':'No models yet. Lock a cut and select "Model" to add one.';listEl.appendChild(empty);return;}people.sort((a,b)=>new Date(b.latest.date)-new Date(a.latest.date));people.forEach(p=>{const row=document.createElement('div');row.className='person-row';const av=document.createElement('div');av.className='person-avatar';if(p.img){const img=document.createElement('img');img.src=p.img;img.onload=()=>img.classList.add('loaded');img.onerror=()=>{av.innerHTML=`<span class="person-avatar-initials">${initials(p.name)}</span>`;};av.appendChild(img);}else{av.innerHTML=`<span class="person-avatar-initials">${initials(p.name)}</span>`;}
+
+    // Show model profile chips inline in person row if data exists
+    const profile=type==='model'?getModelProfile(p.name):{};
+    let metaText=`${p.count} cut${p.count!==1?'s':''} · Last: ${formatDate(p.latest.date).split(' · ')[0]}`;
+    if(type==='model'&&(profile.hairType||profile.faceShape)){
+      const chips=[];
+      if(profile.hairType)chips.push(profile.hairType);
+      if(profile.faceShape)chips.push(profile.faceShape+' face');
+      metaText+=' · '+chips.join(' · ');
+    }
+
+    const info=document.createElement('div');info.className='person-info';
+    info.innerHTML=`<div class="person-name">${p.name}</div><div class="person-meta">${metaText}</div>`;
+    const arrow=document.createElement('i');arrow.className='ti ti-chevron-right person-arrow';row.appendChild(av);row.appendChild(info);row.appendChild(arrow);row.onclick=()=>openPersonDetail(p.name,type);listEl.appendChild(row);});}
 function filterPersonList(type){const searchId=type==='client'?'clientSearch':'modelSearch';loadPersonList(type,document.getElementById(searchId).value);}
-function openPersonDetail(name,type){const h=getHistory();const cuts_=h.filter(item=>item.type===type&&item.personName&&item.personName.trim().toLowerCase()===name.trim().toLowerCase());document.getElementById('personDetailTitle').textContent=name;const typeEl=document.getElementById('personDetailType');typeEl.textContent=type.charAt(0).toUpperCase()+type.slice(1);typeEl.className='person-detail-type '+type;const bodyEl=document.getElementById('personDetailBody');bodyEl.innerHTML='';if(!cuts_.length){bodyEl.innerHTML='<div class="person-detail-empty">No cuts found for this person.</div>';}else{cuts_.forEach(item=>{const card=document.createElement('div');card.className='person-cut-card';card.onclick=()=>{fv=item.fade||'Mid';tv=item.top||'Neat';openCut(item.id,true);closePersonDetail();};const img=document.createElement('img');img.className='person-cut-thumb';img.src=item.img||'';img.alt=item.name;img.onload=()=>img.classList.add('loaded');img.onerror=()=>{img.style.opacity='0.1';};const info=document.createElement('div');info.className='person-cut-info';info.innerHTML=`<div class="person-cut-name">${item.name}</div><div class="person-cut-opts">${item.fade||'Mid'} fade · ${item.top||'Neat'} top</div>${item.personDesc?`<div class="person-cut-desc">${item.personDesc}</div>`:''}<div class="person-cut-date">${formatDate(item.date)}</div>`;card.appendChild(img);card.appendChild(info);bodyEl.appendChild(card);});}document.getElementById('personDetailSheet').classList.add('open');}
+
+function openPersonDetail(name,type){
+  const h=getHistory();
+  const cuts_=h.filter(item=>item.type===type&&item.personName&&item.personName.trim().toLowerCase()===name.trim().toLowerCase());
+  document.getElementById('personDetailTitle').textContent=name;
+  const typeEl=document.getElementById('personDetailType');
+  typeEl.textContent=type.charAt(0).toUpperCase()+type.slice(1);
+  typeEl.className='person-detail-type '+type;
+  const bodyEl=document.getElementById('personDetailBody');
+  bodyEl.innerHTML='';
+
+  if(!cuts_.length){
+    bodyEl.innerHTML='<div class="person-detail-empty">No cuts found for this person.</div>';
+  } else {
+    cuts_.forEach(item=>{
+      const card=document.createElement('div');
+      card.className='person-cut-card';
+      card.onclick=()=>{fv=item.fade||'Mid';tv=item.top||'Neat';openCut(item.id,true);closePersonDetail();};
+      const img=document.createElement('img');
+      img.className='person-cut-thumb';
+      img.src=item.img||'';
+      img.alt=item.name;
+      img.onload=()=>img.classList.add('loaded');
+      img.onerror=()=>{img.style.opacity='0.1';};
+      const info=document.createElement('div');
+      info.className='person-cut-info';
+      info.innerHTML=`<div class="person-cut-name">${item.name}</div><div class="person-cut-opts">${item.fade||'Mid'} fade · ${item.top||'Neat'} top</div>${item.personDesc?`<div class="person-cut-desc">${item.personDesc}</div>`:''}<div class="person-cut-date">${formatDate(item.date)}</div>`;
+      card.appendChild(img);
+      card.appendChild(info);
+      bodyEl.appendChild(card);
+    });
+  }
+
+  // Append model profile section only for models
+  if(type==='model'){
+    renderModelProfileSection(bodyEl,name);
+  }
+
+  document.getElementById('personDetailSheet').classList.add('open');
+}
+
 function closePersonDetail(){document.getElementById('personDetailSheet').classList.remove('open');}
 
 /* ─── SAVED CUT ─── */
@@ -835,7 +1034,7 @@ function animateMetricsScreen(){
 }
 
 /* ═══════════════════════════════════
-   DRILL-DOWN — interactive charts
+   DRILL-DOWN
    ═══════════════════════════════════ */
 let drillFilter={month:null,type:null};
 
@@ -852,7 +1051,6 @@ function openDrill(type){
   go('s10');
 }
 
-/* ── TREND ── */
 function renderDrillTrend(body,h,months){
   const trendData=months.map(m=>({...m,count:h.filter(x=>itemMonthKey(x)===m.key).length}));
   const maxT=Math.max(...trendData.map(d=>d.count),1);
@@ -876,23 +1074,9 @@ function renderDrillTrend(body,h,months){
   chartCard.querySelector('#drillTrendReset').onclick=()=>selectTrendMonth(null,trendData);
   requestAnimationFrame(()=>{chartEl.querySelectorAll('[data-target-h]').forEach(el=>{el.style.height=el.dataset.targetH+'px';});renderTrendList(listEl,h,null);});
 }
-function selectTrendMonth(key,trendData){
-  drillFilter.month=key;
-  const chartEl=document.getElementById('drillTrendChart'),infoEl=document.getElementById('drillTrendInfo'),resetEl=document.getElementById('drillTrendReset');
-  chartEl.querySelectorAll('[data-key]').forEach(col=>{const bar=col.querySelector('div:last-child');const active=!key||col.dataset.key===key;bar.style.opacity=active?'1':'0.25';col.querySelector('div:first-child').style.color=active?'var(--text2)':'var(--text3)';});
-  if(key){const m=trendData.find(x=>x.key===key);infoEl.textContent=m?`${m.label}: ${m.count} session${m.count!==1?'s':''}`:'';resetEl.style.display='block';}
-  else{infoEl.textContent='';resetEl.style.display='none';}
-  renderTrendList(document.getElementById('drillTrendList'),getHistory(),key);
-}
-function renderTrendList(listEl,h,filterKey){
-  listEl.innerHTML='';
-  const grouped={};h.forEach(item=>{const mk=itemMonthKey(item);if(filterKey&&mk!==filterKey)return;if(!grouped[mk])grouped[mk]=[];grouped[mk].push(item);});
-  const keys=Object.keys(grouped).sort((a,b)=>b.localeCompare(a));
-  if(!keys.length){listEl.innerHTML='<div class="drill-empty"><i class="ti ti-calendar" style="font-size:28px;color:var(--text3)"></i><p>No sessions'+(filterKey?' this period.':'.'  )+'</p></div>';return;}
-  keys.forEach(mk=>{const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});listEl.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length} session${items.length!==1?'s':''}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));listEl.appendChild(section);});
-}
+function selectTrendMonth(key,trendData){drillFilter.month=key;const chartEl=document.getElementById('drillTrendChart'),infoEl=document.getElementById('drillTrendInfo'),resetEl=document.getElementById('drillTrendReset');chartEl.querySelectorAll('[data-key]').forEach(col=>{const bar=col.querySelector('div:last-child');const active=!key||col.dataset.key===key;bar.style.opacity=active?'1':'0.25';col.querySelector('div:first-child').style.color=active?'var(--text2)':'var(--text3)';});if(key){const m=trendData.find(x=>x.key===key);infoEl.textContent=m?`${m.label}: ${m.count} session${m.count!==1?'s':''}`:'';resetEl.style.display='block';}else{infoEl.textContent='';resetEl.style.display='none';}renderTrendList(document.getElementById('drillTrendList'),getHistory(),key);}
+function renderTrendList(listEl,h,filterKey){listEl.innerHTML='';const grouped={};h.forEach(item=>{const mk=itemMonthKey(item);if(filterKey&&mk!==filterKey)return;if(!grouped[mk])grouped[mk]=[];grouped[mk].push(item);});const keys=Object.keys(grouped).sort((a,b)=>b.localeCompare(a));if(!keys.length){listEl.innerHTML='<div class="drill-empty"><i class="ti ti-calendar" style="font-size:28px;color:var(--text3)"></i><p>No sessions'+(filterKey?' this period.':'.')+'</p></div>';return;}keys.forEach(mk=>{const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});listEl.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length} session${items.length!==1?'s':''}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));listEl.appendChild(section);});}
 
-/* ── CLIENT + MODEL MONTH ── */
 function renderDrillClientModelMonth(body,h,months){
   const totalC=h.filter(x=>x.type==='client').length,totalM=h.filter(x=>x.type==='model').length;
   const uniqueC=new Set(h.filter(x=>x.type==='client'&&x.personName).map(x=>x.personName.trim().toLowerCase())).size;
@@ -917,24 +1101,9 @@ function renderDrillClientModelMonth(body,h,months){
   chartCard.querySelector('#drillCMReset').onclick=()=>selectCMMonth(null,cmData);
   requestAnimationFrame(()=>{chartEl.querySelectorAll('[data-target-h]').forEach(el=>{el.style.height=el.dataset.targetH+'px';});renderCMList(listEl,h,null);});
 }
-function selectCMMonth(key,cmData){
-  drillFilter.month=key;
-  const chartEl=document.getElementById('drillCMChart'),infoEl=document.getElementById('drillCMInfo'),resetEl=document.getElementById('drillCMReset');
-  chartEl.querySelectorAll('[data-key]').forEach(grp=>{const active=!key||grp.dataset.key===key;grp.querySelectorAll('div').forEach(b=>b.style.opacity=active?'1':'0.2');});
-  if(key){const m=cmData.find(x=>x.key===key);infoEl.textContent=m?`${m.label}: ${m.client} client · ${m.model} model`:'';resetEl.style.display='block';}
-  else{infoEl.textContent='';resetEl.style.display='none';}
-  renderCMList(document.getElementById('drillCMList'),getHistory(),key);
-}
-function renderCMList(listEl,h,filterKey){
-  listEl.innerHTML='';
-  const filtered=h.filter(x=>(x.type==='client'||x.type==='model')&&(!filterKey||itemMonthKey(x)===filterKey));
-  const grouped={};filtered.forEach(item=>{const mk=itemMonthKey(item);if(!grouped[mk])grouped[mk]=[];grouped[mk].push(item);});
-  const keys=Object.keys(grouped).sort((a,b)=>b.localeCompare(a));
-  if(!keys.length){listEl.innerHTML='<div class="drill-empty"><i class="ti ti-users" style="font-size:28px;color:var(--text3)"></i><p>No client or model sessions'+(filterKey?' this month.':' yet.')+'</p></div>';return;}
-  keys.forEach(mk=>{const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});listEl.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length} session${items.length!==1?'s':''}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));listEl.appendChild(section);});
-}
+function selectCMMonth(key,cmData){drillFilter.month=key;const chartEl=document.getElementById('drillCMChart'),infoEl=document.getElementById('drillCMInfo'),resetEl=document.getElementById('drillCMReset');chartEl.querySelectorAll('[data-key]').forEach(grp=>{const active=!key||grp.dataset.key===key;grp.querySelectorAll('div').forEach(b=>b.style.opacity=active?'1':'0.2');});if(key){const m=cmData.find(x=>x.key===key);infoEl.textContent=m?`${m.label}: ${m.client} client · ${m.model} model`:'';resetEl.style.display='block';}else{infoEl.textContent='';resetEl.style.display='none';}renderCMList(document.getElementById('drillCMList'),getHistory(),key);}
+function renderCMList(listEl,h,filterKey){listEl.innerHTML='';const filtered=h.filter(x=>(x.type==='client'||x.type==='model')&&(!filterKey||itemMonthKey(x)===filterKey));const grouped={};filtered.forEach(item=>{const mk=itemMonthKey(item);if(!grouped[mk])grouped[mk]=[];grouped[mk].push(item);});const keys=Object.keys(grouped).sort((a,b)=>b.localeCompare(a));if(!keys.length){listEl.innerHTML='<div class="drill-empty"><i class="ti ti-users" style="font-size:28px;color:var(--text3)"></i><p>No client or model sessions'+(filterKey?' this month.':' yet.')+'</p></div>';return;}keys.forEach(mk=>{const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});listEl.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length} session${items.length!==1?'s':''}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));listEl.appendChild(section);});}
 
-/* ── BY TYPE MONTH ── */
 function renderDrillByTypeMonth(body,h,months){
   const summary={client:h.filter(x=>x.type==='client').length,model:h.filter(x=>x.type==='model').length,freestyle:h.filter(x=>x.type==='freestyle').length};
   const sumEl=document.createElement('div');sumEl.className='drill-summary';
@@ -965,29 +1134,9 @@ function renderDrillByTypeMonth(body,h,months){
   chartCard.querySelector('#drillBTMReset').onclick=()=>selectBTMMonth(null,typeMonthData);
   requestAnimationFrame(()=>{chartEl.querySelectorAll('[data-target-h]').forEach(el=>{el.style.height=el.dataset.targetH+'px';});renderBTMList(listEl,h,null);});
 }
-function selectBTMMonth(key,typeMonthData){
-  drillFilter.month=key;
-  const chartEl=document.getElementById('drillBTMChart'),infoEl=document.getElementById('drillBTMInfo'),resetEl=document.getElementById('drillBTMReset');
-  chartEl.querySelectorAll('[data-key]').forEach(col=>{const active=!key||col.dataset.key===key;col.querySelectorAll('[data-target-h]').forEach(b=>b.style.opacity=active?'1':'0.15');});
-  if(key){const m=typeMonthData.find(x=>x.key===key);infoEl.textContent=m?`${m.label}: ${m.client} client · ${m.model} model · ${m.freestyle} freestyle`:'';resetEl.style.display='block';}
-  else{infoEl.textContent='';resetEl.style.display='none';}
-  renderBTMList(document.getElementById('drillBTMList'),getHistory(),key);
-}
-function renderBTMList(listEl,h,filterKey){
-  listEl.innerHTML='';
-  const allMonthKeys=[...new Set(h.map(x=>itemMonthKey(x)))].filter(mk=>!filterKey||mk===filterKey).sort((a,b)=>b.localeCompare(a));
-  if(!allMonthKeys.length){listEl.innerHTML='<div class="drill-empty"><p>No sessions'+(filterKey?' this month.':'.')+'</p></div>';return;}
-  allMonthKeys.forEach(mk=>{
-    const items=h.filter(x=>itemMonthKey(x)===mk&&(!filterKey||mk===filterKey));if(!items.length)return;
-    const cl=items.filter(x=>x.type==='client').length,mo=items.filter(x=>x.type==='model').length,fr=items.filter(x=>x.type==='freestyle').length,total=cl+mo+fr;
-    const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
-    const row=document.createElement('div');row.style.cssText='background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;';
-    row.innerHTML=`<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">${mLabel} <span style="font-size:11px;font-weight:400;color:var(--text2)">(${total} total)</span></div><div style="display:flex;gap:14px;flex-wrap:wrap;">${cl?`<span style="font-size:12px;color:var(--text2);">● ${cl} client${cl!==1?'s':''}</span>`:''}${mo?`<span style="font-size:12px;color:var(--text2);">● ${mo} model${mo!==1?'s':''}</span>`:''}${fr?`<span style="font-size:12px;color:var(--text3);">● ${fr} freestyle</span>`:''}</div>`;
-    listEl.appendChild(row);
-  });
-}
+function selectBTMMonth(key,typeMonthData){drillFilter.month=key;const chartEl=document.getElementById('drillBTMChart'),infoEl=document.getElementById('drillBTMInfo'),resetEl=document.getElementById('drillBTMReset');chartEl.querySelectorAll('[data-key]').forEach(col=>{const active=!key||col.dataset.key===key;col.querySelectorAll('[data-target-h]').forEach(b=>b.style.opacity=active?'1':'0.15');});if(key){const m=typeMonthData.find(x=>x.key===key);infoEl.textContent=m?`${m.label}: ${m.client} client · ${m.model} model · ${m.freestyle} freestyle`:'';resetEl.style.display='block';}else{infoEl.textContent='';resetEl.style.display='none';}renderBTMList(document.getElementById('drillBTMList'),getHistory(),key);}
+function renderBTMList(listEl,h,filterKey){listEl.innerHTML='';const allMonthKeys=[...new Set(h.map(x=>itemMonthKey(x)))].filter(mk=>!filterKey||mk===filterKey).sort((a,b)=>b.localeCompare(a));if(!allMonthKeys.length){listEl.innerHTML='<div class="drill-empty"><p>No sessions'+(filterKey?' this month.':'.')+'</p></div>';return;}allMonthKeys.forEach(mk=>{const items=h.filter(x=>itemMonthKey(x)===mk&&(!filterKey||mk===filterKey));if(!items.length)return;const cl=items.filter(x=>x.type==='client').length,mo=items.filter(x=>x.type==='model').length,fr=items.filter(x=>x.type==='freestyle').length,total=cl+mo+fr;const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});const row=document.createElement('div');row.style.cssText='background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;';row.innerHTML=`<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">${mLabel} <span style="font-size:11px;font-weight:400;color:var(--text2)">(${total} total)</span></div><div style="display:flex;gap:14px;flex-wrap:wrap;">${cl?`<span style="font-size:12px;color:var(--text2);">● ${cl} client${cl!==1?'s':''}</span>`:''}${mo?`<span style="font-size:12px;color:var(--text2);">● ${mo} model${mo!==1?'s':''}</span>`:''}${fr?`<span style="font-size:12px;color:var(--text3);">● ${fr} freestyle</span>`:''}</div>`;listEl.appendChild(row);});}
 
-/* ── TOP CUTS ── */
 function renderDrillTopCuts(body,h){
   const lockCount={},lockImg={},lockId={};h.forEach(x=>{lockCount[x.name]=(lockCount[x.name]||0)+1;if(!lockImg[x.name])lockImg[x.name]=x.img;if(!lockId[x.name])lockId[x.name]=x.id;});
   const ranked=Object.entries(lockCount).sort((a,b)=>b[1]-a[1]);const total=h.length;const maxLock=ranked[0]?ranked[0][1]:1;
@@ -1024,7 +1173,6 @@ function renderDrillTopCuts(body,h){
   });
 }
 
-/* ── HAIR TYPES ── */
 function renderDrillHairTypes(body,h){
   const typeCount={straight:0,curly:0,wavy:0,textured:0};h.forEach(x=>{const t=HAIR_TYPES_MAP[x.id];if(t&&typeCount[t]!==undefined)typeCount[t]++;});
   const typeTotal=Object.values(typeCount).reduce((a,b)=>a+b,0)||1;
@@ -1047,28 +1195,9 @@ function renderDrillHairTypes(body,h){
     renderHTList(listEl,h,null);
   });
 }
-function selectHTType(type,typeEntries,typeLabels){
-  drillFilter.type=type;
-  const donut=document.getElementById('drillHTDonut'),infoEl=document.getElementById('drillHTInfo'),resetEl=document.getElementById('drillHTReset');
-  donut.querySelectorAll('.drill-donut-seg').forEach(el=>{el.style.opacity=(!type||el.dataset.type===type)?'1':'0.2';});
-  document.querySelectorAll('.drill-ht-leg').forEach(el=>{el.style.opacity=(!type||el.dataset.type===type)?'1':'0.35';});
-  if(type){const entry=typeEntries.find(([t])=>t===type);infoEl.textContent=entry?`${typeLabels[type]}: ${entry[1]} session${entry[1]!==1?'s':''}`:'' ;resetEl.style.display='block';}
-  else{infoEl.textContent='';resetEl.style.display='none';}
-  renderHTList(document.getElementById('drillHTList'),getHistory(),type);
-}
-function renderHTList(listEl,h,filterType){
-  listEl.innerHTML='';
-  const filtered=h.filter(x=>!filterType||HAIR_TYPES_MAP[x.id]===filterType);
-  const nameCount={};filtered.forEach(x=>{nameCount[x.name]=(nameCount[x.name]||0)+1;});
-  const topCut=Object.entries(nameCount).sort((a,b)=>b[1]-a[1])[0];
-  if(filterType&&topCut){const note=document.createElement('div');note.style.cssText='font-size:12px;color:var(--text2);margin-bottom:10px;padding:10px 12px;background:var(--bg2);border-radius:10px;border:0.5px solid var(--border);';note.textContent=`Top cut: ${topCut[0]} (${topCut[1]} time${topCut[1]!==1?'s':''})`;listEl.appendChild(note);}
-  const grouped={};filtered.forEach(item=>{const mk=itemMonthKey(item);if(!grouped[mk])grouped[mk]=[];grouped[mk].push(item);});
-  const keys=Object.keys(grouped).sort((a,b)=>b.localeCompare(a));
-  if(!keys.length){listEl.innerHTML='<div class="drill-empty"><i class="ti ti-scissors" style="font-size:28px;color:var(--text3)"></i><p>No sessions'+(filterType?' for this hair type.':'.')+'</p></div>';return;}
-  keys.forEach(mk=>{const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});listEl.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));listEl.appendChild(section);});
-}
+function selectHTType(type,typeEntries,typeLabels){drillFilter.type=type;const donut=document.getElementById('drillHTDonut'),infoEl=document.getElementById('drillHTInfo'),resetEl=document.getElementById('drillHTReset');donut.querySelectorAll('.drill-donut-seg').forEach(el=>{el.style.opacity=(!type||el.dataset.type===type)?'1':'0.2';});document.querySelectorAll('.drill-ht-leg').forEach(el=>{el.style.opacity=(!type||el.dataset.type===type)?'1':'0.35';});if(type){const entry=typeEntries.find(([t])=>t===type);infoEl.textContent=entry?`${typeLabels[type]}: ${entry[1]} session${entry[1]!==1?'s':''}`:'' ;resetEl.style.display='block';}else{infoEl.textContent='';resetEl.style.display='none';}renderHTList(document.getElementById('drillHTList'),getHistory(),type);}
+function renderHTList(listEl,h,filterType){listEl.innerHTML='';const filtered=h.filter(x=>!filterType||HAIR_TYPES_MAP[x.id]===filterType);const nameCount={};filtered.forEach(x=>{nameCount[x.name]=(nameCount[x.name]||0)+1;});const topCut=Object.entries(nameCount).sort((a,b)=>b[1]-a[1])[0];if(filterType&&topCut){const note=document.createElement('div');note.style.cssText='font-size:12px;color:var(--text2);margin-bottom:10px;padding:10px 12px;background:var(--bg2);border-radius:10px;border:0.5px solid var(--border);';note.textContent=`Top cut: ${topCut[0]} (${topCut[1]} time${topCut[1]!==1?'s':''})`;listEl.appendChild(note);}const grouped={};filtered.forEach(item=>{const mk=itemMonthKey(item);if(!grouped[mk])grouped[mk]=[];grouped[mk].push(item);});const keys=Object.keys(grouped).sort((a,b)=>b.localeCompare(a));if(!keys.length){listEl.innerHTML='<div class="drill-empty"><i class="ti ti-scissors" style="font-size:28px;color:var(--text3)"></i><p>No sessions'+(filterType?' for this hair type.':'.')+'</p></div>';return;}keys.forEach(mk=>{const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});listEl.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));listEl.appendChild(section);});}
 
-/* ── SUB-DRILL DETAILS ── */
 function openDrillTypeDetail(type){
   const typeLabels={client:'Client Sessions',model:'Model Sessions',freestyle:'Freestyle Sessions'};
   document.getElementById('drillTitle').textContent=typeLabels[type]||type;
@@ -1087,17 +1216,6 @@ function openDrillCutDetail(name,cutId){
   const grouped={};h.forEach(item=>{const mk=itemMonthKey(item);if(!grouped[mk])grouped[mk]=[];grouped[mk].push(item);});
   Object.keys(grouped).sort((a,b)=>b.localeCompare(a)).forEach(mk=>{const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});body.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));body.appendChild(section);});
   const viewBtn=document.createElement('button');viewBtn.className='lock-btn';viewBtn.style.marginTop='16px';viewBtn.innerHTML='<i class="ti ti-eye"></i> View this cut';viewBtn.onclick=()=>{const c=cuts.find(x=>x.id===cutId);if(c)openCut(c.id);};body.appendChild(viewBtn);
-}
-function openDrillHairTypeDetail(type){
-  const typeLabels={straight:'Straight Hair',curly:'Curly Hair',wavy:'Wavy Hair',textured:'Textured Hair'};
-  document.getElementById('drillTitle').textContent=typeLabels[type]||type;
-  document.getElementById('drillBackBtn').onclick=()=>openDrill('hair-types');
-  const h=getHistory().filter(x=>HAIR_TYPES_MAP[x.id]===type);const body=document.getElementById('drillBody');body.innerHTML='';
-  const nameCount={};h.forEach(x=>{nameCount[x.name]=(nameCount[x.name]||0)+1;});const topCut=Object.entries(nameCount).sort((a,b)=>b[1]-a[1])[0];
-  body.innerHTML+=`<div class="drill-summary"><div class="drill-stat"><div class="drill-stat-label">Total sessions</div><div class="drill-stat-value">${h.length}</div></div>${topCut?`<div class="drill-stat"><div class="drill-stat-label">Top cut</div><div class="drill-stat-value" style="font-size:13px;line-height:1.3;">${topCut[0]}</div><div class="drill-stat-sub">${topCut[1]} time${topCut[1]!==1?'s':''}</div></div>`:''}</div>`;
-  const grouped={};h.forEach(item=>{const mk=itemMonthKey(item);if(!grouped[mk])grouped[mk]=[];grouped[mk].push(item);});
-  if(!Object.keys(grouped).length){body.innerHTML+='<div class="drill-empty"><p>No sessions for this hair type yet.</p></div>';return;}
-  Object.keys(grouped).sort((a,b)=>b.localeCompare(a)).forEach(mk=>{const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});body.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));body.appendChild(section);});
 }
 
 function buildDrillSessionRow(item){
@@ -1122,4 +1240,3 @@ document.addEventListener('touchend',e=>{touchEndX=e.changedTouches[0].screenX;h
 </script>
 </body>
 </html>
-
