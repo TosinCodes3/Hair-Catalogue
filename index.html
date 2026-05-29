@@ -251,6 +251,9 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .compare-panel-tags{font-size:11px;color:var(--text2);margin-top:3px;line-height:1.4;}
 .compare-panel-desc{font-size:11px;color:var(--text2);margin-top:5px;line-height:1.5;}
 .compare-pick-btn{margin:10px;padding:11px;background:var(--lock-bg);color:var(--lock-text);border:none;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;width:calc(100% - 20px);font-family:inherit;}
+.compare-angle-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 10px 0;}
+.compare-angle-chip{padding:8px 10px;border-radius:999px;border:0.5px solid var(--border2);background:var(--bg2);color:var(--text2);font-size:11px;cursor:pointer;transition:all 0.15s;font-family:inherit;}
+.compare-angle-chip.active{border-color:var(--text);background:var(--opt-on-bg);color:var(--text);}
 .compare-vs{position:absolute;top:calc(50% - 60px);left:50%;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;background:var(--bg);border:0.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--text2);z-index:10;pointer-events:none;}
 .compare-picker{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);z-index:60;flex-direction:column;}
 .compare-picker.open{display:flex;}
@@ -274,14 +277,14 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .lockin-type-cards{display:flex;flex-direction:column;gap:10px;}
 .lockin-type-card{display:flex;align-items:center;gap:14px;background:var(--bg2);border:0.5px solid var(--border2);border-radius:14px;padding:14px 16px;cursor:pointer;transition:all 0.15s;}
 .lockin-type-card:active{opacity:0.8;}
-.lockin-type-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.lockin-type-icon.freestyle{background:rgba(93,187,138,0.15);}
-.lockin-type-icon.client{background:rgba(74,158,255,0.15);}
-.lockin-type-icon.model{background:rgba(201,122,255,0.15);}
-.lockin-type-icon i{font-size:20px;}
-.lockin-type-icon.freestyle i{color:var(--freestyle-color);}
-.lockin-type-icon.client i{color:var(--client-color);}
-.lockin-type-icon.model i{color:var(--model-color);}
+.lockin-type-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--bg3);}
+.lockin-type-icon.freestyle{background:var(--bg3);}
+.lockin-type-icon.client{background:var(--bg3);}
+.lockin-type-icon.model{background:var(--bg3);}
+.lockin-type-icon i{font-size:20px;color:var(--text2);}
+.lockin-type-icon.freestyle i{color:var(--text2);}
+.lockin-type-icon.client i{color:var(--text2);}
+.lockin-type-icon.model i{color:var(--text2);}
 .lockin-type-label{font-size:15px;font-weight:700;color:var(--text);}
 .lockin-type-desc{font-size:12px;color:var(--text2);margin-top:2px;}
 .lockin-form{display:flex;flex-direction:column;gap:14px;}
@@ -653,13 +656,16 @@ function commitLockIn(type,personName,personDesc){addToHistory(cur,fv,tv,type,pe
 
 /* ─── COMPARE ─── */
 let compareA=null,compareB=null,pickerTarget=null;
-function openCompare(){if(!cur)return;compareA=cur;compareB=null;renderComparePanels();go('s8');}
+function normalizeCompareItem(item){if(!item)return null;return item.cut?{cut:item.cut,imgIdx:typeof item.imgIdx==='number'?item.imgIdx:0}:{cut:item,imgIdx:0};}
+function setCompareItem(side,cut){const item={cut,imgIdx:0};if(side==='A')compareA=item;else compareB=item;}
+function setCompareItemImage(side,imgIdx){const item=normalizeCompareItem(side==='A'?compareA:compareB);if(!item)return;item.imgIdx=Math.max(0,Math.min(imgIdx,getImgs(item.cut).length-1));if(side==='A')compareA=item;else compareB=item;renderComparePanels();}
+function openCompare(){if(!cur)return;setCompareItem('A',cur);compareB=null;renderComparePanels();go('s8');}
 function closeCompare(){go('s3');}
 function renderComparePanels(){renderPanel('A',compareA,'panelAContent',true);renderPanel('B',compareB,'panelBContent',false);let vs=document.getElementById('compareVsBadge');if(!vs){vs=document.createElement('div');vs.id='compareVsBadge';vs.className='compare-vs';vs.textContent='VS';document.getElementById('comparePanels').style.position='relative';document.getElementById('comparePanels').appendChild(vs);}}
-function renderPanel(side,cut,cid,isA){const c=document.getElementById(cid);c.innerHTML='';if(!cut){const ph=document.createElement('div');ph.className='compare-panel-placeholder';ph.innerHTML='<i class="ti ti-plus"></i><span>Pick a cut</span>';ph.onclick=()=>openPicker(side);c.appendChild(ph);const info=document.createElement('div');info.className='compare-panel-info';info.innerHTML='<div class="compare-panel-name" style="color:var(--text3);">Choose a style</div>';c.appendChild(info);}else{const img=document.createElement('img');img.className='compare-panel-img';img.src=getImgs(cut)[0].src;img.alt=cut.name;img.onload=()=>img.classList.add('loaded');img.onerror=()=>{img.style.opacity='0.15';};img.onclick=()=>openPicker(side);c.appendChild(img);const info=document.createElement('div');info.className='compare-panel-info';info.innerHTML='<div class="compare-panel-name">'+cut.name+'</div><div class="compare-panel-tags">'+(cut.tags.filter(Boolean).join(', ')||'—')+'</div><div class="compare-panel-desc">'+cut.desc+'</div>';c.appendChild(info);const btn=document.createElement('button');btn.className='compare-pick-btn';btn.textContent='Lock this cut';btn.onclick=()=>{cur=cut;fv='Mid';tv='Neat';resetOpts();openLockInSheet();};c.appendChild(btn);}}
+function renderPanel(side,item,cid,isA){const c=document.getElementById(cid);c.innerHTML='';const entry=normalizeCompareItem(item);if(!entry||!entry.cut){const ph=document.createElement('div');ph.className='compare-panel-placeholder';ph.innerHTML='<i class="ti ti-plus"></i><span>Pick a cut</span>';ph.onclick=()=>openPicker(side);c.appendChild(ph);const info=document.createElement('div');info.className='compare-panel-info';info.innerHTML='<div class="compare-panel-name" style="color:var(--text3);">Choose a style</div>';c.appendChild(info);return;}const cut=entry.cut;const imgs=getImgs(cut);const selectedIdx=Math.max(0,Math.min(entry.imgIdx,imgs.length-1));const selectedImg=imgs[selectedIdx];const img=document.createElement('img');img.className='compare-panel-img';img.src=selectedImg.src;img.alt=cut.name;img.onload=()=>img.classList.add('loaded');img.onerror=()=>{img.style.opacity='0.15';};img.onclick=()=>openPicker(side);c.appendChild(img);const info=document.createElement('div');info.className='compare-panel-info';info.innerHTML='<div class="compare-panel-name">'+cut.name+'</div><div class="compare-panel-tags">'+(cut.tags.filter(Boolean).join(', ')||'—')+'</div><div class="compare-panel-desc">'+cut.desc+'</div>';c.appendChild(info);if(imgs.length>1){const angles=document.createElement('div');angles.className='compare-angle-row';imgs.forEach((imgMeta,idx)=>{const chip=document.createElement('button');chip.type='button';chip.className='compare-angle-chip'+(idx===selectedIdx?' active':'');chip.textContent=imgMeta.label||('View '+(idx+1));chip.onclick=()=>setCompareItemImage(side,idx);angles.appendChild(chip);});c.appendChild(angles);}const btn=document.createElement('button');btn.className='compare-pick-btn';btn.textContent='Lock this cut';btn.onclick=()=>{cur=cut;fv='Mid';tv='Neat';resetOpts();openLockInSheet();};c.appendChild(btn);}
 function openPicker(side){pickerTarget=side;const grid=document.getElementById('comparePickerGrid');grid.innerHTML='';cuts.forEach(c=>{const card=document.createElement('div');card.className='compare-picker-card';const img=document.createElement('img');img.src=getImgs(c)[0].src;img.alt=c.name;img.onload=()=>img.classList.add('loaded');img.onerror=()=>{img.style.opacity='0.15';};const lbl=document.createElement('div');lbl.className='compare-picker-label';lbl.textContent=c.name;card.appendChild(img);card.appendChild(lbl);card.onclick=()=>pickCompare(c);grid.appendChild(card);});document.getElementById('comparePicker').classList.add('open');}
 function closePicker(){document.getElementById('comparePicker').classList.remove('open');}
-function pickCompare(cut){if(pickerTarget==='A')compareA=cut;else compareB=cut;closePicker();renderComparePanels();}
+function pickCompare(cut){if(pickerTarget==='A')setCompareItem('A',cut);else setCompareItem('B',cut);closePicker();renderComparePanels();}
 
 /* ─── THEME / VIEW ─── */
 function syncThemeUI(){const icon=document.getElementById('themeIcon'),sub=document.getElementById('themeSubLabel'),track=document.getElementById('themeToggle');if(icon)icon.className='ti '+(isDark?'ti-moon':'ti-sun');if(sub)sub.textContent=isDark?'Currently dark':'Currently light';if(track)track.classList.toggle('on',isDark);}
