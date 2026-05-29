@@ -203,10 +203,10 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .person-detail-type.client{background:rgba(74,158,255,0.15);color:var(--client-color);}
 .person-detail-type.model{background:rgba(201,122,255,0.15);color:var(--model-color);}
 .person-detail-body{overflow-y:auto;flex:1;padding:12px 16px 32px;}
-.person-cut-card{display:flex;gap:12px;align-items:flex-start;background:var(--bg2);border:0.5px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:10px;cursor:pointer;}
-.person-cut-thumb{width:80px;height:80px;object-fit:cover;flex-shrink:0;display:block;opacity:0;transition:opacity 0.3s;}
+.person-cut-card{display:flex;flex-direction:column;gap:0;background:var(--bg2);border:0.5px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:10px;cursor:pointer;}
+.person-cut-thumb{width:100%;height:220px;object-fit:cover;display:block;opacity:0;transition:opacity 0.3s;}
 .person-cut-thumb.loaded{opacity:1;}
-.person-cut-info{padding:12px 12px 12px 0;flex:1;}
+.person-cut-info{padding:16px;flex:1;}
 .person-cut-name{font-size:14px;font-weight:700;color:var(--text);}
 .person-cut-opts{font-size:12px;color:var(--text2);margin-top:3px;}
 .person-cut-desc{font-size:11px;color:var(--text3);margin-top:4px;line-height:1.4;}
