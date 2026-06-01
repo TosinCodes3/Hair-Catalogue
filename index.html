@@ -491,7 +491,50 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .hd-action-label{font-size:13px;font-weight:700;color:var(--text);letter-spacing:-0.01em;}
 .hd-action-sub{font-size:11px;color:var(--text2);}
 .hd-action-browse i{color:var(--text2);}
-.hd-action-people i{color:var(--client-color);}
+.hd-action-beforeafter i{color:#ff9f43;}
+
+/* ── BEFORE & AFTER SCREEN ── */
+.ba-screen{display:flex;flex-direction:column;flex:1;}
+.ba-topbar{padding:14px 16px 12px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.ba-title{font-size:15px;font-weight:700;color:var(--text);flex:1;text-align:center;}
+/* Picker strip */
+.ba-picker-strip{display:flex;gap:8px;padding:12px 16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;flex-shrink:0;border-bottom:0.5px solid var(--border);}
+.ba-picker-strip::-webkit-scrollbar{display:none;}
+.ba-pick-thumb{flex-shrink:0;width:52px;height:52px;border-radius:12px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:border-color 0.15s,opacity 0.15s;background:var(--bg3);position:relative;}
+.ba-pick-thumb:active{opacity:0.75;}
+.ba-pick-thumb.selected-before{border-color:#4a9eff;}
+.ba-pick-thumb.selected-after{border-color:#ff9f43;}
+.ba-pick-thumb img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity 0.3s;}
+.ba-pick-thumb img.loaded{opacity:1;}
+.ba-pick-label{position:absolute;bottom:2px;left:0;right:0;text-align:center;font-size:8px;font-weight:700;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.8);}
+/* Slot selectors */
+.ba-slot-row{display:flex;gap:10px;padding:10px 16px;flex-shrink:0;}
+.ba-slot-btn{flex:1;padding:9px 10px;border-radius:10px;border:0.5px solid var(--border2);background:var(--bg2);font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;font-family:inherit;text-align:center;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:6px;}
+.ba-slot-btn.picking-before{border-color:#4a9eff;background:rgba(74,158,255,0.12);color:#4a9eff;}
+.ba-slot-btn.picking-after{border-color:#ff9f43;background:rgba(255,159,67,0.12);color:#ff9f43;}
+.ba-slot-btn i{font-size:13px;}
+.ba-slider-wrap{flex:1;position:relative;overflow:hidden;background:var(--bg3);min-height:260px;}
+.ba-img-after{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;opacity:0;transition:opacity 0.3s;}
+.ba-img-after.loaded{opacity:1;}
+.ba-img-before-wrap{position:absolute;inset:0;overflow:hidden;display:none;}
+.ba-img-before{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity 0.3s;}
+.ba-img-before.loaded{opacity:1;}
+.ba-divider{position:absolute;top:0;bottom:0;width:2px;background:#fff;transform:translateX(-50%);pointer-events:none;box-shadow:0 0 8px rgba(0,0,0,0.4);}
+.ba-handle{position:absolute;top:50%;width:40px;height:40px;border-radius:50%;background:#fff;border:none;transform:translate(-50%,-50%);cursor:ew-resize;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,0.35);pointer-events:none;}
+.ba-handle i{font-size:16px;color:#333;}
+.ba-label-before{position:absolute;bottom:14px;left:14px;background:rgba(0,0,0,0.55);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px;pointer-events:none;letter-spacing:0.04em;}
+.ba-label-after{position:absolute;bottom:14px;right:14px;background:rgba(0,0,0,0.55);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px;pointer-events:none;letter-spacing:0.04em;}
+.ba-empty-state{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:32px;}
+.ba-empty-state i{font-size:32px;color:var(--text3);}
+.ba-empty-state p{font-size:13px;color:var(--text3);text-align:center;line-height:1.6;}
+/* Bottom info bar */
+.ba-info-bar{padding:12px 16px 16px;border-top:0.5px solid var(--border);flex-shrink:0;}
+.ba-info-row{display:flex;gap:10px;align-items:stretch;}
+.ba-info-card{flex:1;background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:10px 12px;}
+.ba-info-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-bottom:6px;}
+.ba-info-label{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:3px;}
+.ba-info-name{font-size:13px;font-weight:700;color:var(--text);}
+.ba-info-empty{font-size:12px;color:var(--text3);font-style:italic;}
 .hd-action-compare i{color:var(--text2);}
 .hd-action-metrics i{color:var(--model-color);}
 </style>
@@ -536,10 +579,10 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
           <div class="hd-action-label">Browse Cuts</div>
           <div class="hd-action-sub">Explore the catalogue</div>
         </div>
-        <div class="hd-action-card hd-action-people" onclick="switchTab('people')">
-          <i class="ti ti-users"></i>
-          <div class="hd-action-label">People</div>
-          <div class="hd-action-sub">Clients &amp; models</div>
+        <div class="hd-action-card hd-action-beforeafter" onclick="openBeforeAfter()">
+          <i class="ti ti-adjustments-horizontal"></i>
+          <div class="hd-action-label">Before &amp; After</div>
+          <div class="hd-action-sub">Slider comparison</div>
         </div>
         <div class="hd-action-card hd-action-compare" onclick="openCompareFromHome()">
           <i class="ti ti-layout-columns"></i>
@@ -555,8 +598,57 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
     </div>
   </div>
 
+
+  <!-- ── BEFORE & AFTER SCREEN (s12) ── -->
+  <div class="screen" id="s12">
+    <div class="ba-screen">
+      <div class="ba-topbar">
+        <div class="back-btn" onclick="switchTab('home')"><i class="ti ti-arrow-left"></i></div>
+        <div class="ba-title">Before &amp; After</div>
+        <div style="width:34px"></div>
+      </div>
+      <div class="ba-slot-row">
+        <button class="ba-slot-btn" id="baSlotBeforeBtn" onclick="setBaSlot('before')">
+          <i class="ti ti-circle-half-2"></i> Set Before
+        </button>
+        <button class="ba-slot-btn" id="baSlotAfterBtn" onclick="setBaSlot('after')">
+          <i class="ti ti-circle-check"></i> Set After
+        </button>
+      </div>
+      <div class="ba-picker-strip" id="baPickerStrip"></div>
+      <div class="ba-slider-wrap" id="baSliderWrap">
+        <div class="ba-empty-state" id="baEmptyState">
+          <i class="ti ti-adjustments-horizontal"></i>
+          <p>Pick a <strong>Before</strong> and an <strong>After</strong> cut above, then drag the slider to compare them side by side.</p>
+        </div>
+        <img class="ba-img-after" id="baImgAfter" src="" alt="After">
+        <div class="ba-img-before-wrap" id="baBeforeWrap" style="width:50%;">
+          <img class="ba-img-before" id="baImgBefore" src="" alt="Before">
+        </div>
+        <div class="ba-divider" id="baDivider" style="left:50%;display:none;"></div>
+        <div class="ba-handle" id="baHandle" style="left:50%;display:none;"><i class="ti ti-arrows-left-right"></i></div>
+        <div class="ba-label-before" id="baLabelBefore" style="display:none;">Before</div>
+        <div class="ba-label-after" id="baLabelAfter" style="display:none;">After</div>
+      </div>
+      <div class="ba-info-bar">
+        <div class="ba-info-row">
+          <div class="ba-info-card">
+            <div class="ba-info-dot" style="background:#4a9eff;"></div>
+            <div class="ba-info-label">Before</div>
+            <div id="baInfoBefore" class="ba-info-empty">Not set</div>
+          </div>
+          <div class="ba-info-card">
+            <div class="ba-info-dot" style="background:#ff9f43;"></div>
+            <div class="ba-info-label">After</div>
+            <div id="baInfoAfter" class="ba-info-empty">Not set</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="screen" id="s1">
-    <div class="home-header"><div class="home-title">Pick your style</div><div class="home-sub">Choose a category to get started</div></div>
+
     <div class="filter-bar" id="filterBar"></div>
     <div class="cat-grid" id="catGrid"></div>
   </div>
@@ -816,6 +908,146 @@ function pickCompare(cut){if(pickerTarget==='A')setCompareItem('A',cut);else set
 function syncThemeUI(){const icon=document.getElementById('themeIcon'),sub=document.getElementById('themeSubLabel'),track=document.getElementById('themeToggle');if(icon)icon.className='ti '+(isDark?'ti-moon':'ti-sun');if(sub)sub.textContent=isDark?'Currently dark':'Currently light';if(track)track.classList.toggle('on',isDark);}
 function toggleTheme(){isDark=!isDark;document.getElementById('app').classList.toggle('light',!isDark);document.documentElement.classList.toggle('light',!isDark);document.body.style.background=isDark?'#111':'#fff';syncThemeUI();}
 function setView(type){isListView=type==='list';document.getElementById('chipGrid').classList.toggle('on',!isListView);document.getElementById('chipList').classList.toggle('on',isListView);buildCats();}
+
+/* ─── BEFORE & AFTER SCREEN ─── */
+let baSlot='before'; // which slot is being set: 'before' | 'after'
+let baBefore=null;   // {cut, imgSrc, name}
+let baAfter=null;
+let baDragging=false;
+let baSliderPct=50;
+
+function openBeforeAfter(){
+  go('s12');
+  renderBaPickerStrip();
+  updateBaSlotButtons();
+  updateBaSlider();
+}
+
+function renderBaPickerStrip(){
+  const strip=document.getElementById('baPickerStrip');
+  if(!strip)return;
+  strip.innerHTML='';
+  cuts.forEach(cut=>{
+    const imgs=getImgs(cut);
+    const src=imgs[0].src;
+    const thumb=document.createElement('div');
+    thumb.className='ba-pick-thumb';
+    // Mark if already selected
+    if(baBefore&&baBefore.cut.id===cut.id)thumb.classList.add('selected-before');
+    if(baAfter&&baAfter.cut.id===cut.id)thumb.classList.add('selected-after');
+    const img=document.createElement('img');
+    img.src=src;img.alt=cut.name;
+    img.onload=()=>img.classList.add('loaded');
+    img.onerror=()=>{img.style.opacity='0.1';};
+    const lbl=document.createElement('div');
+    lbl.className='ba-pick-label';
+    lbl.textContent=cut.name.length>10?cut.name.slice(0,9)+'…':cut.name;
+    thumb.appendChild(img);thumb.appendChild(lbl);
+    thumb.onclick=()=>setBaImage(cut,src);
+    strip.appendChild(thumb);
+  });
+}
+
+function setBaSlot(slot){
+  baSlot=slot;
+  updateBaSlotButtons();
+}
+
+function updateBaSlotButtons(){
+  const beforeBtn=document.getElementById('baSlotBeforeBtn');
+  const afterBtn=document.getElementById('baSlotAfterBtn');
+  if(!beforeBtn||!afterBtn)return;
+  beforeBtn.className='ba-slot-btn'+(baSlot==='before'?' picking-before':'');
+  afterBtn.className='ba-slot-btn'+(baSlot==='after'?' picking-after':'');
+}
+
+function setBaImage(cut,src){
+  const entry={cut,imgSrc:src,name:cut.name};
+  if(baSlot==='before')baBefore=entry;
+  else baAfter=entry;
+  // Auto-advance slot
+  if(baSlot==='before'&&!baAfter)baSlot='after';
+  else if(baSlot==='after'&&!baBefore)baSlot='before';
+  updateBaSlotButtons();
+  renderBaPickerStrip();
+  updateBaSlider();
+  // Update info bar
+  const infoBefore=document.getElementById('baInfoBefore');
+  const infoAfter=document.getElementById('baInfoAfter');
+  if(infoBefore)infoBefore.innerHTML=baBefore?`<div class="ba-info-name">${baBefore.name}</div>`:'<span class="ba-info-empty">Not set</span>';
+  if(infoAfter)infoAfter.innerHTML=baAfter?`<div class="ba-info-name">${baAfter.name}</div>`:'<span class="ba-info-empty">Not set</span>';
+}
+
+function updateBaSlider(){
+  const empty=document.getElementById('baEmptyState');
+  const imgAfter=document.getElementById('baImgAfter');
+  const imgBefore=document.getElementById('baImgBefore');
+  const beforeWrap=document.getElementById('baBeforeWrap');
+  const divider=document.getElementById('baDivider');
+  const handle=document.getElementById('baHandle');
+  const lblBefore=document.getElementById('baLabelBefore');
+  const lblAfter=document.getElementById('baLabelAfter');
+  if(!empty)return;
+
+  const ready=baBefore&&baAfter;
+  empty.style.display=ready?'none':'flex';
+  const parts=[imgAfter,imgBefore,divider,handle,lblBefore,lblAfter];
+  parts.forEach(el=>{if(el)el.style.display=ready?'block':'none';});
+  if(beforeWrap)beforeWrap.style.display=ready?'block':'none';
+  if(!ready)return;
+
+  // Set images
+  if(imgAfter&&imgAfter.src!==baAfter.imgSrc){imgAfter.src=baAfter.imgSrc;imgAfter.classList.remove('loaded');imgAfter.onload=()=>imgAfter.classList.add('loaded');}
+  if(imgBefore&&imgBefore.src!==baBefore.imgSrc){imgBefore.src=baBefore.imgSrc;imgBefore.classList.remove('loaded');imgBefore.onload=()=>imgBefore.classList.add('loaded');}
+
+  // Apply current slider position
+  applyBaSlider(baSliderPct);
+  initBaSliderDrag();
+}
+
+function applyBaSlider(pct){
+  baSliderPct=Math.max(2,Math.min(98,pct));
+  const beforeWrap=document.getElementById('baBeforeWrap');
+  const divider=document.getElementById('baDivider');
+  const handle=document.getElementById('baHandle');
+  if(beforeWrap)beforeWrap.style.width=baSliderPct+'%';
+  if(divider)divider.style.left=baSliderPct+'%';
+  if(handle)handle.style.left=baSliderPct+'%';
+}
+
+function initBaSliderDrag(){
+  const wrap=document.getElementById('baSliderWrap');
+  if(!wrap||wrap._baInited)return;
+  wrap._baInited=true;
+
+  function getPct(clientX){
+    const rect=wrap.getBoundingClientRect();
+    return ((clientX-rect.left)/rect.width)*100;
+  }
+  // Touch
+  wrap.addEventListener('touchstart',e=>{
+    if(!baBefore||!baAfter)return;
+    baDragging=true;
+    applyBaSlider(getPct(e.touches[0].clientX));
+  },{passive:true});
+  wrap.addEventListener('touchmove',e=>{
+    if(!baDragging)return;
+    e.preventDefault();
+    applyBaSlider(getPct(e.touches[0].clientX));
+  },{passive:false});
+  wrap.addEventListener('touchend',()=>{baDragging=false;},{passive:true});
+  // Mouse (desktop/dev)
+  wrap.addEventListener('mousedown',e=>{
+    if(!baBefore||!baAfter)return;
+    baDragging=true;
+    applyBaSlider(getPct(e.clientX));
+  });
+  window.addEventListener('mousemove',e=>{
+    if(!baDragging)return;
+    applyBaSlider(getPct(e.clientX));
+  });
+  window.addEventListener('mouseup',()=>{baDragging=false;});
+}
 
 /* ─── HOME SCREEN ─── */
 let hdActiveFilter='all';
