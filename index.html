@@ -491,7 +491,8 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .hd-action-label{font-size:13px;font-weight:700;color:var(--text);letter-spacing:-0.01em;}
 .hd-action-sub{font-size:11px;color:var(--text2);}
 .hd-action-browse i{color:var(--text2);}
-.hd-action-beforeafter i{color:#ff9f43;}
+.hd-action-beforeafter i{color:var(--text2);}
+
 
 /* ── BEFORE & AFTER SCREEN ── */
 .ba-screen{display:flex;flex-direction:column;flex:1;}
@@ -502,16 +503,16 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .ba-picker-strip::-webkit-scrollbar{display:none;}
 .ba-pick-thumb{flex-shrink:0;width:52px;height:52px;border-radius:12px;overflow:hidden;cursor:pointer;border:2px solid transparent;transition:border-color 0.15s,opacity 0.15s;background:var(--bg3);position:relative;}
 .ba-pick-thumb:active{opacity:0.75;}
-.ba-pick-thumb.selected-before{border-color:#4a9eff;}
-.ba-pick-thumb.selected-after{border-color:#ff9f43;}
+.ba-pick-thumb.selected-before{border-color:var(--text);}
+.ba-pick-thumb.selected-after{border-color:var(--text);outline:2px dashed var(--text2);outline-offset:-3px;}
 .ba-pick-thumb img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity 0.3s;}
 .ba-pick-thumb img.loaded{opacity:1;}
 .ba-pick-label{position:absolute;bottom:2px;left:0;right:0;text-align:center;font-size:8px;font-weight:700;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.8);}
 /* Slot selectors */
 .ba-slot-row{display:flex;gap:10px;padding:10px 16px;flex-shrink:0;}
 .ba-slot-btn{flex:1;padding:9px 10px;border-radius:10px;border:0.5px solid var(--border2);background:var(--bg2);font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;font-family:inherit;text-align:center;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:6px;}
-.ba-slot-btn.picking-before{border-color:#4a9eff;background:rgba(74,158,255,0.12);color:#4a9eff;}
-.ba-slot-btn.picking-after{border-color:#ff9f43;background:rgba(255,159,67,0.12);color:#ff9f43;}
+.ba-slot-btn.picking-before{border-color:var(--opt-on-border);background:var(--opt-on-bg);color:var(--text);}
+.ba-slot-btn.picking-after{border-color:var(--opt-on-border);background:var(--opt-on-bg);color:var(--text);}
 .ba-slot-btn i{font-size:13px;}
 .ba-slider-wrap{flex:1;position:relative;overflow:hidden;background:var(--bg3);min-height:260px;}
 .ba-img-after{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;opacity:0;transition:opacity 0.3s;}
@@ -520,8 +521,9 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .ba-img-before{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity 0.3s;}
 .ba-img-before.loaded{opacity:1;}
 .ba-divider{position:absolute;top:0;bottom:0;width:2px;background:#fff;transform:translateX(-50%);pointer-events:none;box-shadow:0 0 8px rgba(0,0,0,0.4);}
-.ba-handle{position:absolute;top:50%;width:40px;height:40px;border-radius:50%;background:#fff;border:none;transform:translate(-50%,-50%);cursor:ew-resize;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,0.35);pointer-events:none;}
-.ba-handle i{font-size:16px;color:#333;}
+.ba-handle{position:absolute;top:50%;width:40px;height:40px;border-radius:50%;background:#fff;border:none;transform:translate(-50%,-50%);cursor:ew-resize;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,0.35);pointer-events:none;line-height:1;}
+.ba-handle i{font-size:16px;color:#333;display:flex;align-items:center;justify-content:center;width:16px;height:16px;line-height:1;}
+
 .ba-label-before{position:absolute;bottom:14px;left:14px;background:rgba(0,0,0,0.55);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px;pointer-events:none;letter-spacing:0.04em;}
 .ba-label-after{position:absolute;bottom:14px;right:14px;background:rgba(0,0,0,0.55);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px;pointer-events:none;letter-spacing:0.04em;}
 .ba-empty-state{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:32px;}
@@ -534,9 +536,9 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .ba-info-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-bottom:6px;}
 .ba-info-label{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:3px;}
 .ba-info-name{font-size:13px;font-weight:700;color:var(--text);}
-.ba-info-empty{font-size:12px;color:var(--text3);font-style:italic;}
+.ba-info-empty{font-size:12px;color:var(--text3);}
 .hd-action-compare i{color:var(--text2);}
-.hd-action-metrics i{color:var(--model-color);}
+.hd-action-metrics i{color:var(--text2);}
 </style>
 </head>
 <body>
@@ -633,12 +635,12 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
       <div class="ba-info-bar">
         <div class="ba-info-row">
           <div class="ba-info-card">
-            <div class="ba-info-dot" style="background:#4a9eff;"></div>
+            <div class="ba-info-dot" style="background:var(--text);"></div>
             <div class="ba-info-label">Before</div>
             <div id="baInfoBefore" class="ba-info-empty">Not set</div>
           </div>
           <div class="ba-info-card">
-            <div class="ba-info-dot" style="background:#ff9f43;"></div>
+            <div class="ba-info-dot" style="background:var(--text3);"></div>
             <div class="ba-info-label">After</div>
             <div id="baInfoAfter" class="ba-info-empty">Not set</div>
           </div>
@@ -731,7 +733,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
     </div>
   </div>
   <div class="screen" id="s6">
-    <div class="topbar"><div class="back-btn" onclick="go('s1')"><i class="ti ti-arrow-left"></i></div><div class="topbar-title">Search</div><div style="width:34px"></div></div>
+    <div class="topbar"><div style="width:34px"></div><div class="topbar-title">Search</div><div style="width:34px"></div></div>
     <div class="detail-body">
       <input id="searchInput" class="search-input" type="text" placeholder="Search cuts or categories..." oninput="runSearch()">
       <div class="search-results" id="searchResults"></div>
@@ -751,6 +753,10 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
         <div class="settings-section-label">Analytics</div>
         <div class="settings-row" style="cursor:pointer;" onclick="openMetrics()">
           <div class="settings-row-left"><div class="settings-row-icon"><i class="ti ti-chart-bar"></i></div><div><div class="settings-row-label">Metrics</div><div class="settings-row-sub">Locks, trends &amp; top cuts</div></div></div>
+          <i class="ti ti-chevron-right" style="color:var(--text3);font-size:16px;"></i>
+        </div>
+        <div class="settings-row" style="cursor:pointer;" onclick="openMetricsSettings()">
+          <div class="settings-row-left"><div class="settings-row-icon"><i class="ti ti-adjustments"></i></div><div><div class="settings-row-label">Metrics settings</div><div class="settings-row-sub">Period, display &amp; data preferences</div></div></div>
           <i class="ti ti-chevron-right" style="color:var(--text3);font-size:16px;"></i>
         </div>
       </div>
@@ -778,9 +784,73 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
     </div>
   </div>
   <div class="screen" id="s9">
-    <div class="topbar"><div class="back-btn" onclick="go('s7')"><i class="ti ti-arrow-left"></i></div><div class="topbar-title">Metrics</div><div style="width:34px"></div></div>
+    <div class="topbar"><div class="back-btn" onclick="go('s7')"><i class="ti ti-arrow-left"></i></div><div class="topbar-title">Metrics</div><div class="back-btn" style="justify-content:flex-end;" onclick="openMetricsSettings()"><i class="ti ti-adjustments" style="font-size:20px;color:var(--text2);"></i></div></div>
     <div class="detail-body" id="metricsBody" style="padding-top:16px;"></div>
   </div>
+  <!-- ── METRICS SETTINGS SCREEN (s13) ── -->
+  <div class="screen" id="s13">
+    <div class="topbar">
+      <div class="back-btn" id="msBackBtn" onclick="closeMetricsSettings()"><i class="ti ti-arrow-left"></i></div>
+      <div class="topbar-title">Metrics settings</div>
+      <div style="width:34px"></div>
+    </div>
+    <div class="settings-body">
+      <div class="settings-section">
+        <div class="settings-section-label">Time period</div>
+        <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:12px;">
+          <div class="settings-row-left"><div class="settings-row-icon"><i class="ti ti-calendar"></i></div><div><div class="settings-row-label">Trend range</div><div class="settings-row-sub">How far back charts look</div></div></div>
+          <div class="view-chips" id="msPeriodChips">
+            <div class="view-chip" id="msPeriod3" onclick="setMetricsSetting('period','3m')"><i class="ti ti-calendar-minus"></i> 3 mo</div>
+            <div class="view-chip on" id="msPeriod6" onclick="setMetricsSetting('period','6m')"><i class="ti ti-calendar"></i> 6 mo</div>
+            <div class="view-chip" id="msPeriod12" onclick="setMetricsSetting('period','12m')"><i class="ti ti-calendar-plus"></i> 12 mo</div>
+          </div>
+        </div>
+        <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:12px;margin-top:8px;">
+          <div class="settings-row-left"><div class="settings-row-icon"><i class="ti ti-clock"></i></div><div><div class="settings-row-label">Session granularity</div><div class="settings-row-sub">Group sessions by day or month</div></div></div>
+          <div class="view-chips" id="msGranChips">
+            <div class="view-chip" id="msGranDay" onclick="setMetricsSetting('granularity','day')"><i class="ti ti-sun"></i> Day</div>
+            <div class="view-chip on" id="msGranMonth" onclick="setMetricsSetting('granularity','month')"><i class="ti ti-calendar-stats"></i> Month</div>
+          </div>
+        </div>
+      </div>
+      <div class="settings-section">
+        <div class="settings-section-label">Display</div>
+        <div class="settings-row">
+          <div class="settings-row-left"><div class="settings-row-icon"><i class="ti ti-trending-up"></i></div><div><div class="settings-row-label">Default chart style</div><div class="settings-row-sub">Which view opens first</div></div></div>
+          <div style="display:flex;gap:0;background:var(--bg3);border-radius:8px;padding:2px;">
+            <button id="msChartLine" onclick="setMetricsSetting('chart','line')" style="padding:6px 12px;border:none;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s;background:var(--text);color:var(--bg);display:flex;align-items:center;gap:4px;"><i class="ti ti-trending-up" style="font-size:12px;"></i>Line</button>
+            <button id="msChartBar" onclick="setMetricsSetting('chart','bar')" style="padding:6px 12px;border:none;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s;background:transparent;color:var(--text2);display:flex;align-items:center;gap:4px;"><i class="ti ti-chart-bar" style="font-size:12px;"></i>Bar</button>
+          </div>
+        </div>
+        <div class="settings-row" style="margin-top:8px;">
+          <div class="settings-row-left"><div class="settings-row-icon"><i class="ti ti-numbers"></i></div><div><div class="settings-row-label">Show value labels</div><div class="settings-row-sub">Display counts on chart bars</div></div></div>
+          <div class="toggle-track on" id="msValueLabelsToggle" onclick="toggleMetricsSetting('valueLabels')"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="settings-row" style="margin-top:8px;">
+          <div class="settings-row-left"><div class="settings-row-icon"><i class="ti ti-users"></i></div><div><div class="settings-row-label">Include freestyle sessions</div><div class="settings-row-sub">Count freestyle in totals &amp; charts</div></div></div>
+          <div class="toggle-track on" id="msFreestyleToggle" onclick="toggleMetricsSetting('includeFreestyle')"><div class="toggle-knob"></div></div>
+        </div>
+      </div>
+      <div class="settings-section">
+        <div class="settings-section-label">Data</div>
+        <div class="settings-row" style="cursor:pointer;" onclick="confirmClearHistory()">
+          <div class="settings-row-left"><div class="settings-row-icon"><i class="ti ti-trash" style="color:#e55;"></i></div><div><div class="settings-row-label" style="color:#e55;">Clear all lock history</div><div class="settings-row-sub">Permanently delete all sessions</div></div></div>
+          <i class="ti ti-chevron-right" style="color:var(--text3);font-size:16px;"></i>
+        </div>
+      </div>
+      <div class="settings-section">
+        <div class="settings-section-label">About metrics</div>
+        <div class="settings-about">
+          <div class="settings-about-icon"><i class="ti ti-chart-bar"></i></div>
+          <div>
+            <div class="settings-about-name">LTC Analytics</div>
+            <div class="settings-about-version">Sessions tracked locally on this device</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="screen" id="s10">
     <div class="topbar"><div class="back-btn" id="drillBackBtn" onclick="go('s9')"><i class="ti ti-arrow-left"></i></div><div class="topbar-title" id="drillTitle">Detail</div><div style="width:34px"></div></div>
     <div class="drill-body" id="drillBody"></div>
@@ -896,7 +966,7 @@ function normalizeCompareItem(item){if(!item)return null;return item.cut?{cut:it
 function setCompareItem(side,cut){const item={cut,imgIdx:0};if(side==='A')compareA=item;else compareB=item;}
 function setCompareItemImage(side,imgIdx){const item=normalizeCompareItem(side==='A'?compareA:compareB);if(!item)return;item.imgIdx=Math.max(0,Math.min(imgIdx,getImgs(item.cut).length-1));if(side==='A')compareA=item;else compareB=item;renderComparePanels();}
 function openCompare(){if(!cur)return;setCompareItem('A',cur);compareB=null;renderComparePanels();go('s8');}
-function openCompareFromHome(){compareA=null;compareB=null;renderComparePanels();go('s8');setTimeout(()=>openPicker('A'),200);}
+function openCompareFromHome(){cur=null;compareA=null;compareB=null;renderComparePanels();go('s8');setTimeout(()=>openPicker('A'),200);}
 function closeCompare(){if(cur)go('s3');else switchTab('home');}
 function renderComparePanels(){renderPanel('A',compareA,'panelAContent',true);renderPanel('B',compareB,'panelBContent',false);let vs=document.getElementById('compareVsBadge');if(!vs){vs=document.createElement('div');vs.id='compareVsBadge';vs.className='compare-vs';vs.textContent='VS';document.getElementById('comparePanels').style.position='relative';document.getElementById('comparePanels').appendChild(vs);}}
 function renderPanel(side,item,cid,isA){const c=document.getElementById(cid);c.innerHTML='';const entry=normalizeCompareItem(item);if(!entry||!entry.cut){const ph=document.createElement('div');ph.className='compare-panel-placeholder';ph.innerHTML='<i class="ti ti-plus"></i><span>Pick a cut</span>';ph.onclick=()=>openPicker(side);c.appendChild(ph);const info=document.createElement('div');info.className='compare-panel-info';info.innerHTML='<div class="compare-panel-name" style="color:var(--text3);">Choose a style</div>';c.appendChild(info);return;}const cut=entry.cut;const imgs=getImgs(cut);const selectedIdx=Math.max(0,Math.min(entry.imgIdx,imgs.length-1));const selectedImg=imgs[selectedIdx];const img=document.createElement('img');img.className='compare-panel-img';img.src=selectedImg.src;img.alt=cut.name;img.onload=()=>img.classList.add('loaded');img.onerror=()=>{img.style.opacity='0.15';};img.onclick=()=>openPicker(side);c.appendChild(img);const info=document.createElement('div');info.className='compare-panel-info';info.innerHTML='<div class="compare-panel-name">'+cut.name+'</div><div class="compare-panel-tags">'+(cut.tags.filter(Boolean).join(', ')||'—')+'</div><div class="compare-panel-desc">'+cut.desc+'</div>';c.appendChild(info);if(imgs.length>1){const angles=document.createElement('div');angles.className='compare-angle-row';imgs.forEach((imgMeta,idx)=>{const chip=document.createElement('button');chip.type='button';chip.className='compare-angle-chip'+(idx===selectedIdx?' active':'');chip.textContent=imgMeta.label||('View '+(idx+1));chip.onclick=()=>setCompareItemImage(side,idx);angles.appendChild(chip);});c.appendChild(angles);}const btn=document.createElement('button');btn.className='compare-pick-btn';btn.textContent='Lock this cut';btn.onclick=()=>{cur=cut;fv='Mid';tv='Neat';resetOpts();openLockInSheet();};c.appendChild(btn);}
@@ -974,8 +1044,8 @@ function setBaImage(cut,src){
   // Update info bar
   const infoBefore=document.getElementById('baInfoBefore');
   const infoAfter=document.getElementById('baInfoAfter');
-  if(infoBefore)infoBefore.innerHTML=baBefore?`<div class="ba-info-name">${baBefore.name}</div>`:'<span class="ba-info-empty">Not set</span>';
-  if(infoAfter)infoAfter.innerHTML=baAfter?`<div class="ba-info-name">${baAfter.name}</div>`:'<span class="ba-info-empty">Not set</span>';
+  if(infoBefore)infoBefore.innerHTML=baBefore?`<div class="ba-info-name">${baBefore.name}</div>`:'<div class="ba-info-empty">Not set</div>';
+  if(infoAfter)infoAfter.innerHTML=baAfter?`<div class="ba-info-name">${baAfter.name}</div>`:'<div class="ba-info-empty">Not set</div>';
 }
 
 function updateBaSlider(){
@@ -1290,8 +1360,80 @@ const MONTH_SHORT=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','
 const NEUTRAL_BARS=['var(--m-bar-primary)','var(--m-bar-secondary)','var(--m-bar-tertiary)','var(--m-bar-quaternary)','var(--m-bar-quaternary)'];
 const DONUT_STROKES=['rgba(240,240,240,0.9)','rgba(240,240,240,0.55)','rgba(240,240,240,0.28)','rgba(240,240,240,0.13)'];
 const STACK_CLIENT='var(--m-client)';const STACK_MODEL='var(--m-model)';const STACK_FREESTYLE='var(--m-freestyle)';
-function getLast6Months(){const now=new Date(),m=[];for(let i=5;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1);m.push({key:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`,label:MONTH_SHORT[d.getMonth()],full:d.toLocaleDateString('en-GB',{month:'long',year:'numeric'})});}return m;}
 function itemMonthKey(item){const d=new Date(item.date);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;}
+/* ─── METRICS SETTINGS ─── */
+const METRICS_SETTINGS_KEY='metricsSettings';
+function getMetricsSettings(){
+  try{return Object.assign({period:'6m',granularity:'month',chart:'line',valueLabels:true,includeFreestyle:true},JSON.parse(localStorage.getItem(METRICS_SETTINGS_KEY)||'{}'));}
+  catch(e){return{period:'6m',granularity:'month',chart:'line',valueLabels:true,includeFreestyle:true};}
+}
+function saveMetricsSettings(s){localStorage.setItem(METRICS_SETTINGS_KEY,JSON.stringify(s));}
+
+let _msFromScreen='s7'; // track which screen opened settings to route back correctly
+
+function openMetricsSettings(){
+  _msFromScreen=document.querySelector('.screen.active')?document.querySelector('.screen.active').id:'s7';
+  syncMetricsSettingsUI();
+  go('s13');
+}
+function closeMetricsSettings(){
+  // Go back to wherever we came from
+  if(_msFromScreen==='s9')openMetrics();
+  else{switchTab('settings');}
+}
+function syncMetricsSettingsUI(){
+  const s=getMetricsSettings();
+  // Period chips
+  ['3m','6m','12m'].forEach(p=>{
+    const el=document.getElementById('msPeriod'+p.replace('m',''));
+    if(!el)return;
+    el.className='view-chip'+(s.period===p?' on':'');
+  });
+  // Granularity chips
+  const dayEl=document.getElementById('msGranDay');
+  const monthEl=document.getElementById('msGranMonth');
+  if(dayEl)dayEl.className='view-chip'+(s.granularity==='day'?' on':'');
+  if(monthEl)monthEl.className='view-chip'+(s.granularity==='month'?' on':'');
+  // Chart style buttons
+  const lineBtn=document.getElementById('msChartLine');
+  const barBtn=document.getElementById('msChartBar');
+  if(lineBtn){lineBtn.style.background=s.chart==='line'?'var(--text)':'transparent';lineBtn.style.color=s.chart==='line'?'var(--bg)':'var(--text2)';}
+  if(barBtn){barBtn.style.background=s.chart==='bar'?'var(--text)':'transparent';barBtn.style.color=s.chart==='bar'?'var(--bg)':'var(--text2)';}
+  // Toggles
+  const vlToggle=document.getElementById('msValueLabelsToggle');
+  if(vlToggle)vlToggle.classList.toggle('on',s.valueLabels);
+  const fsToggle=document.getElementById('msFreestyleToggle');
+  if(fsToggle)fsToggle.classList.toggle('on',s.includeFreestyle);
+}
+function setMetricsSetting(key,value){
+  const s=getMetricsSettings();
+  s[key]=value;
+  saveMetricsSettings(s);
+  syncMetricsSettingsUI();
+  // Apply chart style preference to drill trend view immediately
+  if(key==='chart')_drillTrendView=value;
+}
+function toggleMetricsSetting(key){
+  const s=getMetricsSettings();
+  s[key]=!s[key];
+  saveMetricsSettings(s);
+  syncMetricsSettingsUI();
+}
+function confirmClearHistory(){
+  if(confirm('Clear all lock history? This cannot be undone.')){
+    localStorage.removeItem(HISTORY_KEY);
+    // Reset ba state too
+    baBefore=null;baAfter=null;
+    alert('History cleared.');
+  }
+}
+function getLast6Months(){
+  const s=getMetricsSettings();
+  const n=s.period==='3m'?3:s.period==='12m'?12:6;
+  const now=new Date(),m=[];
+  for(let i=n-1;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1);m.push({key:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`,label:MONTH_SHORT[d.getMonth()],full:d.toLocaleDateString('en-GB',{month:'long',year:'numeric'})});}
+  return m;
+}
 function openMetrics(){renderMetricsScreen();go('s9');setTimeout(()=>startMetricsWalkthrough(),800);}
 function renderMetricsScreen(){const h=getHistory(),body=document.getElementById('metricsBody');body.innerHTML='';const months=getLast6Months();const clientsH=h.filter(x=>x.type==='client'),modelsH=h.filter(x=>x.type==='model'),named=[...clientsH,...modelsH];const uniqueNames=new Set(named.filter(x=>x.personName).map(x=>x.personName.trim().toLowerCase()));body.innerHTML+=`<div class="stat-grid"><div class="stat-card"><div class="stat-icon"><i class="ti ti-scissors"></i></div><div class="stat-label">Total locks</div><div class="stat-value anim-stat" data-target="${h.length}">0</div><div class="stat-sub">all time</div></div><div class="stat-card"><div class="stat-icon"><i class="ti ti-users"></i></div><div class="stat-label">Unique people</div><div class="stat-value anim-stat" data-target="${uniqueNames.size}">0</div><div class="stat-sub">clients &amp; models</div></div><div class="stat-card"><div class="stat-icon"><i class="ti ti-user"></i></div><div class="stat-label">Clients</div><div class="stat-value anim-stat" data-target="${clientsH.length}">0</div><div class="stat-sub">named sessions</div></div><div class="stat-card"><div class="stat-icon"><i class="ti ti-star"></i></div><div class="stat-label">Models</div><div class="stat-value anim-stat" data-target="${modelsH.length}">0</div><div class="stat-sub">named sessions</div></div></div>`;const lockCount={};h.forEach(x=>{lockCount[x.name]=(lockCount[x.name]||0)+1;});const sortedCuts=Object.entries(lockCount).sort((a,b)=>b[1]-a[1]).slice(0,5);const maxLock=sortedCuts[0]?sortedCuts[0][1]:1;body.innerHTML+=`<div class="m-section-header"><i class="ti ti-trophy" style="font-size:13px;color:var(--text3)"></i><div class="m-section-title">Most locked cut</div></div><div class="m-chart-card tappable" onclick="openDrill('top-cuts')" style="margin-bottom:14px;">${sortedCuts.length?sortedCuts.map(([name,count],i)=>`<div class="m-bar-row"><div class="m-rank-num" style="${i===0?'color:var(--text)':'color:var(--text3)'}">${i+1}</div><div class="m-bar-label">${name}</div><div class="m-bar-track"><div class="m-bar-fill" data-width="${Math.round(count/maxLock*100)}%" style="width:0;background:${NEUTRAL_BARS[i]};"></div></div><div class="m-bar-count" data-count="${count}">0</div></div>`).join(''):'<div class="m-empty"><i class="ti ti-trophy"></i><p>No locks yet</p></div>'}<div class="m-tap-hint"><i class="ti ti-arrow-right"></i> See full ranking</div></div>`;const typeCount={straight:0,curly:0,wavy:0,textured:0};h.forEach(x=>{const t=HAIR_TYPES_MAP[x.id];if(t&&typeCount[t]!==undefined)typeCount[t]++;});const typeTotal=Object.values(typeCount).reduce((a,b)=>a+b,0)||1;const typeLabelsMap={straight:'Straight',curly:'Curly',wavy:'Wavy',textured:'Textured'};const typeEntries=Object.entries(typeCount).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);const R=28,cx=40,cy=40,circ=2*Math.PI*R;let offset=0;const segments=typeEntries.map(([type,count],i)=>{const pct=count/typeTotal,dash=pct*circ,gap=circ-dash,fo=(-offset*circ+circ/4).toFixed(2);const strokeColor=DONUT_STROKES[i]||DONUT_STROKES[DONUT_STROKES.length-1];const seg=`<circle class="anim-donut" cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${strokeColor}" stroke-width="10" stroke-dasharray="${dash.toFixed(2)} ${gap.toFixed(2)}" stroke-dashoffset="${circ.toFixed(2)}" data-final-offset="${fo}" transform="rotate(-90 ${cx} ${cy})"/>`;offset+=pct;return seg;}).join('');body.innerHTML+=`<div class="m-section-header"><i class="ti ti-chart-donut" style="font-size:13px;color:var(--text3)"></i><div class="m-section-title">Most selected haircut types</div></div><div class="m-chart-card tappable" onclick="openDrill('hair-types')" style="margin-bottom:14px;"><div class="m-donut-wrap"><svg class="m-donut-svg" viewBox="0 0 80 80"><circle cx="40" cy="40" r="28" fill="none" stroke="var(--bg3)" stroke-width="10"/>${segments}</svg><div class="m-donut-legend">${typeEntries.map(([type,count],i)=>`<div class="m-donut-leg-row"><div class="m-donut-leg-dot" style="background:${DONUT_STROKES[i]||DONUT_STROKES[DONUT_STROKES.length-1]}"></div><div class="m-donut-leg-label">${typeLabelsMap[type]}</div><div class="m-donut-leg-val">${Math.round(count/typeTotal*100)}%</div></div>`).join('')||'<div style="font-size:12px;color:var(--text3)">No data yet</div>'}</div></div><div class="m-tap-hint"><i class="ti ti-arrow-right"></i> See sessions by type</div></div>`;const trendData=months.map(m=>h.filter(x=>itemMonthKey(x)===m.key).length);const maxT=Math.max(...trendData,1);const W=290,H=70;const pts=trendData.map((v,i)=>`${Math.round(i*(W/(trendData.length-1||1)))},${Math.round(H-v/maxT*H)}`);const areaPath=`M${pts.join('L')} L${W},${H} L0,${H} Z`;body.innerHTML+=`<div class="m-section-header"><i class="ti ti-trending-up" style="font-size:13px;color:var(--text3)"></i><div class="m-section-title">Lock trend over time</div><span class="m-section-chip">last 6 months</span></div><div class="m-chart-card tappable" onclick="openDrill('trend')" style="margin-bottom:14px;"><svg viewBox="0 0 ${W} 80" style="width:100%;height:80px;"><defs><linearGradient id="mtg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="var(--text)" stop-opacity="0.18"/><stop offset="100%" stop-color="var(--text)" stop-opacity="0"/></linearGradient></defs><path d="M${pts.join('L')}" fill="none" stroke="var(--text2)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><path d="${areaPath}" fill="url(#mtg)"/>${trendData.map((v,i)=>`<circle cx="${Math.round(i*(W/(trendData.length-1||1)))}" cy="${Math.round(H-v/maxT*H)}" r="3" fill="var(--text)"/><text x="${Math.round(i*(W/(trendData.length-1||1)))}" y="${Math.round(H-v/maxT*H)-8}" text-anchor="middle" font-size="9" fill="var(--text2)">${v||''}</text>`).join('')}</svg><div style="display:flex;gap:4px;margin-top:6px;">${months.map(m=>`<div style="flex:1;text-align:center;font-size:9px;color:var(--text3);">${m.label}</div>`).join('')}</div><div class="m-tap-hint"><i class="ti ti-arrow-right"></i> See sessions by month</div></div>`;const typeMonthData=months.map(m=>({label:m.label,key:m.key,client:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='client').length,model:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='model').length,freestyle:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='freestyle').length}));const maxStack=Math.max(...typeMonthData.map(m=>m.client+m.model+m.freestyle),1);body.innerHTML+=`<div class="m-section-header"><i class="ti ti-calendar-plus" style="font-size:13px;color:var(--text3)"></i><div class="m-section-title">Locks per month by type</div></div><div class="m-chart-card tappable" onclick="openDrill('by-type-month')" style="margin-bottom:14px;"><div class="m-pill-legend"><div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_CLIENT}"></div>Client</div><div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_MODEL}"></div>Model</div><div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_FREESTYLE}"></div>Freestyle</div></div><div style="display:flex;gap:6px;align-items:flex-end;height:60px;margin-bottom:4px;">${typeMonthData.map(m=>{const cH=Math.round(m.client/maxStack*60),mH=Math.round(m.model/maxStack*60),fH=Math.round(m.freestyle/maxStack*60);return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;">${m.client?`<div class="m-stack-fill" data-height="${cH}" style="width:100%;height:0;background:${STACK_CLIENT};border-radius:2px 2px 0 0;"></div>`:''}${m.model?`<div class="m-stack-fill" data-height="${mH}" style="width:100%;height:0;background:${STACK_MODEL};"></div>`:''}${m.freestyle?`<div class="m-stack-fill" data-height="${fH}" style="width:100%;height:0;background:${STACK_FREESTYLE};"></div>`:''}${!m.client&&!m.model&&!m.freestyle?`<div style="width:100%;height:3px;background:var(--bg3);border-radius:2px;margin-top:auto;"></div>`:''}</div>`;}).join('')}</div><div style="display:flex;gap:6px;">${typeMonthData.map(m=>`<div style="flex:1;text-align:center;font-size:9px;color:var(--text3);">${m.label}</div>`).join('')}</div><div class="m-tap-hint"><i class="ti ti-arrow-right"></i> See breakdown</div></div>`;const cmData=months.map(m=>({label:m.label,key:m.key,client:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='client').length,model:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='model').length}));const maxCM=Math.max(...cmData.map(m=>Math.max(m.client,m.model)),1);body.innerHTML+=`<div class="m-section-header"><i class="ti ti-photo" style="font-size:13px;color:var(--text3)"></i><div class="m-section-title">Client &amp; model cuts per month</div></div><div class="m-chart-card tappable" onclick="openDrill('client-model-month')" style="margin-bottom:32px;"><div class="m-pill-legend"><div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_CLIENT}"></div>Client</div><div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_MODEL}"></div>Model</div></div><div style="display:flex;gap:4px;align-items:flex-end;height:60px;margin-bottom:4px;">${cmData.map(m=>`<div style="flex:1;display:flex;gap:2px;align-items:flex-end;"><div class="m-stack-fill" data-height="${Math.max(2,Math.round(m.client/maxCM*60))}" style="flex:1;height:0;background:${STACK_CLIENT};border-radius:3px 3px 0 0;"></div><div class="m-stack-fill" data-height="${Math.max(2,Math.round(m.model/maxCM*60))}" style="flex:1;height:0;background:${STACK_MODEL};border-radius:3px 3px 0 0;"></div></div>`).join('')}</div><div style="display:flex;gap:4px;">${cmData.map(m=>`<div style="flex:1;text-align:center;font-size:9px;color:var(--text3);">${m.label}</div>`).join('')}</div><div class="m-tap-hint"><i class="ti ti-arrow-right"></i> See sessions</div></div>`;requestAnimationFrame(()=>animateMetricsScreen());}
 
