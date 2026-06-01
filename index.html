@@ -65,7 +65,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .intro-btn{width:100%;max-width:260px;margin-top:22px;padding:15px 24px;background:var(--lock-bg);color:var(--lock-text);border:none;border-radius:8px;font-size:15px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:opacity 0.15s;font-family:inherit;}
 .intro-btn:active{opacity:0.8;}
 .intro-dots{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--text3);letter-spacing:0.06em;}
-.home-header{padding:32px 16px 16px;}
+.home-header{padding:32px 16px 24px;margin-bottom:20px;}
 .home-title{font-size:24px;font-weight:700;color:var(--text);letter-spacing:-0.02em;}
 .home-sub{font-size:13px;color:var(--text2);margin-top:3px;}
 .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 24px;}
@@ -650,7 +650,9 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
   </div>
 
   <div class="screen" id="s1">
-
+    <div class="home-header" style="padding-bottom:8px;">
+      <div class="home-title">Haircut Categories</div>
+    </div>
     <div class="filter-bar" id="filterBar"></div>
     <div class="cat-grid" id="catGrid"></div>
   </div>
@@ -751,10 +753,6 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
       </div>
       <div class="settings-section">
         <div class="settings-section-label">Analytics</div>
-        <div class="settings-row" style="cursor:pointer;" onclick="openMetrics()">
-          <div class="settings-row-left"><div class="settings-row-icon"><i class="ti ti-chart-bar"></i></div><div><div class="settings-row-label">Metrics</div><div class="settings-row-sub">Locks, trends &amp; top cuts</div></div></div>
-          <i class="ti ti-chevron-right" style="color:var(--text3);font-size:16px;"></i>
-        </div>
         <div class="settings-row" style="cursor:pointer;" onclick="openMetricsSettings()">
           <div class="settings-row-left"><div class="settings-row-icon"><i class="ti ti-adjustments"></i></div><div><div class="settings-row-label">Metrics settings</div><div class="settings-row-sub">Period, display &amp; data preferences</div></div></div>
           <i class="ti ti-chevron-right" style="color:var(--text3);font-size:16px;"></i>
@@ -885,7 +883,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 </div>
 <div class="bottom-nav">
   <button class="nav-item active" id="navHome"     onclick="switchTab('home')"><i class="ti ti-home"></i><span>Home</span></button>
-  <button class="nav-item"        id="navExplore"  onclick="switchTab('explore')"><i class="ti ti-layout-grid"></i><span>Explore</span></button>
+  <button class="nav-item"        id="navExplore"  onclick="switchTab('explore')"><i class="ti ti-layout-grid"></i><span>Categories</span></button>
   <button class="nav-item"        id="navPeople"   onclick="switchTab('people')"><i class="ti ti-users"></i><span>People</span></button>
   <button class="nav-item"        id="navSearch"   onclick="switchTab('search')"><i class="ti ti-search"></i><span>Search</span></button>
   <button class="nav-item"        id="navSettings" onclick="switchTab('settings')"><i class="ti ti-settings"></i><span>Settings</span></button>
