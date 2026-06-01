@@ -296,7 +296,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .lockin-sheet{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:420px;background:var(--bg);border-radius:20px 20px 0 0;border-top:0.5px solid var(--border2);z-index:75;display:flex;flex-direction:column;transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);max-height:90vh;overflow:hidden;}
 .lockin-sheet.open{transform:translateX(-50%) translateY(0);}
 .lockin-handle{width:36px;height:4px;border-radius:2px;background:var(--border2);margin:10px auto 0;flex-shrink:0;}
-.lockin-header{padding:14px 16px 4px;flex-shrink:0;}
+.lockin-header{padding:14px 16px 4px;flex-shrink:0;display:flex;align-items:flex-start;gap:10px;}
 .lockin-title{font-size:17px;font-weight:700;color:var(--text);}
 .lockin-sub{font-size:13px;color:var(--text2);margin-top:4px;line-height:1.5;}
 .lockin-body{padding:16px 16px 32px;overflow-y:auto;flex:1;}
@@ -789,7 +789,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
     </div>
   </div>
   <div class="screen" id="s9">
-    <div class="topbar"><div class="back-btn" onclick="go('s7')"><i class="ti ti-arrow-left"></i></div><div class="topbar-title">Metrics</div><div class="back-btn" style="justify-content:flex-end;" onclick="openMetricsSettings()"><i class="ti ti-adjustments" style="font-size:20px;color:var(--text2);"></i></div></div>
+    <div class="topbar"><div class="back-btn" onclick="switchTab('home')"><i class="ti ti-arrow-left"></i></div><div class="topbar-title">Metrics</div><div class="back-btn" style="justify-content:flex-end;" onclick="openMetricsSettings()"><i class="ti ti-adjustments" style="font-size:20px;color:var(--text2);"></i></div></div>
     <div class="detail-body" id="metricsBody" style="padding-top:16px;"></div>
   </div>
   <!-- ── METRICS SETTINGS SCREEN (s13) ── -->
