@@ -752,6 +752,13 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
         </div>
       </div>
       <div class="settings-section">
+        <div class="settings-section-label">Dashboard</div>
+        <div class="settings-row">
+          <div class="settings-row-left"><div class="settings-row-icon"><i class="ti ti-refresh"></i></div><div><div class="settings-row-label">Refresh dashboard haircut</div><div class="settings-row-sub">Randomize the featured home haircut on reload</div></div></div>
+          <div class="toggle-track" id="dashRefreshToggle" onclick="toggleDashboardRefresh()"><div class="toggle-knob"></div></div>
+        </div>
+      </div>
+      <div class="settings-section">
         <div class="settings-section-label">Analytics</div>
         <div class="settings-row" style="cursor:pointer;" onclick="openMetricsSettings()">
           <div class="settings-row-left"><div class="settings-row-icon"><i class="ti ti-adjustments"></i></div><div><div class="settings-row-label">Metrics settings</div><div class="settings-row-sub">Period, display &amp; data preferences</div></div></div>
@@ -929,7 +936,13 @@ function lbTouchEnd(e){const remaining=Array.from(e.touches);if(lbPinching&&rema
 let cur=null,curCat=null,fv='Mid',tv='Neat',isDark=true,isListView=false,selectedHairType='all',fromPeople=false;
 let metricsWalkthroughStep=0,metricsWalkthroughActive=false;
 const hairTypes=['All','Curly','Straight','Wavy','Textured'];
-const STORAGE_KEY='lockedCut',HISTORY_KEY='cutHistory',MODEL_PROFILES_KEY='modelProfiles';
+const STORAGE_KEY='lockedCut',HISTORY_KEY='cutHistory',MODEL_PROFILES_KEY='modelProfiles',DASH_REFRESH_KEY='dashboardRefresh';
+
+function getDashboardRefreshSetting(){try{return JSON.parse(localStorage.getItem(DASH_REFRESH_KEY))===true;}catch(e){return false;}}
+function saveDashboardRefreshSetting(value){localStorage.setItem(DASH_REFRESH_KEY,JSON.stringify(!!value));}
+function syncDashboardRefreshUI(){const toggle=document.getElementById('dashRefreshToggle');if(toggle)toggle.classList.toggle('on',getDashboardRefreshSetting());}
+function toggleDashboardRefresh(){saveDashboardRefreshSetting(!getDashboardRefreshSetting());syncDashboardRefreshUI();}
+function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
 
 /* ─── MODEL PROFILES ─── */
 function getModelProfiles(){try{return JSON.parse(localStorage.getItem(MODEL_PROFILES_KEY)||'{}');}catch(e){return{};}}
@@ -973,7 +986,7 @@ function closePicker(){document.getElementById('comparePicker').classList.remove
 function pickCompare(cut){if(pickerTarget==='A')setCompareItem('A',cut);else setCompareItem('B',cut);closePicker();renderComparePanels();}
 
 /* ─── THEME / VIEW ─── */
-function syncThemeUI(){const icon=document.getElementById('themeIcon'),sub=document.getElementById('themeSubLabel'),track=document.getElementById('themeToggle');if(icon)icon.className='ti '+(isDark?'ti-moon':'ti-sun');if(sub)sub.textContent=isDark?'Currently dark':'Currently light';if(track)track.classList.toggle('on',isDark);}
+function syncThemeUI(){const icon=document.getElementById('themeIcon'),sub=document.getElementById('themeSubLabel'),track=document.getElementById('themeToggle');if(icon)icon.className='ti '+(isDark?'ti-moon':'ti-sun');if(sub)sub.textContent=isDark?'Currently dark':'Currently light';if(track)track.classList.toggle('on',isDark);syncDashboardRefreshUI();}
 function toggleTheme(){isDark=!isDark;document.getElementById('app').classList.toggle('light',!isDark);document.documentElement.classList.toggle('light',!isDark);document.body.style.background=isDark?'#111':'#fff';syncThemeUI();}
 function setView(type){isListView=type==='list';document.getElementById('chipGrid').classList.toggle('on',!isListView);document.getElementById('chipList').classList.toggle('on',isListView);buildCats();}
 
@@ -1119,7 +1132,16 @@ function initBaSliderDrag(){
 
 /* ─── HOME SCREEN ─── */
 let hdActiveFilter='all';
+let hdFeaturedOrder=null;
 function loadHomeScreen(){
+  if(getDashboardRefreshSetting()){
+    if(!Array.isArray(hdFeaturedOrder) || hdFeaturedOrder.length!==cuts.length){
+      hdFeaturedOrder=shuffle(cuts.map(c=>c.id));
+    }
+  } else {
+    hdFeaturedOrder=cuts.map(c=>c.id);
+  }
+
   renderHdFilterChips();
   renderHdFeaturedCards();
   renderHdTrendChart();
@@ -1150,7 +1172,11 @@ function renderHdFeaturedCards(){
   const scroll=document.getElementById('hdFeaturedScroll');
   if(!scroll)return;
   scroll.innerHTML='';
-  const filtered=hdActiveFilter==='all'?cuts:cuts.filter(c=>c.hairType===hdActiveFilter);
+  const filtered=hdActiveFilter==='all'?cuts.slice():cuts.filter(c=>c.hairType===hdActiveFilter);
+  if(hdFeaturedOrder){
+    const orderMap=Object.fromEntries(hdFeaturedOrder.map((id,i)=>[id,i]));
+    filtered.sort((a,b)=> (orderMap[a.id]||0) - (orderMap[b.id]||0));
+  }
   if(!filtered.length){
     const empty=document.createElement('div');
     empty.className='hd-feat-empty';
