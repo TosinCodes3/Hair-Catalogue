@@ -463,7 +463,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .hd-feat-img.loaded{opacity:1;}
 .hd-feat-info{padding:14px 16px 16px;}
 .hd-feat-name{font-size:17px;font-weight:700;color:var(--text);letter-spacing:-0.02em;}
-.hd-feat-desc{font-size:12px;color:var(--text2);margin-top:4px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.hd-feat-desc{font-size:12px;color:var(--text2);margin-top:4px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
 .hd-feat-tag{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;background:var(--bg3);border:0.5px solid var(--border);font-size:10px;color:var(--text2);margin-top:8px;}
 .hd-feat-empty{padding:20px;font-size:13px;color:var(--text3);text-align:center;width:260px;flex-shrink:0;}
 /* Section row */
@@ -949,14 +949,14 @@ function saveDashboardRefreshSetting(value){localStorage.setItem(DASH_REFRESH_KE
 function syncDashboardRefreshUI(){const toggle=document.getElementById('dashRefreshToggle');if(toggle)toggle.classList.toggle('on',getDashboardRefreshSetting());}
 function toggleDashboardRefresh(){saveDashboardRefreshSetting(!getDashboardRefreshSetting());syncDashboardRefreshUI();}
 
-let featuredAutoScrollTimer=null,featuredAutoScrollListenersInitialized=false;
+let featuredAutoScrollFrame=null,featuredAutoScrollDirection=1,featuredAutoScrollListenersInitialized=false;
 function getFeaturedAutoScrollSetting(){try{return JSON.parse(localStorage.getItem(AUTO_SCROLL_KEY))===true;}catch(e){return false;}}
 function saveFeaturedAutoScrollSetting(value){localStorage.setItem(AUTO_SCROLL_KEY,JSON.stringify(!!value));}
 function syncFeaturedAutoScrollUI(){const toggle=document.getElementById('featuredAutoScrollToggle');if(toggle)toggle.classList.toggle('on',getFeaturedAutoScrollSetting());}
 function toggleFeaturedAutoScroll(){saveFeaturedAutoScrollSetting(!getFeaturedAutoScrollSetting());syncFeaturedAutoScrollUI();updateFeaturedAutoScroll();}
 function shouldAutoScrollFeatured(){const scroll=document.getElementById('hdFeaturedScroll');if(!scroll||!getFeaturedAutoScrollSetting())return false; if(scroll.scrollWidth<=scroll.clientWidth)return false; const homeScreen=document.getElementById('s11'); return homeScreen&&homeScreen.classList.contains('active');}
-function startFeaturedAutoScroll(){const scroll=document.getElementById('hdFeaturedScroll');if(!scroll)return;stopFeaturedAutoScroll();const card=document.querySelector('.hd-feat-card');const stepWidth=card?card.clientWidth+14:scroll.clientWidth*0.9;featuredAutoScrollTimer=window.setInterval(()=>{if(!shouldAutoScrollFeatured()){stopFeaturedAutoScroll();return;}if(scroll.scrollWidth<=scroll.clientWidth){stopFeaturedAutoScroll();return;}const nextLeft=scroll.scrollLeft+stepWidth;const endReached=nextLeft>=scroll.scrollWidth-scroll.clientWidth-2;scroll.scrollTo({left:endReached?0:nextLeft,behavior:'smooth'});},3200);}
-function stopFeaturedAutoScroll(){if(featuredAutoScrollTimer!==null){window.clearInterval(featuredAutoScrollTimer);featuredAutoScrollTimer=null;}}
+function startFeaturedAutoScroll(){const scroll=document.getElementById('hdFeaturedScroll');if(!scroll)return;stopFeaturedAutoScroll();featuredAutoScrollDirection=1;let lastTimestamp=performance.now();function step(ts){if(!shouldAutoScrollFeatured()){stopFeaturedAutoScroll();return;}const delta=ts-lastTimestamp;lastTimestamp=ts;const speed=0.05;scroll.scrollLeft += delta * speed * featuredAutoScrollDirection; if(scroll.scrollLeft<=0){featuredAutoScrollDirection=1;scroll.scrollLeft=0;}else if(scroll.scrollLeft+scroll.clientWidth>=scroll.scrollWidth-1){featuredAutoScrollDirection=-1;scroll.scrollLeft=scroll.scrollWidth-scroll.clientWidth;}featuredAutoScrollFrame=requestAnimationFrame(step);}featuredAutoScrollFrame=requestAnimationFrame(step);}
+function stopFeaturedAutoScroll(){if(featuredAutoScrollFrame){cancelAnimationFrame(featuredAutoScrollFrame);featuredAutoScrollFrame=null;}}
 function updateFeaturedAutoScroll(){stopFeaturedAutoScroll();if(shouldAutoScrollFeatured())startFeaturedAutoScroll();}
 function initFeaturedAutoScrollInteractions(){if(featuredAutoScrollListenersInitialized)return;const scroll=document.getElementById('hdFeaturedScroll');if(!scroll)return;scroll.addEventListener('mouseenter',stopFeaturedAutoScroll);scroll.addEventListener('mouseleave',()=>{if(getFeaturedAutoScrollSetting())startFeaturedAutoScroll();});scroll.addEventListener('pointerdown',stopFeaturedAutoScroll,{passive:true});scroll.addEventListener('pointerup',()=>{if(getFeaturedAutoScrollSetting())startFeaturedAutoScroll();});scroll.addEventListener('touchstart',stopFeaturedAutoScroll,{passive:true});scroll.addEventListener('touchend',()=>{if(getFeaturedAutoScrollSetting())startFeaturedAutoScroll();});featuredAutoScrollListenersInitialized=true;}
 function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
