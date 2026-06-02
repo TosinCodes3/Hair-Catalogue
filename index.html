@@ -697,7 +697,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
       <div id="donePersonBadge"></div>
       <div class="done-cut" id="doneCut"></div>
       <div class="done-opts" id="doneOpts"></div>
-      <button class="lock-btn" style="margin-top:14px;" onclick="switchTab('people')">View People</button>
+      <button class="lock-btn" style="margin-top:14px;" onclick="switchTab('people')">View Profiles</button>
       <div class="done-card"><div class="done-card-label">Note from the chair</div><div class="done-card-text" id="doneNote">Selection confirmed. Sit back and relax — we're getting started.</div></div>
       <div class="reset-link" onclick="go('s0')">Start over</div>
     </div>
@@ -705,25 +705,12 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
   <div class="screen" id="s5">
     <div class="topbar" style="padding-bottom:0;border-bottom:none;">
       <div style="width:34px"></div>
-      <div class="topbar-title">People</div>
+      <div class="topbar-title">Profiles</div>
       <div class="back-btn" style="justify-content:flex-end;" onclick="openHistorySheet()"><i class="ti ti-history" style="font-size:20px;color:var(--text2);"></i></div>
     </div>
     <div class="people-seg">
-      <button class="seg-btn active" id="segMycut"  onclick="switchSeg('mycut')">My Cut</button>
-      <button class="seg-btn"        id="segClients" onclick="switchSeg('clients')">Clients</button>
+      <button class="seg-btn active" id="segClients" onclick="switchSeg('clients')">Clients</button>
       <button class="seg-btn"        id="segModels"  onclick="switchSeg('models')">Models</button>
-    </div>
-    <div class="people-pane active" id="paneMyCut">
-      <div id="savedEmpty" class="saved-empty">No locked cut yet. Lock a haircut and revisit it here.</div>
-      <div id="savedCard" class="saved-card" style="display:none;">
-        <img id="savedImg" src="" alt="Saved cut">
-        <div class="saved-card-body">
-          <div class="saved-card-title" id="savedName"></div>
-          <div class="saved-card-meta" id="savedOpts"></div>
-          <div class="saved-card-meta" id="savedDesc" style="margin-top:6px;"></div>
-          <button class="lock-btn" style="margin-top:14px;" onclick="openSavedCut()">View details</button>
-        </div>
-      </div>
     </div>
     <div class="people-pane" id="paneClients">
       <input type="text" id="clientSearch" class="search-input" placeholder="Search clients..." oninput="filterPersonList('client')">
@@ -757,6 +744,10 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
           <div class="settings-row-left"><div class="settings-row-icon"><i class="ti ti-refresh"></i></div><div><div class="settings-row-label">Refresh dashboard haircut</div><div class="settings-row-sub">Randomize the featured home haircut on reload</div></div></div>
           <div class="toggle-track" id="dashRefreshToggle" onclick="toggleDashboardRefresh()"><div class="toggle-knob"></div></div>
         </div>
+        <div class="settings-row">
+          <div class="settings-row-left"><div class="settings-row-icon"><i class="ti ti-player-play"></i></div><div><div class="settings-row-label">Auto-scroll featured cards</div><div class="settings-row-sub">Automatically scroll the home featured cards on desktop</div></div></div>
+          <div class="toggle-track" id="featuredAutoScrollToggle" onclick="toggleFeaturedAutoScroll()"><div class="toggle-knob"></div></div>
+        </div>
       </div>
       <div class="settings-section">
         <div class="settings-section-label">Analytics</div>
@@ -778,6 +769,21 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
       <div class="settings-section">
         <div class="settings-section-label">About</div>
         <div class="settings-about"><div class="settings-about-icon"><i class="ti ti-scissors"></i></div><div><div class="settings-about-name">LTC Hair Catalogue</div><div class="settings-about-version">Version 1.0 · Learn To Cut</div></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="screen" id="s14">
+    <div class="topbar"><div style="width:34px"></div><div class="topbar-title">My Cuts</div><div style="width:34px"></div></div>
+    <div class="detail-body">
+      <div id="savedEmpty" class="saved-empty">No locked cut yet. Lock a haircut and revisit it here.</div>
+      <div id="savedCard" class="saved-card" style="display:none;">
+        <img id="savedImg" src="" alt="Saved cut">
+        <div class="saved-card-body">
+          <div class="saved-card-title" id="savedName"></div>
+          <div class="saved-card-meta" id="savedOpts"></div>
+          <div class="saved-card-meta" id="savedDesc" style="margin-top:6px;"></div>
+          <button class="lock-btn" style="margin-top:14px;" onclick="openSavedCut()">View details</button>
+        </div>
       </div>
     </div>
   </div>
@@ -891,8 +897,8 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 <div class="bottom-nav">
   <button class="nav-item active" id="navHome"     onclick="switchTab('home')"><i class="ti ti-home"></i><span>Home</span></button>
   <button class="nav-item"        id="navExplore"  onclick="switchTab('explore')"><i class="ti ti-layout-grid"></i><span>Categories</span></button>
-  <button class="nav-item"        id="navPeople"   onclick="switchTab('people')"><i class="ti ti-users"></i><span>People</span></button>
-  <button class="nav-item"        id="navSearch"   onclick="switchTab('search')"><i class="ti ti-search"></i><span>Search</span></button>
+  <button class="nav-item"        id="navPeople"   onclick="switchTab('people')"><i class="ti ti-users"></i><span>Profiles</span></button>
+  <button class="nav-item"        id="navSearch"   onclick="switchTab('mycuts')"><i class="ti ti-scissors"></i><span>My Cuts</span></button>
   <button class="nav-item"        id="navSettings" onclick="switchTab('settings')"><i class="ti ti-settings"></i><span>Settings</span></button>
 </div>
 
@@ -936,12 +942,23 @@ function lbTouchEnd(e){const remaining=Array.from(e.touches);if(lbPinching&&rema
 let cur=null,curCat=null,fv='Mid',tv='Neat',isDark=true,isListView=false,selectedHairType='all',fromPeople=false;
 let metricsWalkthroughStep=0,metricsWalkthroughActive=false;
 const hairTypes=['All','Curly','Straight','Wavy','Textured'];
-const STORAGE_KEY='lockedCut',HISTORY_KEY='cutHistory',MODEL_PROFILES_KEY='modelProfiles',DASH_REFRESH_KEY='dashboardRefresh';
+const STORAGE_KEY='lockedCut',HISTORY_KEY='cutHistory',MODEL_PROFILES_KEY='modelProfiles',DASH_REFRESH_KEY='dashboardRefresh',AUTO_SCROLL_KEY='featuredAutoScroll';
 
 function getDashboardRefreshSetting(){try{return JSON.parse(localStorage.getItem(DASH_REFRESH_KEY))===true;}catch(e){return false;}}
 function saveDashboardRefreshSetting(value){localStorage.setItem(DASH_REFRESH_KEY,JSON.stringify(!!value));}
 function syncDashboardRefreshUI(){const toggle=document.getElementById('dashRefreshToggle');if(toggle)toggle.classList.toggle('on',getDashboardRefreshSetting());}
 function toggleDashboardRefresh(){saveDashboardRefreshSetting(!getDashboardRefreshSetting());syncDashboardRefreshUI();}
+
+let featuredAutoScrollFrame=null,featuredAutoScrollDirection=1,featuredAutoScrollListenersInitialized=false;
+function getFeaturedAutoScrollSetting(){try{return JSON.parse(localStorage.getItem(AUTO_SCROLL_KEY))===true;}catch(e){return false;}}
+function saveFeaturedAutoScrollSetting(value){localStorage.setItem(AUTO_SCROLL_KEY,JSON.stringify(!!value));}
+function syncFeaturedAutoScrollUI(){const toggle=document.getElementById('featuredAutoScrollToggle');if(toggle)toggle.classList.toggle('on',getFeaturedAutoScrollSetting());}
+function toggleFeaturedAutoScroll(){saveFeaturedAutoScrollSetting(!getFeaturedAutoScrollSetting());syncFeaturedAutoScrollUI();updateFeaturedAutoScroll();}
+function shouldAutoScrollFeatured(){const scroll=document.getElementById('hdFeaturedScroll');if(!scroll||!getFeaturedAutoScrollSetting())return false; if(scroll.scrollWidth<=scroll.clientWidth)return false; const homeScreen=document.getElementById('s11'); return homeScreen&&homeScreen.classList.contains('active');}
+function startFeaturedAutoScroll(){const scroll=document.getElementById('hdFeaturedScroll');if(!scroll)return;stopFeaturedAutoScroll();featuredAutoScrollDirection=1;let lastTimestamp=performance.now();function step(ts){if(!shouldAutoScrollFeatured()){stopFeaturedAutoScroll();return;}const delta=ts-lastTimestamp;lastTimestamp=ts;const amount=delta*0.04;scroll.scrollLeft += amount*featuredAutoScrollDirection;if(scroll.scrollLeft<=0){featuredAutoScrollDirection=1;}else if(scroll.scrollLeft+scroll.clientWidth>=scroll.scrollWidth-1){featuredAutoScrollDirection=-1;}featuredAutoScrollFrame=requestAnimationFrame(step);}featuredAutoScrollFrame=requestAnimationFrame(step);}
+function stopFeaturedAutoScroll(){if(featuredAutoScrollFrame){cancelAnimationFrame(featuredAutoScrollFrame);featuredAutoScrollFrame=null;}}
+function updateFeaturedAutoScroll(){stopFeaturedAutoScroll();if(shouldAutoScrollFeatured())startFeaturedAutoScroll();}
+function initFeaturedAutoScrollInteractions(){if(featuredAutoScrollListenersInitialized)return;const scroll=document.getElementById('hdFeaturedScroll');if(!scroll)return;scroll.addEventListener('mouseenter',stopFeaturedAutoScroll);scroll.addEventListener('mouseleave',()=>{if(getFeaturedAutoScrollSetting())startFeaturedAutoScroll();});scroll.addEventListener('touchstart',stopFeaturedAutoScroll,{passive:true});scroll.addEventListener('touchend',()=>{if(getFeaturedAutoScrollSetting())startFeaturedAutoScroll();});featuredAutoScrollListenersInitialized=true;}
 function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
 
 /* ─── MODEL PROFILES ─── */
@@ -986,7 +1003,7 @@ function closePicker(){document.getElementById('comparePicker').classList.remove
 function pickCompare(cut){if(pickerTarget==='A')setCompareItem('A',cut);else setCompareItem('B',cut);closePicker();renderComparePanels();}
 
 /* ─── THEME / VIEW ─── */
-function syncThemeUI(){const icon=document.getElementById('themeIcon'),sub=document.getElementById('themeSubLabel'),track=document.getElementById('themeToggle');if(icon)icon.className='ti '+(isDark?'ti-moon':'ti-sun');if(sub)sub.textContent=isDark?'Currently dark':'Currently light';if(track)track.classList.toggle('on',isDark);syncDashboardRefreshUI();}
+function syncThemeUI(){const icon=document.getElementById('themeIcon'),sub=document.getElementById('themeSubLabel'),track=document.getElementById('themeToggle');if(icon)icon.className='ti '+(isDark?'ti-moon':'ti-sun');if(sub)sub.textContent=isDark?'Currently dark':'Currently light';if(track)track.classList.toggle('on',isDark);syncDashboardRefreshUI();syncFeaturedAutoScrollUI();}
 function toggleTheme(){isDark=!isDark;document.getElementById('app').classList.toggle('light',!isDark);document.documentElement.classList.toggle('light',!isDark);document.body.style.background=isDark?'#111':'#fff';syncThemeUI();}
 function setView(type){isListView=type==='list';document.getElementById('chipGrid').classList.toggle('on',!isListView);document.getElementById('chipList').classList.toggle('on',isListView);buildCats();}
 
@@ -1145,6 +1162,8 @@ function loadHomeScreen(){
   renderHdFilterChips();
   renderHdFeaturedCards();
   renderHdTrendChart();
+  initFeaturedAutoScrollInteractions();
+  updateFeaturedAutoScroll();
 }
 
 function renderHdFilterChips(){
@@ -1328,23 +1347,33 @@ function renderHdTrendChart(){
 
 /* ─── NAV ─── */
 function switchTab(tab){
-  ['Home','Explore','People','Search','Settings'].forEach(t=>document.getElementById('nav'+t).classList.toggle('active',tab===t.toLowerCase()));
-  if(tab==='home'){loadHomeScreen();go('s11');}
-  else if(tab==='explore')go('s1');
-  else if(tab==='people'){loadPeopleScreen();go('s5');}
-  else if(tab==='search'){runSearch();go('s6');}
-  else if(tab==='settings'){syncThemeUI();go('s7');}
+  ['Home','Explore','People','Search','Settings'].forEach(t=>{
+    const active =
+      t==='Home' && tab==='home' ||
+      t==='Explore' && tab==='explore' ||
+      t==='People' && tab==='people' ||
+      t==='Search' && tab==='mycuts' ||
+      t==='Settings' && tab==='settings';
+    document.getElementById('nav'+t).classList.toggle('active',active);
+  });
+  if(tab==='home'){loadHomeScreen();go('s11');updateFeaturedAutoScroll();}
+  else if(tab==='explore'){stopFeaturedAutoScroll();go('s1');}
+  else if(tab==='people'){stopFeaturedAutoScroll();loadPeopleScreen();go('s5');}
+  else if(tab==='search'){stopFeaturedAutoScroll();runSearch();go('s6');}
+  else if(tab==='settings'){stopFeaturedAutoScroll();syncThemeUI();go('s7');}
+  else if(tab==='mycuts'){stopFeaturedAutoScroll();loadMyCutsScreen();go('s14');}
 }
 function go(sid){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(sid).classList.add('active');document.querySelector('.bottom-nav').style.display=sid==='s0'?'none':'flex';window.scrollTo(0,0);}
 
 /* ─── SEGMENTS ─── */
-let activeSeg='mycut',touchStartX=0,touchEndX=0;
-const segOrder=['mycut','clients','models'];
-function switchSeg(seg){activeSeg=seg;['mycut','clients','models'].forEach(s=>{document.getElementById('seg'+s.charAt(0).toUpperCase()+s.slice(1)).classList.toggle('active',s===seg);});document.getElementById('paneMyCut').classList.toggle('active',seg==='mycut');document.getElementById('paneClients').classList.toggle('active',seg==='clients');document.getElementById('paneModels').classList.toggle('active',seg==='models');if(document.getElementById('clientSearch'))document.getElementById('clientSearch').value='';if(document.getElementById('modelSearch'))document.getElementById('modelSearch').value='';if(seg==='clients')loadPersonList('client');if(seg==='models')loadPersonList('model');}
+let activeSeg='clients',touchStartX=0,touchEndX=0;
+const segOrder=['clients','models'];
+function switchSeg(seg){activeSeg=seg;['clients','models'].forEach(s=>{document.getElementById('seg'+s.charAt(0).toUpperCase()+s.slice(1)).classList.toggle('active',s===seg);});document.getElementById('paneClients').classList.toggle('active',seg==='clients');document.getElementById('paneModels').classList.toggle('active',seg==='models');if(document.getElementById('clientSearch'))document.getElementById('clientSearch').value='';if(document.getElementById('modelSearch'))document.getElementById('modelSearch').value='';if(seg==='clients')loadPersonList('client');else if(seg==='models')loadPersonList('model');}
 function handleSwipeInPeopleScreen(){const ps=document.getElementById('s5');if(!ps||!ps.classList.contains('active'))return;const delta=touchEndX-touchStartX;if(Math.abs(delta)<50)return;const ci=segOrder.indexOf(activeSeg);if(delta>0&&ci>0)switchSeg(segOrder[ci-1]);else if(delta<0&&ci<segOrder.length-1)switchSeg(segOrder[ci+1]);}
 
 /* ─── PEOPLE ─── */
-function loadPeopleScreen(){loadSavedCut();if(activeSeg==='clients')loadPersonList('client');else if(activeSeg==='models')loadPersonList('model');}
+function loadPeopleScreen(){if(activeSeg==='clients')loadPersonList('client');else if(activeSeg==='models')loadPersonList('model');}
+function loadMyCutsScreen(){loadSavedCut();}
 function loadPersonList(type,query=''){const listId=type==='client'?'clientList':'modelList';const listEl=document.getElementById(listId);listEl.innerHTML='';const h=getHistory(),byPerson={};h.forEach(item=>{if(item.type!==type||!item.personName)return;const key=item.personName.trim().toLowerCase();if(!byPerson[key]){byPerson[key]={name:item.personName,latest:item,count:0,img:item.img};}byPerson[key].count++;if(new Date(item.date)>new Date(byPerson[key].latest.date)){byPerson[key].latest=item;byPerson[key].img=item.img;}});let people=Object.values(byPerson);if(query.trim()){const q=query.trim().toLowerCase();people=people.filter(p=>p.name.toLowerCase().includes(q));}if(!people.length){const empty=document.createElement('div');empty.className='people-empty';empty.textContent=query.trim()?`No ${type==='client'?'clients':'models'} found matching "${query}".`:type==='client'?'No clients yet. Lock a cut and select "Client" to add one.':'No models yet. Lock a cut and select "Model" to add one.';listEl.appendChild(empty);return;}people.sort((a,b)=>new Date(b.latest.date)-new Date(a.latest.date));people.forEach(p=>{const row=document.createElement('div');row.className='person-row';const av=document.createElement('div');av.className='person-avatar';if(p.img){const img=document.createElement('img');img.src=p.img;img.onload=()=>img.classList.add('loaded');img.onerror=()=>{av.innerHTML=`<span class="person-avatar-initials">${initials(p.name)}</span>`;};av.appendChild(img);}else{av.innerHTML=`<span class="person-avatar-initials">${initials(p.name)}</span>`;}
     const profile=type==='model'?getModelProfile(p.name):{};
     let metaText=`${p.count} cut${p.count!==1?'s':''} · Last: ${formatDate(p.latest.date).split(' · ')[0]}`;
