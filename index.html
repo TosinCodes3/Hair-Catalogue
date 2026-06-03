@@ -1405,7 +1405,11 @@ function loadHomeScreen(){
   renderHdFeaturedCards();
   renderHdTrendChart();
   initFeaturedAutoScrollInteractions();
-  updateFeaturedAutoScroll();
+  // Start auto-scroll after the featured cards are rendered and layout has settled.
+  // Images can change scrollWidth after load, so run on the next frame and
+  // again after a short delay as a fallback for slow loads.
+  requestAnimationFrame(()=>{ updateFeaturedAutoScroll(); });
+  setTimeout(()=>{ updateFeaturedAutoScroll(); }, 350);
 }
 
 function renderHdFilterChips(){
@@ -1455,7 +1459,13 @@ function renderHdFeaturedCards(){
     img.className='hd-feat-img';
     img.src=imgs[0].src;
     img.alt=cut.name;
-    img.onload=()=>img.classList.add('loaded');
+    img.onload=()=>{
+      img.classList.add('loaded');
+      // Ensure auto-scroll starts once images have loaded and layout settled.
+      // Run on next frame and again after a small delay to handle slow images.
+      requestAnimationFrame(()=>updateFeaturedAutoScroll());
+      setTimeout(()=>updateFeaturedAutoScroll(),300);
+    };
     img.onerror=()=>{img.style.opacity='0.15';};
     const info=document.createElement('div');
     info.className='hd-feat-info';
@@ -1605,7 +1615,19 @@ function switchTab(tab){
   else if(tab==='settings'){stopFeaturedAutoScroll();syncThemeUI();go('s7');}
   else if(tab==='mycuts'){stopFeaturedAutoScroll();loadMyCutsScreen();go('s14');}
 }
-function go(sid){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(sid).classList.add('active');document.querySelector('.bottom-nav').style.display=sid==='s0'?'none':'flex';window.scrollTo(0,0);}
+function go(sid){
+  // Activate the requested screen
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(sid).classList.add('active');
+
+  // Hide bottom nav on screens where it should not appear
+  const hideOn = new Set(['s0','s12','s8','s9','s13','s3','s4','s17']);
+  const nav = document.querySelector('.bottom-nav');
+  if(nav) nav.style.display = hideOn.has(sid) ? 'none' : 'flex';
+
+  window.scrollTo(0,0);
+}
+
 
 /* ─── SEGMENTS ─── */
 let activeSeg='clients',touchStartX=0,touchEndX=0;
@@ -1771,7 +1793,21 @@ function openDrillCutDetail(name,cutId){document.getElementById('drillTitle').te
 function buildDrillSessionRow(item){const row=document.createElement('div');row.className='drill-session';const thumb=document.createElement('img');thumb.className='drill-session-thumb';thumb.src=item.img||'';thumb.alt=item.name;thumb.onload=()=>thumb.classList.add('loaded');thumb.onerror=()=>{thumb.style.opacity='0.1';};const info=document.createElement('div');info.className='drill-session-info';const typeLabels={client:'Client',model:'Model',freestyle:'Freestyle'};const personLine=item.personName?`<div class="drill-session-person">${typeLabels[item.type]||''} · ${item.personName}</div>`:`<div class="drill-session-person" style="color:var(--text3)">${typeLabels[item.type]||'Freestyle'}</div>`;info.innerHTML=`<div class="drill-session-name">${item.name}</div><div class="drill-session-opts">${item.fade||'Mid'} fade · ${item.top||'Neat'} top</div>${personLine}${item.personDesc?`<div class="drill-session-date" style="color:var(--text2);font-size:11px;">${item.personDesc}</div>`:''}<div class="drill-session-date">${formatDate(item.date)}</div>`;const go_btn=document.createElement('div');go_btn.className='drill-session-go';go_btn.textContent='View';go_btn.onclick=()=>{fv=item.fade||'Mid';tv=item.top||'Neat';openCut(item.id,true);};row.appendChild(thumb);row.appendChild(info);row.appendChild(go_btn);return row;}
 
 async function sbLoad(){
-  try{const c=JSON.parse(localStorage.getItem('sbConfig')||'{}');if(c.url&&c.key){_sb={url:c.url,key:c.key,connected:true};}}catch(e){}
+  try{
+    const c=JSON.parse(localStorage.getItem('sbConfig')||'{}');
+    if(c.url&&c.key){
+      _sb={url:c.url,key:c.key,connected:true};
+    }
+  }catch(e){}
+
+  // If we have saved Supabase credentials, load cuts now so uploaded haircuts
+  // are available immediately after a refresh (was previously only loaded
+  // when opening the Manage Haircuts screen).
+  if(_sb.connected){
+    try{await loadSbCuts();}catch(e){console.warn('Failed to load Supabase cuts on init',e);}    
+    try{buildCats();}catch(e){}
+  }
+
   updateSupabaseStatusLabel();
 }
 
