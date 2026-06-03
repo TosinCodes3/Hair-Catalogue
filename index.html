@@ -628,6 +628,14 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .mh-add-angle-btn,.mh-delete-btn{flex:1;padding:12px 10px;border-radius:12px;border:none;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity 0.15s;}
 .mh-add-angle-btn{background:var(--bg3);color:var(--text);}
 .mh-delete-btn{background:rgba(229,85,85,0.14);color:#e55;}
+/* ── EDIT CUT FORM ── */
+.mh-edit-form{display:none;flex-direction:column;gap:12px;margin-top:14px;padding-top:14px;border-top:0.5px solid var(--border);}
+.mh-edit-form.open{display:flex;}
+.mh-edit-btn{flex:1;padding:12px 10px;border-radius:12px;border:none;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity 0.15s;background:var(--bg3);color:var(--text);}
+.mh-edit-btn:active{opacity:0.85;}
+.mh-edit-save-btn{width:100%;padding:13px;background:var(--lock-bg);color:var(--lock-text);border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;transition:opacity 0.15s;}
+.mh-edit-save-btn:active{opacity:0.8;}
+.mh-edit-cancel{text-align:center;font-size:13px;color:var(--text2);cursor:pointer;text-decoration:underline;margin-top:4px;}
 .mh-add-angle-btn:active,.mh-delete-btn:active{opacity:0.85;}
 .mh-toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:11px 20px;border-radius:10px;font-size:13px;font-weight:600;z-index:300;opacity:0;transition:opacity 0.25s;pointer-events:none;white-space:nowrap;}
 .mh-toast.show{opacity:1;}
@@ -2073,11 +2081,161 @@ function renderMhLibrary(){
   const filtered=_mhLibFilter==='all'?_sbCuts:_sbCuts.filter(c=>c.category===_mhLibFilter);
   if(!filtered.length){container.innerHTML=`<div class="mh-empty"><i class="ti ti-photo-off"></i><div class="mh-empty-title">No haircuts yet</div><div class="mh-empty-sub">Upload your first haircut using the Upload tab above.</div></div>`;return;}
   container.innerHTML='';
-  filtered.forEach(row=>{const images=Array.isArray(row.images)?row.images:[];const heroSrc=images.length?images[0].src:'';const card=document.createElement('div');card.className='mh-cut-card';const img=document.createElement('img');img.className='mh-cut-card-img';img.referrerPolicy='no-referrer';img.src=heroSrc;img.alt=row.name;img.onload=()=>img.classList.add('loaded');img.onerror=()=>{img.style.opacity='0.1';};const body=document.createElement('div');body.className='mh-cut-card-body';const catName=cats.find(c=>c.id===row.category)?.name||row.category||'—';const tags=(row.tags||[]).filter(Boolean).join(', ');body.innerHTML=`<div class="mh-cut-card-name">${row.name}</div><div class="mh-cut-card-meta">${catName} · ${row.hair_type||'—'}${tags?' · '+tags:''}</div>${row.description?`<div class="mh-cut-card-desc">${row.description}</div>`:''}`;
-    if(images.length>1){const anglesRow=document.createElement('div');anglesRow.className='mh-cut-angles';images.forEach((im)=>{const t=document.createElement('img');t.className='mh-angle-thumb';t.referrerPolicy='no-referrer';t.src=im.src;t.alt=im.label||'Angle';t.onload=()=>t.classList.add('loaded');t.onerror=()=>{t.style.opacity='0.1';};anglesRow.appendChild(t);});body.appendChild(anglesRow);}
-    const actions=document.createElement('div');actions.className='mh-cut-actions';const addAngle=document.createElement('button');addAngle.className='mh-add-angle-btn';addAngle.innerHTML='<i class="ti ti-photo-plus"></i> Add angle';addAngle.onclick=()=>mhAddAngle(row);const delBtn=document.createElement('button');delBtn.className='mh-delete-btn';delBtn.innerHTML='<i class="ti ti-trash"></i> Delete';delBtn.onclick=()=>mhDeleteCut(row);actions.appendChild(addAngle);actions.appendChild(delBtn);body.appendChild(actions);card.appendChild(img);card.appendChild(body);container.appendChild(card);});
+  filtered.forEach(row=>{
+    const images=Array.isArray(row.images)?row.images:[];
+    const heroSrc=images.length?images[0].src:'';
+    const card=document.createElement('div');
+    card.className='mh-cut-card';
+    card.dataset.id=row.id;
+
+    const img=document.createElement('img');
+    img.className='mh-cut-card-img';
+    img.referrerPolicy='no-referrer';
+    img.src=heroSrc;img.alt=row.name;
+    img.onload=()=>img.classList.add('loaded');
+    img.onerror=()=>{img.style.opacity='0.1';};
+
+    const body=document.createElement('div');
+    body.className='mh-cut-card-body';
+    const catName=cats.find(c=>c.id===row.category)?.name||row.category||'—';
+    const tags=(row.tags||[]).filter(Boolean).join(', ');
+    body.innerHTML=`<div class="mh-cut-card-name">${row.name}</div><div class="mh-cut-card-meta">${catName} · ${row.hair_type||'—'}${tags?' · '+tags:''}</div>${row.description?`<div class="mh-cut-card-desc">${row.description}</div>`:''}`;
+
+    if(images.length>1){
+      const anglesRow=document.createElement('div');
+      anglesRow.className='mh-cut-angles';
+      images.forEach(im=>{
+        const t=document.createElement('img');
+        t.className='mh-angle-thumb';t.referrerPolicy='no-referrer';
+        t.src=im.src;t.alt=im.label||'Angle';
+        t.onload=()=>t.classList.add('loaded');
+        t.onerror=()=>{t.style.opacity='0.1';};
+        anglesRow.appendChild(t);
+      });
+      body.appendChild(anglesRow);
+    }
+
+    // ── Action buttons ──
+    const actions=document.createElement('div');
+    actions.className='mh-cut-actions';
+
+    const editBtn=document.createElement('button');
+    editBtn.className='mh-edit-btn';
+    editBtn.innerHTML='<i class="ti ti-edit"></i> Edit';
+    editBtn.onclick=()=>mhOpenEditForm(card,row);
+
+    const addAngle=document.createElement('button');
+    addAngle.className='mh-add-angle-btn';
+    addAngle.innerHTML='<i class="ti ti-photo-plus"></i> Add angle';
+    addAngle.onclick=()=>mhAddAngle(row);
+
+    const delBtn=document.createElement('button');
+    delBtn.className='mh-delete-btn';
+    delBtn.innerHTML='<i class="ti ti-trash"></i> Delete';
+    delBtn.onclick=()=>mhDeleteCut(row);
+
+    actions.appendChild(editBtn);
+    actions.appendChild(addAngle);
+    actions.appendChild(delBtn);
+    body.appendChild(actions);
+
+    // ── Inline edit form (hidden by default) ──
+    const editForm=document.createElement('div');
+    editForm.className='mh-edit-form';
+    editForm.id=`mhEditForm_${row.id}`;
+    editForm.innerHTML=`
+      <div class="mh-field"><label>Haircut name *</label><input id="mhEName_${row.id}" type="text" value="${escHtml(row.name||'')}"></div>
+      <div class="mh-field"><label>Description</label><textarea id="mhEDesc_${row.id}" rows="2">${escHtml(row.description||'')}</textarea></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div class="mh-field"><label>Category</label>
+          <select id="mhECat_${row.id}">
+            <option value="">— Select —</option>
+            <option value="brushback"${row.category==='brushback'?' selected':''}>Brush Back</option>
+            <option value="burstfade"${row.category==='burstfade'?' selected':''}>Burst Fade</option>
+            <option value="taper"${row.category==='taper'?' selected':''}>Taper</option>
+            <option value="fringe"${row.category==='fringe'?' selected':''}>Fringe</option>
+            <option value="mullet"${row.category==='mullet'?' selected':''}>Mullet</option>
+            <option value="modCut"${row.category==='modCut'?' selected':''}>Mod Cut</option>
+            <option value="elordi"${row.category==='elordi'?' selected':''}>Jacob Elordi</option>
+            <option value="layered"${row.category==='layered'?' selected':''}>Layered Cut</option>
+            <option value="midLength"${row.category==='midLength'?' selected':''}>Mid Length</option>
+            <option value="middlePart"${row.category==='middlePart'?' selected':''}>Middle Part</option>
+            <option value="cropHaircuts"${row.category==='cropHaircuts'?' selected':''}>Crop Haircuts</option>
+            <option value="rafael"${row.category==='rafael'?' selected':''}>Rafael</option>
+            <option value="johnnydepp"${row.category==='johnnydepp'?' selected':''}>Johnny Depp</option>
+          </select>
+        </div>
+        <div class="mh-field"><label>Hair type</label>
+          <select id="mhEHair_${row.id}">
+            <option value="straight"${row.hair_type==='straight'?' selected':''}>Straight</option>
+            <option value="wavy"${row.hair_type==='wavy'?' selected':''}>Wavy</option>
+            <option value="curly"${row.hair_type==='curly'?' selected':''}>Curly</option>
+            <option value="textured"${row.hair_type==='textured'?' selected':''}>Textured</option>
+          </select>
+        </div>
+      </div>
+      <div class="mh-field"><label>Tags (comma separated)</label><input id="mhETags_${row.id}" type="text" value="${escHtml((row.tags||[]).join(', '))}"></div>
+      <button class="mh-edit-save-btn" onclick="mhSaveEdit('${row.id}')"><i class="ti ti-check"></i> Save changes</button>
+      <div class="mh-edit-cancel" onclick="mhOpenEditForm(document.querySelector('[data-id=\\'${row.id}\\']'),null)">Cancel</div>
+    `;
+    body.appendChild(editForm);
+
+    card.appendChild(img);
+    card.appendChild(body);
+    container.appendChild(card);
+  });
 }
 
+function mhOpenEditForm(card,row){
+  // row===null means close/cancel
+  const form=card.querySelector('.mh-edit-form');
+  if(!form)return;
+  if(!row){
+    form.classList.remove('open');
+    return;
+  }
+  // Close any other open forms first
+  document.querySelectorAll('.mh-edit-form.open').forEach(f=>f.classList.remove('open'));
+  form.classList.add('open');
+  form.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+async function mhSaveEdit(id){
+  const name=(document.getElementById(`mhEName_${id}`)?.value||'').trim();
+  const desc=(document.getElementById(`mhEDesc_${id}`)?.value||'').trim();
+  const cat=document.getElementById(`mhECat_${id}`)?.value||'';
+  const hairType=document.getElementById(`mhEHair_${id}`)?.value||'straight';
+  const tagsRaw=(document.getElementById(`mhETags_${id}`)?.value||'').trim();
+  const tags=tagsRaw?tagsRaw.split(',').map(t=>t.trim()).filter(Boolean):[];
+
+  if(!name){mhToast('Name cannot be empty');return;}
+
+  const saveBtn=document.querySelector(`#mhEditForm_${id} .mh-edit-save-btn`);
+  if(saveBtn){saveBtn.disabled=true;saveBtn.innerHTML='<div class="mh-spinner"></div> Saving…';}
+
+  try{
+    const payload={name,description:desc,category:cat,hair_type:hairType,tags};
+    const res=await sbFetch(`haircuts?id=eq.${id}`,{method:'PATCH',body:JSON.stringify(payload),headers:{'Prefer':'return=minimal'}});
+    if(res.ok||res.status===204){
+      mhToast('Saved!');
+      // Update local cache
+      const idx=_sbCuts.findIndex(c=>c.id===id);
+      if(idx>-1)_sbCuts[idx]={..._sbCuts[idx],...payload};
+      // Also update the in-memory cuts array
+      const appIdx=cuts.findIndex(c=>c.id==='sb_'+id);
+      if(appIdx>-1){cuts[appIdx]={...cuts[appIdx],name,desc,cat,hairType,tags};}
+      buildCats();
+      await loadMhLibrary();
+    } else {
+      const err=await res.text();
+      mhToast('Save failed: '+err.slice(0,80));
+      if(saveBtn){saveBtn.disabled=false;saveBtn.innerHTML='<i class="ti ti-check"></i> Save changes';}
+    }
+  }catch(e){
+    mhToast('Error: '+e.message.slice(0,80));
+    if(saveBtn){saveBtn.disabled=false;saveBtn.innerHTML='<i class="ti ti-check"></i> Save changes';}
+  }
+}
 async function mhDeleteCut(row){
   if(!confirm(`Delete "${row.name}"? This cannot be undone.`))return;
   try{const res=await sbFetch(`haircuts?id=eq.${row.id}`,{method:'DELETE',headers:{'Prefer':'return=minimal'}});
