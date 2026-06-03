@@ -578,6 +578,24 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .mh-angle-badge{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.45);color:#fff;font-size:10px;font-weight:700;padding:4px 8px;border-radius:999px;}
 .mh-remove-img{position:absolute;top:10px;right:10px;width:26px;height:26px;border:none;border-radius:50%;background:rgba(17,17,17,0.7);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0.85;}
 .mh-remove-img:hover{opacity:1;}
+.mh-crop-btn{position:absolute;bottom:10px;left:10px;width:26px;height:26px;border:none;border-radius:50%;background:rgba(0,123,255,0.9);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0.95;transition:opacity 0.15s;}
+.mh-crop-btn:hover{opacity:1;}
+.mh-crop-note{font-size:12px;color:var(--text3);margin-bottom:12px;}
+.mh-crop-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:500;background:rgba(0,0,0,0.35);}
+.mh-crop-modal.active{display:flex;}
+.mh-crop-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.45);}
+.mh-crop-card{position:relative;width:min(92vw,420px);background:var(--bg);border:1px solid var(--border);border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.18);overflow:hidden;z-index:1;}
+.mh-crop-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:0.5px solid var(--border);}
+.mh-crop-title{font-size:15px;font-weight:700;color:var(--text);}
+.mh-crop-close{width:34px;height:34px;border:none;border-radius:12px;background:var(--bg2);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.mh-crop-canvas-wrap{position:relative;background:var(--bg2);padding:16px;display:flex;justify-content:center;align-items:center;}
+.mh-crop-canvas-wrap canvas{width:100%;height:auto;max-height:320px;border-radius:16px;outline:1px solid var(--border);background:#111;}
+.mh-crop-frame{position:absolute;top:50%;left:50%;width:80%;aspect-ratio:1/1;transform:translate(-50%,-50%);border:2px dashed rgba(255,255,255,0.9);border-radius:18px;box-shadow:0 0 0 9999px rgba(0,0,0,0.32);pointer-events:none;}
+.mh-crop-controls{display:flex;gap:10px;padding:14px 18px;justify-content:center;}
+.mh-crop-control{flex:1;padding:10px 12px;border-radius:12px;border:0.5px solid var(--border);background:var(--bg3);color:var(--text);font-family:inherit;font-size:14px;cursor:pointer;}
+.mh-crop-actions{display:flex;gap:10px;padding:0 18px 18px;}
+.mh-crop-action{flex:1;padding:14px 12px;border-radius:14px;border:none;background:var(--bg3);color:var(--text);font-family:inherit;font-size:14px;cursor:pointer;}
+.mh-crop-action.primary{background:var(--lock-bg);color:var(--lock-text);}
 .mh-field{margin-bottom:14px;}
 .mh-field label{display:block;font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:7px;}
 .mh-field input,.mh-field select,.mh-field textarea{width:100%;padding:12px 14px;border-radius:12px;border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);font-family:inherit;font-size:14px;outline:none;transition:border-color 0.15s;appearance:none;-webkit-appearance:none;}
@@ -838,6 +856,13 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
         </div>
       </div>
       <div class="settings-section">
+        <div class="settings-section-label">Data</div>
+        <div class="settings-row" style="cursor:pointer;" onclick="openManageHaircuts()">
+          <div class="settings-row-left"><div class="settings-row-icon"><i class="ti ti-database"></i></div><div><div class="settings-row-label">Manage Haircuts</div><div class="settings-row-sub" id="supabaseStatusLabel">Connect Supabase to manage images</div></div></div>
+          <i class="ti ti-chevron-right" style="color:var(--text3);font-size:16px;"></i>
+        </div>
+      </div>
+      <div class="settings-section">
         <div class="settings-section-label">About</div>
         <div class="settings-about"><div class="settings-about-icon"><i class="ti ti-scissors"></i></div><div><div class="settings-about-name">LTC Hair Catalogue</div><div class="settings-about-version">Version 1.0 · Learn To Cut</div></div></div>
       </div>
@@ -911,17 +936,6 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
         <div class="settings-row" style="margin-top:8px;">
           <div class="settings-row-left"><div class="settings-row-icon"><i class="ti ti-users"></i></div><div><div class="settings-row-label">Include freestyle sessions</div><div class="settings-row-sub">Count freestyle in totals &amp; charts</div></div></div>
           <div class="toggle-track on" id="msFreestyleToggle" onclick="toggleMetricsSetting('includeFreestyle')"><div class="toggle-knob"></div></div>
-        </div>
-      </div>
-      <div class="settings-section">
-        <div class="settings-section-label">Data</div>
-        <div class="settings-row" style="cursor:pointer;" onclick="openManageHaircuts()">
-          <div class="settings-row-left"><div class="settings-row-icon"><i class="ti ti-database"></i></div><div><div class="settings-row-label">Manage Haircuts</div><div class="settings-row-sub" id="supabaseStatusLabel">Connect Supabase to manage images</div></div></div>
-          <i class="ti ti-chevron-right" style="color:var(--text3);font-size:16px;"></i>
-        </div>
-        <div class="settings-row" style="cursor:pointer;" onclick="confirmClearHistory()">
-          <div class="settings-row-left"><div class="settings-row-icon"><i class="ti ti-trash" style="color:#e55;"></i></div><div><div class="settings-row-label" style="color:#e55;">Clear all lock history</div><div class="settings-row-sub">Permanently delete all sessions</div></div></div>
-          <i class="ti ti-chevron-right" style="color:var(--text3);font-size:16px;"></i>
         </div>
       </div>
       <div class="settings-section">
@@ -999,6 +1013,7 @@ create policy "Allow all" on haircuts for all using (true) with check (true);</c
           <input type="file" id="mhFileInput" accept="image/*" multiple onchange="mhHandleFiles(this.files)">
         </div>
         <div class="mh-preview-strip" id="mhPreviewStrip" style="display:none;"></div>
+        <div class="mh-crop-note" id="mhCropNote" style="display:none;">Tip: tap a thumbnail to crop before uploading.</div>
         <div class="mh-field">
           <label>Haircut name *</label>
           <input id="mhName" type="text" placeholder="e.g. Brush Back">
@@ -1054,6 +1069,29 @@ create policy "Allow all" on haircuts for all using (true) with check (true);</c
   </div>
 
   <div class="mh-toast" id="mhToast"></div>
+
+  <div class="mh-crop-modal" id="mhCropModal">
+    <div class="mh-crop-backdrop" onclick="closeMhCrop()"></div>
+    <div class="mh-crop-card">
+      <div class="mh-crop-header">
+        <div class="mh-crop-title">Crop image</div>
+        <button class="mh-crop-close" onclick="closeMhCrop()"><i class="ti ti-x"></i></button>
+      </div>
+      <div class="mh-crop-canvas-wrap">
+        <canvas id="mhCropCanvas"></canvas>
+        <div class="mh-crop-frame"></div>
+      </div>
+      <div class="mh-crop-controls">
+        <button class="mh-crop-control" onclick="mhCropZoom(-0.1)">-</button>
+        <button class="mh-crop-control" onclick="mhCropZoom(0.1)">+</button>
+        <button class="mh-crop-control" onclick="mhCropReset()">Reset</button>
+      </div>
+      <div class="mh-crop-actions">
+        <button class="mh-crop-action" onclick="closeMhCrop()">Cancel</button>
+        <button class="mh-crop-action primary" onclick="mhCropSave()">Save crop</button>
+      </div>
+    </div>
+  </div>
 
   <div class="screen" id="s10">
     <div class="topbar"><div class="back-btn" id="drillBackBtn" onclick="go('s9')"><i class="ti ti-arrow-left"></i></div><div class="topbar-title" id="drillTitle">Detail</div><div style="width:34px"></div></div>
@@ -1839,6 +1877,12 @@ let _sb={url:'',key:'',connected:false};
 let _sbCuts=[];
 let _mhFiles=[];
 let _mhLibFilter='all';
+let _mhCropIndex=null;
+let _mhCropImage=null;
+let _mhCropScale=1;
+let _mhCropOffset={x:0,y:0};
+let _mhCropDragging=false;
+let _mhCropLast={x:0,y:0};
 
 function mhHandleFiles(files){
   Array.from(files).forEach(f=>{if(!f.type.startsWith('image/'))return;const reader=new FileReader();reader.onload=e=>_mhFiles.push({file:f,preview:e.target.result,label:_mhFiles.length===0?'Hero':('Angle '+ _mhFiles.length)});reader.readAsDataURL(f);});
@@ -1847,14 +1891,114 @@ function mhHandleFiles(files){
 
 function renderMhPreviews(){
   const strip=document.getElementById('mhPreviewStrip');
+  const note=document.getElementById('mhCropNote');
   if(!strip)return;
-  if(!_mhFiles.length){strip.style.display='none';return;}
+  if(!_mhFiles.length){strip.style.display='none';if(note)note.style.display='none';return;}
   strip.style.display='flex';
+  if(note)note.style.display='block';
   strip.innerHTML='';
-  _mhFiles.forEach((f,i)=>{const wrap=document.createElement('div');wrap.className='mh-preview-thumb';const img=document.createElement('img');img.src=f.preview;img.style.width='100%';img.style.height='100%';img.style.objectFit='cover';const badge=document.createElement('div');badge.className='mh-angle-badge';badge.textContent=i===0?'Hero':'Angle '+i;const rm=document.createElement('button');rm.className='mh-remove-img';rm.innerHTML='<i class="ti ti-x"></i>';rm.onclick=()=>{_mhFiles.splice(i,1);renderMhPreviews();};wrap.appendChild(img);wrap.appendChild(badge);wrap.appendChild(rm);strip.appendChild(wrap);});
+  _mhFiles.forEach((f,i)=>{const wrap=document.createElement('div');wrap.className='mh-preview-thumb';const img=document.createElement('img');img.src=f.preview;img.style.width='100%';img.style.height='100%';img.style.objectFit='cover';const badge=document.createElement('div');badge.className='mh-angle-badge';badge.textContent=i===0?'Hero':'Angle '+i;const crop=document.createElement('button');crop.className='mh-crop-btn';crop.innerHTML='<i class="ti ti-crop"></i>';crop.title='Crop image';crop.onclick=e=>{e.stopPropagation();openMhCrop(i);};const rm=document.createElement('button');rm.className='mh-remove-img';rm.innerHTML='<i class="ti ti-x"></i>';rm.onclick=()=>{_mhFiles.splice(i,1);renderMhPreviews();};wrap.appendChild(img);wrap.appendChild(badge);wrap.appendChild(crop);wrap.appendChild(rm);strip.appendChild(wrap);});
+}
+
+function openMhCrop(index){
+  const modal=document.getElementById('mhCropModal');
+  const canvas=document.getElementById('mhCropCanvas');
+  if(!modal||!canvas||!_mhFiles[index])return;
+  _mhCropIndex=index;
+  _mhCropImage=new Image();
+  _mhCropImage.onload=()=>{
+    const size=Math.min(360, window.innerWidth - 80);
+    canvas.width=size;
+    canvas.height=size;
+    _mhCropScale=Math.min(1.2, Math.max(0.8, Math.min(size/_mhCropImage.naturalWidth, size/_mhCropImage.naturalHeight)));
+    _mhCropOffset={x:(canvas.width - _mhCropImage.naturalWidth*_mhCropScale)/2, y:(canvas.height - _mhCropImage.naturalHeight*_mhCropScale)/2};
+    _mhCropDragging=false;
+    bindMhCropEvents();
+    renderMhCrop();
+    modal.classList.add('active');
+  };
+  _mhCropImage.src=_mhFiles[index].preview;
+}
+
+function closeMhCrop(){
+  const modal=document.getElementById('mhCropModal');
+  if(modal)modal.classList.remove('active');
+  _mhCropDragging=false;
+}
+
+function bindMhCropEvents(){
+  const canvas=document.getElementById('mhCropCanvas');
+  if(!canvas)return;
+  canvas.onpointerdown=e=>{_mhCropDragging=true;canvas.setPointerCapture(e.pointerId);_mhCropLast={x:e.clientX,y:e.clientY};};
+  canvas.onpointermove=e=>{if(!_mhCropDragging)return;const dx=e.clientX-_mhCropLast.x;const dy=e.clientY-_mhCropLast.y;_mhCropOffset.x+=dx;_mhCropOffset.y+=dy;_mhCropLast={x:e.clientX,y:e.clientY};renderMhCrop();};
+  canvas.onpointerup=canvas.onpointerleave=()=>{_mhCropDragging=false;};
+  canvas.onwheel=e=>{e.preventDefault();mhCropZoom(e.deltaY>0?-0.05:0.05);};
+}
+
+function renderMhCrop(){
+  const canvas=document.getElementById('mhCropCanvas');
+  if(!canvas||!_mhCropImage)return;
+  const ctx=canvas.getContext('2d');
+  const cw=canvas.width;
+  const ch=canvas.height;
+  const w=_mhCropImage.naturalWidth*_mhCropScale;
+  const h=_mhCropImage.naturalHeight*_mhCropScale;
+  _mhCropOffset.x=Math.min(0,Math.max(_mhCropOffset.x,cw-w));
+  _mhCropOffset.y=Math.min(0,Math.max(_mhCropOffset.y,ch-h));
+  ctx.clearRect(0,0,cw,ch);
+  ctx.drawImage(_mhCropImage,_mhCropOffset.x,_mhCropOffset.y,w,h);
+}
+
+function mhCropZoom(delta){
+  const canvas=document.getElementById('mhCropCanvas');
+  if(!canvas||!_mhCropImage)return;
+  const oldScale=_mhCropScale;
+  _mhCropScale=Math.max(0.4,Math.min(3,_mhCropScale+delta));
+  const cx=canvas.width/2;
+  const cy=canvas.height/2;
+  _mhCropOffset.x=cx-((cx-_mhCropOffset.x)*_mhCropScale/oldScale);
+  _mhCropOffset.y=cy-((cy-_mhCropOffset.y)*_mhCropScale/oldScale);
+  renderMhCrop();
+}
+
+function mhCropReset(){
+  const canvas=document.getElementById('mhCropCanvas');
+  if(!canvas||!_mhCropImage)return;
+  const baseScale=Math.min(canvas.width/_mhCropImage.naturalWidth,canvas.height/_mhCropImage.naturalHeight)*1.0;
+  _mhCropScale=baseScale;
+  _mhCropOffset={x:(canvas.width-_mhCropImage.naturalWidth*_mhCropScale)/2,y:(canvas.height-_mhCropImage.naturalHeight*_mhCropScale)/2};
+  renderMhCrop();
+}
+
+function mhCropSave(){
+  const canvas=document.getElementById('mhCropCanvas');
+  if(!canvas||!_mhCropImage||_mhCropIndex===null)return;
+  const cropSize=Math.round(Math.min(canvas.width,canvas.height)*0.8);
+  const cropX=(canvas.width-cropSize)/2;
+  const cropY=(canvas.height-cropSize)/2;
+  const srcX=(cropX-_mhCropOffset.x)/_mhCropScale;
+  const srcY=(cropY-_mhCropOffset.y)/_mhCropScale;
+  const srcW=cropSize/_mhCropScale;
+  const srcH=cropSize/_mhCropScale;
+  const temp=document.createElement('canvas');
+  temp.width=cropSize;
+  temp.height=cropSize;
+  const ctx=temp.getContext('2d');
+  ctx.drawImage(_mhCropImage,srcX,srcY,srcW,srcH,0,0,cropSize,cropSize);
+  const orig=_mhFiles[_mhCropIndex].file;
+  temp.toBlob(blob=>{
+    if(!blob){mhToast('Crop failed');return;}
+    const ext=(orig.name.split('.').pop()||'jpg').split('?')[0];
+    const file=new File([blob],`${orig.name.replace(/\.[^/.]+$/, '')}-crop.${ext}`,{type:blob.type||orig.type});
+    _mhFiles[_mhCropIndex].file=file;
+    _mhFiles[_mhCropIndex].preview=URL.createObjectURL(blob);
+    closeMhCrop();
+    renderMhPreviews();
+  },orig.type==='image/png'?'image/png':'image/jpeg',0.92);
 }
 
 async function mhSubmit(){
+
   const name=(document.getElementById('mhName').value||'').trim();
   const desc=(document.getElementById('mhDesc').value||'').trim();
   const cat=document.getElementById('mhCategory').value;
