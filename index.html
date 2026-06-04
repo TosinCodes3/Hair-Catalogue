@@ -497,6 +497,37 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .hd-action-beforeafter i{color:var(--text2);}
 
 
+/* ── GALLERY SCREEN ── */
+.gallery-screen{display:flex;flex-direction:column;flex:1;overflow:hidden;}
+.gallery-topbar{padding:14px 16px 12px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.gallery-title{font-size:15px;font-weight:700;color:var(--text);flex:1;text-align:center;}
+.gallery-tabs{display:flex;gap:0;padding:0 16px;flex-shrink:0;border-bottom:0.5px solid var(--border);}
+.gallery-tab{flex:1;padding:11px 0;font-size:13px;font-weight:600;color:var(--text3);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:inherit;transition:all 0.15s;display:flex;align-items:center;justify-content:center;gap:6px;}
+.gallery-tab.active{color:var(--text);border-bottom-color:var(--text);}
+.gallery-tab i{font-size:15px;}
+.gallery-pane{display:none;flex:1;overflow-y:auto;padding:10px 10px 80px;}
+.gallery-pane.active{display:block;}
+.gallery-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;}
+.gallery-item{position:relative;aspect-ratio:1;overflow:hidden;background:var(--bg2);cursor:pointer;}
+.gallery-item:active{opacity:0.85;}
+.gallery-item img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity 0.3s;}
+.gallery-item img.loaded{opacity:1;}
+.gallery-item-fav{position:absolute;top:5px;right:5px;width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;transition:transform 0.15s;}
+.gallery-item-fav:active{transform:scale(0.88);}
+.gallery-item-fav i{font-size:14px;color:#fff;}
+.gallery-item-fav.faved i{color:#ff5c7a;}
+.gallery-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:60px 24px;text-align:center;}
+.gallery-empty i{font-size:36px;color:var(--text3);}
+.gallery-empty p{font-size:14px;color:var(--text3);line-height:1.6;}
+.gallery-lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;}
+.gallery-lightbox.open{display:flex;}
+.gallery-lb-close{position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.12);border:none;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.gallery-lb-img{max-width:100%;max-height:88vh;object-fit:contain;border-radius:4px;}
+.gallery-lb-fav{position:absolute;bottom:28px;right:24px;width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.14);border:none;color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform 0.15s;}
+.gallery-lb-fav:active{transform:scale(0.88);}
+.gallery-lb-fav.faved{color:#ff5c7a;}
+
+
 
 
 /* ── BEFORE & AFTER SCREEN ── */
@@ -705,11 +736,45 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
           <div class="hd-action-label">Metrics</div>
           <div class="hd-action-sub">Trends &amp; stats</div>
         </div>
+        <div class="hd-action-card hd-action-gallery" onclick="openGallery()">
+          <i class="ti ti-photo"></i>
+          <div class="hd-action-label">Gallery</div>
+          <div class="hd-action-sub">All haircut images</div>
+        </div>
       </div>
     </div>
   </div>
 
 
+
+
+  <!-- ── GALLERY SCREEN (s18) ── -->
+  <div class="screen" id="s18">
+    <div class="gallery-screen">
+      <div class="gallery-topbar">
+        <div class="back-btn" onclick="switchTab('home')"><i class="ti ti-arrow-left"></i></div>
+        <div class="gallery-title">Gallery</div>
+        <div style="width:34px"></div>
+      </div>
+      <div class="gallery-tabs">
+        <button class="gallery-tab active" id="galleryTabAll" onclick="switchGalleryTab('all')"><i class="ti ti-photo"></i> All</button>
+        <button class="gallery-tab" id="galleryTabFavs" onclick="switchGalleryTab('favs')"><i class="ti ti-heart"></i> Favourites</button>
+      </div>
+      <div class="gallery-pane active" id="galleryPaneAll">
+        <div class="gallery-grid" id="galleryGridAll"></div>
+      </div>
+      <div class="gallery-pane" id="galleryPaneFavs">
+        <div class="gallery-grid" id="galleryGridFavs"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gallery lightbox -->
+  <div class="gallery-lightbox" id="galleryLightbox">
+    <button class="gallery-lb-close" onclick="closeGalleryLightbox()"><i class="ti ti-x"></i></button>
+    <img class="gallery-lb-img" id="galleryLbImg" src="" alt="">
+    <button class="gallery-lb-fav" id="galleryLbFav" onclick="toggleGalleryLbFav()"><i class="ti ti-heart"></i></button>
+  </div>
 
 
   <!-- ── BEFORE & AFTER SCREEN (s12) ── -->
@@ -1277,6 +1342,138 @@ function renderLockStepNamed(type){const body=document.getElementById('lockinBod
 function commitLockIn(type,personName,personDesc){addToHistory(cur,fv,tv,type,personName,personDesc);saveLockedCut(type,personName,personDesc);const fi=getImgs(cur)[0].src;loadImg(document.getElementById('doneImg'),fi,cur.name);document.getElementById('doneCut').textContent=cur.name;document.getElementById('doneOpts').textContent=fv+' fade · '+tv+' top';const badgeEl=document.getElementById('donePersonBadge');if(type==='freestyle'){badgeEl.innerHTML='<div class="done-person-badge freestyle"><i class="ti ti-scissors" style="font-size:12px"></i> Freestyle</div>';}else{const icon=type==='client'?'ti-user':'ti-star';badgeEl.innerHTML=`<div class="done-person-badge ${type}"><i class="ti ${icon}" style="font-size:12px"></i> ${personName||type}</div>`;}document.getElementById('doneNote').textContent=personDesc||'Selection confirmed. Sit back and relax — we\'re getting started.';go('s4');}
 
 
+/* ─── GALLERY ─── */
+const GALLERY_FAVS_KEY='galleryFavourites';
+let _galleryLbSrc=null;
+let _galleryActiveTab='all';
+
+function getGalleryFavs(){try{return JSON.parse(localStorage.getItem(GALLERY_FAVS_KEY)||'[]');}catch(e){return[];}}
+function saveGalleryFavs(favs){localStorage.setItem(GALLERY_FAVS_KEY,JSON.stringify(favs));}
+function isGalleryFav(src){return getGalleryFavs().includes(src);}
+function toggleGalleryFav(src){
+  const favs=getGalleryFavs();
+  const idx=favs.indexOf(src);
+  if(idx>-1){favs.splice(idx,1);}else{favs.push(src);}
+  saveGalleryFavs(favs);
+  return idx===-1; // returns true if now faved
+}
+
+function openGallery(){
+  go('s18');
+  switchGalleryTab(_galleryActiveTab);
+}
+
+function switchGalleryTab(tab){
+  _galleryActiveTab=tab;
+  document.getElementById('galleryTabAll').classList.toggle('active',tab==='all');
+  document.getElementById('galleryTabFavs').classList.toggle('active',tab==='favs');
+  document.getElementById('galleryPaneAll').classList.toggle('active',tab==='all');
+  document.getElementById('galleryPaneFavs').classList.toggle('active',tab==='favs');
+  if(tab==='all'){renderGalleryAll();}else{renderGalleryFavs();}
+}
+
+function buildGalleryItem(src,container){
+  const item=document.createElement('div');
+  item.className='gallery-item';
+  const img=document.createElement('img');
+  img.src=src;
+  img.alt='';
+  img.onload=()=>img.classList.add('loaded');
+  img.onerror=()=>{img.style.opacity='0.1';};
+  img.onclick=()=>openGalleryLightbox(src);
+  const favBtn=document.createElement('div');
+  const faved=isGalleryFav(src);
+  favBtn.className='gallery-item-fav'+(faved?' faved':'');
+  favBtn.innerHTML='<i class="ti ti-heart'+(faved?'-filled':'')+'"></i>';
+  favBtn.onclick=(e)=>{
+    e.stopPropagation();
+    const nowFaved=toggleGalleryFav(src);
+    favBtn.className='gallery-item-fav'+(nowFaved?' faved':'');
+    favBtn.innerHTML='<i class="ti ti-heart'+(nowFaved?'-filled':'')+'"></i>';
+    if(_galleryActiveTab==='favs'){item.style.transition='opacity 0.3s';item.style.opacity='0';setTimeout(()=>renderGalleryFavs(),320);}
+    // sync lightbox fav button if open
+    const lb=document.getElementById('galleryLightbox');
+    if(lb&&lb.classList.contains('open')&&_galleryLbSrc===src){syncGalleryLbFavBtn();}
+    // update container's other instances of same src
+    container.querySelectorAll('.gallery-item-fav').forEach(btn=>{
+      const parentItem=btn.closest('.gallery-item');
+      const parentImg=parentItem&&parentItem.querySelector('img');
+      if(parentImg&&parentImg.src.endsWith(src.split('/').pop())){
+        btn.className='gallery-item-fav'+(nowFaved?' faved':'');
+        btn.innerHTML='<i class="ti ti-heart'+(nowFaved?'-filled':'')+'"></i>';
+      }
+    });
+  };
+  item.appendChild(img);
+  item.appendChild(favBtn);
+  return item;
+}
+
+function getAllGalleryImages(){
+  const seen=new Set();
+  const srcs=[];
+  cuts.forEach(cut=>{
+    const imgs=getImgs(cut);
+    imgs.forEach(im=>{
+      if(im.src&&!seen.has(im.src)){seen.add(im.src);srcs.push(im.src);}
+    });
+  });
+  return srcs;
+}
+
+function renderGalleryAll(){
+  const grid=document.getElementById('galleryGridAll');
+  grid.innerHTML='';
+  const srcs=getAllGalleryImages();
+  if(!srcs.length){
+    grid.innerHTML='<div class="gallery-empty" style="grid-column:1/-1;"><i class="ti ti-photo-off"></i><p>No haircuts uploaded yet.<br>Go to Settings → Manage Haircuts to add some.</p></div>';
+    return;
+  }
+  srcs.forEach(src=>grid.appendChild(buildGalleryItem(src,grid)));
+}
+
+function renderGalleryFavs(){
+  const grid=document.getElementById('galleryGridFavs');
+  grid.innerHTML='';
+  const favs=getGalleryFavs();
+  if(!favs.length){
+    grid.innerHTML='<div class="gallery-empty" style="grid-column:1/-1;"><i class="ti ti-heart-off"></i><p>No favourites yet.<br>Tap the heart on any image to save it here.</p></div>';
+    return;
+  }
+  favs.forEach(src=>grid.appendChild(buildGalleryItem(src,grid)));
+}
+
+function openGalleryLightbox(src){
+  _galleryLbSrc=src;
+  const lb=document.getElementById('galleryLightbox');
+  const img=document.getElementById('galleryLbImg');
+  img.src=src;
+  syncGalleryLbFavBtn();
+  lb.classList.add('open');
+}
+
+function closeGalleryLightbox(){
+  document.getElementById('galleryLightbox').classList.remove('open');
+  _galleryLbSrc=null;
+}
+
+function syncGalleryLbFavBtn(){
+  const btn=document.getElementById('galleryLbFav');
+  const faved=_galleryLbSrc&&isGalleryFav(_galleryLbSrc);
+  btn.className='gallery-lb-fav'+(faved?' faved':'');
+  btn.innerHTML=`<i class="ti ti-heart${faved?'-filled':''}"></i>`;
+}
+
+function toggleGalleryLbFav(){
+  if(!_galleryLbSrc)return;
+  const nowFaved=toggleGalleryFav(_galleryLbSrc);
+  syncGalleryLbFavBtn();
+  // refresh grid if on favs tab
+  if(_galleryActiveTab==='all'){renderGalleryAll();}
+  else{renderGalleryFavs();}
+}
+
+
 /* ─── COMPARE ─── */
 let compareA=null,compareB=null,pickerTarget=null;
 function normalizeCompareItem(item){if(!item)return null;return item.cut?{cut:item.cut,imgIdx:typeof item.imgIdx==='number'?item.imgIdx:0}:{cut:item,imgIdx:0};}
@@ -1705,7 +1902,7 @@ function go(sid){
 
 
   // Hide bottom nav on screens where it should not appear
-  const hideOn = new Set(['s0','s12','s8','s9','s13','s3','s4','s17']);
+  const hideOn = new Set(['s0','s12','s8','s9','s13','s3','s4','s17','s18']);
   const nav = document.querySelector('.bottom-nav');
   if(nav) nav.style.display = hideOn.has(sid) ? 'none' : 'flex';
 
