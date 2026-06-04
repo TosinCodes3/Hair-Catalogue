@@ -13,6 +13,7 @@
 @font-face { font-family:'DMSans';src:url('fonts/DMSans-Bold.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap;}
 @font-face { font-family:'DMSans';src:url('fonts/DMSans-BoldItalic.ttf') format('truetype');font-weight:700;font-style:italic;font-display:swap;}
 
+
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
   --bg:#111;--bg2:#1a1a1a;--bg3:#222;
@@ -212,6 +213,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .person-cut-desc{font-size:11px;color:var(--text3);margin-top:4px;line-height:1.4;}
 .person-cut-date{font-size:11px;color:var(--text3);margin-top:5px;}
 .person-detail-empty{font-size:14px;color:var(--text2);padding:16px 0;line-height:1.6;}
+
 
 /* ── MODEL PROFILE ── */
 .model-profile-section{margin-top:20px;padding-top:18px;border-top:0.5px solid var(--border);}
@@ -441,6 +443,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .tooltip-btn.skip{background:transparent;color:var(--text2);}
 .tooltip-progress{font-size:11px;color:var(--text3);margin-bottom:10px;}
 
+
 /* ── HOME DASHBOARD ── */
 .home-dashboard{display:flex;flex-direction:column;overflow-y:auto;flex:1;background:var(--bg);}
 /* Header */
@@ -494,6 +497,8 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .hd-action-beforeafter i{color:var(--text2);}
 
 
+
+
 /* ── BEFORE & AFTER SCREEN ── */
 .ba-screen{display:flex;flex-direction:column;flex:1;}
 .ba-topbar{padding:14px 16px 12px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0;}
@@ -523,6 +528,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .ba-divider{position:absolute;top:0;bottom:0;width:2px;background:#fff;transform:translateX(-50%);pointer-events:none;box-shadow:0 0 8px rgba(0,0,0,0.4);}
 .ba-handle{position:absolute;top:50%;width:40px;height:40px;border-radius:50%;background:#fff;border:none;transform:translate(-50%,-50%);cursor:ew-resize;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,0.35);pointer-events:none;line-height:1;}
 .ba-handle i{font-size:16px;color:#333;display:flex;align-items:center;justify-content:center;width:16px;height:16px;line-height:1;}
+
 
 .ba-label-before{position:absolute;bottom:14px;left:14px;background:rgba(0,0,0,0.55);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px;pointer-events:none;letter-spacing:0.04em;}
 .ba-label-after{position:absolute;bottom:14px;right:14px;background:rgba(0,0,0,0.55);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px;pointer-events:none;letter-spacing:0.04em;}
@@ -655,6 +661,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
     <div class="intro-dots">Est. 2024</div>
   </div>
 
+
   <!-- ── HOME SCREEN (s11) ── -->
   <div class="screen" id="s11">
     <div class="home-dashboard">
@@ -701,6 +708,8 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
       </div>
     </div>
   </div>
+
+
 
 
   <!-- ── BEFORE & AFTER SCREEN (s12) ── -->
@@ -750,6 +759,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
       </div>
     </div>
   </div>
+
 
   <div class="screen" id="s1">
     <div class="home-header" style="padding-bottom:8px;">
@@ -959,6 +969,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
     </div>
   </div>
 
+
   <!-- ── SUPABASE SETUP SCREEN (s16) ── -->
   <div class="screen" id="s16">
     <div class="topbar">
@@ -976,9 +987,13 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
         <div class="sb-setup-info-title"><i class="ti ti-info-circle"></i> Setup guide</div>
         <div class="sb-setup-step"><div class="sb-setup-step-num">1</div><div class="sb-setup-step-text">Go to <strong>supabase.com</strong> → create a project → wait for it to finish provisioning</div></div>
         <div class="sb-setup-step"><div class="sb-setup-step-num">2</div><div class="sb-setup-step-text">In <strong>SQL Editor</strong>, run this all at once:<br><br>
-<code>create table if not exists haircuts (id uuid default gen_random_uuid() primary key, name text not null, description text, category text, hair_type text, tags text[], images jsonb, created_at timestamptz default now());
+<code>create table if not exists haircuts (id uuid default gen_random_uuid() primary key, name text not null, description text, category text, hair_type text, tags text[], images jsonb, before_image text, after_image text, created_at timestamptz default now());
 alter table haircuts enable row level security;
-create policy "Allow all" on haircuts for all using (true) with check (true);</code>
+create policy "Allow all" on haircuts for all using (true) with check (true);
+
+-- If your table already exists, run these two lines instead:
+-- alter table haircuts add column if not exists before_image text;
+-- alter table haircuts add column if not exists after_image text;</code>
         </div></div>
         <div class="sb-setup-step"><div class="sb-setup-step-num">3</div><div class="sb-setup-step-text">Go to <strong>Storage</strong> → New bucket → name it exactly <code>haircut-images</code> → tick <strong>Public bucket</strong> → Create<br><br>Then in Storage → Policies → Add policy → choose <strong>"Give users access to a folder only to authenticated users"</strong> — or simply run:<br><br><code>create policy "Public access" on storage.objects for all using (bucket_id = 'haircut-images') with check (bucket_id = 'haircut-images');</code></div></div>
         <div class="sb-setup-step"><div class="sb-setup-step-num">4</div><div class="sb-setup-step-text">Go to <strong>Project Settings → API</strong> → copy <strong>Project URL</strong> and <strong>anon / public</strong> key into the fields below</div></div>
@@ -999,6 +1014,7 @@ create policy "Allow all" on haircuts for all using (true) with check (true);</c
       <button class="sb-disconnect-btn" id="sbDisconnectBtn" style="display:none;" onclick="supabaseDisconnect()">Disconnect &amp; clear credentials</button>
     </div>
   </div>
+
 
   <!-- ── MANAGE HAIRCUTS SCREEN (s17) ── -->
   <div class="screen" id="s17">
@@ -1064,6 +1080,22 @@ create policy "Allow all" on haircuts for all using (true) with check (true);</c
           <label>Tags (comma separated)</label>
           <input id="mhTags" type="text" placeholder="e.g. Skin Fade, Taper">
         </div>
+        <div class="mh-field" style="margin-top:6px;">
+          <label>Before image <span style="font-weight:400;color:var(--text3);text-transform:none;letter-spacing:0;">(optional — for Before &amp; After page)</span></label>
+          <div class="mh-upload-zone" id="mhBeforeZone" style="padding:16px 20px;margin-bottom:0;cursor:pointer;" onclick="document.getElementById('mhBeforeInput').click()">
+            <i class="ti ti-circle-half-2" style="font-size:22px;color:var(--text3);"></i>
+            <div class="mh-upload-zone-label" style="font-size:13px;" id="mhBeforeLabel">Tap to select before image</div>
+            <input type="file" id="mhBeforeInput" accept="image/*" style="display:none;" onchange="mhHandleBAFile('before',this)">
+          </div>
+        </div>
+        <div class="mh-field" style="margin-top:10px;">
+          <label>After image <span style="font-weight:400;color:var(--text3);text-transform:none;letter-spacing:0;">(optional)</span></label>
+          <div class="mh-upload-zone" id="mhAfterZone" style="padding:16px 20px;margin-bottom:0;cursor:pointer;" onclick="document.getElementById('mhAfterInput').click()">
+            <i class="ti ti-circle-check" style="font-size:22px;color:var(--text3);"></i>
+            <div class="mh-upload-zone-label" style="font-size:13px;" id="mhAfterLabel">Tap to select after image</div>
+            <input type="file" id="mhAfterInput" accept="image/*" style="display:none;" onchange="mhHandleBAFile('after',this)">
+          </div>
+        </div>
         <button class="mh-submit-btn" id="mhSubmitBtn" onclick="mhSubmit()">
           <i class="ti ti-upload"></i> Upload Haircut
         </button>
@@ -1076,7 +1108,9 @@ create policy "Allow all" on haircuts for all using (true) with check (true);</c
     </div>
   </div>
 
+
   <div class="mh-toast" id="mhToast"></div>
+
 
   <div class="mh-crop-modal" id="mhCropModal">
     <div class="mh-crop-backdrop" onclick="closeMhCrop()"></div>
@@ -1101,11 +1135,13 @@ create policy "Allow all" on haircuts for all using (true) with check (true);</c
     </div>
   </div>
 
+
   <div class="screen" id="s10">
     <div class="topbar"><div class="back-btn" id="drillBackBtn" onclick="go('s9')"><i class="ti ti-arrow-left"></i></div><div class="topbar-title" id="drillTitle">Detail</div><div style="width:34px"></div></div>
     <div class="drill-body" id="drillBody"></div>
   </div>
 </div>
+
 
 <div class="lightbox" id="lightbox">
   <div class="lb-bar"><button class="lb-close" onclick="closeLightbox()"><i class="ti ti-x"></i></button><div class="lb-counter" id="lbCounter"></div></div>
@@ -1141,10 +1177,12 @@ create policy "Allow all" on haircuts for all using (true) with check (true);</c
   <button class="nav-item"        id="navSettings" onclick="switchTab('settings')"><i class="ti ti-settings"></i><span>Settings</span></button>
 </div>
 
+
 <script>
 /* ─── DATA ─── */
 const cats=[{id:'brushback',name:'Brush Back',img:'images/brushback4.png'},{id:'burstfade',name:'Burst Fade',img:'images/burstfade2.png'},{id:'taper',name:'Taper',img:'images/taperfade2.png'},{id:'fringe',name:'Fringe',img:'images/fringe.png'},{id:'mullet',name:'Mullet',img:'images/mullet.png'},{id:'modCut',name:'Mod Cut',img:'images/modcut2.png'},{id:'elordi',name:'Jacob Elordi',img:'images/elordi.png'},{id:'layered',name:'Layered Cut',img:'images/layeredflow.png'},{id:'midLength',name:'Mid Length',img:'images/midlength.png'},{id:'middlePart',name:'Middle Part',img:'images/middlepart.png'},{id:'cropHaircuts',name:'Crop Haircuts',img:'images/texturedcrop.png'},{id:'rafael',name:'Rafael',img:'images/rafael.png'},{id:'johnnydepp',name:'Johnny Depp Haircut',img:'images/johnnydepp1.png'}];
 const cuts=[{id:1,name:'Brush Back',cat:'brushback',hairType:'straight',tags:['Skin Fade'],desc:'Brush back elevated with a sharp skin fade on the sides.',imgs:[{src:'images/brushback4.png',label:'Front'},{src:'images/brushback4a.png',label:'Side'}]},{id:2,name:'Brush Back',cat:'brushback',hairType:'straight',tags:[''],desc:'Clean swept back style, versatile and timeless.',img:'images/brushback.png'},{id:4,name:'Brush Back',cat:'brushback',hairType:'curly',tags:['Curly'],desc:'Natural curl texture swept back for effortless volume.',img:'images/brushback2.png'},{id:5,name:'Brush Back + Taper',cat:'brushback',hairType:'straight',tags:['Taper'],desc:'Brush back paired with a tapered neckline for a polished finish.',imgs:[{src:'images/brushback5.png',label:'Front'},{src:'images/brushback5a.png',label:'Side'},{src:'images/brushback5b.png',label:'Side'}]},{id:6,name:'Burst Fade',cat:'burstfade',hairType:'straight',tags:[''],desc:'Semicircular fade that bursts around the ear — clean and impactful.',img:'images/burstfade2.png'},{id:7,name:'Burst Fade',cat:'burstfade',hairType:'textured',tags:['Textured'],desc:'Textured top over a crisp burst fade.',img:'images/burstfade.png'},{id:8,name:'Jacob Elordi',cat:'elordi',hairType:'straight',tags:[''],desc:'Long, swept, effortlessly cool — the signature Elordi look.',img:'images/elordi.png'},{id:9,name:'The Rafael',cat:'rafael',hairType:'straight',tags:[''],desc:'Relaxed mid-length with natural movement.',img:'images/rafael.png'},{id:10,name:'Middle Part',cat:'middlePart',hairType:'straight',tags:[''],desc:'Symmetrical parting down the centre for a clean, balanced look.',img:'images/middlepart2.png'},{id:11,name:'Middle Part',cat:'middlePart',hairType:'textured',tags:['Textured'],desc:'Textured finish on a classic middle part.',img:'images/middlepart.png'},{id:12,name:'Fringe',cat:'fringe',hairType:'wavy',tags:['Textured Fringe'],desc:'Textured fringe with natural wave — relaxed and modern.',img:'images/fringe.png'},{id:13,name:'Saiyan',cat:'saiyan',hairType:'textured',tags:['Textured Saiyan'],desc:'High-energy textured spikes with serious volume.',img:'images/saiyan.png'},{id:14,name:'Mod Cut',cat:'modCut',hairType:'straight',tags:['Mod Cut'],desc:'Geometric bowl-adjacent shape — retro roots, modern feel.',imgs:[{src:'images/modcut2.png',label:'Front'},{src:'images/modcut1.png',label:'Side'}]},{id:15,name:'Mod Cut',cat:'modCut',hairType:'straight',tags:['Short Textured'],desc:'Shorter, more textured take on the classic mod cut.',img:'images/modcut1.png'},{id:16,name:'Brush Back + Taper',cat:'brushback',hairType:'straight',tags:['Taper'],desc:'Brush back paired with a tapered neckline for a polished finish.',img:'images/brushback3.png'},{id:17,name:'Johnny Depp',cat:'johnnydepp',hairType:'straight',tags:['Johnny Depp'],desc:'A Johnny Depp Inspired Haircut',imgs:[{src:'images/Johnnydepp1.png',label:'Front'},{src:'images/Johnnydepp2.png',label:'Side'},{src:'images/Johnnydepp3.png',label:'Side'}]},{id:18,name:'Middle Part',cat:'middlePart',hairType:'textured',tags:['Textured'],desc:'Textured finish on a classic middle part.',imgs:[{src:'images/middlepart3.png',label:'Front'},{src:'images/middlepart3a.png',label:'Side'},{src:'images/middlepart3b.png',label:'Side'}]},{id:19,name:'Brush Back + Taper',cat:'brushback',hairType:'straight',tags:['Taper'],desc:'Brush back paired with a tapered neckline for a polished finish.',imgs:[{src:'images/brushback7.png',label:'Front'},{src:'images/brushback7a.png',label:'Side'}]},{id:20,name:'Brush Back',cat:'brushback',hairType:'straight',tags:[''],desc:'Clean swept back style, versatile and timeless.',img:'images/brushback11.png'},{id:21,name:'Brush Back',cat:'brushback',hairType:'straight',tags:[''],desc:'Clean swept back style, versatile and timeless.',img:'images/brushback10.png'},{id:22,name:'Burst Fade',cat:'burstfade',hairType:'straight',tags:['Taper'],desc:'Brush back paired with a tapered neckline for a polished finish.',imgs:[{src:'images/burstfade9.png',label:'Front'},{src:'images/burstfade9a.png',label:'Side'}]},{id:23,name:'Burst Fade',cat:'burstfade',hairType:'straight',tags:[''],desc:'Semicircular fade that bursts around the ear — clean and impactful.',img:'images/burstfade5.png'},{id:24,name:'Taper Fade',cat:'taper',hairType:'wavy',tags:['Taper'],desc:'Textured fringe with natural wave — relaxed and modern.',img:'images/taperfade2.png'},{id:25,name:'Taper Fade',cat:'taper',hairType:'wavy',tags:['Taper'],desc:'Textured fringe with natural wave — relaxed and modern.',imgs:[{src:'images/taperfade.png',label:'Front'},{src:'images/taperfade1a.png',label:'Side'}]},{id:26,name:'Taper Fade',cat:'taper',hairType:'curly',tags:['Curly'],desc:'Textured fringe with natural wave — relaxed and modern.',imgs:[{src:'images/curlytaperfade.png',label:'Front'},{src:'images/curlytaperfade2.png',label:'Side'},{src:'images/curlytaperfade3.png',label:'Side'}]},{id:27,name:'Mid Length',cat:'midLength',hairType:'curly',tags:['Taper'],desc:'Textured fringe with natural wave — relaxed and modern.',imgs:[{src:'images/mediumlength1.png',label:'Front'},{src:'images/mediumlength2.png',label:'Side'}]},{id:28,name:'Mid Length',cat:'midLength',hairType:'straight',tags:[''],desc:'Semicircular fade that bursts around the ear — clean and impactful.',img:'images/midlength.png'}];
+
 
 /* ─── HELPERS ─── */
 function getImgs(cut){return(cut.imgs&&cut.imgs.length)?cut.imgs:[{src:cut.img||'',label:''}];}
@@ -1154,6 +1192,7 @@ function ptMid(t){return{x:(t[0].clientX+t[1].clientX)/2,y:(t[0].clientY+t[1].cl
 function initials(name){return name.trim().split(/\s+/).map(w=>w[0]).join('').toUpperCase().slice(0,2);}
 function formatDate(iso){const d=new Date(iso);return d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})+' · '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});}
 
+
 /* ─── HERO SWIPER ─── */
 let heroImgs=[],heroIdx=0,hTxStart=0,hTyStart=0,hTxDelta=0,hSwipe=false,hAxisLocked=false,tapHintShown=false;
 function buildHero(cut){heroImgs=getImgs(cut);heroIdx=0;const box=document.getElementById('heroBox'),track=document.getElementById('heroTrack'),dots=document.getElementById('heroDots'),badge=document.getElementById('heroBadge');const W=box.getBoundingClientRect().width||box.offsetWidth||window.innerWidth||420;track.innerHTML='';track.style.width=(W*heroImgs.length)+'px';heroImgs.forEach(img=>{const slide=document.createElement('div');slide.className='hero-slide';slide.style.width=W+'px';const el=document.createElement('img');el.src=img.src;el.alt=img.label||cut.name;el.onload=()=>el.classList.add('loaded');el.onerror=()=>{el.style.opacity='0.15';};slide.appendChild(el);track.appendChild(slide);});dots.innerHTML='';badge.style.display='none';if(heroImgs.length>1){heroImgs.forEach((_,i)=>{const d=document.createElement('div');d.className='hero-dot'+(i===0?' active':'');dots.appendChild(d);});badge.style.display='block';}const hint=document.getElementById('heroTapHint');if(!tapHintShown){hint.classList.remove('hidden');}else{hint.classList.add('hidden');}_heroApply(0,false);const newBox=box.cloneNode(false);while(box.firstChild)newBox.appendChild(box.firstChild);box.parentNode.replaceChild(newBox,box);newBox.id='heroBox';newBox.addEventListener('touchstart',hTS,{passive:true});newBox.addEventListener('touchmove',hTM,{passive:false});newBox.addEventListener('touchend',hTE,{passive:true});newBox.addEventListener('click',()=>openLightbox(heroIdx));}
@@ -1162,6 +1201,7 @@ function hGoSlide(idx){idx=Math.max(0,Math.min(heroImgs.length-1,idx));_heroAppl
 function hTS(e){hTxStart=e.touches[0].clientX;hTyStart=e.touches[0].clientY;hTxDelta=0;hSwipe=false;hAxisLocked=false;document.getElementById('heroTrack').classList.add('dragging');}
 function hTM(e){if(e.touches.length!==1)return;const dx=e.touches[0].clientX-hTxStart,dy=e.touches[0].clientY-hTyStart;if(!hAxisLocked){if(Math.abs(dx)>6||Math.abs(dy)>6){hAxisLocked=true;hSwipe=Math.abs(dx)>Math.abs(dy);}return;}if(!hSwipe)return;e.preventDefault();hTxDelta=dx;const W=document.getElementById('heroBox').offsetWidth||420,base=-heroIdx*W,edge=(heroIdx===0&&dx>0)||(heroIdx===heroImgs.length-1&&dx<0);document.getElementById('heroTrack').style.transform='translateX('+(base+(edge?dx*0.18:dx))+'px)';}
 function hTE(){if(!hSwipe){_heroApply(heroIdx,true);return;}const W=document.getElementById('heroBox').offsetWidth||420;if(hTxDelta<-(W*0.2)&&heroIdx<heroImgs.length-1)hGoSlide(heroIdx+1);else if(hTxDelta>(W*0.2)&&heroIdx>0)hGoSlide(heroIdx-1);else _heroApply(heroIdx,true);hSwipe=false;hAxisLocked=false;}
+
 
 /* ─── LIGHTBOX ─── */
 let lbImgs=[],lbIdx=0,LB_MIN=1,LB_MAX=4,lbScale=1,lbTx=0,lbTy=0,lbScaleStart=1,lbTxStart=0,lbTyStart=0,lbPinching=false,lbPinchDist=0,lbPinchMid={x:0,y:0},lbTouches=[],lbSxStart=0,lbSyStart=0,lbSDelta=0,lbSwiping=false,lbAxisLocked=false,lbDyDelta=0,lbZoomTimer=null,_lbLastTap=0;
@@ -1177,16 +1217,19 @@ function lbTouchStart(e){lbTouches=Array.from(e.touches);if(lbTouches.length===2
 function lbTouchMove(e){lbTouches=Array.from(e.touches);if(lbTouches.length===2&&lbPinching){e.preventDefault();const d=ptDist(lbTouches),mid=ptMid(lbTouches),W=window.innerWidth,H=window.innerHeight;let ns=Math.max(LB_MIN,Math.min(LB_MAX,lbScaleStart*(d/lbPinchDist)));const ox=(lbPinchMid.x-W/2)/lbScaleStart,oy=(lbPinchMid.y-H/2)/lbScaleStart;let ntx=lbTxStart+ox*(lbScaleStart-ns)/ns+(mid.x-lbPinchMid.x)/ns;let nty=lbTyStart+oy*(lbScaleStart-ns)/ns+(mid.y-lbPinchMid.y)/ns;const c=_lbClamp(ns,ntx,nty);_lbApplyZoom(ns,c.tx,c.ty,false);return;}if(lbTouches.length!==1||lbPinching)return;const dx=lbTouches[0].clientX-lbSxStart,dy=lbTouches[0].clientY-lbSyStart;if(lbScale>1){e.preventDefault();const c=_lbClamp(lbScale,lbTxStart+dx/lbScale,lbTyStart+dy/lbScale);_lbApplyZoom(lbScale,c.tx,c.ty,false);return;}if(!lbAxisLocked){if(Math.abs(dx)>6||Math.abs(dy)>6){lbAxisLocked=true;lbSwiping=Math.abs(dx)>Math.abs(dy);}return;}if(lbSwiping){e.preventDefault();lbSDelta=dx;const W=window.innerWidth,base=-lbIdx*W,edge=(lbIdx===0&&dx>0)||(lbIdx===lbImgs.length-1&&dx<0);document.getElementById('lbTrack').style.transform='translateX('+(base+(edge?dx*0.18:dx))+'px)';return;}lbDyDelta=dy;if(dy>0){e.preventDefault();const lb=document.getElementById('lightbox');lb.style.transform=`translateY(${dy*0.5}px)`;lb.style.opacity=String(Math.max(0.4,1-dy/300));}}
 function lbTouchEnd(e){const remaining=Array.from(e.touches);if(lbPinching&&remaining.length<2){lbPinching=false;if(lbScale<1.08)_lbResetZoom(true);if(remaining.length===1){lbSxStart=remaining[0].clientX;lbSyStart=remaining[0].clientY;lbTxStart=lbTx;lbTyStart=lbTy;}return;}const now=Date.now();if(now-_lbLastTap<280&&lbScale>1){_lbResetZoom(true);_lbLastTap=0;return;}_lbLastTap=now;if(lbDyDelta>80){closeLightbox();const lb=document.getElementById('lightbox');lb.style.transform='';lb.style.opacity='';return;}const lb=document.getElementById('lightbox');lb.style.transform='';lb.style.opacity='';if(lbScale>1){lbTxStart=lbTx;lbTyStart=lbTy;return;}if(!lbSwiping){lbSDelta=0;return;}const W=window.innerWidth;if(lbSDelta<-(W*0.2)&&lbIdx<lbImgs.length-1)lbGoSlide(lbIdx+1);else if(lbSDelta>(W*0.2)&&lbIdx>0)lbGoSlide(lbIdx-1);else _lbApplySlide(lbIdx,true);lbSwiping=false;lbAxisLocked=false;lbSDelta=0;lbDyDelta=0;}
 
+
 /* ─── STATE ─── */
 let cur=null,curCat=null,fv='Mid',tv='Neat',isDark=true,isListView=false,selectedHairType='all',fromPeople=false;
 let metricsWalkthroughStep=0,metricsWalkthroughActive=false;
 const hairTypes=['All','Curly','Straight','Wavy','Textured'];
 const STORAGE_KEY='lockedCut',HISTORY_KEY='cutHistory',MODEL_PROFILES_KEY='modelProfiles',DASH_REFRESH_KEY='dashboardRefresh',AUTO_SCROLL_KEY='featuredAutoScroll';
 
+
 function getDashboardRefreshSetting(){try{return JSON.parse(localStorage.getItem(DASH_REFRESH_KEY))===true;}catch(e){return false;}}
 function saveDashboardRefreshSetting(value){localStorage.setItem(DASH_REFRESH_KEY,JSON.stringify(!!value));}
 function syncDashboardRefreshUI(){const toggle=document.getElementById('dashRefreshToggle');if(toggle)toggle.classList.toggle('on',getDashboardRefreshSetting());}
 function toggleDashboardRefresh(){saveDashboardRefreshSetting(!getDashboardRefreshSetting());syncDashboardRefreshUI();}
+
 
 let featuredAutoScrollFrame=null,featuredAutoScrollTimer=null,featuredAutoScrollDirection=1,featuredAutoScrollListenersInitialized=false;
 function getFeaturedAutoScrollSetting(){try{return JSON.parse(localStorage.getItem(AUTO_SCROLL_KEY))===true;}catch(e){return false;}}
@@ -1203,6 +1246,7 @@ function updateFeaturedAutoScroll(){stopFeaturedAutoScroll();if(shouldAutoScroll
 function initFeaturedAutoScrollInteractions(){if(featuredAutoScrollListenersInitialized)return;const scroll=document.getElementById('hdFeaturedScroll');if(!scroll)return;const resumeIfActive=()=>{if(getFeaturedAutoScrollSetting() && document.getElementById('s11')?.classList.contains('active'))startFeaturedAutoScroll();};scroll.addEventListener('mouseenter',stopFeaturedAutoScroll);scroll.addEventListener('mouseleave',resumeIfActive);scroll.addEventListener('pointerdown',stopFeaturedAutoScroll,{passive:true});scroll.addEventListener('pointerup',resumeIfActive);scroll.addEventListener('pointercancel',resumeIfActive);scroll.addEventListener('touchstart',stopFeaturedAutoScroll,{passive:true});scroll.addEventListener('touchend',resumeIfActive);scroll.addEventListener('touchcancel',resumeIfActive);document.addEventListener('visibilitychange',()=>{if(document.hidden){stopFeaturedAutoScroll();}else{resumeIfActive();}});featuredAutoScrollListenersInitialized=true;}
 function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
 
+
 /* ─── MODEL PROFILES ─── */
 function getModelProfiles(){try{return JSON.parse(localStorage.getItem(MODEL_PROFILES_KEY)||'{}');}catch(e){return{};}}
 function saveModelProfile(name,profile){const all=getModelProfiles();all[name.trim().toLowerCase()]=profile;localStorage.setItem(MODEL_PROFILES_KEY,JSON.stringify(all));}
@@ -1215,11 +1259,13 @@ function toggleModelEditForm(name,open){const form=document.getElementById('mode
 function saveModelProfileFromForm(name){const ig=(document.getElementById('mfIg').value||'').trim(),contact=(document.getElementById('mfContact').value||'').trim(),hairType=document.getElementById('mfHairType').value,faceShape=document.getElementById('mfFaceShape').value;saveModelProfile(name,{ig,contact,hairType,faceShape});const h=getHistory();const items=h.filter(x=>x.type==='model'&&x.personName&&x.personName.trim().toLowerCase()===name.trim().toLowerCase());if(items.length)openPersonDetail(name,'model');}
 function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
+
 /* ─── HISTORY ─── */
 function getHistory(){try{return JSON.parse(localStorage.getItem(HISTORY_KEY)||'[]');}catch(e){return[];}}
 function addToHistory(cut,fade,top,type,personName,personDesc){const h=getHistory();h.unshift({id:cut.id,name:cut.name,fade,top,img:getImgs(cut)[0].src,date:new Date().toISOString(),type:type||'freestyle',personName:personName||'',personDesc:personDesc||''});if(h.length>200)h.pop();localStorage.setItem(HISTORY_KEY,JSON.stringify(h));}
 function openHistorySheet(){const h=getHistory(),body=document.getElementById('historySheetBody');body.innerHTML='';if(!h.length){body.innerHTML='<div class="history-empty">No locks yet.</div>';}else{h.forEach((item,idx)=>{const row=document.createElement('div');row.className='history-item';const thumb=document.createElement('div');thumb.className='history-thumb';const img=document.createElement('img');img.src=item.img||'';img.onload=()=>img.classList.add('loaded');img.onerror=()=>{img.style.opacity='0.15';};thumb.appendChild(img);const info=document.createElement('div');info.className='history-info';const typePill=item.type&&item.type!=='freestyle'?`<span class="history-type-pill ${item.type}">${item.type}</span>`:'';info.innerHTML='<div class="history-name">'+item.name+typePill+'</div>'+'<div class="history-opts">'+(item.fade||'Mid')+' fade · '+(item.top||'Neat')+' top'+(item.personName?'<br><span>'+item.personName+'</span>':'')+'</div>'+'<div class="history-date">'+formatDate(item.date)+(idx===0?' · <span style="color:var(--text2)">Latest</span>':'')+'</div>';const reopen=document.createElement('div');reopen.className='history-reopen';reopen.textContent='View';reopen.onclick=()=>{closeHistorySheet();fv=item.fade||'Mid';tv=item.top||'Neat';openCut(item.id,true);};row.appendChild(thumb);row.appendChild(info);row.appendChild(reopen);body.appendChild(row);});const btn=document.createElement('button');btn.className='sheet-clear';btn.textContent='Clear history';btn.onclick=()=>{if(confirm('Clear all lock history?')){localStorage.removeItem(HISTORY_KEY);openHistorySheet();}};body.appendChild(btn);}document.getElementById('sheetBackdrop').classList.add('open');document.getElementById('historySheet').classList.add('open');}
 function closeHistorySheet(){document.getElementById('sheetBackdrop').classList.remove('open');document.getElementById('historySheet').classList.remove('open');}
+
 
 /* ─── LOCK-IN SHEET ─── */
 let _lockType=null;
@@ -1229,6 +1275,7 @@ function renderLockStep1(){const body=document.getElementById('lockinBody');body
 function renderLockStepFreestyle(){const body=document.getElementById('lockinBody');body.innerHTML='';document.getElementById('lockinSheet').querySelector('.lockin-sub').textContent='Freestyle — no name required';const form=document.createElement('div');form.className='lockin-form';form.innerHTML=`<div class="lockin-field"><label>Notes (optional)</label><textarea id="liDesc" rows="3" placeholder="Any notes on this cut…"></textarea></div>`;const btn=document.createElement('button');btn.className='lockin-confirm-btn';btn.innerHTML='<i class="ti ti-scissors"></i> Confirm Lock';btn.onclick=()=>{const desc=document.getElementById('liDesc').value.trim();closeLockInSheet();commitLockIn('freestyle','',desc);};form.appendChild(btn);const back=document.createElement('div');back.className='lockin-back-link';back.textContent='← Change type';back.onclick=()=>renderLockStep1();form.appendChild(back);body.appendChild(form);}
 function renderLockStepNamed(type){const body=document.getElementById('lockinBody');body.innerHTML='';const label=type==='client'?'Client':'Model';document.getElementById('lockinSheet').querySelector('.lockin-sub').textContent=`${label} — enter their name`;const form=document.createElement('div');form.className='lockin-form';form.innerHTML=`<div class="lockin-field"><label>${label} Name *</label><input id="liName" type="text" placeholder="e.g. ${type==='client'?'James Okafor':'Sofia Martins'}"></div><div class="lockin-field"><label>Notes (optional)</label><textarea id="liDesc" rows="3" placeholder="Any notes on this cut…"></textarea></div>`;const btn=document.createElement('button');btn.className='lockin-confirm-btn';btn.innerHTML=`<i class="ti ti-scissors"></i> Lock in for ${label}`;btn.onclick=()=>{const name=document.getElementById('liName').value.trim();if(!name){document.getElementById('liName').focus();document.getElementById('liName').style.borderColor='#e55';return;}const desc=document.getElementById('liDesc').value.trim();closeLockInSheet();commitLockIn(type,name,desc);};form.appendChild(btn);const back=document.createElement('div');back.className='lockin-back-link';back.textContent='← Change type';back.onclick=()=>renderLockStep1();form.appendChild(back);body.appendChild(form);}
 function commitLockIn(type,personName,personDesc){addToHistory(cur,fv,tv,type,personName,personDesc);saveLockedCut(type,personName,personDesc);const fi=getImgs(cur)[0].src;loadImg(document.getElementById('doneImg'),fi,cur.name);document.getElementById('doneCut').textContent=cur.name;document.getElementById('doneOpts').textContent=fv+' fade · '+tv+' top';const badgeEl=document.getElementById('donePersonBadge');if(type==='freestyle'){badgeEl.innerHTML='<div class="done-person-badge freestyle"><i class="ti ti-scissors" style="font-size:12px"></i> Freestyle</div>';}else{const icon=type==='client'?'ti-user':'ti-star';badgeEl.innerHTML=`<div class="done-person-badge ${type}"><i class="ti ${icon}" style="font-size:12px"></i> ${personName||type}</div>`;}document.getElementById('doneNote').textContent=personDesc||'Selection confirmed. Sit back and relax — we\'re getting started.';go('s4');}
+
 
 /* ─── COMPARE ─── */
 let compareA=null,compareB=null,pickerTarget=null;
@@ -1244,10 +1291,12 @@ function openPicker(side){pickerTarget=side;const grid=document.getElementById('
 function closePicker(){document.getElementById('comparePicker').classList.remove('open');}
 function pickCompare(cut){if(pickerTarget==='A')setCompareItem('A',cut);else setCompareItem('B',cut);closePicker();renderComparePanels();}
 
+
 /* ─── THEME / VIEW ─── */
 function syncThemeUI(){const icon=document.getElementById('themeIcon'),sub=document.getElementById('themeSubLabel'),track=document.getElementById('themeToggle');if(icon)icon.className='ti '+(isDark?'ti-moon':'ti-sun');if(sub)sub.textContent=isDark?'Currently dark':'Currently light';if(track)track.classList.toggle('on',isDark);syncDashboardRefreshUI();syncFeaturedAutoScrollUI();}
 function toggleTheme(){isDark=!isDark;document.getElementById('app').classList.toggle('light',!isDark);document.documentElement.classList.toggle('light',!isDark);document.body.style.background=isDark?'#111':'#fff';syncThemeUI();}
 function setView(type){isListView=type==='list';document.getElementById('chipGrid').classList.toggle('on',!isListView);document.getElementById('chipList').classList.toggle('on',isListView);buildCats();}
+
 
 /* ─── BEFORE & AFTER SCREEN ─── */
 let baSlot='before'; // which slot is being set: 'before' | 'after'
@@ -1256,6 +1305,7 @@ let baAfter=null;
 let baDragging=false;
 let baSliderPct=50;
 
+
 function openBeforeAfter(){
   go('s12');
   renderBaPickerStrip();
@@ -1263,11 +1313,17 @@ function openBeforeAfter(){
   updateBaSlider();
 }
 
+
 function renderBaPickerStrip(){
   const strip=document.getElementById('baPickerStrip');
   if(!strip)return;
   strip.innerHTML='';
-  cuts.forEach(cut=>{
+  const baCuts=cuts.filter(cut=>cut.before_image&&cut.after_image);
+  if(!baCuts.length){
+    strip.innerHTML='<div style="padding:14px 16px;font-size:13px;color:var(--text3);line-height:1.6;">No haircuts with before &amp; after images yet.<br>Go to <strong style="color:var(--text2);">Settings → Manage Haircuts</strong> to add them.</div>';
+    return;
+  }
+  baCuts.forEach(cut=>{
     const imgs=getImgs(cut);
     const src=imgs[0].src;
     const thumb=document.createElement('div');
@@ -1288,10 +1344,12 @@ function renderBaPickerStrip(){
   });
 }
 
+
 function setBaSlot(slot){
   baSlot=slot;
   updateBaSlotButtons();
 }
+
 
 function updateBaSlotButtons(){
   const beforeBtn=document.getElementById('baSlotBeforeBtn');
@@ -1301,8 +1359,10 @@ function updateBaSlotButtons(){
   afterBtn.className='ba-slot-btn'+(baSlot==='after'?' picking-after':'');
 }
 
+
 function setBaImage(cut,src){
-  const entry={cut,imgSrc:src,name:cut.name};
+  const imgSrc=baSlot==='before'?(cut.before_image||src):(cut.after_image||src);
+  const entry={cut,imgSrc,name:cut.name};
   if(baSlot==='before')baBefore=entry;
   else baAfter=entry;
   // Auto-advance slot
@@ -1318,6 +1378,7 @@ function setBaImage(cut,src){
   if(infoAfter)infoAfter.innerHTML=baAfter?`<div class="ba-info-name">${baAfter.name}</div>`:'<div class="ba-info-empty">Not set</div>';
 }
 
+
 function updateBaSlider(){
   const empty=document.getElementById('baEmptyState');
   const imgAfter=document.getElementById('baImgAfter');
@@ -1329,6 +1390,7 @@ function updateBaSlider(){
   const lblAfter=document.getElementById('baLabelAfter');
   if(!empty)return;
 
+
   const ready=baBefore&&baAfter;
   empty.style.display=ready?'none':'flex';
   const parts=[imgAfter,imgBefore,divider,handle,lblBefore,lblAfter];
@@ -1336,14 +1398,17 @@ function updateBaSlider(){
   if(beforeWrap)beforeWrap.style.display=ready?'block':'none';
   if(!ready)return;
 
+
   // Set images
   if(imgAfter&&imgAfter.src!==baAfter.imgSrc){imgAfter.src=baAfter.imgSrc;imgAfter.classList.remove('loaded');imgAfter.onload=()=>imgAfter.classList.add('loaded');}
   if(imgBefore&&imgBefore.src!==baBefore.imgSrc){imgBefore.src=baBefore.imgSrc;imgBefore.classList.remove('loaded');imgBefore.onload=()=>imgBefore.classList.add('loaded');}
+
 
   // Apply current slider position
   applyBaSlider(baSliderPct);
   initBaSliderDrag();
 }
+
 
 function applyBaSlider(pct){
   baSliderPct=Math.max(2,Math.min(98,pct));
@@ -1355,10 +1420,12 @@ function applyBaSlider(pct){
   if(handle)handle.style.left=baSliderPct+'%';
 }
 
+
 function initBaSliderDrag(){
   const wrap=document.getElementById('baSliderWrap');
   if(!wrap||wrap._baInited)return;
   wrap._baInited=true;
+
 
   function getPct(clientX){
     const rect=wrap.getBoundingClientRect();
@@ -1389,6 +1456,7 @@ function initBaSliderDrag(){
   window.addEventListener('mouseup',()=>{baDragging=false;});
 }
 
+
 /* ─── HOME SCREEN ─── */
 let hdActiveFilter='all';
 let hdFeaturedOrder=null;
@@ -1401,6 +1469,7 @@ function loadHomeScreen(){
     hdFeaturedOrder=cuts.map(c=>c.id);
   }
 
+
   renderHdFilterChips();
   renderHdFeaturedCards();
   renderHdTrendChart();
@@ -1411,6 +1480,7 @@ function loadHomeScreen(){
   requestAnimationFrame(()=>{ updateFeaturedAutoScroll(); });
   setTimeout(()=>{ updateFeaturedAutoScroll(); }, 350);
 }
+
 
 function renderHdFilterChips(){
   const bar=document.getElementById('hdFilterChips');
@@ -1432,6 +1502,7 @@ function renderHdFilterChips(){
   va.onclick=()=>switchTab('explore');
   bar.appendChild(va);
 }
+
 
 function renderHdFeaturedCards(){
   const scroll=document.getElementById('hdFeaturedScroll');
@@ -1477,10 +1548,12 @@ function renderHdFeaturedCards(){
   });
 }
 
+
 function renderHdTrendChart(){
   const container=document.getElementById('hdTrendChart');
   if(!container)return;
   container.innerHTML='';
+
 
   const h=getHistory();
   const months=getLast6Months();
@@ -1489,16 +1562,19 @@ function renderHdTrendChart(){
   const thisMonthCount=trendData[trendData.length-1];
   const total=h.length;
 
+
   // Outer card — same class as metrics screen
   const card=document.createElement('div');
   card.className='m-chart-card tappable';
   card.style.cssText='margin:0;cursor:pointer;';
   card.onclick=()=>openDrill('trend');
 
+
   // SVG line chart — exact same approach as renderMetricsScreen
   const W=290,H=70;
   const pts=trendData.map((v,i)=>`${Math.round(i*(W/(trendData.length-1||1)))},${Math.round(H-v/maxT*H)}`);
   const areaPath=`M${pts.join('L')} L${W},${H} L0,${H} Z`;
+
 
   // Build dot+label elements — start circles at bottom (cy=H) then animate up
   const dotEls=trendData.map((v,i)=>{
@@ -1508,9 +1584,11 @@ function renderHdTrendChart(){
             <text class="hd-trend-val" x="${cx}" y="${H}" text-anchor="middle" font-size="9" fill="var(--text2)" opacity="0" data-target-y="${targetCy-8}" data-label="${v||''}">${v||''}</text>`;
   }).join('');
 
+
   // Path starts flat at bottom, animates to real shape
   const flatPts=trendData.map((_,i)=>`${Math.round(i*(W/(trendData.length-1||1)))},${H}`).join('L');
   const flatArea=`M${flatPts} L${W},${H} L0,${H} Z`;
+
 
   card.innerHTML=`
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
@@ -1548,7 +1626,9 @@ function renderHdTrendChart(){
     </div>
   `;
 
+
   container.appendChild(card);
+
 
   // Animate — same easing as metrics screen
   requestAnimationFrame(()=>{
@@ -1557,6 +1637,7 @@ function renderHdTrendChart(){
     animN(document.getElementById('hdTrendTotal'),total);
     animN(document.getElementById('hdTrendThisMonth'),thisMonthCount);
 
+
     // SVG path animation — transition from flat to real shape
     const svg=document.getElementById('hdTrendSvg');
     if(!svg)return;
@@ -1564,6 +1645,7 @@ function renderHdTrendChart(){
     const areaPathEl=svg.querySelector('#hdTrendArea');
     const dots=svg.querySelectorAll('.hd-trend-dot');
     const vals=svg.querySelectorAll('.hd-trend-val');
+
 
     // Small delay so transition is visible
     setTimeout(()=>{
@@ -1597,6 +1679,7 @@ function renderHdTrendChart(){
   });
 }
 
+
 /* ─── NAV ─── */
 function switchTab(tab){
   ['Home','Explore','People','Search','Settings'].forEach(t=>{
@@ -1620,13 +1703,17 @@ function go(sid){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(sid).classList.add('active');
 
+
   // Hide bottom nav on screens where it should not appear
   const hideOn = new Set(['s0','s12','s8','s9','s13','s3','s4','s17']);
   const nav = document.querySelector('.bottom-nav');
   if(nav) nav.style.display = hideOn.has(sid) ? 'none' : 'flex';
 
+
   window.scrollTo(0,0);
 }
+
+
 
 
 /* ─── SEGMENTS ─── */
@@ -1634,6 +1721,7 @@ let activeSeg='clients',touchStartX=0,touchEndX=0;
 const segOrder=['clients','models'];
 function switchSeg(seg){activeSeg=seg;['clients','models'].forEach(s=>{document.getElementById('seg'+s.charAt(0).toUpperCase()+s.slice(1)).classList.toggle('active',s===seg);});document.getElementById('paneClients').classList.toggle('active',seg==='clients');document.getElementById('paneModels').classList.toggle('active',seg==='models');if(document.getElementById('clientSearch'))document.getElementById('clientSearch').value='';if(document.getElementById('modelSearch'))document.getElementById('modelSearch').value='';if(seg==='clients')loadPersonList('client');else if(seg==='models')loadPersonList('model');}
 function handleSwipeInPeopleScreen(){const ps=document.getElementById('s5');if(!ps||!ps.classList.contains('active'))return;const delta=touchEndX-touchStartX;if(Math.abs(delta)<50)return;const ci=segOrder.indexOf(activeSeg);if(delta>0&&ci>0)switchSeg(segOrder[ci-1]);else if(delta<0&&ci<segOrder.length-1)switchSeg(segOrder[ci+1]);}
+
 
 /* ─── PEOPLE ─── */
 function loadPeopleScreen(){switchSeg(activeSeg);}
@@ -1648,13 +1736,16 @@ function filterPersonList(type){const searchId=type==='client'?'clientSearch':'m
 function openPersonDetail(name,type){const h=getHistory();const cuts_=h.filter(item=>item.type===type&&item.personName&&item.personName.trim().toLowerCase()===name.trim().toLowerCase());document.getElementById('personDetailTitle').textContent=name;const typeEl=document.getElementById('personDetailType');typeEl.textContent=type.charAt(0).toUpperCase()+type.slice(1);typeEl.className='person-detail-type '+type;const bodyEl=document.getElementById('personDetailBody');bodyEl.innerHTML='';if(!cuts_.length){bodyEl.innerHTML='<div class="person-detail-empty">No cuts found for this person.</div>';}else{cuts_.forEach(item=>{const card=document.createElement('div');card.className='person-cut-card';card.onclick=()=>{fv=item.fade||'Mid';tv=item.top||'Neat';fromPeople=true;openCut(item.id,true);closePersonDetail();};const img=document.createElement('img');img.className='person-cut-thumb';img.src=item.img||'';img.alt=item.name;img.onload=()=>img.classList.add('loaded');img.onerror=()=>{img.style.opacity='0.1';};const info=document.createElement('div');info.className='person-cut-info';info.innerHTML=`<div class="person-cut-name">${item.name}</div><div class="person-cut-opts">${item.fade||'Mid'} fade · ${item.top||'Neat'} top</div>${item.personDesc?`<div class="person-cut-desc">${item.personDesc}</div>`:''}<div class="person-cut-date">${formatDate(item.date)}</div>`;card.appendChild(img);card.appendChild(info);bodyEl.appendChild(card);});}if(type==='model'){renderModelProfileSection(bodyEl,name);}document.getElementById('personDetailSheet').classList.add('open');}
 function closePersonDetail(){document.getElementById('personDetailSheet').classList.remove('open');}
 
+
 /* ─── SAVED CUT ─── */
 function saveLockedCut(type,personName,personDesc){if(!cur)return;localStorage.setItem(STORAGE_KEY,JSON.stringify({id:cur.id,fv,tv,type:type||'freestyle',personName:personName||'',personDesc:personDesc||''}));}
 function loadSavedCut(){const raw=localStorage.getItem(STORAGE_KEY),emptyEl=document.getElementById('savedEmpty'),cardEl=document.getElementById('savedCard');if(!raw){emptyEl.style.display='block';cardEl.style.display='none';return;}try{const saved=JSON.parse(raw),cut=cuts.find(c=>c.id===saved.id);if(!cut){emptyEl.style.display='block';cardEl.style.display='none';return;}emptyEl.style.display='none';cardEl.style.display='block';loadImg(document.getElementById('savedImg'),getImgs(cut)[0].src,cut.name);document.getElementById('savedName').textContent=cut.name;const typeLabel=saved.type&&saved.type!=='freestyle'?` · ${saved.type.charAt(0).toUpperCase()+saved.type.slice(1)}${saved.personName?' ('+saved.personName+')':''}`:'';;document.getElementById('savedOpts').textContent=(saved.fv||'Mid')+' fade · '+(saved.tv||'Neat')+' top'+typeLabel;document.getElementById('savedDesc').textContent=saved.personDesc||cut.desc;cur=cut;}catch(e){emptyEl.style.display='block';cardEl.style.display='none';}}
 function openSavedCut(){const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return;try{const s=JSON.parse(raw);fv=s.fv||'Mid';tv=s.tv||'Neat';fromPeople=true;openCut(s.id,true);}catch(e){}}
 
+
 /* ─── SEARCH ─── */
 function runSearch(){const query=(document.getElementById('searchInput').value||'').trim().toLowerCase();const results=document.getElementById('searchResults');results.innerHTML='';if(!query){results.innerHTML='<div class="detail-desc">Start typing to search haircut styles and categories.</div>';return;}const matches=cuts.filter(c=>{const catName=(cats.find(cat=>cat.id===c.cat)||{}).name||'';return c.name.toLowerCase().includes(query)||c.tags.join(' ').toLowerCase().includes(query)||catName.toLowerCase().includes(query);});if(!matches.length){results.innerHTML='<div class="detail-desc">No results found.</div>';return;}matches.forEach(c=>{const card=document.createElement('div');card.className='search-card';card.onclick=()=>openCut(c.id);const img=document.createElement('img');loadImg(img,getImgs(c)[0].src,c.name);const body=document.createElement('div');body.className='search-card-body';body.innerHTML='<div class="search-card-title">'+c.name+'</div><div class="search-card-meta">'+(c.tags.filter(Boolean).join(', ')||'Haircut')+'</div>';card.appendChild(img);card.appendChild(body);results.appendChild(card);});}
+
 
 /* ─── CATEGORIES ─── */
 function buildCats(){const g=document.getElementById('catGrid');g.classList.toggle('list-view',isListView);const fc=selectedHairType==='all'?cuts:cuts.filter(c=>c.hairType===selectedHairType);g.innerHTML='';const vc=cats.filter(c=>selectedHairType==='all'||fc.some(x=>x.cat===c.id));if(!vc.length){g.innerHTML='<div class="detail-desc" style="padding:16px;">No styles found for this hair type.</div>';return;}vc.forEach(c=>{const count=fc.filter(x=>x.cat===c.id).length;const card=document.createElement('div');card.className='cat-card';card.onclick=()=>openCat(c.id,c.name);const img=document.createElement('img');img.src=c.img;img.alt=c.name;img.onload=()=>img.classList.add('loaded');img.onerror=()=>{const fb=fc.find(x=>x.cat===c.id),fs=fb?getImgs(fb)[0].src:'';if(fs&&img.src!==fs)img.src=fs;else img.style.opacity='0.15';};const ov=document.createElement('div');ov.className='cat-card-overlay';ov.innerHTML='<div class="cat-card-name">'+c.name+'</div><div class="cat-card-count">'+count+' style'+(count!==1?'s':'')+'</div>';card.appendChild(img);card.appendChild(ov);g.appendChild(card);});}
@@ -1668,6 +1759,7 @@ function pick(el,type){const row=type==='fade'?'fadeRow':'topRow';document.query
 function updateConfirm(){const cOptsEl=document.getElementById('cOpts');if(cOptsEl)cOptsEl.textContent=fv+' fade · '+tv+' top';}
 function shareCutToWhatsApp(){if(!cur)return;const fi=getImgs(cur)[0].src;const text='Check out this haircut: '+cur.name+'\n'+cur.desc+'\n'+window.location.origin+window.location.pathname+'\nImage: '+new URL(fi,window.location.href).href;window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');}
 function restoreLockedCut(){const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return;try{const s=JSON.parse(raw),cut=cuts.find(c=>c.id===s.id);if(!cut)return;cur=cut;fv=s.fv||'Mid';tv=s.tv||'Neat';}catch(e){}}
+
 
 /* ═══════════════════════════════════
    METRICS
@@ -1686,7 +1778,9 @@ function getMetricsSettings(){
 }
 function saveMetricsSettings(s){localStorage.setItem(METRICS_SETTINGS_KEY,JSON.stringify(s));}
 
+
 let _msFromScreen='s7'; // track which screen opened settings to route back correctly
+
 
 function openMetricsSettings(){
   _msFromScreen=document.querySelector('.screen.active')?document.querySelector('.screen.active').id:'s7';
@@ -1754,6 +1848,7 @@ function getLast6Months(){
 function openMetrics(){renderMetricsScreen();go('s9');setTimeout(()=>startMetricsWalkthrough(),800);}
 function renderMetricsScreen(){const h=getHistory(),body=document.getElementById('metricsBody');body.innerHTML='';const months=getLast6Months();const clientsH=h.filter(x=>x.type==='client'),modelsH=h.filter(x=>x.type==='model'),named=[...clientsH,...modelsH];const uniqueNames=new Set(named.filter(x=>x.personName).map(x=>x.personName.trim().toLowerCase()));body.innerHTML+=`<div class="stat-grid"><div class="stat-card"><div class="stat-icon"><i class="ti ti-scissors"></i></div><div class="stat-label">Total locks</div><div class="stat-value anim-stat" data-target="${h.length}">0</div><div class="stat-sub">all time</div></div><div class="stat-card"><div class="stat-icon"><i class="ti ti-users"></i></div><div class="stat-label">Unique people</div><div class="stat-value anim-stat" data-target="${uniqueNames.size}">0</div><div class="stat-sub">clients &amp; models</div></div><div class="stat-card"><div class="stat-icon"><i class="ti ti-user"></i></div><div class="stat-label">Clients</div><div class="stat-value anim-stat" data-target="${clientsH.length}">0</div><div class="stat-sub">named sessions</div></div><div class="stat-card"><div class="stat-icon"><i class="ti ti-star"></i></div><div class="stat-label">Models</div><div class="stat-value anim-stat" data-target="${modelsH.length}">0</div><div class="stat-sub">named sessions</div></div></div>`;const lockCount={};h.forEach(x=>{lockCount[x.name]=(lockCount[x.name]||0)+1;});const sortedCuts=Object.entries(lockCount).sort((a,b)=>b[1]-a[1]).slice(0,5);const maxLock=sortedCuts[0]?sortedCuts[0][1]:1;body.innerHTML+=`<div class="m-section-header"><i class="ti ti-trophy" style="font-size:13px;color:var(--text3)"></i><div class="m-section-title">Most locked cut</div></div><div class="m-chart-card tappable" onclick="openDrill('top-cuts')" style="margin-bottom:14px;">${sortedCuts.length?sortedCuts.map(([name,count],i)=>`<div class="m-bar-row"><div class="m-rank-num" style="${i===0?'color:var(--text)':'color:var(--text3)'}">${i+1}</div><div class="m-bar-label">${name}</div><div class="m-bar-track"><div class="m-bar-fill" data-width="${Math.round(count/maxLock*100)}%" style="width:0;background:${NEUTRAL_BARS[i]};"></div></div><div class="m-bar-count" data-count="${count}">0</div></div>`).join(''):'<div class="m-empty"><i class="ti ti-trophy"></i><p>No locks yet</p></div>'}<div class="m-tap-hint"><i class="ti ti-arrow-right"></i> See full ranking</div></div>`;const typeCount={straight:0,curly:0,wavy:0,textured:0};h.forEach(x=>{const t=HAIR_TYPES_MAP[x.id];if(t&&typeCount[t]!==undefined)typeCount[t]++;});const typeTotal=Object.values(typeCount).reduce((a,b)=>a+b,0)||1;const typeLabelsMap={straight:'Straight',curly:'Curly',wavy:'Wavy',textured:'Textured'};const typeEntries=Object.entries(typeCount).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);const R=28,cx=40,cy=40,circ=2*Math.PI*R;let offset=0;const segments=typeEntries.map(([type,count],i)=>{const pct=count/typeTotal,dash=pct*circ,gap=circ-dash,fo=(-offset*circ+circ/4).toFixed(2);const strokeColor=DONUT_STROKES[i]||DONUT_STROKES[DONUT_STROKES.length-1];const seg=`<circle class="anim-donut" cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${strokeColor}" stroke-width="10" stroke-dasharray="${dash.toFixed(2)} ${gap.toFixed(2)}" stroke-dashoffset="${circ.toFixed(2)}" data-final-offset="${fo}" transform="rotate(-90 ${cx} ${cy})"/>`;offset+=pct;return seg;}).join('');body.innerHTML+=`<div class="m-section-header"><i class="ti ti-chart-donut" style="font-size:13px;color:var(--text3)"></i><div class="m-section-title">Most selected haircut types</div></div><div class="m-chart-card tappable" onclick="openDrill('hair-types')" style="margin-bottom:14px;"><div class="m-donut-wrap"><svg class="m-donut-svg" viewBox="0 0 80 80"><circle cx="40" cy="40" r="28" fill="none" stroke="var(--bg3)" stroke-width="10"/>${segments}</svg><div class="m-donut-legend">${typeEntries.map(([type,count],i)=>`<div class="m-donut-leg-row"><div class="m-donut-leg-dot" style="background:${DONUT_STROKES[i]||DONUT_STROKES[DONUT_STROKES.length-1]}"></div><div class="m-donut-leg-label">${typeLabelsMap[type]}</div><div class="m-donut-leg-val">${Math.round(count/typeTotal*100)}%</div></div>`).join('')||'<div style="font-size:12px;color:var(--text3)">No data yet</div>'}</div></div><div class="m-tap-hint"><i class="ti ti-arrow-right"></i> See sessions by type</div></div>`;const trendData=months.map(m=>h.filter(x=>itemMonthKey(x)===m.key).length);const maxT=Math.max(...trendData,1);const W=290,H=70;const pts=trendData.map((v,i)=>`${Math.round(i*(W/(trendData.length-1||1)))},${Math.round(H-v/maxT*H)}`);const areaPath=`M${pts.join('L')} L${W},${H} L0,${H} Z`;body.innerHTML+=`<div class="m-section-header"><i class="ti ti-trending-up" style="font-size:13px;color:var(--text3)"></i><div class="m-section-title">Lock trend over time</div><span class="m-section-chip">last 6 months</span></div><div class="m-chart-card tappable" onclick="openDrill('trend')" style="margin-bottom:14px;"><svg viewBox="0 0 ${W} 80" style="width:100%;height:80px;"><defs><linearGradient id="mtg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="var(--text)" stop-opacity="0.18"/><stop offset="100%" stop-color="var(--text)" stop-opacity="0"/></linearGradient></defs><path d="M${pts.join('L')}" fill="none" stroke="var(--text2)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><path d="${areaPath}" fill="url(#mtg)"/>${trendData.map((v,i)=>`<circle cx="${Math.round(i*(W/(trendData.length-1||1)))}" cy="${Math.round(H-v/maxT*H)}" r="3" fill="var(--text)"/><text x="${Math.round(i*(W/(trendData.length-1||1)))}" y="${Math.round(H-v/maxT*H)-8}" text-anchor="middle" font-size="9" fill="var(--text2)">${v||''}</text>`).join('')}</svg><div style="display:flex;gap:4px;margin-top:6px;">${months.map(m=>`<div style="flex:1;text-align:center;font-size:9px;color:var(--text3);">${m.label}</div>`).join('')}</div><div class="m-tap-hint"><i class="ti ti-arrow-right"></i> See sessions by month</div></div>`;const typeMonthData=months.map(m=>({label:m.label,key:m.key,client:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='client').length,model:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='model').length,freestyle:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='freestyle').length}));const maxStack=Math.max(...typeMonthData.map(m=>m.client+m.model+m.freestyle),1);body.innerHTML+=`<div class="m-section-header"><i class="ti ti-calendar-plus" style="font-size:13px;color:var(--text3)"></i><div class="m-section-title">Locks per month by type</div></div><div class="m-chart-card tappable" onclick="openDrill('by-type-month')" style="margin-bottom:14px;"><div class="m-pill-legend"><div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_CLIENT}"></div>Client</div><div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_MODEL}"></div>Model</div><div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_FREESTYLE}"></div>Freestyle</div></div><div style="display:flex;gap:6px;align-items:flex-end;height:60px;margin-bottom:4px;">${typeMonthData.map(m=>{const cH=Math.round(m.client/maxStack*60),mH=Math.round(m.model/maxStack*60),fH=Math.round(m.freestyle/maxStack*60);return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;">${m.client?`<div class="m-stack-fill" data-height="${cH}" style="width:100%;height:0;background:${STACK_CLIENT};border-radius:2px 2px 0 0;"></div>`:''}${m.model?`<div class="m-stack-fill" data-height="${mH}" style="width:100%;height:0;background:${STACK_MODEL};"></div>`:''}${m.freestyle?`<div class="m-stack-fill" data-height="${fH}" style="width:100%;height:0;background:${STACK_FREESTYLE};"></div>`:''}${!m.client&&!m.model&&!m.freestyle?`<div style="width:100%;height:3px;background:var(--bg3);border-radius:2px;margin-top:auto;"></div>`:''}</div>`;}).join('')}</div><div style="display:flex;gap:6px;">${typeMonthData.map(m=>`<div style="flex:1;text-align:center;font-size:9px;color:var(--text3);">${m.label}</div>`).join('')}</div><div class="m-tap-hint"><i class="ti ti-arrow-right"></i> See breakdown</div></div>`;const cmData=months.map(m=>({label:m.label,key:m.key,client:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='client').length,model:h.filter(x=>itemMonthKey(x)===m.key&&x.type==='model').length}));const maxCM=Math.max(...cmData.map(m=>Math.max(m.client,m.model)),1);body.innerHTML+=`<div class="m-section-header"><i class="ti ti-photo" style="font-size:13px;color:var(--text3)"></i><div class="m-section-title">Client &amp; model cuts per month</div></div><div class="m-chart-card tappable" onclick="openDrill('client-model-month')" style="margin-bottom:32px;"><div class="m-pill-legend"><div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_CLIENT}"></div>Client</div><div class="m-pill-item"><div class="m-pill-dot" style="background:${STACK_MODEL}"></div>Model</div></div><div style="display:flex;gap:4px;align-items:flex-end;height:60px;margin-bottom:4px;">${cmData.map(m=>`<div style="flex:1;display:flex;gap:2px;align-items:flex-end;"><div class="m-stack-fill" data-height="${Math.max(2,Math.round(m.client/maxCM*60))}" style="flex:1;height:0;background:${STACK_CLIENT};border-radius:3px 3px 0 0;"></div><div class="m-stack-fill" data-height="${Math.max(2,Math.round(m.model/maxCM*60))}" style="flex:1;height:0;background:${STACK_MODEL};border-radius:3px 3px 0 0;"></div></div>`).join('')}</div><div style="display:flex;gap:4px;">${cmData.map(m=>`<div style="flex:1;text-align:center;font-size:9px;color:var(--text3);">${m.label}</div>`).join('')}</div><div class="m-tap-hint"><i class="ti ti-arrow-right"></i> See sessions</div></div>`;requestAnimationFrame(()=>animateMetricsScreen());}
 
+
 const METRICS_WALKTHROUGH_STEPS=[{selector:'.stat-grid',title:'Summary Statistics',desc:'Quick overview of your total locks, unique people, clients, and models.'},{selector:'.m-section-header:nth-of-type(1)',title:'Most Locked Cut',desc:'View which haircuts you lock in most frequently.'},{selector:'.m-section-header:nth-of-type(2)',title:'Haircut Types',desc:'Distribution of haircut types across all your locks.'},{selector:'.m-section-header:nth-of-type(3)',title:'Lock Trends',desc:'Track your locking activity over the last 6 months.'},{selector:'.m-section-header:nth-of-type(4)',title:'Monthly Breakdown',desc:'See how your locks are distributed by type each month.'},{selector:'.m-section-header:nth-of-type(5)',title:'Most Viewed',desc:'Discover which haircuts get the most attention.'},{selector:'.m-section-header:nth-of-type(6)',title:'Client vs Model',desc:'Compare client cuts to model cuts by month.'},];
 function startMetricsWalkthrough(){if(!document.getElementById('s9').classList.contains('active'))return;metricsWalkthroughActive=true;metricsWalkthroughStep=0;createTooltipOverlay();showTooltipStep();}
 function createTooltipOverlay(){if(!document.getElementById('tooltip-overlay')){const overlay=document.createElement('div');overlay.id='tooltip-overlay';overlay.className='tooltip-overlay active';overlay.onclick=skipMetricsWalkthrough;document.body.appendChild(overlay);const box=document.createElement('div');box.id='tooltip-box';box.className='tooltip-box';document.body.appendChild(box);}}
@@ -1763,6 +1858,7 @@ function nextMetricsWalkthroughStep(){metricsWalkthroughStep++;showTooltipStep()
 function skipMetricsWalkthrough(){endMetricsWalkthrough();}
 function endMetricsWalkthrough(){metricsWalkthroughActive=false;const overlay=document.getElementById('tooltip-overlay');if(overlay)overlay.remove();const box=document.getElementById('tooltip-box');if(box)box.remove();const highlight=document.querySelector('.tooltip-highlight');if(highlight)highlight.remove();}
 function animateMetricsScreen(){const animN=(el,target,dur=700)=>{let start=null;const step=ts=>{if(start===null)start=ts;const p=Math.min(1,(ts-start)/dur);el.textContent=Math.round(target*p);if(p<1)requestAnimationFrame(step);};requestAnimationFrame(step);};document.querySelectorAll('.anim-stat').forEach(el=>animN(el,Number(el.dataset.target)));document.querySelectorAll('.m-bar-fill[data-width]').forEach(el=>el.style.width=el.dataset.width);document.querySelectorAll('.m-stack-fill[data-height]').forEach(el=>el.style.height=el.dataset.height+'px');document.querySelectorAll('.m-donut-svg circle.anim-donut').forEach(el=>el.style.strokeDashoffset=el.dataset.finalOffset);document.querySelectorAll('.m-bar-count[data-count]').forEach(el=>animN(el,Number(el.dataset.count),450));}
+
 
 /* ═══════════════════════════════════ DRILL-DOWN ═══════════════════════════════════ */
 let drillFilter={month:null,type:null};
@@ -1792,6 +1888,7 @@ function openDrillTypeDetail(type){const typeLabels={client:'Client Sessions',mo
 function openDrillCutDetail(name,cutId){document.getElementById('drillTitle').textContent=name;document.getElementById('drillBackBtn').onclick=()=>openDrill('top-cuts');const h=getHistory().filter(x=>x.name===name);const body=document.getElementById('drillBody');body.innerHTML='';const clientCount=h.filter(x=>x.type==='client').length,modelCount=h.filter(x=>x.type==='model').length;body.innerHTML+=`<div class="drill-summary"><div class="drill-stat"><div class="drill-stat-label">Total</div><div class="drill-stat-value">${h.length}</div></div><div class="drill-stat"><div class="drill-stat-label">Client</div><div class="drill-stat-value">${clientCount}</div></div><div class="drill-stat"><div class="drill-stat-label">Model</div><div class="drill-stat-value">${modelCount}</div></div></div>`;const grouped={};h.forEach(item=>{const mk=itemMonthKey(item);if(!grouped[mk])grouped[mk]=[];grouped[mk].push(item);});Object.keys(grouped).sort((a,b)=>b.localeCompare(a)).forEach(mk=>{const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});body.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));body.appendChild(section);});const viewBtn=document.createElement('button');viewBtn.className='lock-btn';viewBtn.style.marginTop='16px';viewBtn.innerHTML='<i class="ti ti-eye"></i> View this cut';viewBtn.onclick=()=>{const c=cuts.find(x=>x.id===cutId);if(c)openCut(c.id);};body.appendChild(viewBtn);}
 function buildDrillSessionRow(item){const row=document.createElement('div');row.className='drill-session';const thumb=document.createElement('img');thumb.className='drill-session-thumb';thumb.src=item.img||'';thumb.alt=item.name;thumb.onload=()=>thumb.classList.add('loaded');thumb.onerror=()=>{thumb.style.opacity='0.1';};const info=document.createElement('div');info.className='drill-session-info';const typeLabels={client:'Client',model:'Model',freestyle:'Freestyle'};const personLine=item.personName?`<div class="drill-session-person">${typeLabels[item.type]||''} · ${item.personName}</div>`:`<div class="drill-session-person" style="color:var(--text3)">${typeLabels[item.type]||'Freestyle'}</div>`;info.innerHTML=`<div class="drill-session-name">${item.name}</div><div class="drill-session-opts">${item.fade||'Mid'} fade · ${item.top||'Neat'} top</div>${personLine}${item.personDesc?`<div class="drill-session-date" style="color:var(--text2);font-size:11px;">${item.personDesc}</div>`:''}<div class="drill-session-date">${formatDate(item.date)}</div>`;const go_btn=document.createElement('div');go_btn.className='drill-session-go';go_btn.textContent='View';go_btn.onclick=()=>{fv=item.fade||'Mid';tv=item.top||'Neat';openCut(item.id,true);};row.appendChild(thumb);row.appendChild(info);row.appendChild(go_btn);return row;}
 
+
 async function sbLoad(){
   try{
     const c=JSON.parse(localStorage.getItem('sbConfig')||'{}');
@@ -1799,6 +1896,7 @@ async function sbLoad(){
       _sb={url:c.url,key:c.key,connected:true};
     }
   }catch(e){}
+
 
   // If we have saved Supabase credentials, load cuts now so uploaded haircuts
   // are available immediately after a refresh (was previously only loaded
@@ -1808,18 +1906,22 @@ async function sbLoad(){
     try{buildCats();}catch(e){}
   }
 
+
   updateSupabaseStatusLabel();
 }
+
 
 function updateSupabaseStatusLabel(){
   const el=document.getElementById('supabaseStatusLabel');
   if(el)el.textContent=_sb.connected?'Connected · Tap to manage images':'Connect Supabase to manage images';
 }
 
+
 function openManageHaircuts(){
   if(!_sb.connected){go('s16');syncSbSetupUI();}
   else{go('s17');loadMhLibrary();}
 }
+
 
 function syncSbSetupUI(){
   const urlEl=document.getElementById('sbUrl');
@@ -1839,6 +1941,7 @@ function syncSbSetupUI(){
     } else {banner.style.display='none';}
   }
 }
+
 
 async function supabaseConnect(){
   const url=(document.getElementById('sbUrl').value||'').trim().replace(/\/$/, '');
@@ -1884,6 +1987,7 @@ async function supabaseConnect(){
   btn.innerHTML='<i class="ti ti-plug"></i> Connect';
 }
 
+
 function showSbBanner(type,msg){
   const banner=document.getElementById('sbStatusBanner');
   if(!banner)return;
@@ -1892,6 +1996,7 @@ function showSbBanner(type,msg){
   banner.innerHTML=`<i class="ti ${icon}"></i> ${msg}`;
   banner.style.display='flex';
 }
+
 
 function supabaseDisconnect(){
   if(!confirm('Disconnect from Supabase? Your uploaded haircuts stay in Supabase.'))return;
@@ -1902,10 +2007,12 @@ function supabaseDisconnect(){
   mhToast('Disconnected from Supabase');
 }
 
+
 async function sbFetch(path,opts={}){
   const res=await fetch(`${_sb.url}/rest/v1/${path}`,{...opts,mode:'cors',headers:{...opts.headers,'apikey':_sb.key,'Authorization':'Bearer '+_sb.key,'Content-Type':'application/json','Accept':'application/json'}});
   return res;
 }
+
 
 async function sbStorageUpload(bucket,path,file){
   const res=await fetch(`${_sb.url}/storage/v1/object/${bucket}/${path}`,{method:'POST',mode:'cors',headers:{'apikey':_sb.key,'Authorization':'Bearer '+_sb.key,'Content-Type':file.type,'x-upsert':'true'},body:file});
@@ -1913,13 +2020,18 @@ async function sbStorageUpload(bucket,path,file){
   return `${_sb.url}/storage/v1/object/public/${bucket}/${path}`;
 }
 
+
 function sbPublicUrl(bucket,path){
   return `${_sb.url}/storage/v1/object/public/${bucket}/${path}`;
 }
 
+
 let _sb={url:'',key:'',connected:false};
 let _sbCuts=[];
 let _mhFiles=[];
+let _mhBeforeFile=null;
+let _mhAfterFile=null;
+const _mhEditBAFiles={};
 let _mhLibFilter='all';
 let _mhCropIndex=null;
 let _mhCropImage=null;
@@ -1928,10 +2040,35 @@ let _mhCropOffset={x:0,y:0};
 let _mhCropDragging=false;
 let _mhCropLast={x:0,y:0};
 
+
+function mhHandleBAFile(slot, input){
+  const file=input.files[0];
+  if(!file)return;
+  const label=document.getElementById(slot==='before'?'mhBeforeLabel':'mhAfterLabel');
+  const zone=document.getElementById(slot==='before'?'mhBeforeZone':'mhAfterZone');
+  if(slot==='before'){_mhBeforeFile=file;}else{_mhAfterFile=file;}
+  if(label)label.textContent=file.name.length>28?file.name.slice(0,26)+'…':file.name;
+  if(zone)zone.style.borderColor='var(--opt-on-border)';
+}
+
+
+function mhHandleEditBAFile(id,slot,input){
+  const file=input.files[0];
+  if(!file)return;
+  if(!_mhEditBAFiles[id])_mhEditBAFiles[id]={};
+  _mhEditBAFiles[id][slot]=file;
+  const labelEl=document.getElementById(`mhE${slot==='before'?'Before':'After'}Label_${id}`);
+  const zoneEl=document.getElementById(`mhE${slot==='before'?'Before':'After'}Zone_${id}`);
+  if(labelEl)labelEl.textContent=file.name.length>28?file.name.slice(0,26)+'…':file.name;
+  if(zoneEl)zoneEl.style.borderColor='var(--opt-on-border)';
+}
+
+
 function mhHandleFiles(files){
   Array.from(files).forEach(f=>{if(!f.type.startsWith('image/'))return;const reader=new FileReader();reader.onload=e=>_mhFiles.push({file:f,preview:e.target.result,label:_mhFiles.length===0?'Hero':('Angle '+ _mhFiles.length)});reader.readAsDataURL(f);});
   setTimeout(()=>renderMhPreviews(),300);
 }
+
 
 function renderMhPreviews(){
   const strip=document.getElementById('mhPreviewStrip');
@@ -1943,6 +2080,7 @@ function renderMhPreviews(){
   strip.innerHTML='';
   _mhFiles.forEach((f,i)=>{const wrap=document.createElement('div');wrap.className='mh-preview-thumb';const img=document.createElement('img');img.src=f.preview;img.style.width='100%';img.style.height='100%';img.style.objectFit='cover';const badge=document.createElement('div');badge.className='mh-angle-badge';badge.textContent=i===0?'Hero':'Angle '+i;const crop=document.createElement('button');crop.className='mh-crop-btn';crop.innerHTML='<i class="ti ti-crop"></i>';crop.title='Crop image';crop.onclick=e=>{e.stopPropagation();openMhCrop(i);};const rm=document.createElement('button');rm.className='mh-remove-img';rm.innerHTML='<i class="ti ti-x"></i>';rm.onclick=()=>{_mhFiles.splice(i,1);renderMhPreviews();};wrap.appendChild(img);wrap.appendChild(badge);wrap.appendChild(crop);wrap.appendChild(rm);strip.appendChild(wrap);});
 }
+
 
 function openMhCrop(index){
   const modal=document.getElementById('mhCropModal');
@@ -1964,11 +2102,13 @@ function openMhCrop(index){
   _mhCropImage.src=_mhFiles[index].preview;
 }
 
+
 function closeMhCrop(){
   const modal=document.getElementById('mhCropModal');
   if(modal)modal.classList.remove('active');
   _mhCropDragging=false;
 }
+
 
 function bindMhCropEvents(){
   const canvas=document.getElementById('mhCropCanvas');
@@ -1978,6 +2118,7 @@ function bindMhCropEvents(){
   canvas.onpointerup=canvas.onpointerleave=()=>{_mhCropDragging=false;};
   canvas.onwheel=e=>{e.preventDefault();mhCropZoom(e.deltaY>0?-0.05:0.05);};
 }
+
 
 function renderMhCrop(){
   const canvas=document.getElementById('mhCropCanvas');
@@ -1993,6 +2134,7 @@ function renderMhCrop(){
   ctx.drawImage(_mhCropImage,_mhCropOffset.x,_mhCropOffset.y,w,h);
 }
 
+
 function mhCropZoom(delta){
   const canvas=document.getElementById('mhCropCanvas');
   if(!canvas||!_mhCropImage)return;
@@ -2005,6 +2147,7 @@ function mhCropZoom(delta){
   renderMhCrop();
 }
 
+
 function mhCropReset(){
   const canvas=document.getElementById('mhCropCanvas');
   if(!canvas||!_mhCropImage)return;
@@ -2013,6 +2156,7 @@ function mhCropReset(){
   _mhCropOffset={x:(canvas.width-_mhCropImage.naturalWidth*_mhCropScale)/2,y:(canvas.height-_mhCropImage.naturalHeight*_mhCropScale)/2};
   renderMhCrop();
 }
+
 
 function mhCropSave(){
   const canvas=document.getElementById('mhCropCanvas');
@@ -2041,7 +2185,9 @@ function mhCropSave(){
   },orig.type==='image/png'?'image/png':'image/jpeg',0.92);
 }
 
+
 async function mhSubmit(){
+
 
   const name=(document.getElementById('mhName').value||'').trim();
   const desc=(document.getElementById('mhDesc').value||'').trim();
@@ -2063,7 +2209,10 @@ async function mhSubmit(){
       const url=await sbStorageUpload('haircut-images',path,f.file);
       images.push({src:url,label:i===0?'Front':('Angle '+(i+1))});
     }
-    const payload={name,description:desc,category:cat||'general',hair_type:hairType,tags,images};
+    let before_image=null,after_image=null;
+    if(_mhBeforeFile){const ext=_mhBeforeFile.name.split('.').pop()||'jpg';const p=`${cat||'general'}/${Date.now()}_before.${ext}`;before_image=await sbStorageUpload('haircut-images',p,_mhBeforeFile);}
+    if(_mhAfterFile){const ext=_mhAfterFile.name.split('.').pop()||'jpg';const p=`${cat||'general'}/${Date.now()}_after.${ext}`;after_image=await sbStorageUpload('haircut-images',p,_mhAfterFile);}
+    const payload={name,description:desc,category:cat||'general',hair_type:hairType,tags,images,before_image,after_image};
     const res=await sbFetch('haircuts',{method:'POST',body:JSON.stringify(payload),headers:{'Prefer':'return=minimal'}});
     if(res.ok||res.status===201){
       mhToast('Haircut uploaded!');
@@ -2073,12 +2222,20 @@ async function mhSubmit(){
       document.getElementById('mhTags').value='';
       document.getElementById('mhCategory').value='';
       document.getElementById('mhFileInput').value='';
+      document.getElementById('mhBeforeInput').value='';
+      document.getElementById('mhAfterInput').value='';
+      document.getElementById('mhBeforeLabel').textContent='Tap to select before image';
+      document.getElementById('mhAfterLabel').textContent='Tap to select after image';
+      document.getElementById('mhBeforeZone').style.borderColor='';
+      document.getElementById('mhAfterZone').style.borderColor='';
+      _mhBeforeFile=null;_mhAfterFile=null;
       await loadSbCuts();
       switchMhTab('library');
     } else {const err=await res.text();mhToast('Upload failed: '+err.slice(0,80));}
   }catch(e){mhToast('Error: '+e.message.slice(0,80));}
   btn.disabled=false;btn.innerHTML='<i class="ti ti-upload"></i> Upload Haircut';
 }
+
 
 async function loadMhLibrary(){
   if(!_sb.connected)return;
@@ -2087,20 +2244,23 @@ async function loadMhLibrary(){
   buildMhLibFilter();
 }
 
+
 async function loadSbCuts(){
   if(!_sb.connected)return;
   try{const res=await sbFetch('haircuts?select=*&order=created_at.desc');
     if(res.ok){const data=await res.json();_sbCuts=data;injectSbCutsIntoApp(data);} }catch(e){console.warn('Failed to load Supabase cuts',e);}
 }
 
+
 function injectSbCutsIntoApp(data){
-  const sbAppCuts=data.map(row=>({id:'sb_'+row.id,name:row.name,cat:row.category,hairType:row.hair_type||'straight',tags:row.tags||[],desc:row.description||'',imgs:Array.isArray(row.images)&&row.images.length>1?row.images:undefined,img:Array.isArray(row.images)&&row.images.length?row.images[0].src:''}));
+  const sbAppCuts=data.map(row=>({id:'sb_'+row.id,name:row.name,cat:row.category,hairType:row.hair_type||'straight',tags:row.tags||[],desc:row.description||'',imgs:Array.isArray(row.images)&&row.images.length>1?row.images:undefined,img:Array.isArray(row.images)&&row.images.length?row.images[0].src:'',before_image:row.before_image||null,after_image:row.after_image||null}));
   const baseIdx=cuts.findIndex(c=>String(c.id).startsWith('sb_'));
   if(baseIdx>-1)cuts.splice(baseIdx);
   cuts.push(...sbAppCuts);
   sbAppCuts.forEach(c=>{const catObj=cats.find(ct=>ct.id===c.cat);if(catObj&&!catObj._hasCustomImg){catObj.img=c.img;catObj._hasCustomImg=true;}});
   buildCats();
 }
+
 
 function buildMhLibFilter(){
   const bar=document.getElementById('mhLibFilter');
@@ -2110,6 +2270,7 @@ function buildMhLibFilter(){
   bar.innerHTML='';
   [['all','All'],...Object.entries(catCounts).filter(([k])=>k!=='all').map(([k,v])=>[k,k])].forEach(([key,label])=>{const chip=document.createElement('button');chip.className='mh-lib-chip'+(_mhLibFilter===key?' active':'');chip.textContent=key==='all'?`All (${catCounts.all})`:cats.find(c=>c.id===key)?.name||key;chip.onclick=()=>{_mhLibFilter=key;buildMhLibFilter();renderMhLibrary();};bar.appendChild(chip);});
 }
+
 
 function renderMhLibrary(){
   const container=document.getElementById('mhLibContent');
@@ -2124,6 +2285,7 @@ function renderMhLibrary(){
     card.className='mh-cut-card';
     card.dataset.id=row.id;
 
+
     const img=document.createElement('img');
     img.className='mh-cut-card-img';
     img.referrerPolicy='no-referrer';
@@ -2131,11 +2293,13 @@ function renderMhLibrary(){
     img.onload=()=>img.classList.add('loaded');
     img.onerror=()=>{img.style.opacity='0.1';};
 
+
     const body=document.createElement('div');
     body.className='mh-cut-card-body';
     const catName=cats.find(c=>c.id===row.category)?.name||row.category||'—';
     const tags=(row.tags||[]).filter(Boolean).join(', ');
     body.innerHTML=`<div class="mh-cut-card-name">${row.name}</div><div class="mh-cut-card-meta">${catName} · ${row.hair_type||'—'}${tags?' · '+tags:''}</div>${row.description?`<div class="mh-cut-card-desc">${row.description}</div>`:''}`;
+
 
     if(images.length>1){
       const anglesRow=document.createElement('div');
@@ -2151,29 +2315,35 @@ function renderMhLibrary(){
       body.appendChild(anglesRow);
     }
 
+
     // ── Action buttons ──
     const actions=document.createElement('div');
     actions.className='mh-cut-actions';
+
 
     const editBtn=document.createElement('button');
     editBtn.className='mh-edit-btn';
     editBtn.innerHTML='<i class="ti ti-edit"></i> Edit';
     editBtn.onclick=()=>mhOpenEditForm(card,row);
 
+
     const addAngle=document.createElement('button');
     addAngle.className='mh-add-angle-btn';
     addAngle.innerHTML='<i class="ti ti-photo-plus"></i> Add angle';
     addAngle.onclick=()=>mhAddAngle(row);
+
 
     const delBtn=document.createElement('button');
     delBtn.className='mh-delete-btn';
     delBtn.innerHTML='<i class="ti ti-trash"></i> Delete';
     delBtn.onclick=()=>mhDeleteCut(row);
 
+
     actions.appendChild(editBtn);
     actions.appendChild(addAngle);
     actions.appendChild(delBtn);
     body.appendChild(actions);
+
 
     // ── Inline edit form (hidden by default) ──
     const editForm=document.createElement('div');
@@ -2211,16 +2381,34 @@ function renderMhLibrary(){
         </div>
       </div>
       <div class="mh-field"><label>Tags (comma separated)</label><input id="mhETags_${row.id}" type="text" value="${escHtml((row.tags||[]).join(', '))}"></div>
+      <div class="mh-field" style="margin-top:6px;">
+        <label>Before image ${row.before_image?'<span style="color:#5dbb8a;font-weight:400;text-transform:none;letter-spacing:0;">✓ Already set</span>':'<span style="color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0;">(not set)</span>'}</label>
+        <div class="mh-upload-zone" id="mhEBeforeZone_${row.id}" style="padding:14px 18px;margin-bottom:0;cursor:pointer;" onclick="document.getElementById('mhEBeforeInput_${row.id}').click()">
+          <i class="ti ti-circle-half-2" style="font-size:18px;color:var(--text3);"></i>
+          <div class="mh-upload-zone-label" style="font-size:13px;" id="mhEBeforeLabel_${row.id}">${row.before_image?'Replace before image':'Tap to upload before image'}</div>
+          <input type="file" id="mhEBeforeInput_${row.id}" accept="image/*" style="display:none;" onchange="mhHandleEditBAFile('${row.id}','before',this)">
+        </div>
+      </div>
+      <div class="mh-field" style="margin-top:10px;">
+        <label>After image ${row.after_image?'<span style="color:#5dbb8a;font-weight:400;text-transform:none;letter-spacing:0;">✓ Already set</span>':'<span style="color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0;">(not set)</span>'}</label>
+        <div class="mh-upload-zone" id="mhEAfterZone_${row.id}" style="padding:14px 18px;margin-bottom:0;cursor:pointer;" onclick="document.getElementById('mhEAfterInput_${row.id}').click()">
+          <i class="ti ti-circle-check" style="font-size:18px;color:var(--text3);"></i>
+          <div class="mh-upload-zone-label" style="font-size:13px;" id="mhEAfterLabel_${row.id}">${row.after_image?'Replace after image':'Tap to upload after image'}</div>
+          <input type="file" id="mhEAfterInput_${row.id}" accept="image/*" style="display:none;" onchange="mhHandleEditBAFile('${row.id}','after',this)">
+        </div>
+      </div>
       <button class="mh-edit-save-btn" onclick="mhSaveEdit('${row.id}')"><i class="ti ti-check"></i> Save changes</button>
       <div class="mh-edit-cancel" onclick="mhOpenEditForm(document.querySelector('[data-id=\\'${row.id}\\']'),null)">Cancel</div>
     `;
     body.appendChild(editForm);
+
 
     card.appendChild(img);
     card.appendChild(body);
     container.appendChild(card);
   });
 }
+
 
 function mhOpenEditForm(card,row){
   // row===null means close/cancel
@@ -2236,6 +2424,7 @@ function mhOpenEditForm(card,row){
   form.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
+
 async function mhSaveEdit(id){
   const name=(document.getElementById(`mhEName_${id}`)?.value||'').trim();
   const desc=(document.getElementById(`mhEDesc_${id}`)?.value||'').trim();
@@ -2244,13 +2433,19 @@ async function mhSaveEdit(id){
   const tagsRaw=(document.getElementById(`mhETags_${id}`)?.value||'').trim();
   const tags=tagsRaw?tagsRaw.split(',').map(t=>t.trim()).filter(Boolean):[];
 
+
   if(!name){mhToast('Name cannot be empty');return;}
+
 
   const saveBtn=document.querySelector(`#mhEditForm_${id} .mh-edit-save-btn`);
   if(saveBtn){saveBtn.disabled=true;saveBtn.innerHTML='<div class="mh-spinner"></div> Saving…';}
 
+
   try{
     const payload={name,description:desc,category:cat,hair_type:hairType,tags};
+    const editBA=_mhEditBAFiles[id]||{};
+    if(editBA.before){const ext=editBA.before.name.split('.').pop()||'jpg';const p=`${cat||'general'}/${Date.now()}_before.${ext}`;payload.before_image=await sbStorageUpload('haircut-images',p,editBA.before);}
+    if(editBA.after){const ext=editBA.after.name.split('.').pop()||'jpg';const p=`${cat||'general'}/${Date.now()}_after.${ext}`;payload.after_image=await sbStorageUpload('haircut-images',p,editBA.after);}
     const res=await sbFetch(`haircuts?id=eq.${id}`,{method:'PATCH',body:JSON.stringify(payload),headers:{'Prefer':'return=minimal'}});
     if(res.ok||res.status===204){
       mhToast('Saved!');
@@ -2278,12 +2473,14 @@ async function mhDeleteCut(row){
     if(res.ok||res.status===204){mhToast('Deleted');_sbCuts=_sbCuts.filter(c=>c.id!==row.id);const idx=cuts.findIndex(c=>c.id==='sb_'+row.id);if(idx>-1)cuts.splice(idx,1);buildMhLibFilter();renderMhLibrary();buildCats();} else {mhToast('Delete failed');}}catch(e){mhToast('Error: '+e.message.slice(0,60));}
 }
 
+
 async function mhAddAngle(row){
   const input=document.createElement('input');input.type='file';input.accept='image/*';input.multiple=true;
   input.onchange=async()=>{const files=Array.from(input.files);if(!files.length)return;mhToast('Uploading angle…');
     try{const newImages=[...(row.images||[])];for(const f of files){const ext=f.name.split('.').pop()||'jpg';const path=`${row.category||'general'}/${Date.now()}_angle.${ext}`;const url=await sbStorageUpload('haircut-images',path,f);newImages.push({src:url,label:'Angle '+(newImages.length+1)});}const res=await sbFetch(`haircuts?id=eq.${row.id}`,{method:'PATCH',body:JSON.stringify({images:newImages}),headers:{'Prefer':'return=minimal'}});if(res.ok||res.status===204){mhToast('Angle added!');await loadMhLibrary();} else mhToast('Failed to save angle');}catch(e){mhToast('Error: '+e.message.slice(0,60));}};
   input.click();
 }
+
 
 function switchMhTab(tab){
   document.getElementById('mhTabUpload').classList.toggle('active',tab==='upload');
@@ -2293,9 +2490,11 @@ function switchMhTab(tab){
   if(tab==='library')renderMhLibrary();
 }
 
+
 function mhToast(msg){
   const t=document.getElementById('mhToast');if(!t)return;t.textContent=msg;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),2500);
 }
+
 
 /* ─── INIT ─── */
 sbLoad();
