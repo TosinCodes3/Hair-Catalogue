@@ -98,7 +98,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .nav-item{background:transparent;border:none;color:var(--text2);font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;padding:6px 4px;min-width:48px;font-size:10px;}
 .nav-item span{font-size:10px;}
 .nav-item.active{color:var(--text);}
-.nav-item i{font-size:16px;}
+.nav-item i{font-size:18px;}
 .cut-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;flex:1;align-content:start;}
 .cut-card{cursor:pointer;overflow:hidden;position:relative;aspect-ratio:1;background:var(--bg2);}
 .cut-card:active{opacity:0.85;}
@@ -148,7 +148,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .opts-row{display:flex;gap:7px;flex-wrap:wrap;}
 .opt{padding:8px 14px;border-radius:8px;border:0.5px solid var(--border2);font-size:13px;color:var(--text);cursor:pointer;background:transparent;transition:all 0.15s;font-family:inherit;}
 .opt.on{border-color:var(--opt-on-border);background:var(--opt-on-bg);font-weight:500;}
-.cta-bar{position:fixed;bottom:76px;left:50%;transform:translateX(-50%);width:100%;max-width:420px;padding:11px 16px 14px;background:var(--bg);border-top:0.5px solid var(--border);}
+.cta-bar{position:fixed;bottom:76px;left:50%;transform:translateX(-50%);width:100%;max-width:420px;padding:11px 16px 0;background:var(--bg);border-top:0.5px solid var(--border);}
 .confirm-row{display:flex;align-items:center;gap:10px;background:var(--bg2);border-radius:11px;padding:9px 12px;margin-bottom:10px;border:0.5px solid var(--border);}
 .confirm-thumb{width:34px;height:34px;border-radius:7px;overflow:hidden;flex-shrink:0;background:var(--bg3);}
 .confirm-thumb img{width:100%;height:100%;object-fit:cover;}
@@ -588,6 +588,30 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .ba-slot-btn.picking-before{border-color:var(--opt-on-border);background:var(--opt-on-bg);color:var(--text);}
 .ba-slot-btn.picking-after{border-color:var(--opt-on-border);background:var(--opt-on-bg);color:var(--text);}
 .ba-slot-btn i{font-size:13px;}
+.ba-select-btn{width:100%;padding:12px 16px;border-radius:12px;border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;}
+.ba-select-btn:active{opacity:0.75;}
+.ba-select-btn i{font-size:16px;color:var(--text2);}
+
+/* Notif toast */
+.notif-toast{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-120%);width:calc(100% - 32px);max-width:388px;background:var(--bg);border:0.5px solid var(--border2);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,0.18);padding:12px 14px;display:flex;align-items:flex-start;gap:10px;z-index:9999;transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);}
+.notif-toast.show{transform:translateX(-50%) translateY(0);}
+.notif-toast-icon{width:32px;height:32px;border-radius:50%;background:var(--bg2);border:0.5px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.notif-toast-icon i{font-size:15px;color:var(--text2);}
+.notif-toast-body{flex:1;min-width:0;}
+.notif-toast-title{font-size:13px;font-weight:700;color:var(--text);line-height:1.3;}
+.notif-toast-sub{font-size:12px;color:var(--text2);margin-top:2px;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* Lock-in intro dialog */
+.lockin-intro-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;}
+.lockin-intro-backdrop.open{display:flex;align-items:flex-end;justify-content:center;}
+.lockin-intro-box{background:var(--bg);border-radius:20px 20px 0 0;border-top:0.5px solid var(--border2);width:100%;max-width:420px;padding:24px 20px 36px;transform:translateY(100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);}
+.lockin-intro-backdrop.open .lockin-intro-box{transform:translateY(0);}
+.lockin-intro-handle{width:36px;height:4px;border-radius:2px;background:var(--border2);margin:0 auto 18px;}
+.lockin-intro-icon{width:48px;height:48px;border-radius:16px;background:var(--bg2);border:0.5px solid var(--border2);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;}
+.lockin-intro-icon i{font-size:22px;color:var(--text2);}
+.lockin-intro-title{font-size:17px;font-weight:700;color:var(--text);text-align:center;margin-bottom:8px;}
+.lockin-intro-body{font-size:13px;color:var(--text2);text-align:center;line-height:1.65;margin-bottom:20px;}
+.lockin-intro-btn{width:100%;padding:14px;background:var(--lock-bg);color:var(--lock-text);border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;}
 .ba-slider-wrap{flex:1;position:relative;overflow:hidden;background:var(--bg3);min-height:260px;}
 .ba-img-after{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;opacity:0;transition:opacity 0.3s;}
 .ba-img-after.loaded{opacity:1;}
@@ -843,19 +867,15 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
         <div class="ba-title">Before &amp; After</div>
         <div style="width:34px"></div>
       </div>
-      <div class="ba-slot-row">
-        <button class="ba-slot-btn" id="baSlotBeforeBtn" onclick="setBaSlot('before')">
-          <i class="ti ti-circle-half-2"></i> Set Before
-        </button>
-        <button class="ba-slot-btn" id="baSlotAfterBtn" onclick="setBaSlot('after')">
-          <i class="ti ti-circle-check"></i> Set After
+      <div style="padding:12px 16px 0;">
+        <button class="ba-select-btn" onclick="openBaHaircutPicker()">
+          <i class="ti ti-layout-grid"></i> Select Haircut
         </button>
       </div>
-      <div class="ba-picker-strip" id="baPickerStrip"></div>
-      <div class="ba-slider-wrap" id="baSliderWrap">
+      <div class="ba-slider-wrap" id="baSliderWrap" style="margin-top:12px;">
         <div class="ba-empty-state" id="baEmptyState">
           <i class="ti ti-adjustments-horizontal"></i>
-          <p>Pick a <strong>Before</strong> and an <strong>After</strong> cut above, then drag the slider to compare them side by side.</p>
+          <p>Tap <strong>Select Haircut</strong> above to pick a haircut with before &amp; after images.</p>
         </div>
         <img class="ba-img-after" id="baImgAfter" src="" alt="After">
         <div class="ba-img-before-wrap" id="baBeforeWrap" style="width:50%;">
@@ -881,6 +901,14 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- BA Haircut Picker Modal -->
+  <div class="sc-backdrop" id="baPickerBackdrop" onclick="closeBaHaircutPicker()"></div>
+  <div class="sc-sheet" id="baPickerSheet">
+    <div class="sc-handle"></div>
+    <div class="sc-header"><div class="sc-header-title">Select Haircut</div></div>
+    <div class="sc-list" id="baPickerList" style="padding-bottom:32px;"></div>
   </div>
 
 
@@ -1261,7 +1289,7 @@ create policy "Allow all" on haircuts for all using (true) with check (true);
 
 
   <div class="screen" id="s10">
-    <div class="topbar"><div class="back-btn" id="drillBackBtn" onclick="go('s9')"><i class="ti ti-arrow-left"></i></div><div class="topbar-title" id="drillTitle">Detail</div><div style="width:34px"></div></div>
+    <div class="topbar"><div class="back-btn" id="drillBackBtn" onclick="switchTab('home')"><i class="ti ti-arrow-left"></i></div><div class="topbar-title" id="drillTitle">Detail</div><div style="width:34px"></div></div>
     <div class="drill-body" id="drillBody"></div>
   </div>
 </div>
@@ -1277,6 +1305,26 @@ create policy "Allow all" on haircuts for all using (true) with check (true);
   <div class="compare-picker-top"><div class="back-btn" onclick="closePicker()"><i class="ti ti-arrow-left"></i></div><div class="compare-picker-title">Pick a cut to compare</div><div style="width:34px"></div></div>
   <div class="compare-picker-grid" id="comparePickerGrid"></div>
 </div>
+  <!-- Notif toast -->
+  <div class="notif-toast" id="notifToast">
+    <div class="notif-toast-icon"><i class="ti ti-bell" id="notifToastIcon"></i></div>
+    <div class="notif-toast-body">
+      <div class="notif-toast-title" id="notifToastTitle"></div>
+      <div class="notif-toast-sub" id="notifToastSub"></div>
+    </div>
+  </div>
+
+  <!-- Lock-in intro dialog -->
+  <div class="lockin-intro-backdrop" id="lockinIntroBackdrop">
+    <div class="lockin-intro-box">
+      <div class="lockin-intro-handle"></div>
+      <div class="lockin-intro-icon"><i class="ti ti-scissors"></i></div>
+      <div class="lockin-intro-title">Lock In a Cut</div>
+      <div class="lockin-intro-body">Choose who this haircut is for — a client, a model, or a freestyle session. The cut gets saved to your history so you can track sessions, spot trends, and build your portfolio over time.</div>
+      <button class="lockin-intro-btn" onclick="dismissLockInIntro()">Got it, let's go</button>
+    </div>
+  </div>
+
 <div class="lockin-backdrop" id="lockinBackdrop" onclick="closeLockInSheet()"></div>
 <div class="lockin-sheet" id="lockinSheet">
   <div class="lockin-handle"></div>
@@ -1393,7 +1441,10 @@ function closeHistorySheet(){document.getElementById('sheetBackdrop').classList.
 
 /* ─── LOCK-IN SHEET ─── */
 let _lockType=null;
-function openLockInSheet(){_lockType=null;renderLockStep1();document.getElementById('lockinBackdrop').classList.add('open');document.getElementById('lockinSheet').classList.add('open');document.getElementById('lockinSheet').querySelector('.lockin-sub').textContent='Who is this cut for?';}
+function openLockInSheet(){
+  if(!localStorage.getItem(LOCKIN_INTRO_KEY)){openLockInIntro();return;}
+  _openLockInSheetDirect();
+}
 function closeLockInSheet(){document.getElementById('lockinBackdrop').classList.remove('open');document.getElementById('lockinSheet').classList.remove('open');}
 function renderLockStep1(){const body=document.getElementById('lockinBody');body.innerHTML='';const types=[{id:'freestyle',icon:'ti-scissors',label:'Freestyle',desc:'Mannequin or personal practice — no name needed'},{id:'client',icon:'ti-user',label:'Client',desc:'A paying client — record their name'},{id:'model',icon:'ti-star',label:'Model',desc:'A model or shoot subject — record their name'}];const cards=document.createElement('div');cards.className='lockin-type-cards';types.forEach(t=>{const card=document.createElement('div');card.className='lockin-type-card';card.innerHTML=`<div class="lockin-type-icon ${t.id}"><i class="ti ${t.icon}"></i></div><div><div class="lockin-type-label">${t.label}</div><div class="lockin-type-desc">${t.desc}</div></div>`;card.onclick=()=>{_lockType=t.id;if(t.id==='freestyle')renderLockStepFreestyle();else renderLockStepNamed(t.id);};cards.appendChild(card);});body.appendChild(cards);}
 function renderLockStepFreestyle(){const body=document.getElementById('lockinBody');body.innerHTML='';document.getElementById('lockinSheet').querySelector('.lockin-sub').textContent='Freestyle — no name required';const form=document.createElement('div');form.className='lockin-form';form.innerHTML=`<div class="lockin-field"><label>Notes (optional)</label><textarea id="liDesc" rows="3" placeholder="Any notes on this cut…"></textarea></div>`;const btn=document.createElement('button');btn.className='lockin-confirm-btn';btn.innerHTML='<i class="ti ti-scissors"></i> Confirm Lock';btn.onclick=()=>{const desc=document.getElementById('liDesc').value.trim();closeLockInSheet();commitLockIn('freestyle','',desc);};form.appendChild(btn);const back=document.createElement('div');back.className='lockin-back-link';back.textContent='← Change type';back.onclick=()=>renderLockStep1();form.appendChild(back);body.appendChild(form);}
@@ -1425,6 +1476,8 @@ function pushNotif(notif){
   if(all.length>60)all.length=60;
   saveStoredNotifs(all);
   refreshNotifDot();
+  // show toast
+  showNotifToast(notif.icon||'ti-bell',notif.title,notif.body);
 }
 
 function getNotifications(){
@@ -1616,6 +1669,99 @@ function maybeRunPeriodicNotifs(){
   localStorage.setItem(key,now);
   notifWeeklySummary();
   notifStyleTrendInsight();
+}
+
+
+/* ─── BEFORE & AFTER HAIRCUT PICKER ─── */
+function openBaHaircutPicker(){
+  renderBaPickerList();
+  document.getElementById('baPickerBackdrop').classList.add('open');
+  document.getElementById('baPickerSheet').classList.add('open');
+}
+function closeBaHaircutPicker(){
+  document.getElementById('baPickerBackdrop').classList.remove('open');
+  document.getElementById('baPickerSheet').classList.remove('open');
+}
+function renderBaPickerList(){
+  const list=document.getElementById('baPickerList');
+  list.innerHTML='';
+  const baCuts=cuts.filter(c=>c.before_image&&c.after_image);
+  if(!baCuts.length){
+    list.innerHTML='<div class="sc-empty">No haircuts with before &amp; after images yet.<br>Go to Settings → Manage Haircuts to add them.</div>';
+    return;
+  }
+  baCuts.forEach(cut=>{
+    const imgs=getImgs(cut);
+    const src=imgs[0].src;
+    const row=document.createElement('div');
+    row.className='sc-row';
+    const thumb=document.createElement('img');
+    thumb.style.cssText='width:44px;height:44px;border-radius:10px;object-fit:cover;flex-shrink:0;';
+    thumb.src=src;thumb.alt=cut.name;
+    const info=document.createElement('div');
+    info.innerHTML=`<div class="sc-name">${cut.name}</div><div class="sc-meta">${(cut.tags||[]).join(', ')||'Haircut'}</div>`;
+    row.appendChild(thumb);row.appendChild(info);
+    row.onclick=()=>{
+      selectBaHaircut(cut);
+      closeBaHaircutPicker();
+    };
+    list.appendChild(row);
+  });
+}
+function selectBaHaircut(cut){
+  // Load before image
+  const beforeEl=document.getElementById('baImgBefore');
+  const afterEl=document.getElementById('baImgAfter');
+  beforeEl.src=cut.before_image;
+  afterEl.src=cut.after_image;
+  beforeEl.onload=()=>beforeEl.classList.add('loaded');
+  afterEl.onload=()=>afterEl.classList.add('loaded');
+  // Show slider elements
+  document.getElementById('baEmptyState').style.display='none';
+  document.getElementById('baDivider').style.display='';
+  document.getElementById('baHandle').style.display='';
+  document.getElementById('baLabelBefore').style.display='';
+  document.getElementById('baLabelAfter').style.display='';
+  document.getElementById('baBeforeWrap').style.width='50%';
+  document.getElementById('baDivider').style.left='50%';
+  document.getElementById('baHandle').style.left='50%';
+  // Update info bar
+  document.getElementById('baInfoBefore').textContent=cut.name;
+  document.getElementById('baInfoBefore').classList.remove('ba-info-empty');
+  document.getElementById('baInfoAfter').textContent=cut.name;
+  document.getElementById('baInfoAfter').classList.remove('ba-info-empty');
+}
+
+
+/* ─── NOTIF TOAST ─── */
+let _toastTimer=null;
+function showNotifToast(icon,title,sub){
+  const toast=document.getElementById('notifToast');
+  document.getElementById('notifToastIcon').className='ti '+icon;
+  document.getElementById('notifToastTitle').textContent=title;
+  document.getElementById('notifToastSub').textContent=sub;
+  toast.classList.add('show');
+  if(_toastTimer)clearTimeout(_toastTimer);
+  _toastTimer=setTimeout(()=>toast.classList.remove('show'),4000);
+}
+
+
+/* ─── LOCK-IN INTRO ─── */
+const LOCKIN_INTRO_KEY='lockinIntroSeen';
+function openLockInIntro(){
+  document.getElementById('lockinIntroBackdrop').classList.add('open');
+}
+function dismissLockInIntro(){
+  document.getElementById('lockinIntroBackdrop').classList.remove('open');
+  localStorage.setItem(LOCKIN_INTRO_KEY,'1');
+  // Now open the actual lock-in sheet
+  _openLockInSheetDirect();
+}
+function _openLockInSheetDirect(){
+  _lockType=null;renderLockStep1();
+  document.getElementById('lockinBackdrop').classList.add('open');
+  document.getElementById('lockinSheet').classList.add('open');
+  document.getElementById('lockinSheet').querySelector('.lockin-sub').textContent='Who is this cut for?';
 }
 
 
@@ -2380,7 +2526,7 @@ function renderDrillHairTypes(body,h){const typeCount={straight:0,curly:0,wavy:0
 function selectHTType(type,typeEntries,typeLabels){drillFilter.type=type;const donut=document.getElementById('drillHTDonut'),infoEl=document.getElementById('drillHTInfo'),resetEl=document.getElementById('drillHTReset');donut.querySelectorAll('.drill-donut-seg').forEach(el=>{el.style.opacity=(!type||el.dataset.type===type)?'1':'0.2';});document.querySelectorAll('.drill-ht-leg').forEach(el=>{el.style.opacity=(!type||el.dataset.type===type)?'1':'0.35';});if(type){const entry=typeEntries.find(([t])=>t===type);infoEl.textContent=entry?`${typeLabels[type]}: ${entry[1]} session${entry[1]!==1?'s':''}`:'' ;resetEl.style.display='block';}else{infoEl.textContent='';resetEl.style.display='none';}renderHTList(document.getElementById('drillHTList'),getHistory(),type);}
 function renderHTList(listEl,h,filterType){listEl.innerHTML='';const filtered=h.filter(x=>!filterType||HAIR_TYPES_MAP[x.id]===filterType);const nameCount={};filtered.forEach(x=>{nameCount[x.name]=(nameCount[x.name]||0)+1;});const topCut=Object.entries(nameCount).sort((a,b)=>b[1]-a[1])[0];if(filterType&&topCut){const note=document.createElement('div');note.style.cssText='font-size:12px;color:var(--text2);margin-bottom:10px;padding:10px 12px;background:var(--bg2);border-radius:10px;border:0.5px solid var(--border);';note.textContent=`Top cut: ${topCut[0]} (${topCut[1]} time${topCut[1]!==1?'s':''})`;listEl.appendChild(note);}const grouped={};filtered.forEach(item=>{const mk=itemMonthKey(item);if(!grouped[mk])grouped[mk]=[];grouped[mk].push(item);});const keys=Object.keys(grouped).sort((a,b)=>b.localeCompare(a));if(!keys.length){listEl.innerHTML='<div class="drill-empty"><i class="ti ti-scissors" style="font-size:28px;color:var(--text3)"></i><p>No sessions'+(filterType?' for this hair type.':'.')+'</p></div>';return;}keys.forEach(mk=>{const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});listEl.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));listEl.appendChild(section);});}
 function openDrillTypeDetail(type){const typeLabels={client:'Client Sessions',model:'Model Sessions',freestyle:'Freestyle Sessions'};document.getElementById('drillTitle').textContent=typeLabels[type]||type;document.getElementById('drillBackBtn').onclick=()=>openDrill('by-type-month');const h=getHistory().filter(x=>x.type===type);const body=document.getElementById('drillBody');body.innerHTML='';if(!h.length){body.innerHTML='<div class="drill-empty"><p>No sessions of this type yet.</p></div>';return;}const grouped={};h.forEach(item=>{const mk=itemMonthKey(item);if(!grouped[mk])grouped[mk]=[];grouped[mk].push(item);});Object.keys(grouped).sort((a,b)=>b.localeCompare(a)).forEach(mk=>{const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});body.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length} session${items.length!==1?'s':''}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));body.appendChild(section);});}
-function openDrillCutDetail(name,cutId){document.getElementById('drillTitle').textContent=name;document.getElementById('drillBackBtn').onclick=()=>openDrill('top-cuts');const h=getHistory().filter(x=>x.name===name);const body=document.getElementById('drillBody');body.innerHTML='';const clientCount=h.filter(x=>x.type==='client').length,modelCount=h.filter(x=>x.type==='model').length;body.innerHTML+=`<div class="drill-summary"><div class="drill-stat"><div class="drill-stat-label">Total</div><div class="drill-stat-value">${h.length}</div></div><div class="drill-stat"><div class="drill-stat-label">Client</div><div class="drill-stat-value">${clientCount}</div></div><div class="drill-stat"><div class="drill-stat-label">Model</div><div class="drill-stat-value">${modelCount}</div></div></div>`;const grouped={};h.forEach(item=>{const mk=itemMonthKey(item);if(!grouped[mk])grouped[mk]=[];grouped[mk].push(item);});Object.keys(grouped).sort((a,b)=>b.localeCompare(a)).forEach(mk=>{const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});body.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));body.appendChild(section);});const viewBtn=document.createElement('button');viewBtn.className='lock-btn';viewBtn.style.marginTop='16px';viewBtn.innerHTML='<i class="ti ti-eye"></i> View this cut';viewBtn.onclick=()=>{const c=cuts.find(x=>x.id===cutId);if(c)openCut(c.id);};body.appendChild(viewBtn);}
+function openDrillCutDetail(name,cutId){document.getElementById('drillTitle').textContent=name;document.getElementById('drillBackBtn').onclick=()=>switchTab('home');const h=getHistory().filter(x=>x.name===name);const body=document.getElementById('drillBody');body.innerHTML='';const clientCount=h.filter(x=>x.type==='client').length,modelCount=h.filter(x=>x.type==='model').length;body.innerHTML+=`<div class="drill-summary"><div class="drill-stat"><div class="drill-stat-label">Total</div><div class="drill-stat-value">${h.length}</div></div><div class="drill-stat"><div class="drill-stat-label">Client</div><div class="drill-stat-value">${clientCount}</div></div><div class="drill-stat"><div class="drill-stat-label">Model</div><div class="drill-stat-value">${modelCount}</div></div></div>`;const grouped={};h.forEach(item=>{const mk=itemMonthKey(item);if(!grouped[mk])grouped[mk]=[];grouped[mk].push(item);});Object.keys(grouped).sort((a,b)=>b.localeCompare(a)).forEach(mk=>{const items=grouped[mk];const d=new Date(mk+'-01');const mLabel=d.toLocaleDateString('en-GB',{month:'long',year:'numeric'});body.innerHTML+=`<div class="drill-month-header"><div class="drill-month-label">${mLabel}</div><div class="drill-month-count">${items.length}</div></div>`;const section=document.createElement('div');items.forEach(item=>section.appendChild(buildDrillSessionRow(item)));body.appendChild(section);});const viewBtn=document.createElement('button');viewBtn.className='lock-btn';viewBtn.style.marginTop='16px';viewBtn.innerHTML='<i class="ti ti-eye"></i> View this cut';viewBtn.onclick=()=>{const c=cuts.find(x=>x.id===cutId);if(c)openCut(c.id);};body.appendChild(viewBtn);}
 function buildDrillSessionRow(item){const row=document.createElement('div');row.className='drill-session';const thumb=document.createElement('img');thumb.className='drill-session-thumb';thumb.src=item.img||'';thumb.alt=item.name;thumb.onload=()=>thumb.classList.add('loaded');thumb.onerror=()=>{thumb.style.opacity='0.1';};const info=document.createElement('div');info.className='drill-session-info';const typeLabels={client:'Client',model:'Model',freestyle:'Freestyle'};const personLine=item.personName?`<div class="drill-session-person">${typeLabels[item.type]||''} · ${item.personName}</div>`:`<div class="drill-session-person" style="color:var(--text3)">${typeLabels[item.type]||'Freestyle'}</div>`;info.innerHTML=`<div class="drill-session-name">${item.name}</div><div class="drill-session-opts">${item.fade||'Mid'} fade · ${item.top||'Neat'} top</div>${personLine}${item.personDesc?`<div class="drill-session-date" style="color:var(--text2);font-size:11px;">${item.personDesc}</div>`:''}<div class="drill-session-date">${formatDate(item.date)}</div>`;const go_btn=document.createElement('div');go_btn.className='drill-session-go';go_btn.textContent='View';go_btn.onclick=()=>{fv=item.fade||'Mid';tv=item.top||'Neat';openCut(item.id,true);};row.appendChild(thumb);row.appendChild(info);row.appendChild(go_btn);return row;}
 
 
