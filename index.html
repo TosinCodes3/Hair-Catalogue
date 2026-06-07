@@ -543,6 +543,8 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .notif-bell-wrap{position:relative;display:inline-flex;}
 .notif-dot{position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;background:var(--text);border:2px solid var(--bg);display:none;}
 .notif-dot.visible{display:block;}
+.notif-item.notif-unread{background:var(--bg2);border-radius:12px;padding:12px;margin-bottom:4px;}
+.notif-item.notif-unread .notif-body-title{color:var(--text);}
 
 /* ── SAVED CLIENTS PICKER MODAL ── */
 .sc-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:120;}
@@ -1396,13 +1398,38 @@ function closeLockInSheet(){document.getElementById('lockinBackdrop').classList.
 function renderLockStep1(){const body=document.getElementById('lockinBody');body.innerHTML='';const types=[{id:'freestyle',icon:'ti-scissors',label:'Freestyle',desc:'Mannequin or personal practice — no name needed'},{id:'client',icon:'ti-user',label:'Client',desc:'A paying client — record their name'},{id:'model',icon:'ti-star',label:'Model',desc:'A model or shoot subject — record their name'}];const cards=document.createElement('div');cards.className='lockin-type-cards';types.forEach(t=>{const card=document.createElement('div');card.className='lockin-type-card';card.innerHTML=`<div class="lockin-type-icon ${t.id}"><i class="ti ${t.icon}"></i></div><div><div class="lockin-type-label">${t.label}</div><div class="lockin-type-desc">${t.desc}</div></div>`;card.onclick=()=>{_lockType=t.id;if(t.id==='freestyle')renderLockStepFreestyle();else renderLockStepNamed(t.id);};cards.appendChild(card);});body.appendChild(cards);}
 function renderLockStepFreestyle(){const body=document.getElementById('lockinBody');body.innerHTML='';document.getElementById('lockinSheet').querySelector('.lockin-sub').textContent='Freestyle — no name required';const form=document.createElement('div');form.className='lockin-form';form.innerHTML=`<div class="lockin-field"><label>Notes (optional)</label><textarea id="liDesc" rows="3" placeholder="Any notes on this cut…"></textarea></div>`;const btn=document.createElement('button');btn.className='lockin-confirm-btn';btn.innerHTML='<i class="ti ti-scissors"></i> Confirm Lock';btn.onclick=()=>{const desc=document.getElementById('liDesc').value.trim();closeLockInSheet();commitLockIn('freestyle','',desc);};form.appendChild(btn);const back=document.createElement('div');back.className='lockin-back-link';back.textContent='← Change type';back.onclick=()=>renderLockStep1();form.appendChild(back);body.appendChild(form);}
 function renderLockStepNamed(type){const body=document.getElementById('lockinBody');body.innerHTML='';const label=type==='client'?'Client':'Model';document.getElementById('lockinSheet').querySelector('.lockin-sub').textContent=`${label} — enter their name`;const form=document.createElement('div');form.className='lockin-form';form.innerHTML=`<div class="lockin-field"><label>${label} Name *</label><input id="liName" type="text" placeholder="e.g. ${type==='client'?'James Okafor':'Sofia Martins'}"></div><div class="lockin-field"><label>Notes (optional)</label><textarea id="liDesc" rows="3" placeholder="Any notes on this cut…"></textarea></div>`;const btn=document.createElement('button');btn.className='lockin-confirm-btn';btn.innerHTML=`<i class="ti ti-scissors"></i> Lock in for ${label}`;btn.onclick=()=>{const name=document.getElementById('liName').value.trim();if(!name){document.getElementById('liName').focus();document.getElementById('liName').style.borderColor='#e55';return;}const desc=document.getElementById('liDesc').value.trim();closeLockInSheet();commitLockIn(type,name,desc);};form.appendChild(btn);const savedBtn=document.createElement('div');savedBtn.className='lockin-back-link';savedBtn.innerHTML=`<i class="ti ti-users" style="font-size:13px;vertical-align:middle;margin-right:4px;"></i> Choose saved ${label.toLowerCase()}`;savedBtn.onclick=()=>openSavedClientsPicker(type);form.appendChild(savedBtn);const back=document.createElement('div');back.className='lockin-back-link';back.style.marginTop='4px';back.textContent='← Change type';back.onclick=()=>renderLockStep1();form.appendChild(back);body.appendChild(form);}
-function commitLockIn(type,personName,personDesc){addToHistory(cur,fv,tv,type,personName,personDesc);saveLockedCut(type,personName,personDesc);const fi=getImgs(cur)[0].src;loadImg(document.getElementById('doneImg'),fi,cur.name);document.getElementById('doneCut').textContent=cur.name;document.getElementById('doneOpts').textContent=fv+' fade · '+tv+' top';const badgeEl=document.getElementById('donePersonBadge');if(type==='freestyle'){badgeEl.innerHTML='<div class="done-person-badge freestyle"><i class="ti ti-scissors" style="font-size:12px"></i> Freestyle</div>';}else{const icon=type==='client'?'ti-user':'ti-star';badgeEl.innerHTML=`<div class="done-person-badge ${type}"><i class="ti ${icon}" style="font-size:12px"></i> ${personName||type}</div>`;}document.getElementById('doneNote').textContent=personDesc||'Selection confirmed. Sit back and relax — we\'re getting started.';go('s4');}
+function commitLockIn(type,personName,personDesc){addToHistory(cur,fv,tv,type,personName,personDesc);saveLockedCut(type,personName,personDesc);const fi=getImgs(cur)[0].src;loadImg(document.getElementById('doneImg'),fi,cur.name);document.getElementById('doneCut').textContent=cur.name;document.getElementById('doneOpts').textContent=fv+' fade · '+tv+' top';const badgeEl=document.getElementById('donePersonBadge');if(type==='freestyle'){badgeEl.innerHTML='<div class="done-person-badge freestyle"><i class="ti ti-scissors" style="font-size:12px"></i> Freestyle</div>';}else{const icon=type==='client'?'ti-user':'ti-star';badgeEl.innerHTML=`<div class="done-person-badge ${type}"><i class="ti ${icon}" style="font-size:12px"></i> ${personName||type}</div>`;}document.getElementById('doneNote').textContent=personDesc||'Selection confirmed. Sit back and relax — we\'re getting started.';
+  // notifications
+  notifLockConfirm(cur.name,type,personName);
+  notifBeforePhotoReminder(cur.name);
+  notifFinalLookCapture(cur.name);
+  go('s4');}
 
 
 /* ─── NOTIFICATIONS ─── */
+const NOTIF_STORE_KEY='appNotifications';
 const NOTIF_INACTIVE_DAYS=7;
 
+function getStoredNotifs(){try{return JSON.parse(localStorage.getItem(NOTIF_STORE_KEY)||'[]');}catch(e){return[];}}
+function saveStoredNotifs(n){localStorage.setItem(NOTIF_STORE_KEY,JSON.stringify(n));}
+
+function pushNotif(notif){
+  const all=getStoredNotifs();
+  // dedupe by dedupe key if present
+  if(notif.dedupeKey){
+    const existing=all.findIndex(n=>n.dedupeKey===notif.dedupeKey);
+    if(existing>-1){all.splice(existing,1);}
+  }
+  all.unshift({...notif,id:Date.now()+'_'+Math.random().toString(36).slice(2),ts:Date.now(),read:false});
+  // keep max 60
+  if(all.length>60)all.length=60;
+  saveStoredNotifs(all);
+  refreshNotifDot();
+}
+
 function getNotifications(){
+  const all=getStoredNotifs();
+  // Also inject dynamic inactive-client notifs
   const h=getHistory();
   const now=new Date();
   const byPerson={};
@@ -1414,21 +1441,44 @@ function getNotifications(){
       }
     }
   });
-  const notifs=[];
+  const inactiveNotifs=[];
   Object.values(byPerson).forEach(p=>{
     const days=Math.floor((now-new Date(p.date))/(1000*60*60*24));
     if(days>=NOTIF_INACTIVE_DAYS){
-      notifs.push({type:'inactive',name:p.name,personType:p.type,days,date:p.date});
+      inactiveNotifs.push({
+        id:'inactive_'+p.name.toLowerCase().replace(/\s+/g,'_'),
+        type:'inactive_client',
+        icon:'ti-user-exclamation',
+        title:`${p.name} hasn't been cut in a while`,
+        body:`Last ${p.type} session was ${days} day${days!==1?'s':''} ago. Might be time to reach out.`,
+        time:days>=14?`${Math.floor(days/7)}w ago`:`${days}d ago`,
+        ts:new Date(p.date).getTime(),
+        read:false
+      });
     }
   });
-  notifs.sort((a,b)=>b.days-a.days);
-  return notifs;
+  // merge: stored notifs first, then inactive ones not already in stored
+  const storedIds=new Set(all.map(n=>n.id));
+  const merged=[...all,...inactiveNotifs.filter(n=>!storedIds.has(n.id))];
+  merged.sort((a,b)=>b.ts-a.ts);
+  return merged;
+}
+
+function timeAgo(ts){
+  const s=Math.floor((Date.now()-ts)/1000);
+  if(s<60)return 'just now';
+  if(s<3600)return `${Math.floor(s/60)}m ago`;
+  if(s<86400)return `${Math.floor(s/3600)}h ago`;
+  if(s<604800)return `${Math.floor(s/86400)}d ago`;
+  return `${Math.floor(s/604800)}w ago`;
 }
 
 function openNotifications(){
   go('s19');
   renderNotifications();
-  // clear dot once opened
+  // mark all read
+  const all=getStoredNotifs().map(n=>({...n,read:true}));
+  saveStoredNotifs(all);
   const dot=document.getElementById('notifDot');
   if(dot)dot.classList.remove('visible');
 }
@@ -1444,14 +1494,13 @@ function renderNotifications(){
   }
   notifs.forEach(n=>{
     const item=document.createElement('div');
-    item.className='notif-item';
-    const weeksAgo=n.days>=14?`${Math.floor(n.days/7)}w ago`:`${n.days}d ago`;
+    item.className='notif-item'+(n.read?'':' notif-unread');
     item.innerHTML=`
-      <div class="notif-icon"><i class="ti ti-user-exclamation"></i></div>
+      <div class="notif-icon"><i class="ti ${n.icon||'ti-bell'}"></i></div>
       <div class="notif-body">
-        <div class="notif-body-title">${n.name} hasn't been cut in a while</div>
-        <div class="notif-body-sub">Last ${n.personType} session was ${n.days} day${n.days!==1?'s':''} ago. Might be time to reach out.</div>
-        <div class="notif-body-time">${weeksAgo}</div>
+        <div class="notif-body-title">${n.title}</div>
+        <div class="notif-body-sub">${n.body}</div>
+        <div class="notif-body-time">${n.time||timeAgo(n.ts)}</div>
       </div>`;
     list.appendChild(item);
   });
@@ -1460,8 +1509,113 @@ function renderNotifications(){
 function refreshNotifDot(){
   const dot=document.getElementById('notifDot');
   if(!dot)return;
-  const count=getNotifications().length;
-  dot.classList.toggle('visible',count>0);
+  const all=getNotifications();
+  const hasUnread=all.some(n=>!n.read);
+  dot.classList.toggle('visible',hasUnread);
+}
+
+// ── Notif triggers ──
+
+function notifLockConfirm(cutName,type,personName){
+  const who=type==='freestyle'?'Freestyle':personName;
+  const label=type==='client'?'Client':type==='model'?'Model':'Freestyle';
+  pushNotif({
+    type:'lock_confirm',
+    icon:'ti-scissors',
+    title:`Cut locked in — ${cutName}`,
+    body:type==='freestyle'?`Freestyle session recorded successfully.`:`${label}: ${who} · Session saved to history.`,
+    dedupeKey:null
+  });
+}
+
+function notifBeforePhotoReminder(cutName){
+  pushNotif({
+    type:'before_photo',
+    icon:'ti-camera',
+    title:'Capture the before shot',
+    body:`Starting session for ${cutName}. Grab the before photo now to complete your content flow.`,
+    dedupeKey:'before_photo_latest'
+  });
+}
+
+function notifFinalLookCapture(cutName){
+  pushNotif({
+    type:'final_look',
+    icon:'ti-photo-check',
+    title:'Record the final look',
+    body:`${cutName} is locked in. Don't forget to photograph the finished result for your portfolio.`,
+    dedupeKey:'final_look_latest'
+  });
+}
+
+function notifWeeklySummary(){
+  const h=getHistory();
+  const now=new Date();
+  const weekStart=new Date(now);
+  weekStart.setDate(now.getDate()-7);
+  const thisWeek=h.filter(x=>new Date(x.date)>=weekStart);
+  if(!thisWeek.length)return;
+  const clientCount=thisWeek.filter(x=>x.type==='client').length;
+  const modelCount=thisWeek.filter(x=>x.type==='model').length;
+  const breakdown=[];
+  if(clientCount)breakdown.push(`${clientCount} client${clientCount!==1?'s':''}`);
+  if(modelCount)breakdown.push(`${modelCount} model${modelCount!==1?'s':''}`);
+  const freestyle=thisWeek.length-clientCount-modelCount;
+  if(freestyle)breakdown.push(`${freestyle} freestyle`);
+  pushNotif({
+    type:'weekly_summary',
+    icon:'ti-calendar-stats',
+    title:`${thisWeek.length} cut${thisWeek.length!==1?'s':''} completed this week`,
+    body:breakdown.length?`Breakdown: ${breakdown.join(', ')}.`:'Keep up the great work!',
+    dedupeKey:'weekly_summary_'+getWeekKey()
+  });
+}
+
+function notifStyleTrendInsight(){
+  const h=getHistory();
+  if(h.length<5)return;
+  const fadeCount={};
+  h.forEach(x=>{if(x.fade){fadeCount[x.fade]=(fadeCount[x.fade]||0)+1;}});
+  const sorted=Object.entries(fadeCount).sort((a,b)=>b[1]-a[1]);
+  if(!sorted.length)return;
+  const [topFade,topCount]=sorted[0];
+  const pct=Math.round(topCount/h.length*100);
+  if(pct<40)return; // only surface if genuinely dominant
+  pushNotif({
+    type:'trend_insight',
+    icon:'ti-trending-up',
+    title:'Style trend insight',
+    body:`${topFade} fade variations dominate ${pct}% of your work. Consider expanding your fade range.`,
+    dedupeKey:'trend_insight_'+topFade+'_'+Math.floor(pct/10)
+  });
+}
+
+function notifNewCutUploaded(cutName){
+  pushNotif({
+    type:'new_cut',
+    icon:'ti-sparkles',
+    title:'New cut added to catalogue',
+    body:`"${cutName}" is now live in your catalogue and ready to lock in.`,
+    dedupeKey:null
+  });
+}
+
+function getWeekKey(){
+  const now=new Date();
+  const startOfYear=new Date(now.getFullYear(),0,1);
+  const week=Math.ceil(((now-startOfYear)/86400000+startOfYear.getDay()+1)/7);
+  return `${now.getFullYear()}_w${week}`;
+}
+
+function maybeRunPeriodicNotifs(){
+  const key='lastPeriodicNotifCheck';
+  const last=localStorage.getItem(key);
+  const now=Date.now();
+  // run at most once per day
+  if(last&&now-parseInt(last)<86400000)return;
+  localStorage.setItem(key,now);
+  notifWeeklySummary();
+  notifStyleTrendInsight();
 }
 
 
@@ -2555,6 +2709,7 @@ async function mhSubmit(){
     const res=await sbFetch('haircuts',{method:'POST',body:JSON.stringify(payload),headers:{'Prefer':'return=minimal'}});
     if(res.ok||res.status===201){
       mhToast('Haircut uploaded!');
+      notifNewCutUploaded(name);
       _mhFiles=[];renderMhPreviews();
       document.getElementById('mhName').value='';
       document.getElementById('mhDesc').value='';
@@ -2844,6 +2999,7 @@ restoreLockedCut();
 // Load home screen on first entry
 loadHomeScreen();
 refreshNotifDot();
+maybeRunPeriodicNotifs();
 document.addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX;},false);
 document.addEventListener('touchend',e=>{touchEndX=e.changedTouches[0].screenX;handleSwipeInPeopleScreen();},false);
 </script>
