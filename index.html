@@ -523,6 +523,46 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .gallery-lb-fav:active{transform:scale(0.88);}
 .gallery-lb-fav.faved{color:#fff;}
 
+/* ── NOTIFICATIONS SCREEN ── */
+.notif-screen{display:flex;flex-direction:column;flex:1;overflow:hidden;}
+.notif-topbar{padding:14px 16px 12px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.notif-title{font-size:15px;font-weight:700;color:var(--text);flex:1;text-align:center;}
+.notif-list{flex:1;overflow-y:auto;padding:12px 16px 80px;}
+.notif-item{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:0.5px solid var(--border);}
+.notif-item:last-child{border-bottom:none;}
+.notif-icon{width:38px;height:38px;border-radius:50%;background:var(--bg2);border:0.5px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.notif-icon i{font-size:16px;color:var(--text2);}
+.notif-body{flex:1;min-width:0;}
+.notif-body-title{font-size:14px;font-weight:600;color:var(--text);line-height:1.4;}
+.notif-body-sub{font-size:12px;color:var(--text2);margin-top:3px;line-height:1.5;}
+.notif-body-time{font-size:11px;color:var(--text3);margin-top:5px;}
+.notif-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:60px 24px;text-align:center;}
+.notif-empty i{font-size:36px;color:var(--text3);}
+.notif-empty p{font-size:14px;color:var(--text3);line-height:1.6;}
+.hd-search-btn .notif-badge{position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;background:var(--text);border:2px solid var(--bg);}
+.notif-bell-wrap{position:relative;display:inline-flex;}
+.notif-dot{position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;background:var(--text);border:2px solid var(--bg);display:none;}
+.notif-dot.visible{display:block;}
+
+/* ── SAVED CLIENTS PICKER MODAL ── */
+.sc-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:120;}
+.sc-backdrop.open{display:block;}
+.sc-sheet{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:420px;background:var(--bg);border-radius:20px 20px 0 0;border-top:0.5px solid var(--border2);z-index:125;display:flex;flex-direction:column;transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);max-height:75vh;}
+.sc-sheet.open{transform:translateX(-50%) translateY(0);}
+.sc-handle{width:36px;height:4px;border-radius:2px;background:var(--border2);margin:10px auto 0;flex-shrink:0;}
+.sc-header{padding:14px 16px 8px;flex-shrink:0;}
+.sc-header-title{font-size:16px;font-weight:700;color:var(--text);}
+.sc-search{padding:0 16px 10px;flex-shrink:0;}
+.sc-search input{width:100%;padding:10px 14px;border-radius:12px;border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);font-family:inherit;font-size:14px;outline:none;}
+.sc-list{overflow-y:auto;flex:1;padding:0 16px 24px;}
+.sc-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:0.5px solid var(--border);cursor:pointer;}
+.sc-row:last-child{border-bottom:none;}
+.sc-row:active{opacity:0.7;}
+.sc-avatar{width:36px;height:36px;border-radius:50%;background:var(--bg2);border:0.5px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:700;color:var(--text2);}
+.sc-name{font-size:14px;font-weight:600;color:var(--text);}
+.sc-meta{font-size:12px;color:var(--text3);margin-top:2px;}
+.sc-empty{padding:24px 0;text-align:center;font-size:13px;color:var(--text3);}
+
 
 
 
@@ -695,7 +735,10 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
       <!-- Header -->
       <div class="hd-header">
         <div class="hd-title">Dashboard</div>
-        <div class="hd-search-btn" onclick="switchTab('search')"><i class="ti ti-search"></i></div>
+        <div class="notif-bell-wrap">
+          <div class="hd-search-btn" onclick="openNotifications()"><i class="ti ti-bell"></i></div>
+          <div class="notif-dot" id="notifDot"></div>
+        </div>
       </div>
       <!-- Hair type filter chips -->
       <div class="hd-filter-scroll" id="hdFilterChips"></div>
@@ -737,6 +780,28 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
   </div>
 
 
+
+
+  <!-- ── NOTIFICATIONS SCREEN (s19) ── -->
+  <div class="screen" id="s19">
+    <div class="notif-screen">
+      <div class="notif-topbar">
+        <div class="back-btn" onclick="switchTab('home')"><i class="ti ti-arrow-left"></i></div>
+        <div class="notif-title">Notifications</div>
+        <div style="width:34px"></div>
+      </div>
+      <div class="notif-list" id="notifList"></div>
+    </div>
+  </div>
+
+  <!-- Saved Clients picker sheet -->
+  <div class="sc-backdrop" id="scBackdrop" onclick="closeSavedClientsPicker()"></div>
+  <div class="sc-sheet" id="scSheet">
+    <div class="sc-handle"></div>
+    <div class="sc-header"><div class="sc-header-title" id="scTitle">Choose Saved Client</div></div>
+    <div class="sc-search"><input type="text" id="scSearchInput" placeholder="Search..." oninput="renderSavedClientsList()"></div>
+    <div class="sc-list" id="scList"></div>
+  </div>
 
 
   <!-- ── GALLERY SCREEN (s18) ── -->
@@ -818,8 +883,9 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 
 
   <div class="screen" id="s1">
-    <div class="home-header" style="padding-bottom:8px;">
+    <div class="home-header" style="padding-bottom:8px;display:flex;align-items:center;justify-content:space-between;">
       <div class="home-title">Haircut Categories</div>
+      <div class="hd-search-btn" style="margin-top:0;" onclick="switchTab('search')"><i class="ti ti-search"></i></div>
     </div>
     <div class="filter-bar" id="filterBar"></div>
     <div class="cat-grid" id="catGrid"></div>
@@ -1329,8 +1395,130 @@ function openLockInSheet(){_lockType=null;renderLockStep1();document.getElementB
 function closeLockInSheet(){document.getElementById('lockinBackdrop').classList.remove('open');document.getElementById('lockinSheet').classList.remove('open');}
 function renderLockStep1(){const body=document.getElementById('lockinBody');body.innerHTML='';const types=[{id:'freestyle',icon:'ti-scissors',label:'Freestyle',desc:'Mannequin or personal practice — no name needed'},{id:'client',icon:'ti-user',label:'Client',desc:'A paying client — record their name'},{id:'model',icon:'ti-star',label:'Model',desc:'A model or shoot subject — record their name'}];const cards=document.createElement('div');cards.className='lockin-type-cards';types.forEach(t=>{const card=document.createElement('div');card.className='lockin-type-card';card.innerHTML=`<div class="lockin-type-icon ${t.id}"><i class="ti ${t.icon}"></i></div><div><div class="lockin-type-label">${t.label}</div><div class="lockin-type-desc">${t.desc}</div></div>`;card.onclick=()=>{_lockType=t.id;if(t.id==='freestyle')renderLockStepFreestyle();else renderLockStepNamed(t.id);};cards.appendChild(card);});body.appendChild(cards);}
 function renderLockStepFreestyle(){const body=document.getElementById('lockinBody');body.innerHTML='';document.getElementById('lockinSheet').querySelector('.lockin-sub').textContent='Freestyle — no name required';const form=document.createElement('div');form.className='lockin-form';form.innerHTML=`<div class="lockin-field"><label>Notes (optional)</label><textarea id="liDesc" rows="3" placeholder="Any notes on this cut…"></textarea></div>`;const btn=document.createElement('button');btn.className='lockin-confirm-btn';btn.innerHTML='<i class="ti ti-scissors"></i> Confirm Lock';btn.onclick=()=>{const desc=document.getElementById('liDesc').value.trim();closeLockInSheet();commitLockIn('freestyle','',desc);};form.appendChild(btn);const back=document.createElement('div');back.className='lockin-back-link';back.textContent='← Change type';back.onclick=()=>renderLockStep1();form.appendChild(back);body.appendChild(form);}
-function renderLockStepNamed(type){const body=document.getElementById('lockinBody');body.innerHTML='';const label=type==='client'?'Client':'Model';document.getElementById('lockinSheet').querySelector('.lockin-sub').textContent=`${label} — enter their name`;const form=document.createElement('div');form.className='lockin-form';form.innerHTML=`<div class="lockin-field"><label>${label} Name *</label><input id="liName" type="text" placeholder="e.g. ${type==='client'?'James Okafor':'Sofia Martins'}"></div><div class="lockin-field"><label>Notes (optional)</label><textarea id="liDesc" rows="3" placeholder="Any notes on this cut…"></textarea></div>`;const btn=document.createElement('button');btn.className='lockin-confirm-btn';btn.innerHTML=`<i class="ti ti-scissors"></i> Lock in for ${label}`;btn.onclick=()=>{const name=document.getElementById('liName').value.trim();if(!name){document.getElementById('liName').focus();document.getElementById('liName').style.borderColor='#e55';return;}const desc=document.getElementById('liDesc').value.trim();closeLockInSheet();commitLockIn(type,name,desc);};form.appendChild(btn);const back=document.createElement('div');back.className='lockin-back-link';back.textContent='← Change type';back.onclick=()=>renderLockStep1();form.appendChild(back);body.appendChild(form);}
+function renderLockStepNamed(type){const body=document.getElementById('lockinBody');body.innerHTML='';const label=type==='client'?'Client':'Model';document.getElementById('lockinSheet').querySelector('.lockin-sub').textContent=`${label} — enter their name`;const form=document.createElement('div');form.className='lockin-form';form.innerHTML=`<div class="lockin-field"><label>${label} Name *</label><input id="liName" type="text" placeholder="e.g. ${type==='client'?'James Okafor':'Sofia Martins'}"></div><div class="lockin-field"><label>Notes (optional)</label><textarea id="liDesc" rows="3" placeholder="Any notes on this cut…"></textarea></div>`;const btn=document.createElement('button');btn.className='lockin-confirm-btn';btn.innerHTML=`<i class="ti ti-scissors"></i> Lock in for ${label}`;btn.onclick=()=>{const name=document.getElementById('liName').value.trim();if(!name){document.getElementById('liName').focus();document.getElementById('liName').style.borderColor='#e55';return;}const desc=document.getElementById('liDesc').value.trim();closeLockInSheet();commitLockIn(type,name,desc);};form.appendChild(btn);const savedBtn=document.createElement('div');savedBtn.className='lockin-back-link';savedBtn.innerHTML=`<i class="ti ti-users" style="font-size:13px;vertical-align:middle;margin-right:4px;"></i> Choose saved ${label.toLowerCase()}`;savedBtn.onclick=()=>openSavedClientsPicker(type);form.appendChild(savedBtn);const back=document.createElement('div');back.className='lockin-back-link';back.style.marginTop='4px';back.textContent='← Change type';back.onclick=()=>renderLockStep1();form.appendChild(back);body.appendChild(form);}
 function commitLockIn(type,personName,personDesc){addToHistory(cur,fv,tv,type,personName,personDesc);saveLockedCut(type,personName,personDesc);const fi=getImgs(cur)[0].src;loadImg(document.getElementById('doneImg'),fi,cur.name);document.getElementById('doneCut').textContent=cur.name;document.getElementById('doneOpts').textContent=fv+' fade · '+tv+' top';const badgeEl=document.getElementById('donePersonBadge');if(type==='freestyle'){badgeEl.innerHTML='<div class="done-person-badge freestyle"><i class="ti ti-scissors" style="font-size:12px"></i> Freestyle</div>';}else{const icon=type==='client'?'ti-user':'ti-star';badgeEl.innerHTML=`<div class="done-person-badge ${type}"><i class="ti ${icon}" style="font-size:12px"></i> ${personName||type}</div>`;}document.getElementById('doneNote').textContent=personDesc||'Selection confirmed. Sit back and relax — we\'re getting started.';go('s4');}
+
+
+/* ─── NOTIFICATIONS ─── */
+const NOTIF_INACTIVE_DAYS=7;
+
+function getNotifications(){
+  const h=getHistory();
+  const now=new Date();
+  const byPerson={};
+  h.forEach(item=>{
+    if((item.type==='client'||item.type==='model')&&item.personName){
+      const key=item.personName.trim().toLowerCase();
+      if(!byPerson[key]||new Date(item.date)>new Date(byPerson[key].date)){
+        byPerson[key]={name:item.personName,date:item.date,type:item.type};
+      }
+    }
+  });
+  const notifs=[];
+  Object.values(byPerson).forEach(p=>{
+    const days=Math.floor((now-new Date(p.date))/(1000*60*60*24));
+    if(days>=NOTIF_INACTIVE_DAYS){
+      notifs.push({type:'inactive',name:p.name,personType:p.type,days,date:p.date});
+    }
+  });
+  notifs.sort((a,b)=>b.days-a.days);
+  return notifs;
+}
+
+function openNotifications(){
+  go('s19');
+  renderNotifications();
+  // clear dot once opened
+  const dot=document.getElementById('notifDot');
+  if(dot)dot.classList.remove('visible');
+}
+
+function renderNotifications(){
+  const list=document.getElementById('notifList');
+  if(!list)return;
+  list.innerHTML='';
+  const notifs=getNotifications();
+  if(!notifs.length){
+    list.innerHTML='<div class="notif-empty"><i class="ti ti-bell-off"></i><p>No notifications right now.<br>You\'re all caught up!</p></div>';
+    return;
+  }
+  notifs.forEach(n=>{
+    const item=document.createElement('div');
+    item.className='notif-item';
+    const weeksAgo=n.days>=14?`${Math.floor(n.days/7)}w ago`:`${n.days}d ago`;
+    item.innerHTML=`
+      <div class="notif-icon"><i class="ti ti-user-exclamation"></i></div>
+      <div class="notif-body">
+        <div class="notif-body-title">${n.name} hasn't been cut in a while</div>
+        <div class="notif-body-sub">Last ${n.personType} session was ${n.days} day${n.days!==1?'s':''} ago. Might be time to reach out.</div>
+        <div class="notif-body-time">${weeksAgo}</div>
+      </div>`;
+    list.appendChild(item);
+  });
+}
+
+function refreshNotifDot(){
+  const dot=document.getElementById('notifDot');
+  if(!dot)return;
+  const count=getNotifications().length;
+  dot.classList.toggle('visible',count>0);
+}
+
+
+/* ─── SAVED CLIENTS PICKER ─── */
+let _scType='client';
+let _scTargetInput='liName';
+
+function openSavedClientsPicker(type){
+  _scType=type;
+  _scTargetInput='liName';
+  const title=document.getElementById('scTitle');
+  if(title)title.textContent=`Choose Saved ${type==='client'?'Client':'Model'}`;
+  const inp=document.getElementById('scSearchInput');
+  if(inp)inp.value='';
+  renderSavedClientsList();
+  document.getElementById('scBackdrop').classList.add('open');
+  document.getElementById('scSheet').classList.add('open');
+}
+
+function closeSavedClientsPicker(){
+  document.getElementById('scBackdrop').classList.remove('open');
+  document.getElementById('scSheet').classList.remove('open');
+}
+
+function renderSavedClientsList(){
+  const list=document.getElementById('scList');
+  const query=(document.getElementById('scSearchInput').value||'').trim().toLowerCase();
+  const h=getHistory();
+  const byPerson={};
+  h.forEach(item=>{
+    if(item.type!==_scType||!item.personName)return;
+    const key=item.personName.trim().toLowerCase();
+    if(!byPerson[key]){byPerson[key]={name:item.personName,count:0,latest:item.date};}
+    byPerson[key].count++;
+    if(new Date(item.date)>new Date(byPerson[key].latest))byPerson[key].latest=item.date;
+  });
+  let people=Object.values(byPerson);
+  if(query)people=people.filter(p=>p.name.toLowerCase().includes(query));
+  people.sort((a,b)=>new Date(b.latest)-new Date(a.latest));
+  list.innerHTML='';
+  if(!people.length){
+    list.innerHTML=`<div class="sc-empty">No saved ${_scType==='client'?'clients':'models'} found.</div>`;
+    return;
+  }
+  people.forEach(p=>{
+    const row=document.createElement('div');
+    row.className='sc-row';
+    const ini=p.name.split(' ').map(w=>w[0]||'').slice(0,2).join('').toUpperCase();
+    row.innerHTML=`<div class="sc-avatar">${ini}</div><div><div class="sc-name">${p.name}</div><div class="sc-meta">${p.count} session${p.count!==1?'s':''}</div></div>`;
+    row.onclick=()=>{
+      const inp=document.getElementById(_scTargetInput);
+      if(inp){inp.value=p.name;inp.style.borderColor='';}
+      closeSavedClientsPicker();
+    };
+    list.appendChild(row);
+  });
+}
 
 
 /* ─── GALLERY ─── */
@@ -1858,7 +2046,7 @@ function go(sid){
 
 
   // Hide bottom nav on screens where it should not appear
-  const hideOn = new Set(['s0','s12','s8','s9','s13','s3','s4','s17','s18']);
+  const hideOn = new Set(['s0','s12','s8','s9','s13','s3','s4','s17','s18','s19']);
   const nav = document.querySelector('.bottom-nav');
   if(nav) nav.style.display = hideOn.has(sid) ? 'none' : 'flex';
 
@@ -2655,6 +2843,7 @@ syncThemeUI();
 restoreLockedCut();
 // Load home screen on first entry
 loadHomeScreen();
+refreshNotifDot();
 document.addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX;},false);
 document.addEventListener('touchend',e=>{touchEndX=e.changedTouches[0].screenX;handleSwipeInPeopleScreen();},false);
 </script>
