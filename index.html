@@ -523,6 +523,16 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .gallery-lb-fav:active{transform:scale(0.88);}
 .gallery-lb-fav.faved{color:#fff;}
 
+/* ── NOTIFICATION TOAST ── */
+.notif-toast{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-110%);width:calc(100% - 32px);max-width:388px;background:var(--bg2);border:0.5px solid var(--border2);border-radius:14px;padding:11px 14px;display:flex;align-items:center;gap:11px;z-index:200;box-shadow:0 4px 24px rgba(0,0,0,0.22);transition:transform 0.32s cubic-bezier(0.25,0.46,0.45,0.94),opacity 0.32s ease;opacity:0;pointer-events:none;}
+.notif-toast.show{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:auto;}
+.notif-toast-icon{width:34px;height:34px;border-radius:10px;background:var(--bg3);border:0.5px solid var(--border);display:flex;align-items:center;justify-content:justify-content;align-items:center;justify-content:center;flex-shrink:0;}
+.notif-toast-icon i{font-size:16px;color:var(--text2);}
+.notif-toast-body{flex:1;min-width:0;}
+.notif-toast-title{font-size:13px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.notif-toast-sub{font-size:11px;color:var(--text2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.notif-toast-close{width:22px;height:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
+.notif-toast-close i{font-size:14px;color:var(--text3);}
 /* ── NOTIFICATIONS SCREEN ── */
 .notif-screen{display:flex;flex-direction:column;flex:1;overflow:hidden;}
 .notif-topbar{padding:14px 16px 12px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0;}
@@ -622,6 +632,21 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .ba-info-empty{font-size:12px;color:var(--text3);}
 .hd-action-compare i{color:var(--text2);}
 .hd-action-metrics i{color:var(--text2);}
+/* ── LOCK-IN INTRO DIALOG ── */
+.lockin-intro-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:60;}
+.lockin-intro-backdrop.open{display:block;}
+.lockin-intro-sheet{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:420px;background:var(--bg);border-radius:20px 20px 0 0;padding:20px 20px 36px;z-index:61;transition:transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94);}
+.lockin-intro-sheet.open{transform:translateX(-50%) translateY(0);}
+.lockin-intro-handle{width:36px;height:4px;border-radius:2px;background:var(--border2);margin:0 auto 20px;}
+.lockin-intro-title{font-size:18px;font-weight:700;color:var(--text);letter-spacing:-0.02em;margin-bottom:8px;}
+.lockin-intro-body{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:20px;}
+.lockin-intro-rows{display:flex;flex-direction:column;gap:10px;margin-bottom:22px;}
+.lockin-intro-row{display:flex;align-items:center;gap:12px;}
+.lockin-intro-icon{width:34px;height:34px;border-radius:10px;background:var(--bg3);border:0.5px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.lockin-intro-icon i{font-size:16px;color:var(--text2);}
+.lockin-intro-row-text{font-size:13px;color:var(--text2);line-height:1.5;}
+.lockin-intro-row-text strong{color:var(--text);}
+.lockin-intro-btn{width:100%;padding:14px;background:var(--lock-bg);color:var(--lock-text);border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;}
 /* SUPABASE SETUP & MANAGE HAIRCUTS */
 .sb-setup-body{padding:24px 20px 40px;overflow-y:auto;flex:1;}
 .sb-logo-row{display:flex;gap:12px;align-items:center;margin-bottom:20px;}
@@ -1331,7 +1356,7 @@ function lbTouchEnd(e){const remaining=Array.from(e.touches);if(lbPinching&&rema
 
 
 /* ─── STATE ─── */
-let cur=null,curCat=null,fv='Mid',tv='Neat',isDark=true,isListView=false,selectedHairType='all',fromPeople=false;
+let cur=null,curCat=null,fv='Mid',tv='Neat',isDark=true,isListView=false,selectedHairType='all',fromPeople=false,fromHome=false;
 let metricsWalkthroughStep=0,metricsWalkthroughActive=false;
 const hairTypes=['All','Curly','Straight','Wavy','Textured'];
 const STORAGE_KEY='lockedCut',HISTORY_KEY='cutHistory',MODEL_PROFILES_KEY='modelProfiles',DASH_REFRESH_KEY='dashboardRefresh',AUTO_SCROLL_KEY='featuredAutoScroll';
@@ -1401,6 +1426,25 @@ const NOTIF_INACTIVE_DAYS=7;
 function getStoredNotifs(){try{return JSON.parse(localStorage.getItem(NOTIF_STORE_KEY)||'[]');}catch(e){return[];}}
 function saveStoredNotifs(n){localStorage.setItem(NOTIF_STORE_KEY,JSON.stringify(n));}
 
+let _toastTimer=null;
+function showNotifToast(notif){
+  const toast=document.getElementById('notifToast');
+  const icon=document.getElementById('notifToastIcon');
+  const title=document.getElementById('notifToastTitle');
+  const sub=document.getElementById('notifToastSub');
+  if(!toast)return;
+  if(icon)icon.className='ti '+(notif.icon||'ti-bell');
+  if(title)title.textContent=notif.title||'New notification';
+  if(sub)sub.textContent=notif.body||'';
+  toast.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer=setTimeout(dismissNotifToast,4000);
+}
+function dismissNotifToast(){
+  const toast=document.getElementById('notifToast');
+  if(toast)toast.classList.remove('show');
+  clearTimeout(_toastTimer);
+}
 function pushNotif(notif){
   const all=getStoredNotifs();
   // dedupe by dedupe key if present
@@ -1413,6 +1457,7 @@ function pushNotif(notif){
   if(all.length>60)all.length=60;
   saveStoredNotifs(all);
   refreshNotifDot();
+  showNotifToast(notif);
 }
 
 function getNotifications(){
@@ -1990,7 +2035,7 @@ function renderHdFeaturedCards(){
     const imgs=getImgs(cut);
     const card=document.createElement('div');
     card.className='hd-feat-card';
-    card.onclick=()=>{curCat=cats.find(c=>c.id===cut.cat)||null;openCut(cut.id);};
+    card.onclick=()=>{curCat=cats.find(c=>c.id===cut.cat)||null;fromHome=true;openCut(cut.id);};
     const img=document.createElement('img');
     img.className='hd-feat-img';
     img.src=imgs[0].src;
@@ -2032,7 +2077,7 @@ function renderHdTrendChart(){
   const card=document.createElement('div');
   card.className='m-chart-card tappable';
   card.style.cssText='margin:0;cursor:pointer;';
-  card.onclick=()=>openDrill('trend');
+  card.onclick=()=>{openDrill('trend');document.getElementById('drillBackBtn').onclick=()=>switchTab('home');};
 
 
   // SVG line chart — exact same approach as renderMetricsScreen
@@ -2217,8 +2262,10 @@ function buildCats(){const g=document.getElementById('catGrid');g.classList.togg
 function openCat(catId,catName){curCat={id:catId,name:catName};document.getElementById('s2Title').textContent=catName;const fc=selectedHairType==='all'?cuts:cuts.filter(c=>c.hairType===selectedHairType);const g=document.getElementById('cutGrid');g.innerHTML='';fc.filter(c=>c.cat===catId).forEach(c=>{const card=document.createElement('div');card.className='cut-card';card.onclick=()=>{fromPeople=false;openCut(c.id);};const img=document.createElement('img');loadImg(img,getImgs(c)[0].src,c.name);const ov=document.createElement('div');ov.className='cut-overlay';ov.innerHTML='<div class="cut-name-sm">'+c.name+'</div><div class="cut-cat-sm">'+c.tags.join(', ')+'</div>';card.appendChild(img);card.appendChild(ov);g.appendChild(card);});go('s2');}
 function renderHairTypeFilters(){const bar=document.getElementById('filterBar');bar.innerHTML='';hairTypes.forEach(type=>{const chip=document.createElement('button');chip.type='button';chip.className='filter-chip'+(selectedHairType===type.toLowerCase()?' active':'');chip.textContent=type;chip.onclick=()=>selectHairType(type.toLowerCase());bar.appendChild(chip);});}
 function selectHairType(type){selectedHairType=type;renderHairTypeFilters();buildCats();}
-function openCut(id,preserveOpts=false){cur=cuts.find(c=>c.id===id);const fi=getImgs(cur)[0].src;const cThumbEl=document.getElementById('cThumb');if(cThumbEl)loadImg(cThumbEl,fi,cur.name);document.getElementById('dName').textContent=cur.name;document.getElementById('dSub').textContent=cur.tags.join(' · ');document.getElementById('dBadges').innerHTML=cur.tags.map(t=>'<div class="badge">'+t+'</div>').join('');document.getElementById('dDesc').textContent=cur.desc;const cNameEl=document.getElementById('cName');if(cNameEl)cNameEl.textContent=cur.name;document.getElementById('s3Back').textContent=curCat?curCat.name:'Back';if(preserveOpts){document.querySelectorAll('#fadeRow .opt').forEach(b=>b.classList.toggle('on',b.textContent===fv));document.querySelectorAll('#topRow .opt').forEach(b=>b.classList.toggle('on',b.textContent===tv));updateConfirm();}else{resetOpts();}go('s3');requestAnimationFrame(()=>buildHero(cur));}
-function goBackToCategory(){if(fromPeople){fromPeople=false;switchTab('people');}else if(curCat)openCat(curCat.id,curCat.name);else go('s1');}
+function openLockInIntro(){const bd=document.getElementById('lockinIntroBackdrop');const sh=document.getElementById('lockinIntroSheet');if(!bd||!sh)return;bd.classList.add('open');requestAnimationFrame(()=>sh.classList.add('open'));}
+function closeLockInIntro(){const bd=document.getElementById('lockinIntroBackdrop');const sh=document.getElementById('lockinIntroSheet');if(!bd||!sh)return;sh.classList.remove('open');bd.classList.remove('open');}
+function openCut(id,preserveOpts=false){cur=cuts.find(c=>c.id===id);const fi=getImgs(cur)[0].src;const cThumbEl=document.getElementById('cThumb');if(cThumbEl)loadImg(cThumbEl,fi,cur.name);document.getElementById('dName').textContent=cur.name;document.getElementById('dSub').textContent=cur.tags.join(' · ');document.getElementById('dBadges').innerHTML=cur.tags.map(t=>'<div class="badge">'+t+'</div>').join('');document.getElementById('dDesc').textContent=cur.desc;const cNameEl=document.getElementById('cName');if(cNameEl)cNameEl.textContent=cur.name;document.getElementById('s3Back').textContent=curCat?curCat.name:'Back';if(preserveOpts){document.querySelectorAll('#fadeRow .opt').forEach(b=>b.classList.toggle('on',b.textContent===fv));document.querySelectorAll('#topRow .opt').forEach(b=>b.classList.toggle('on',b.textContent===tv));updateConfirm();}else{resetOpts();}go('s3');requestAnimationFrame(()=>buildHero(cur));setTimeout(openLockInIntro,350);}
+function goBackToCategory(){if(fromPeople){fromPeople=false;switchTab('people');}else if(fromHome){fromHome=false;switchTab('home');}else if(curCat)openCat(curCat.id,curCat.name);else go('s1');}
 function resetOpts(){fv='Mid';tv='Neat';document.querySelectorAll('#fadeRow .opt').forEach((b,i)=>b.classList.toggle('on',i===1));document.querySelectorAll('#topRow .opt').forEach((b,i)=>b.classList.toggle('on',i===0));updateConfirm();}
 function pick(el,type){const row=type==='fade'?'fadeRow':'topRow';document.querySelectorAll('#'+row+' .opt').forEach(b=>b.classList.remove('on'));el.classList.add('on');if(type==='fade')fv=el.textContent;else tv=el.textContent;updateConfirm();}
 function updateConfirm(){const cOptsEl=document.getElementById('cOpts');if(cOptsEl)cOptsEl.textContent=fv+' fade · '+tv+' top';}
@@ -2973,6 +3020,39 @@ maybeRunPeriodicNotifs();
 document.addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX;},false);
 document.addEventListener('touchend',e=>{touchEndX=e.changedTouches[0].screenX;handleSwipeInPeopleScreen();},false);
 </script>
+
+<!-- ── NOTIFICATION TOAST ── -->
+<div class="notif-toast" id="notifToast" onclick="dismissNotifToast()">
+  <div class="notif-toast-icon"><i class="ti ti-bell" id="notifToastIcon"></i></div>
+  <div class="notif-toast-body">
+    <div class="notif-toast-title" id="notifToastTitle"></div>
+    <div class="notif-toast-sub" id="notifToastSub"></div>
+  </div>
+  <div class="notif-toast-close"><i class="ti ti-x"></i></div>
+</div>
+
+<!-- ── LOCK-IN INTRO DIALOG ── -->
+<div class="lockin-intro-backdrop" id="lockinIntroBackdrop" onclick="closeLockInIntro()"></div>
+<div class="lockin-intro-sheet" id="lockinIntroSheet">
+  <div class="lockin-intro-handle"></div>
+  <div class="lockin-intro-title">Welcome to the Cut Screen</div>
+  <div class="lockin-intro-body">This is where you finalise a haircut before it goes to the chair. Here's what you can do:</div>
+  <div class="lockin-intro-rows">
+    <div class="lockin-intro-row">
+      <div class="lockin-intro-icon"><i class="ti ti-scissors"></i></div>
+      <div class="lockin-intro-row-text"><strong>Lock In</strong> — confirm the cut, choose fade level &amp; top finish, and assign it to a client, model, or freestyle session.</div>
+    </div>
+    <div class="lockin-intro-row">
+      <div class="lockin-intro-icon"><i class="ti ti-layout-columns"></i></div>
+      <div class="lockin-intro-row-text"><strong>Compare</strong> — place this cut side by side with another to help decide.</div>
+    </div>
+    <div class="lockin-intro-row">
+      <div class="lockin-intro-icon"><i class="ti ti-brand-whatsapp"></i></div>
+      <div class="lockin-intro-row-text"><strong>Share</strong> — send the cut reference straight to WhatsApp.</div>
+    </div>
+  </div>
+  <button class="lockin-intro-btn" onclick="closeLockInIntro()">Got it</button>
+</div>
 
 <!-- ── BEFORE & AFTER HAIRCUT PICKER MODAL ── -->
 <div class="ba-modal-backdrop" id="baModalBackdrop" onclick="closeBaModal(event)">
