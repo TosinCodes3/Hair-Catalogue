@@ -534,7 +534,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .ann-empty-state i{font-size:36px;}
 .ann-empty-state p{font-size:13px;text-align:center;line-height:1.6;}
 .ann-toolbar{background:var(--bg);border-top:0.5px solid var(--border);padding:10px 14px;display:flex;flex-direction:column;gap:10px;flex-shrink:0;}
-.ann-tools-row{display:flex;align-items:center;gap:8px;}
+.ann-tools-row{display:flex;align-items:center;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px;}.ann-tools-row::-webkit-scrollbar{display:none;}
 .ann-tool-btn{width:40px;height:40px;border-radius:10px;border:0.5px solid var(--border2);background:var(--bg2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s;flex-shrink:0;}
 .ann-tool-btn i{font-size:18px;color:var(--text2);}
 .ann-tool-btn.active{background:var(--opt-on-bg);border-color:var(--opt-on-border);}
@@ -1377,12 +1377,18 @@ create policy "Allow all" on haircuts for all using (true) with check (true);
         <div class="ann-title">Haircut Annotator</div>
         <div style="width:34px"></div>
       </div>
+      <div class="ann-action-row" style="padding:16px 16px 12px;background:var(--bg);border-bottom:0.5px solid var(--border);">
+        <div class="ann-action-btn" onclick="openAnnPicker()" title="Select Haircut"><i class="ti ti-photo"></i></div>
+        <div class="ann-action-btn" onclick="annUndo()" title="Undo"><i class="ti ti-arrow-back-up"></i></div>
+        <div class="ann-action-btn" onclick="annClear()" title="Clear"><i class="ti ti-trash"></i></div>
+        <div class="ann-action-btn primary" onclick="annExport()" title="Export"><i class="ti ti-download"></i></div>
+      </div>
       <div class="ann-canvas-wrap" id="annCanvasWrap">
         <img class="ann-bg-img" id="annBgImg" src="" alt="" style="display:none;">
         <canvas class="ann-canvas" id="annCanvas" style="display:none;"></canvas>
         <div class="ann-empty-state" id="annEmptyState">
           <i class="ti ti-photo-search"></i>
-          <p>Tap <strong style="color:var(--text2);">Select Haircut</strong> below<br>to load a photo and start drawing.</p>
+          <p>Tap <strong style="color:var(--text2);">Select Haircut</strong> above<br>to load a photo and start drawing.</p>
         </div>
       </div>
       <div class="ann-toolbar">
@@ -1400,12 +1406,6 @@ create policy "Allow all" on haircuts for all using (true) with check (true);
           <div class="ann-size-btn active" id="annSizeSm" onclick="setAnnSize(2)">S</div>
           <div class="ann-size-btn"        id="annSizeMd" onclick="setAnnSize(4)">M</div>
           <div class="ann-size-btn"        id="annSizeLg" onclick="setAnnSize(7)">L</div>
-        </div>
-        <div class="ann-action-row">
-          <div class="ann-action-btn" onclick="openAnnPicker()"><i class="ti ti-photo"></i> Select Haircut</div>
-          <div class="ann-action-btn" onclick="annUndo()"><i class="ti ti-arrow-back-up"></i> Undo</div>
-          <div class="ann-action-btn" onclick="annClear()"><i class="ti ti-trash"></i> Clear</div>
-          <div class="ann-action-btn primary" onclick="annExport()"><i class="ti ti-download"></i> Export</div>
         </div>
       </div>
     </div>
@@ -2351,7 +2351,7 @@ function renderHdTrendChart(){
         </div>
       </div>
     </div>
-    <svg id="hdTrendSvg" viewBox="0 0 ${W} ${H+4}" style="width:100%;height:${H+4}px;overflow:visible;">
+    <svg id="hdTrendSvg" viewBox="0 0 ${W} ${H+4}" style="width:100%;height:${H+4}px;overflow:visible;margin-top:16px;">
       <defs>
         <linearGradient id="hdTrendGrad" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stop-color="var(--text)" stop-opacity="0.18"/>
