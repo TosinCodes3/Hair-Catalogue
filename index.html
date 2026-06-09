@@ -523,6 +523,47 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .gallery-lb-fav:active{transform:scale(0.88);}
 .gallery-lb-fav.faved{color:#fff;}
 
+/* ── HAIRCUT ANNOTATOR ── */
+.ann-screen{display:flex;flex-direction:column;flex:1;overflow:hidden;background:#000;}
+.ann-topbar{padding:14px 16px 12px;display:flex;align-items:center;gap:10px;flex-shrink:0;background:var(--bg);border-bottom:0.5px solid var(--border);}
+.ann-title{font-size:15px;font-weight:700;color:var(--text);flex:1;text-align:center;}
+.ann-canvas-wrap{flex:1;position:relative;overflow:hidden;background:#111;display:flex;align-items:center;justify-content:center;}
+.ann-bg-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;user-select:none;}
+.ann-canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair;}
+.ann-empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--text3);pointer-events:none;}
+.ann-empty-state i{font-size:36px;}
+.ann-empty-state p{font-size:13px;text-align:center;line-height:1.6;}
+.ann-toolbar{background:var(--bg);border-top:0.5px solid var(--border);padding:10px 14px;display:flex;flex-direction:column;gap:10px;flex-shrink:0;}
+.ann-tools-row{display:flex;align-items:center;gap:8px;}
+.ann-tool-btn{width:40px;height:40px;border-radius:10px;border:0.5px solid var(--border2);background:var(--bg2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s;flex-shrink:0;}
+.ann-tool-btn i{font-size:18px;color:var(--text2);}
+.ann-tool-btn.active{background:var(--opt-on-bg);border-color:var(--opt-on-border);}
+.ann-tool-btn.active i{color:var(--text);}
+.ann-divider{width:1px;height:32px;background:var(--border2);flex-shrink:0;}
+.ann-color-btn{width:28px;height:28px;border-radius:50%;border:2.5px solid transparent;cursor:pointer;flex-shrink:0;transition:transform 0.15s;}
+.ann-color-btn.active{border-color:#fff;transform:scale(1.2);}
+.ann-size-btn{padding:5px 10px;border-radius:8px;border:0.5px solid var(--border2);background:var(--bg2);font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;font-family:inherit;transition:all 0.15s;}
+.ann-size-btn.active{background:var(--opt-on-bg);border-color:var(--opt-on-border);color:var(--text);}
+.ann-action-row{display:flex;gap:8px;}
+.ann-action-btn{flex:1;padding:10px;border-radius:10px;border:0.5px solid var(--border2);background:var(--bg2);font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px;transition:opacity 0.15s;}
+.ann-action-btn:active{opacity:0.7;}
+.ann-action-btn i{font-size:14px;}
+.ann-action-btn.primary{background:var(--lock-bg);color:var(--lock-text);border-color:transparent;}
+/* Annotator picker modal */
+.ann-pick-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:80;align-items:flex-end;justify-content:center;}
+.ann-pick-backdrop.open{display:flex;}
+.ann-pick-modal{background:var(--bg);border-radius:20px 20px 0 0;width:100%;max-width:420px;max-height:72vh;display:flex;flex-direction:column;overflow:hidden;}
+.ann-pick-header{padding:16px 16px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:0.5px solid var(--border);flex-shrink:0;}
+.ann-pick-title{font-size:15px;font-weight:700;color:var(--text);}
+.ann-pick-close{width:30px;height:30px;border-radius:50%;background:var(--bg3);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.ann-pick-close i{font-size:16px;color:var(--text2);}
+.ann-pick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;overflow-y:auto;padding:10px;}
+.ann-pick-thumb{aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;border:2.5px solid transparent;transition:border-color 0.15s;background:var(--bg3);position:relative;}
+.ann-pick-thumb:active{opacity:0.8;}
+.ann-pick-thumb img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity 0.3s;}
+.ann-pick-thumb img.loaded{opacity:1;}
+.ann-pick-thumb-label{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.6);font-size:9px;font-weight:600;color:#fff;padding:3px 5px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ann-pick-empty{padding:32px;text-align:center;font-size:13px;color:var(--text3);}
 /* ── NOTIFICATION TOAST ── */
 .notif-toast{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-110%);width:calc(100% - 32px);max-width:388px;background:var(--bg2);border:0.5px solid var(--border2);border-radius:14px;padding:11px 14px;display:flex;align-items:center;gap:11px;z-index:200;box-shadow:0 4px 24px rgba(0,0,0,0.22);transition:transform 0.32s cubic-bezier(0.25,0.46,0.45,0.94),opacity 0.32s ease;opacity:0;pointer-events:none;}
 .notif-toast.show{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:auto;}
@@ -787,10 +828,8 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 <div class="app" id="app">
   <div class="screen active" id="s0">
     <div class="intro-inner">
-      <div class="intro-logo"><i class="ti ti-scissors"></i></div>
       <div class="intro-brand">Learn To Cut</div>
       <div class="intro-title">Haircut Catalogue</div>
-      <button class="intro-btn" onclick="go('s11')">Browse Haircuts</button>
     </div>
     <div class="intro-dots">Est. 2024</div>
   </div>
@@ -947,14 +986,14 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
       <div class="hero-dots" id="heroDots"></div>
       <div class="hero-badge" id="heroBadge"></div>
       <div class="hero-tap-hint" id="heroTapHint"><i class="ti ti-zoom-in" style="font-size:13px"></i> Tap to view full screen</div>
+      <div onclick="event.stopPropagation();goBackToCategory();" style="position:absolute;top:28px;left:16px;z-index:10;width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;cursor:pointer;"><i class="ti ti-arrow-left" style="font-size:18px;color:#fff;"></i></div>
     </div>
-    <div class="topbar" style="border-bottom:none;"><div class="back-btn" onclick="goBackToCategory()"><i class="ti ti-arrow-left"></i><span id="s3Back"></span></div></div>
     <div class="detail-body">
       <div class="detail-title" id="dName"></div>
       <div class="detail-sub" id="dSub"></div>
       <div class="badge-row" id="dBadges"></div>
       <div class="detail-desc" id="dDesc"></div>
-      <div class="opts-section"><div class="opts-label">Fade level</div><div class="opts-row" id="fadeRow"><div class="opt" onclick="pick(this,'fade')">Low</div><div class="opt on" onclick="pick(this,'fade')">Mid</div><div class="opt" onclick="pick(this,'fade')">High</div><div class="opt" onclick="pick(this,'fade')">Skin</div></div></div>
+      <div class="opts-section"><div class="opts-label">Fade level</div><div class="opts-row" id="fadeRow"><div class="opt on" onclick="pick(this,'fade')">Low Fade</div><div class="opt" onclick="pick(this,'fade')">Mid Fade</div><div class="opt" onclick="pick(this,'fade')">High Fade</div><div class="opt" onclick="pick(this,'fade')">Short Burst</div><div class="opt" onclick="pick(this,'fade')">Long Burst</div><div class="opt" onclick="pick(this,'fade')">Taper</div><div class="opt" onclick="pick(this,'fade')">Low Taper</div></div></div>
       <div class="opts-section"><div class="opts-label">Top finish</div><div class="opts-row" id="topRow"><div class="opt on" onclick="pick(this,'top')">Neat</div><div class="opt" onclick="pick(this,'top')">Textured</div><div class="opt" onclick="pick(this,'top')">Waves</div><div class="opt" onclick="pick(this,'top')">Caesar</div></div></div>
     </div>
     <div class="cta-bar">
@@ -1046,6 +1085,13 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
         <div class="settings-section-label">Data</div>
         <div class="settings-row" style="cursor:pointer;" onclick="openManageHaircuts()">
           <div class="settings-row-left"><div class="settings-row-icon"><i class="ti ti-database"></i></div><div><div class="settings-row-label">Manage Haircuts</div><div class="settings-row-sub" id="supabaseStatusLabel">Connect Supabase to manage images</div></div></div>
+          <i class="ti ti-chevron-right" style="color:var(--text3);font-size:16px;"></i>
+        </div>
+      </div>
+      <div class="settings-section">
+        <div class="settings-section-label">Tools</div>
+        <div class="settings-row" style="cursor:pointer;" onclick="openAnnotator()">
+          <div class="settings-row-left"><div class="settings-row-icon"><i class="ti ti-pencil"></i></div><div><div class="settings-row-label">Haircut Annotator</div><div class="settings-row-sub">Draw lines &amp; guides on haircut photos</div></div></div>
           <i class="ti ti-chevron-right" style="color:var(--text3);font-size:16px;"></i>
         </div>
       </div>
@@ -1323,6 +1369,46 @@ create policy "Allow all" on haircuts for all using (true) with check (true);
   <div class="screen" id="s10">
     <div class="topbar"><div class="back-btn" id="drillBackBtn" onclick="go('s9')"><i class="ti ti-arrow-left"></i></div><div class="topbar-title" id="drillTitle">Detail</div><div style="width:34px"></div></div>
     <div class="drill-body" id="drillBody"></div>
+  </div>
+  <div class="screen" id="s20" style="padding-bottom:0;">
+    <div class="ann-screen">
+      <div class="ann-topbar">
+        <div class="back-btn" onclick="go('s7')"><i class="ti ti-arrow-left"></i></div>
+        <div class="ann-title">Haircut Annotator</div>
+        <div style="width:34px"></div>
+      </div>
+      <div class="ann-canvas-wrap" id="annCanvasWrap">
+        <img class="ann-bg-img" id="annBgImg" src="" alt="" style="display:none;">
+        <canvas class="ann-canvas" id="annCanvas" style="display:none;"></canvas>
+        <div class="ann-empty-state" id="annEmptyState">
+          <i class="ti ti-photo-search"></i>
+          <p>Tap <strong style="color:var(--text2);">Select Haircut</strong> below<br>to load a photo and start drawing.</p>
+        </div>
+      </div>
+      <div class="ann-toolbar">
+        <div class="ann-tools-row">
+          <div class="ann-tool-btn active" id="annToolPen" onclick="setAnnTool('pen')" title="Freehand"><i class="ti ti-pencil"></i></div>
+          <div class="ann-tool-btn" id="annToolLine" onclick="setAnnTool('line')" title="Straight line"><i class="ti ti-line"></i></div>
+          <div class="ann-tool-btn" id="annToolArrow" onclick="setAnnTool('arrow')" title="Arrow"><i class="ti ti-arrow-up-right"></i></div>
+          <div class="ann-divider"></div>
+          <div class="ann-color-btn active" id="annColorRed"   onclick="setAnnColor('#ef4444')" style="background:#ef4444;" title="Red"></div>
+          <div class="ann-color-btn"        id="annColorGreen" onclick="setAnnColor('#22c55e')" style="background:#22c55e;" title="Green"></div>
+          <div class="ann-color-btn"        id="annColorBlue"  onclick="setAnnColor('#3b82f6')" style="background:#3b82f6;" title="Blue"></div>
+          <div class="ann-color-btn"        id="annColorWhite" onclick="setAnnColor('#ffffff')" style="background:#ffffff;" title="White"></div>
+          <div class="ann-color-btn"        id="annColorBlack" onclick="setAnnColor('#111111')" style="background:#111111;border:0.5px solid #444;" title="Black"></div>
+          <div class="ann-divider"></div>
+          <div class="ann-size-btn active" id="annSizeSm" onclick="setAnnSize(2)">S</div>
+          <div class="ann-size-btn"        id="annSizeMd" onclick="setAnnSize(4)">M</div>
+          <div class="ann-size-btn"        id="annSizeLg" onclick="setAnnSize(7)">L</div>
+        </div>
+        <div class="ann-action-row">
+          <div class="ann-action-btn" onclick="openAnnPicker()"><i class="ti ti-photo"></i> Select Haircut</div>
+          <div class="ann-action-btn" onclick="annUndo()"><i class="ti ti-arrow-back-up"></i> Undo</div>
+          <div class="ann-action-btn" onclick="annClear()"><i class="ti ti-trash"></i> Clear</div>
+          <div class="ann-action-btn primary" onclick="annExport()"><i class="ti ti-download"></i> Export</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2363,7 +2449,7 @@ function go(sid){
 
 
   // Hide bottom nav on screens where it should not appear
-  const hideOn = new Set(['s0','s12','s8','s9','s13','s3','s4','s17','s18','s19']);
+  const hideOn = new Set(['s0','s12','s8','s9','s13','s3','s4','s17','s18','s19','s20']);
   const nav = document.querySelector('.bottom-nav');
   if(nav) nav.style.display = hideOn.has(sid) ? 'none' : 'flex';
 
@@ -2412,11 +2498,11 @@ function renderHairTypeFilters(){const bar=document.getElementById('filterBar');
 function selectHairType(type){selectedHairType=type;renderHairTypeFilters();buildCats();}
 function openLockInIntro(){const bd=document.getElementById('lockinIntroBackdrop');const sh=document.getElementById('lockinIntroSheet');if(!bd||!sh)return;bd.classList.add('open');requestAnimationFrame(()=>sh.classList.add('open'));}
 function closeLockInIntro(){const bd=document.getElementById('lockinIntroBackdrop');const sh=document.getElementById('lockinIntroSheet');if(!bd||!sh)return;sh.classList.remove('open');bd.classList.remove('open');}
-function openCut(id,preserveOpts=false){cur=cuts.find(c=>c.id===id);const fi=getImgs(cur)[0].src;const cThumbEl=document.getElementById('cThumb');if(cThumbEl)loadImg(cThumbEl,fi,cur.name);document.getElementById('dName').textContent=cur.name;document.getElementById('dSub').textContent=cur.tags.join(' · ');document.getElementById('dBadges').innerHTML=cur.tags.map(t=>'<div class="badge">'+t+'</div>').join('');document.getElementById('dDesc').textContent=cur.desc;const cNameEl=document.getElementById('cName');if(cNameEl)cNameEl.textContent=cur.name;document.getElementById('s3Back').textContent=curCat?curCat.name:'Back';if(preserveOpts){document.querySelectorAll('#fadeRow .opt').forEach(b=>b.classList.toggle('on',b.textContent===fv));document.querySelectorAll('#topRow .opt').forEach(b=>b.classList.toggle('on',b.textContent===tv));updateConfirm();}else{resetOpts();}go('s3');requestAnimationFrame(()=>buildHero(cur));setTimeout(openLockInIntro,350);}
+function openCut(id,preserveOpts=false){cur=cuts.find(c=>c.id===id);const fi=getImgs(cur)[0].src;const cThumbEl=document.getElementById('cThumb');if(cThumbEl)loadImg(cThumbEl,fi,cur.name);document.getElementById('dName').textContent=cur.name;document.getElementById('dSub').textContent=cur.tags.join(' · ');document.getElementById('dBadges').innerHTML=cur.tags.map(t=>'<div class="badge">'+t+'</div>').join('');document.getElementById('dDesc').textContent=cur.desc;const cNameEl=document.getElementById('cName');if(cNameEl)cNameEl.textContent=cur.name;const s3BackEl=document.getElementById('s3Back');if(s3BackEl)s3BackEl.textContent=curCat?curCat.name:'Back';if(preserveOpts){document.querySelectorAll('#fadeRow .opt').forEach(b=>b.classList.toggle('on',b.textContent===fv));document.querySelectorAll('#topRow .opt').forEach(b=>b.classList.toggle('on',b.textContent===tv));updateConfirm();}else{resetOpts();}go('s3');requestAnimationFrame(()=>buildHero(cur));setTimeout(openLockInIntro,350);}
 function goBackToCategory(){if(fromPeople){fromPeople=false;switchTab('people');}else if(fromHome){fromHome=false;switchTab('home');}else if(curCat)openCat(curCat.id,curCat.name);else go('s1');}
-function resetOpts(){fv='Mid';tv='Neat';document.querySelectorAll('#fadeRow .opt').forEach((b,i)=>b.classList.toggle('on',i===1));document.querySelectorAll('#topRow .opt').forEach((b,i)=>b.classList.toggle('on',i===0));updateConfirm();}
+function resetOpts(){fv='Low Fade';tv='Neat';document.querySelectorAll('#fadeRow .opt').forEach((b,i)=>b.classList.toggle('on',i===0));document.querySelectorAll('#topRow .opt').forEach((b,i)=>b.classList.toggle('on',i===0));updateConfirm();}
 function pick(el,type){const row=type==='fade'?'fadeRow':'topRow';document.querySelectorAll('#'+row+' .opt').forEach(b=>b.classList.remove('on'));el.classList.add('on');if(type==='fade')fv=el.textContent;else tv=el.textContent;updateConfirm();}
-function updateConfirm(){const cOptsEl=document.getElementById('cOpts');if(cOptsEl)cOptsEl.textContent=fv+' fade · '+tv+' top';}
+function updateConfirm(){const cOptsEl=document.getElementById('cOpts');if(cOptsEl)cOptsEl.textContent=fv+' · '+tv+' top';}
 function shareCutToWhatsApp(){if(!cur)return;const fi=getImgs(cur)[0].src;const text='Check out this haircut: '+cur.name+'\n'+cur.desc+'\n'+window.location.origin+window.location.pathname+'\nImage: '+new URL(fi,window.location.href).href;window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');}
 function restoreLockedCut(){const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return;try{const s=JSON.parse(raw),cut=cuts.find(c=>c.id===s.id);if(!cut)return;cur=cut;fv=s.fv||'Mid';tv=s.tv||'Neat';}catch(e){}}
 
@@ -2563,6 +2649,8 @@ async function sbLoad(){
   try{await sbLoadProfiles();}catch(e){console.warn('Failed to load profiles',e);}
   try{buildCats();}catch(e){}
   updateSupabaseStatusLabel();
+  // Re-render home screen now that cuts are loaded
+  try{loadHomeScreen();}catch(e){}
 }
 
 
@@ -3149,6 +3237,242 @@ function switchMhTab(tab){
   if(tab==='categories')renderMhCategories();
 }
 
+/* ─── HAIRCUT ANNOTATOR ─── */
+let _annTool='pen';
+let _annColor='#ef4444';
+let _annSize=2;
+let _annDrawing=false;
+let _annHistory=[];   // array of ImageData snapshots for undo
+let _annStart={x:0,y:0};
+let _annSnapshot=null; // snapshot before current stroke (for line/arrow preview)
+
+function openAnnotator(){go('s20');annResizeCanvas();}
+
+function annResizeCanvas(){
+  const wrap=document.getElementById('annCanvasWrap');
+  const canvas=document.getElementById('annCanvas');
+  const img=document.getElementById('annBgImg');
+  if(!wrap||!canvas)return;
+  canvas.width=wrap.clientWidth||window.innerWidth;
+  canvas.height=wrap.clientHeight||400;
+  if(img&&img.src&&!img.hidden){
+    img.style.width=canvas.width+'px';
+    img.style.height=canvas.height+'px';
+  }
+  // Redraw history after resize
+  if(_annHistory.length){
+    const ctx=canvas.getContext('2d');
+    ctx.putImageData(_annHistory[_annHistory.length-1],0,0);
+  }
+}
+
+function setAnnTool(tool){
+  _annTool=tool;
+  ['pen','line','arrow'].forEach(t=>{
+    const el=document.getElementById('annTool'+t.charAt(0).toUpperCase()+t.slice(1));
+    if(el)el.classList.toggle('active',t===tool);
+  });
+}
+
+function setAnnColor(color){
+  _annColor=color;
+  const map={['#ef4444']:'Red',['#22c55e']:'Green',['#3b82f6']:'Blue',['#ffffff']:'White',['#111111']:'Black'};
+  Object.entries(map).forEach(([c,name])=>{
+    const el=document.getElementById('annColor'+name);
+    if(el)el.classList.toggle('active',c===color);
+  });
+}
+
+function setAnnSize(size){
+  _annSize=size;
+  const map={2:'Sm',4:'Md',7:'Lg'};
+  Object.entries(map).forEach(([s,name])=>{
+    const el=document.getElementById('annSize'+name);
+    if(el)el.classList.toggle('active',Number(s)===size);
+  });
+}
+
+function _annGetPos(e,canvas){
+  const rect=canvas.getBoundingClientRect();
+  const src=e.touches?e.touches[0]:e;
+  return{x:(src.clientX-rect.left)*(canvas.width/rect.width),y:(src.clientY-rect.top)*(canvas.height/rect.height)};
+}
+
+function _annDrawArrow(ctx,x1,y1,x2,y2){
+  const headLen=14,angle=Math.atan2(y2-y1,x2-x1);
+  ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(x2,y2);
+  ctx.lineTo(x2-headLen*Math.cos(angle-Math.PI/6),y2-headLen*Math.sin(angle-Math.PI/6));
+  ctx.lineTo(x2-headLen*Math.cos(angle+Math.PI/6),y2-headLen*Math.sin(angle+Math.PI/6));
+  ctx.closePath();ctx.fillStyle=_annColor;ctx.fill();
+}
+
+function annInitCanvas(){
+  const canvas=document.getElementById('annCanvas');
+  if(!canvas||canvas._annInited)return;
+  canvas._annInited=true;
+  const ctx=canvas.getContext('2d');
+
+  function startDraw(e){
+    e.preventDefault();
+    _annDrawing=true;
+    const pos=_annGetPos(e,canvas);
+    _annStart=pos;
+    // Save snapshot before this stroke
+    _annSnapshot=ctx.getImageData(0,0,canvas.width,canvas.height);
+    if(_annTool==='pen'){
+      ctx.beginPath();ctx.moveTo(pos.x,pos.y);
+    }
+  }
+  function moveDraw(e){
+    e.preventDefault();
+    if(!_annDrawing)return;
+    const pos=_annGetPos(e,canvas);
+    ctx.strokeStyle=_annColor;ctx.lineWidth=_annSize;ctx.lineCap='round';ctx.lineJoin='round';
+    if(_annTool==='pen'){
+      ctx.lineTo(pos.x,pos.y);ctx.stroke();
+    } else {
+      // Restore snapshot to clear previous preview
+      ctx.putImageData(_annSnapshot,0,0);
+      ctx.strokeStyle=_annColor;ctx.lineWidth=_annSize;ctx.lineCap='round';
+      if(_annTool==='line'){
+        ctx.beginPath();ctx.moveTo(_annStart.x,_annStart.y);ctx.lineTo(pos.x,pos.y);ctx.stroke();
+      } else if(_annTool==='arrow'){
+        _annDrawArrow(ctx,_annStart.x,_annStart.y,pos.x,pos.y);
+      }
+    }
+  }
+  function endDraw(e){
+    if(!_annDrawing)return;
+    _annDrawing=false;
+    // Commit final state to history
+    _annHistory.push(ctx.getImageData(0,0,canvas.width,canvas.height));
+    if(_annHistory.length>40)_annHistory.shift();
+    _annSnapshot=null;
+  }
+
+  canvas.addEventListener('touchstart',startDraw,{passive:false});
+  canvas.addEventListener('touchmove',moveDraw,{passive:false});
+  canvas.addEventListener('touchend',endDraw,{passive:false});
+  canvas.addEventListener('mousedown',startDraw);
+  canvas.addEventListener('mousemove',moveDraw);
+  canvas.addEventListener('mouseup',endDraw);
+  canvas.addEventListener('mouseleave',endDraw);
+}
+
+function annUndo(){
+  const canvas=document.getElementById('annCanvas');if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  if(_annHistory.length>1){
+    _annHistory.pop();
+    ctx.putImageData(_annHistory[_annHistory.length-1],0,0);
+  } else {
+    _annHistory=[];
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+}
+
+function annClear(){
+  const canvas=document.getElementById('annCanvas');if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  _annHistory=[];
+}
+
+function annExport(){
+  const bgImg=document.getElementById('annBgImg');
+  const canvas=document.getElementById('annCanvas');
+  if(!canvas)return;
+  if(!bgImg||!bgImg.src||bgImg.style.display==='none'){
+    // No image — export drawing only
+    const url=canvas.toDataURL('image/png');
+    _annDownload(url,'annotation.png');
+    return;
+  }
+  // Merge bg image + canvas drawing into one export canvas
+  const exp=document.createElement('canvas');
+  exp.width=canvas.width;exp.height=canvas.height;
+  const ctx=exp.getContext('2d');
+  ctx.drawImage(bgImg,0,0,exp.width,exp.height);
+  ctx.drawImage(canvas,0,0);
+  const url=exp.toDataURL('image/png');
+  _annDownload(url,'annotation.png');
+}
+
+function _annDownload(dataUrl,filename){
+  const a=document.createElement('a');
+  a.href=dataUrl;a.download=filename;
+  document.body.appendChild(a);a.click();
+  document.body.removeChild(a);
+}
+
+/* Picker */
+function openAnnPicker(){
+  const grid=document.getElementById('annPickGrid');
+  if(!grid)return;
+  grid.innerHTML='';
+  if(!cuts.length){
+    grid.innerHTML='<div class="ann-pick-empty">No haircuts uploaded yet.</div>';
+  } else {
+    cuts.forEach(cut=>{
+      const src=getImgs(cut)[0].src;
+      const thumb=document.createElement('div');
+      thumb.className='ann-pick-thumb';
+      const img=document.createElement('img');
+      img.src=src;img.onload=()=>img.classList.add('loaded');
+      const lbl=document.createElement('div');
+      lbl.className='ann-pick-thumb-label';
+      lbl.textContent=cut.name;
+      thumb.appendChild(img);thumb.appendChild(lbl);
+      thumb.onclick=()=>annLoadImage(src);
+      grid.appendChild(thumb);
+    });
+  }
+  document.getElementById('annPickBackdrop').classList.add('open');
+}
+
+function closeAnnPicker(e){
+  if(e&&e.target!==document.getElementById('annPickBackdrop'))return;
+  document.getElementById('annPickBackdrop').classList.remove('open');
+}
+
+function annLoadImage(src){
+  document.getElementById('annPickBackdrop').classList.remove('open');
+  const wrap=document.getElementById('annCanvasWrap');
+  const bgImg=document.getElementById('annBgImg');
+  const canvas=document.getElementById('annCanvas');
+  const empty=document.getElementById('annEmptyState');
+  if(!bgImg||!canvas||!wrap)return;
+  const image=new Image();
+  image.crossOrigin='anonymous';
+  image.onload=()=>{
+    bgImg.src=src;
+    bgImg.style.display='block';
+    canvas.style.display='block';
+    if(empty)empty.style.display='none';
+    annResizeCanvas();
+    const ctx=canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    _annHistory=[];
+    annInitCanvas();
+  };
+  image.onerror=()=>{
+    // CORS blocked — use as CSS background fallback
+    bgImg.src=src;bgImg.style.display='block';
+    canvas.style.display='block';
+    if(empty)empty.style.display='none';
+    annResizeCanvas();
+    const ctx=canvas.getContext('2d');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    _annHistory=[];
+    annInitCanvas();
+  };
+  image.src=src;
+}
+
+window.addEventListener('resize',()=>{if(document.getElementById('s20').classList.contains('active'))annResizeCanvas();});
+
 /* ─── CATEGORY MANAGEMENT ─── */
 const CAT_META_KEY='appCatMeta';
 
@@ -3350,6 +3674,7 @@ function mhToast(msg){
 
 
 /* ─── INIT ─── */
+setTimeout(()=>switchTab('home'), 5000);
 sbLoad();
 renderHairTypeFilters();
 buildCats();
@@ -3363,6 +3688,17 @@ maybeRunPeriodicNotifs();
 document.addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX;},false);
 document.addEventListener('touchend',e=>{touchEndX=e.changedTouches[0].screenX;handleSwipeInPeopleScreen();},false);
 </script>
+
+<!-- ── ANNOTATOR HAIRCUT PICKER ── -->
+<div class="ann-pick-backdrop" id="annPickBackdrop" onclick="closeAnnPicker(event)">
+  <div class="ann-pick-modal">
+    <div class="ann-pick-header">
+      <div class="ann-pick-title">Select Haircut</div>
+      <button class="ann-pick-close" onclick="closeAnnPicker()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="ann-pick-grid" id="annPickGrid"></div>
+  </div>
+</div>
 
 <!-- ── CATEGORY COVER PICKER MODAL ── -->
 <div class="cat-cover-modal-backdrop" id="catCoverBackdrop" onclick="closeCatCoverModal(event)">
