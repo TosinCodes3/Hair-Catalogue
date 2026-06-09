@@ -610,8 +610,21 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .notif-bell-wrap{position:relative;display:inline-flex;}
 .notif-dot{position:absolute;top:4px;right:4px;width:8px;height:8px;border-radius:50%;background:var(--text);border:2px solid var(--bg);display:none;}
 .notif-dot.visible{display:block;}
+.notif-item{cursor:pointer;}
+.notif-item:active{opacity:0.7;}
 .notif-item.notif-unread{background:var(--bg2);border-radius:12px;padding:12px;margin-bottom:4px;}
 .notif-item.notif-unread .notif-body-title{color:var(--text);}
+.notif-detail-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:90;}
+.notif-detail-backdrop.open{display:block;}
+.notif-detail-sheet{position:fixed;bottom:0;left:0;right:0;background:var(--bg);border-radius:20px 20px 0 0;z-index:91;padding:20px 20px 36px;transform:translateY(100%);transition:transform 0.3s cubic-bezier(0.32,0.72,0,1);max-width:480px;margin:0 auto;}
+.notif-detail-sheet.open{transform:translateY(0);}
+.notif-detail-handle{width:36px;height:4px;border-radius:2px;background:var(--border2);margin:0 auto 18px;}
+.notif-detail-icon{width:52px;height:52px;border-radius:50%;background:var(--bg2);border:0.5px solid var(--border2);display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+.notif-detail-icon i{font-size:22px;color:var(--text2);}
+.notif-detail-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px;line-height:1.4;}
+.notif-detail-body{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:12px;}
+.notif-detail-time{font-size:12px;color:var(--text3);}
+.notif-detail-dismiss{margin-top:20px;width:100%;padding:13px;border-radius:12px;border:none;background:var(--bg2);color:var(--text2);font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;}
 
 /* ── SAVED CLIENTS PICKER MODAL ── */
 .sc-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:120;}
@@ -910,7 +923,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
       <div class="notif-topbar">
         <div class="back-btn" onclick="switchTab('home')"><i class="ti ti-arrow-left"></i></div>
         <div class="notif-title">Notifications</div>
-        <div style="width:34px"></div>
+        <div class="back-btn" onclick="clearAllNotifs()" title="Clear all"><i class="ti ti-trash"></i></div>
       </div>
       <div class="notif-list" id="notifList"></div>
     </div>
@@ -1787,8 +1800,44 @@ function renderNotifications(){
         <div class="notif-body-sub">${n.body}</div>
         <div class="notif-body-time">${n.time||timeAgo(n.ts)}</div>
       </div>`;
+    item.onclick=()=>openNotifDetail(n);
     list.appendChild(item);
   });
+}
+
+let _currentNotif=null;
+function openNotifDetail(n){
+  _currentNotif=n;
+  document.getElementById('notifDetailIcon').className='ti '+(n.icon||'ti-bell');
+  document.getElementById('notifDetailTitle').textContent=n.title||'';
+  document.getElementById('notifDetailBody').textContent=n.body||'';
+  document.getElementById('notifDetailTime').textContent=n.time||timeAgo(n.ts)||'';
+  document.getElementById('notifDetailBackdrop').classList.add('open');
+  document.getElementById('notifDetailSheet').classList.add('open');
+  if(!n.read){
+    const all=getNotifications();
+    const found=all.find(x=>x.ts===n.ts&&x.title===n.title);
+    if(found){found.read=true;localStorage.setItem(NOTIF_STORE_KEY,JSON.stringify(all));refreshNotifDot();renderNotifications();}
+  }
+}
+function closeNotifDetail(){
+  document.getElementById('notifDetailBackdrop').classList.remove('open');
+  document.getElementById('notifDetailSheet').classList.remove('open');
+  _currentNotif=null;
+}
+function deleteCurrentNotif(){
+  if(!_currentNotif)return;
+  const all=getNotifications().filter(x=>!(x.ts===_currentNotif.ts&&x.title===_currentNotif.title));
+  localStorage.setItem(NOTIF_STORE_KEY,JSON.stringify(all));
+  closeNotifDetail();
+  refreshNotifDot();
+  renderNotifications();
+}
+function clearAllNotifs(){
+  if(!confirm('Clear all notifications?'))return;
+  localStorage.setItem(NOTIF_STORE_KEY,JSON.stringify([]));
+  refreshNotifDot();
+  renderNotifications();
 }
 
 function refreshNotifDot(){
@@ -3823,6 +3872,18 @@ document.addEventListener('touchend',e=>{touchEndX=e.changedTouches[0].screenX;h
 </div>
 
 <!-- ── NOTIFICATION TOAST ── -->
+<!-- ── NOTIFICATION DETAIL SHEET ── -->
+<div class="notif-detail-backdrop" id="notifDetailBackdrop" onclick="closeNotifDetail()"></div>
+<div class="notif-detail-sheet" id="notifDetailSheet">
+  <div class="notif-detail-handle"></div>
+  <div class="notif-detail-icon"><i class="ti ti-bell" id="notifDetailIcon"></i></div>
+  <div class="notif-detail-title" id="notifDetailTitle"></div>
+  <div class="notif-detail-body" id="notifDetailBody"></div>
+  <div class="notif-detail-time" id="notifDetailTime"></div>
+  <button class="notif-detail-dismiss" onclick="closeNotifDetail()">Dismiss</button>
+  <button class="notif-detail-dismiss" style="margin-top:8px;background:transparent;color:#e55;border:0.5px solid rgba(229,85,85,0.3);" onclick="deleteCurrentNotif()"><i class="ti ti-trash" style="font-size:13px;margin-right:4px;vertical-align:middle;"></i>Delete Notification</button>
+</div>
+
 <div class="notif-toast" id="notifToast" onclick="dismissNotifToast()">
   <div class="notif-toast-icon"><i class="ti ti-bell" id="notifToastIcon"></i></div>
   <div class="notif-toast-body">
