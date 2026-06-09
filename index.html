@@ -671,6 +671,38 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .mh-tabs{display:flex;border-bottom:0.5px solid var(--border);flex-shrink:0;}
 .mh-tab{flex:1;padding:12px 8px;background:transparent;border:none;border-bottom:2px solid transparent;font-family:inherit;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;transition:all 0.15s;}
 .mh-tab.active{color:var(--text);border-bottom-color:var(--text);}
+/* ── CATEGORIES MANAGEMENT ── */
+.mh-cat-row{display:flex;align-items:center;gap:10px;background:var(--bg2);border:0.5px solid var(--border);border-radius:14px;padding:10px 12px;margin-bottom:8px;}
+.mh-cat-cover{width:44px;height:44px;border-radius:8px;object-fit:cover;flex-shrink:0;background:var(--bg3);cursor:pointer;border:0.5px solid var(--border);opacity:0;transition:opacity 0.3s;}
+.mh-cat-cover.loaded{opacity:1;}
+.mh-cat-cover-empty{width:44px;height:44px;border-radius:8px;flex-shrink:0;background:var(--bg3);border:1.5px dashed var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.mh-cat-cover-empty i{font-size:16px;color:var(--text3);}
+.mh-cat-info{flex:1;min-width:0;}
+.mh-cat-name-input{width:100%;background:transparent;border:none;outline:none;font-family:inherit;font-size:14px;font-weight:700;color:var(--text);padding:0;}
+.mh-cat-sub{font-size:11px;color:var(--text3);margin-top:2px;}
+.mh-cat-actions{display:flex;gap:6px;flex-shrink:0;}
+.mh-cat-action-btn{width:30px;height:30px;border-radius:8px;border:0.5px solid var(--border2);background:var(--bg3);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:opacity 0.15s;}
+.mh-cat-action-btn:active{opacity:0.7;}
+.mh-cat-action-btn i{font-size:14px;color:var(--text2);}
+.mh-cat-action-btn.danger i{color:#e05c5c;}
+.mh-add-cat-row{display:flex;gap:8px;margin-top:4px;}
+.mh-add-cat-input{flex:1;padding:11px 13px;border-radius:10px;border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);font-family:inherit;font-size:13px;outline:none;}
+.mh-add-cat-btn{padding:11px 16px;border-radius:10px;border:none;background:var(--lock-bg);color:var(--lock-text);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;}
+/* Cover picker modal */
+.cat-cover-modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:80;align-items:flex-end;justify-content:center;}
+.cat-cover-modal-backdrop.open{display:flex;}
+.cat-cover-modal{background:var(--bg);border-radius:20px 20px 0 0;width:100%;max-width:420px;max-height:75vh;display:flex;flex-direction:column;overflow:hidden;}
+.cat-cover-modal-header{padding:16px 16px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:0.5px solid var(--border);flex-shrink:0;}
+.cat-cover-modal-title{font-size:15px;font-weight:700;color:var(--text);}
+.cat-cover-modal-close{width:30px;height:30px;border-radius:50%;background:var(--bg3);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.cat-cover-modal-close i{font-size:16px;color:var(--text2);}
+.cat-cover-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;overflow-y:auto;padding:10px;}
+.cat-cover-thumb{aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;border:2.5px solid transparent;transition:border-color 0.15s,opacity 0.15s;background:var(--bg3);position:relative;}
+.cat-cover-thumb:active{opacity:0.8;}
+.cat-cover-thumb.selected{border-color:var(--text);}
+.cat-cover-thumb img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity 0.3s;}
+.cat-cover-thumb img.loaded{opacity:1;}
+.cat-cover-empty{padding:32px 16px;text-align:center;font-size:13px;color:var(--text3);}
 .mh-pane{display:none;flex-direction:column;flex:1;overflow-y:auto;padding:16px;}
 .mh-pane.active{display:flex;}
 .mh-upload-zone{border:2px dashed var(--border2);border-radius:16px;background:var(--bg2);padding:28px 20px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;transition:border-color 0.15s;margin-bottom:16px;position:relative;}
@@ -1164,6 +1196,7 @@ create policy "Allow all" on haircuts for all using (true) with check (true);
       <div class="mh-tabs">
         <button class="mh-tab active" id="mhTabUpload" onclick="switchMhTab('upload')">Upload</button>
         <button class="mh-tab" id="mhTabLibrary" onclick="switchMhTab('library')">Library</button>
+        <button class="mh-tab" id="mhTabCategories" onclick="switchMhTab('categories')">Categories</button>
       </div>
       <!-- Upload pane -->
       <div class="mh-pane active" id="mhPaneUpload">
@@ -1242,6 +1275,20 @@ create policy "Allow all" on haircuts for all using (true) with check (true);
         <div class="mh-lib-filter" id="mhLibFilter"></div>
         <div id="mhLibContent" style="flex:1;"></div>
       </div>
+      <!-- Categories pane -->
+      <div class="mh-pane" id="mhPaneCategories">
+        <div style="background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:11px 13px;margin-bottom:12px;display:flex;gap:9px;align-items:flex-start;">
+          <i class="ti ti-info-circle" style="font-size:15px;color:var(--text3);flex-shrink:0;margin-top:1px;"></i>
+          <div style="font-size:12px;color:var(--text2);line-height:1.6;">
+            <strong style="color:var(--text);">Tap the cover image</strong> to change it &nbsp;·&nbsp; <strong style="color:var(--text);">Tap the name</strong> to edit it, then tap ✓ to save &nbsp;·&nbsp; <strong style="color:var(--text);">Tap 🗑</strong> to delete a category
+          </div>
+        </div>
+        <div id="mhCatList"></div>
+        <div class="mh-add-cat-row">
+          <input class="mh-add-cat-input" id="mhNewCatInput" type="text" placeholder="New category name…" maxlength="40">
+          <button class="mh-add-cat-btn" onclick="mhAddCategory()">Add</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -1318,7 +1365,7 @@ create policy "Allow all" on haircuts for all using (true) with check (true);
 <script>
 /* ─── DATA ─── */
 const cats=[{id:'brushback',name:'Brush Back',img:'images/brushback4.png'},{id:'burstfade',name:'Burst Fade',img:'images/burstfade2.png'},{id:'taper',name:'Taper',img:'images/taperfade2.png'},{id:'fringe',name:'Fringe',img:'images/fringe.png'},{id:'mullet',name:'Mullet',img:'images/mullet.png'},{id:'modCut',name:'Mod Cut',img:'images/modcut2.png'},{id:'elordi',name:'Jacob Elordi',img:'images/elordi.png'},{id:'layered',name:'Layered Cut',img:'images/layeredflow.png'},{id:'midLength',name:'Mid Length',img:'images/midlength.png'},{id:'middlePart',name:'Middle Part',img:'images/middlepart.png'},{id:'cropHaircuts',name:'Crop Haircuts',img:'images/texturedcrop.png'},{id:'rafael',name:'Rafael',img:'images/rafael.png'},{id:'johnnydepp',name:'Johnny Depp Haircut',img:'images/johnnydepp1.png'}];
-const cuts=[{id:1,name:'Brush Back',cat:'brushback',hairType:'straight',tags:['Skin Fade'],desc:'Brush back elevated with a sharp skin fade on the sides.',imgs:[{src:'images/brushback4.png',label:'Front'},{src:'images/brushback4a.png',label:'Side'}]},{id:2,name:'Brush Back',cat:'brushback',hairType:'straight',tags:[''],desc:'Clean swept back style, versatile and timeless.',img:'images/brushback.png'},{id:4,name:'Brush Back',cat:'brushback',hairType:'curly',tags:['Curly'],desc:'Natural curl texture swept back for effortless volume.',img:'images/brushback2.png'},{id:5,name:'Brush Back + Taper',cat:'brushback',hairType:'straight',tags:['Taper'],desc:'Brush back paired with a tapered neckline for a polished finish.',imgs:[{src:'images/brushback5.png',label:'Front'},{src:'images/brushback5a.png',label:'Side'},{src:'images/brushback5b.png',label:'Side'}]},{id:6,name:'Burst Fade',cat:'burstfade',hairType:'straight',tags:[''],desc:'Semicircular fade that bursts around the ear — clean and impactful.',img:'images/burstfade2.png'},{id:7,name:'Burst Fade',cat:'burstfade',hairType:'textured',tags:['Textured'],desc:'Textured top over a crisp burst fade.',img:'images/burstfade.png'},{id:8,name:'Jacob Elordi',cat:'elordi',hairType:'straight',tags:[''],desc:'Long, swept, effortlessly cool — the signature Elordi look.',img:'images/elordi.png'},{id:9,name:'The Rafael',cat:'rafael',hairType:'straight',tags:[''],desc:'Relaxed mid-length with natural movement.',img:'images/rafael.png'},{id:10,name:'Middle Part',cat:'middlePart',hairType:'straight',tags:[''],desc:'Symmetrical parting down the centre for a clean, balanced look.',img:'images/middlepart2.png'},{id:11,name:'Middle Part',cat:'middlePart',hairType:'textured',tags:['Textured'],desc:'Textured finish on a classic middle part.',img:'images/middlepart.png'},{id:12,name:'Fringe',cat:'fringe',hairType:'wavy',tags:['Textured Fringe'],desc:'Textured fringe with natural wave — relaxed and modern.',img:'images/fringe.png'},{id:13,name:'Saiyan',cat:'saiyan',hairType:'textured',tags:['Textured Saiyan'],desc:'High-energy textured spikes with serious volume.',img:'images/saiyan.png'},{id:14,name:'Mod Cut',cat:'modCut',hairType:'straight',tags:['Mod Cut'],desc:'Geometric bowl-adjacent shape — retro roots, modern feel.',imgs:[{src:'images/modcut2.png',label:'Front'},{src:'images/modcut1.png',label:'Side'}]},{id:15,name:'Mod Cut',cat:'modCut',hairType:'straight',tags:['Short Textured'],desc:'Shorter, more textured take on the classic mod cut.',img:'images/modcut1.png'},{id:16,name:'Brush Back + Taper',cat:'brushback',hairType:'straight',tags:['Taper'],desc:'Brush back paired with a tapered neckline for a polished finish.',img:'images/brushback3.png'},{id:17,name:'Johnny Depp',cat:'johnnydepp',hairType:'straight',tags:['Johnny Depp'],desc:'A Johnny Depp Inspired Haircut',imgs:[{src:'images/Johnnydepp1.png',label:'Front'},{src:'images/Johnnydepp2.png',label:'Side'},{src:'images/Johnnydepp3.png',label:'Side'}]},{id:18,name:'Middle Part',cat:'middlePart',hairType:'textured',tags:['Textured'],desc:'Textured finish on a classic middle part.',imgs:[{src:'images/middlepart3.png',label:'Front'},{src:'images/middlepart3a.png',label:'Side'},{src:'images/middlepart3b.png',label:'Side'}]},{id:19,name:'Brush Back + Taper',cat:'brushback',hairType:'straight',tags:['Taper'],desc:'Brush back paired with a tapered neckline for a polished finish.',imgs:[{src:'images/brushback7.png',label:'Front'},{src:'images/brushback7a.png',label:'Side'}]},{id:20,name:'Brush Back',cat:'brushback',hairType:'straight',tags:[''],desc:'Clean swept back style, versatile and timeless.',img:'images/brushback11.png'},{id:21,name:'Brush Back',cat:'brushback',hairType:'straight',tags:[''],desc:'Clean swept back style, versatile and timeless.',img:'images/brushback10.png'},{id:22,name:'Burst Fade',cat:'burstfade',hairType:'straight',tags:['Taper'],desc:'Brush back paired with a tapered neckline for a polished finish.',imgs:[{src:'images/burstfade9.png',label:'Front'},{src:'images/burstfade9a.png',label:'Side'}]},{id:23,name:'Burst Fade',cat:'burstfade',hairType:'straight',tags:[''],desc:'Semicircular fade that bursts around the ear — clean and impactful.',img:'images/burstfade5.png'},{id:24,name:'Taper Fade',cat:'taper',hairType:'wavy',tags:['Taper'],desc:'Textured fringe with natural wave — relaxed and modern.',img:'images/taperfade2.png'},{id:25,name:'Taper Fade',cat:'taper',hairType:'wavy',tags:['Taper'],desc:'Textured fringe with natural wave — relaxed and modern.',imgs:[{src:'images/taperfade.png',label:'Front'},{src:'images/taperfade1a.png',label:'Side'}]},{id:26,name:'Taper Fade',cat:'taper',hairType:'curly',tags:['Curly'],desc:'Textured fringe with natural wave — relaxed and modern.',imgs:[{src:'images/curlytaperfade.png',label:'Front'},{src:'images/curlytaperfade2.png',label:'Side'},{src:'images/curlytaperfade3.png',label:'Side'}]},{id:27,name:'Mid Length',cat:'midLength',hairType:'curly',tags:['Taper'],desc:'Textured fringe with natural wave — relaxed and modern.',imgs:[{src:'images/mediumlength1.png',label:'Front'},{src:'images/mediumlength2.png',label:'Side'}]},{id:28,name:'Mid Length',cat:'midLength',hairType:'straight',tags:[''],desc:'Semicircular fade that bursts around the ear — clean and impactful.',img:'images/midlength.png'}];
+const cuts=[];
 
 
 /* ─── HELPERS ─── */
@@ -1388,18 +1435,119 @@ function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.ra
 function getModelProfiles(){try{return JSON.parse(localStorage.getItem(MODEL_PROFILES_KEY)||'{}');}catch(e){return{};}}
 function saveModelProfile(name,profile){const all=getModelProfiles();all[name.trim().toLowerCase()]=profile;localStorage.setItem(MODEL_PROFILES_KEY,JSON.stringify(all));}
 function getModelProfile(name){return getModelProfiles()[name.trim().toLowerCase()]||{};}
+
+/* ─── SUPABASE SESSIONS & PROFILES SYNC ─── */
+
+// Map localStorage history item → Supabase sessions row
+function _sessionToRow(item){
+  return {cut_id:String(item.id||''),cut_name:item.name||'',cut_img:item.img||'',fade:item.fade||'',top:item.top||'',date:item.date||new Date().toISOString(),type:item.type||'freestyle',person_name:item.personName||'',notes:item.personDesc||''};
+}
+// Map Supabase sessions row → localStorage history item
+function _rowToSession(row){
+  return {id:row.cut_id,name:row.cut_name,img:row.cut_img,fade:row.fade,top:row.top,date:row.date,type:row.type,personName:row.person_name||'',personDesc:row.notes||''};
+}
+
+async function sbSaveSession(item){
+  if(!_sb.connected)return;
+  try{await sbFetch('sessions',{method:'POST',body:JSON.stringify(_sessionToRow(item)),headers:{'Prefer':'return=minimal'}});}
+  catch(e){console.warn('sbSaveSession failed',e);}
+}
+
+async function sbLoadSessions(){
+  if(!_sb.connected)return;
+  try{
+    const res=await sbFetch('sessions?select=*&order=date.desc');
+    if(!res.ok)return;
+    const rows=await res.json();
+    if(!Array.isArray(rows))return;
+    const mapped=rows.map(_rowToSession);
+    // Overwrite localStorage history with Supabase data
+    localStorage.setItem(HISTORY_KEY,JSON.stringify(mapped));
+  }catch(e){console.warn('sbLoadSessions failed',e);}
+}
+
+async function sbUpsertProfile(name,type,data){
+  if(!_sb.connected)return;
+  try{
+    const payload={name:name.trim(),type,instagram:data.ig||'',contact:data.contact||'',hair_type:data.hairType||'',face_shape:data.faceShape||''};
+    await sbFetch('profiles',{method:'POST',body:JSON.stringify(payload),headers:{'Prefer':'resolution=merge-duplicates,return=minimal'}});
+  }catch(e){console.warn('sbUpsertProfile failed',e);}
+}
+
+async function sbLoadProfiles(){
+  if(!_sb.connected)return;
+  try{
+    const res=await sbFetch('profiles?select=*');
+    if(!res.ok)return;
+    const rows=await res.json();
+    if(!Array.isArray(rows))return;
+    // Rebuild localStorage MODEL_PROFILES_KEY format
+    const all={};
+    rows.forEach(r=>{
+      if(r.type==='model'){
+        all[r.name.trim().toLowerCase()]={ig:r.instagram||'',contact:r.contact||'',hairType:r.hair_type||'',faceShape:r.face_shape||''};
+      }
+    });
+    localStorage.setItem(MODEL_PROFILES_KEY,JSON.stringify(all));
+  }catch(e){console.warn('sbLoadProfiles failed',e);}
+}
+
+async function sbMigrateLocalData(){
+  if(!_sb.connected)return;
+  try{
+    // Only migrate if Supabase sessions table is empty
+    const checkSessions=await sbFetch('sessions?select=id&limit=1');
+    if(checkSessions.ok){
+      const existing=await checkSessions.json();
+      if(!existing.length){
+        // Upload localStorage history to Supabase
+        const h=JSON.parse(localStorage.getItem(HISTORY_KEY)||'[]');
+        if(h.length){
+          const rows=h.map(_sessionToRow);
+          await sbFetch('sessions',{method:'POST',body:JSON.stringify(rows),headers:{'Prefer':'return=minimal'}});
+          console.log(`Migrated ${rows.length} sessions to Supabase.`);
+        }
+      }
+    }
+    // Migrate model profiles if Supabase profiles table is empty
+    const checkProfiles=await sbFetch('profiles?select=id&limit=1');
+    if(checkProfiles.ok){
+      const existingP=await checkProfiles.json();
+      if(!existingP.length){
+        const localProfiles=getModelProfiles();
+        const entries=Object.entries(localProfiles);
+        if(entries.length){
+          const rows=entries.map(([key,p])=>({name:key,type:'model',instagram:p.ig||'',contact:p.contact||'',hair_type:p.hairType||'',face_shape:p.faceShape||''}));
+          await sbFetch('profiles',{method:'POST',body:JSON.stringify(rows),headers:{'Prefer':'return=minimal'}});
+          console.log(`Migrated ${rows.length} model profiles to Supabase.`);
+        }
+      }
+    }
+  }catch(e){console.warn('sbMigrateLocalData failed',e);}
+}
 const MODEL_HAIR_TYPES=['Straight','Wavy','Curly','Coily / 4C','Fine','Thick','Thinning'];
 const MODEL_FACE_SHAPES=['Oval','Round','Square','Heart','Diamond','Oblong / Rectangle','Triangle'];
 function renderModelProfileSection(container,modelName){const profile=getModelProfile(modelName);const sec=document.createElement('div');sec.className='model-profile-section';sec.id='modelProfileSection';const header=document.createElement('div');header.className='model-profile-header';header.innerHTML=`<div class="model-profile-title"><i class="ti ti-id-badge"></i> Model profile</div>`;const editBtn=document.createElement('button');editBtn.className='model-edit-btn';editBtn.id='modelEditBtn';editBtn.innerHTML='<i class="ti ti-edit" style="font-size:13px"></i> Edit';editBtn.onclick=()=>toggleModelEditForm(modelName,true);header.appendChild(editBtn);sec.appendChild(header);const view=document.createElement('div');view.id='modelProfileView';view.className='model-profile-view';const hasAny=profile.ig||profile.contact||profile.hairType||profile.faceShape;if(!hasAny){view.innerHTML='<div class="model-profile-empty">No profile info yet. Tap Edit to add Instagram, contact, hair type, and face shape.</div>';}else{if(profile.ig){view.appendChild(buildProfileRow('ti-brand-instagram','Instagram','@'+profile.ig.replace(/^@/,'')));}if(profile.contact){view.appendChild(buildProfileRow('ti-phone','Contact',profile.contact));}if(profile.hairType||profile.faceShape){const chipRow=document.createElement('div');chipRow.className='model-profile-chip-row';if(profile.hairType){chipRow.innerHTML+=`<span class="model-profile-chip"><i class="ti ti-scissors"></i>${profile.hairType} hair</span>`;}if(profile.faceShape){chipRow.innerHTML+=`<span class="model-profile-chip"><i class="ti ti-hexagon"></i>${profile.faceShape} face</span>`;}view.appendChild(chipRow);}}sec.appendChild(view);const form=document.createElement('div');form.className='model-edit-form';form.id='modelEditForm';form.innerHTML=`<div class="model-field"><label>Instagram handle</label><input id="mfIg" type="text" placeholder="e.g. @username" value="${escHtml(profile.ig||'')}"></div><div class="model-field"><label>Contact number</label><input id="mfContact" type="tel" placeholder="e.g. +234 800 000 0000" value="${escHtml(profile.contact||'')}"></div><div class="model-field"><label>Hair type</label><select id="mfHairType"><option value="">— Select hair type —</option>${MODEL_HAIR_TYPES.map(t=>`<option value="${t}"${profile.hairType===t?' selected':''}>${t}</option>`).join('')}</select></div><div class="model-field"><label>Face shape</label><select id="mfFaceShape"><option value="">— Select face shape —</option>${MODEL_FACE_SHAPES.map(s=>`<option value="${s}"${profile.faceShape===s?' selected':''}>${s}</option>`).join('')}</select></div><button class="model-edit-save-btn" onclick="saveModelProfileFromForm('${escHtml(modelName)}')"><i class="ti ti-check"></i> Save profile</button><div class="model-edit-cancel" onclick="toggleModelEditForm('${escHtml(modelName)}',false)">Cancel</div>`;sec.appendChild(form);container.appendChild(sec);}
 function buildProfileRow(icon,label,value){const row=document.createElement('div');row.className='model-profile-row';row.innerHTML=`<i class="ti ${icon}"></i><div><div class="model-profile-row-label">${label}</div><div class="model-profile-row-value">${escHtml(value)}</div></div>`;return row;}
 function toggleModelEditForm(name,open){const form=document.getElementById('modelEditForm'),view=document.getElementById('modelProfileView'),btn=document.getElementById('modelEditBtn');if(!form||!view)return;if(open){form.classList.add('open');view.style.display='none';btn.style.display='none';}else{form.classList.remove('open');view.style.display='';btn.style.display='';}}
-function saveModelProfileFromForm(name){const ig=(document.getElementById('mfIg').value||'').trim(),contact=(document.getElementById('mfContact').value||'').trim(),hairType=document.getElementById('mfHairType').value,faceShape=document.getElementById('mfFaceShape').value;saveModelProfile(name,{ig,contact,hairType,faceShape});const h=getHistory();const items=h.filter(x=>x.type==='model'&&x.personName&&x.personName.trim().toLowerCase()===name.trim().toLowerCase());if(items.length)openPersonDetail(name,'model');}
+function saveModelProfileFromForm(name){
+  const ig=(document.getElementById('mfIg').value||'').trim(),contact=(document.getElementById('mfContact').value||'').trim(),hairType=document.getElementById('mfHairType').value,faceShape=document.getElementById('mfFaceShape').value;
+  const data={ig,contact,hairType,faceShape};
+  saveModelProfile(name,data);
+  sbUpsertProfile(name,'model',data); // async — fire and forget
+  const h=getHistory();const items=h.filter(x=>x.type==='model'&&x.personName&&x.personName.trim().toLowerCase()===name.trim().toLowerCase());if(items.length)openPersonDetail(name,'model');
+}
 function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
 
 /* ─── HISTORY ─── */
 function getHistory(){try{return JSON.parse(localStorage.getItem(HISTORY_KEY)||'[]');}catch(e){return[];}}
-function addToHistory(cut,fade,top,type,personName,personDesc){const h=getHistory();h.unshift({id:cut.id,name:cut.name,fade,top,img:getImgs(cut)[0].src,date:new Date().toISOString(),type:type||'freestyle',personName:personName||'',personDesc:personDesc||''});if(h.length>200)h.pop();localStorage.setItem(HISTORY_KEY,JSON.stringify(h));}
+function addToHistory(cut,fade,top,type,personName,personDesc){
+  const item={id:cut.id,name:cut.name,fade,top,img:getImgs(cut)[0].src,date:new Date().toISOString(),type:type||'freestyle',personName:personName||'',personDesc:personDesc||''};
+  const h=getHistory();h.unshift(item);if(h.length>200)h.pop();
+  localStorage.setItem(HISTORY_KEY,JSON.stringify(h));
+  sbSaveSession(item); // async — fire and forget
+}
 function openHistorySheet(){const h=getHistory(),body=document.getElementById('historySheetBody');body.innerHTML='';if(!h.length){body.innerHTML='<div class="history-empty">No locks yet.</div>';}else{h.forEach((item,idx)=>{const row=document.createElement('div');row.className='history-item';const thumb=document.createElement('div');thumb.className='history-thumb';const img=document.createElement('img');img.src=item.img||'';img.onload=()=>img.classList.add('loaded');img.onerror=()=>{img.style.opacity='0.15';};thumb.appendChild(img);const info=document.createElement('div');info.className='history-info';const typePill=item.type&&item.type!=='freestyle'?`<span class="history-type-pill ${item.type}">${item.type}</span>`:'';info.innerHTML='<div class="history-name">'+item.name+typePill+'</div>'+'<div class="history-opts">'+(item.fade||'Mid')+' fade · '+(item.top||'Neat')+' top'+(item.personName?'<br><span>'+item.personName+'</span>':'')+'</div>'+'<div class="history-date">'+formatDate(item.date)+(idx===0?' · <span style="color:var(--text2)">Latest</span>':'')+'</div>';const reopen=document.createElement('div');reopen.className='history-reopen';reopen.textContent='View';reopen.onclick=()=>{closeHistorySheet();fv=item.fade||'Mid';tv=item.top||'Neat';openCut(item.id,true);};row.appendChild(thumb);row.appendChild(info);row.appendChild(reopen);body.appendChild(row);});const btn=document.createElement('button');btn.className='sheet-clear';btn.textContent='Clear history';btn.onclick=()=>{if(confirm('Clear all lock history?')){localStorage.removeItem(HISTORY_KEY);openHistorySheet();}};body.appendChild(btn);}document.getElementById('sheetBackdrop').classList.add('open');document.getElementById('historySheet').classList.add('open');}
 function closeHistorySheet(){document.getElementById('sheetBackdrop').classList.remove('open');document.getElementById('historySheet').classList.remove('open');}
 
@@ -2402,23 +2550,18 @@ function buildDrillSessionRow(item){const row=document.createElement('div');row.
 
 
 async function sbLoad(){
+  // Allow manually saved credentials to override the hardcoded defaults
   try{
     const c=JSON.parse(localStorage.getItem('sbConfig')||'{}');
-    if(c.url&&c.key){
-      _sb={url:c.url,key:c.key,connected:true};
-    }
+    if(c.url&&c.key){_sb={url:c.url,key:c.key,connected:true};}
   }catch(e){}
 
-
-  // If we have saved Supabase credentials, load cuts now so uploaded haircuts
-  // are available immediately after a refresh (was previously only loaded
-  // when opening the Manage Haircuts screen).
-  if(_sb.connected){
-    try{await loadSbCuts();}catch(e){console.warn('Failed to load Supabase cuts on init',e);}    
-    try{buildCats();}catch(e){}
-  }
-
-
+  // Always connected — load everything automatically
+  await sbMigrateLocalData();
+  try{await loadSbCuts();}catch(e){console.warn('Failed to load cuts',e);}
+  try{await sbLoadSessions();}catch(e){console.warn('Failed to load sessions',e);}
+  try{await sbLoadProfiles();}catch(e){console.warn('Failed to load profiles',e);}
+  try{buildCats();}catch(e){}
   updateSupabaseStatusLabel();
 }
 
@@ -2538,7 +2681,9 @@ function sbPublicUrl(bucket,path){
 }
 
 
-let _sb={url:'',key:'',connected:false};
+const _SB_DEFAULT_URL='https://vmqggyulrngmjtgqvlrm.supabase.co';
+const _SB_DEFAULT_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZtcWdneXVscm5nbWp0Z3F2bHJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0NzQyMjQsImV4cCI6MjA5NjA1MDIyNH0.D7-EtwbZ2UpqkOPEn7plAZABfnW5IBPbtjm9T7UOMNI';
+let _sb={url:_SB_DEFAULT_URL,key:_SB_DEFAULT_KEY,connected:true};
 let _sbCuts=[];
 let _mhFiles=[];
 let _mhBeforeFile=null;
@@ -2996,9 +3141,206 @@ async function mhAddAngle(row){
 function switchMhTab(tab){
   document.getElementById('mhTabUpload').classList.toggle('active',tab==='upload');
   document.getElementById('mhTabLibrary').classList.toggle('active',tab==='library');
+  document.getElementById('mhTabCategories').classList.toggle('active',tab==='categories');
   document.getElementById('mhPaneUpload').classList.toggle('active',tab==='upload');
   document.getElementById('mhPaneLibrary').classList.toggle('active',tab==='library');
+  document.getElementById('mhPaneCategories').classList.toggle('active',tab==='categories');
   if(tab==='library')renderMhLibrary();
+  if(tab==='categories')renderMhCategories();
+}
+
+/* ─── CATEGORY MANAGEMENT ─── */
+const CAT_META_KEY='appCatMeta';
+
+function getCatMeta(){try{return JSON.parse(localStorage.getItem(CAT_META_KEY)||'{}');}catch(e){return{};}}
+function saveCatMeta(m){localStorage.setItem(CAT_META_KEY,JSON.stringify(m));}
+
+function applyCatMeta(){
+  const meta=getCatMeta();
+  // Apply name/cover overrides to existing cats
+  cats.forEach(c=>{
+    if(meta[c.id]){
+      if(meta[c.id].name)c.name=meta[c.id].name;
+      if(meta[c.id].img)c.img=meta[c.id].img;
+    }
+  });
+  // Add any custom cats that don't exist yet
+  Object.entries(meta).forEach(([id,m])=>{
+    if(m.custom&&!cats.find(c=>c.id===id)){
+      cats.push({id,name:m.name,img:m.img||''});
+    }
+  });
+}
+
+function renderMhCategories(){
+  const list=document.getElementById('mhCatList');
+  if(!list)return;
+  list.innerHTML='';
+  cats.forEach(cat=>{
+    const cutCount=cuts.filter(c=>c.cat===cat.id).length;
+    const row=document.createElement('div');
+    row.className='mh-cat-row';
+    // Cover image
+    const coverWrap=document.createElement('div');
+    if(cat.img){
+      const img=document.createElement('img');
+      img.className='mh-cat-cover';
+      img.src=cat.img;
+      img.title='Tap to change cover';
+      img.onload=()=>img.classList.add('loaded');
+      img.onerror=()=>{img.style.opacity='0.15';};
+      img.onclick=()=>openCatCoverModal(cat.id,cat.name);
+      coverWrap.appendChild(img);
+    } else {
+      const ph=document.createElement('div');
+      ph.className='mh-cat-cover-empty';
+      ph.title='Tap to set cover';
+      ph.innerHTML='<i class="ti ti-photo"></i>';
+      ph.onclick=()=>openCatCoverModal(cat.id,cat.name);
+      coverWrap.appendChild(ph);
+    }
+    // Info
+    const info=document.createElement('div');
+    info.className='mh-cat-info';
+    const nameInput=document.createElement('input');
+    nameInput.className='mh-cat-name-input';
+    nameInput.value=cat.name;
+    nameInput.maxLength=40;
+    nameInput.dataset.catId=cat.id;
+    const sub=document.createElement('div');
+    sub.className='mh-cat-sub';
+    sub.textContent=cutCount+' haircut'+(cutCount!==1?'s':'');
+    info.appendChild(nameInput);
+    info.appendChild(sub);
+    // Action buttons
+    const actions=document.createElement('div');
+    actions.className='mh-cat-actions';
+    // Save rename
+    const saveBtn=document.createElement('div');
+    saveBtn.className='mh-cat-action-btn';
+    saveBtn.title='Save name';
+    saveBtn.innerHTML='<i class="ti ti-check"></i>';
+    saveBtn.onclick=()=>mhRenameCat(cat.id,nameInput.value.trim());
+    // Delete
+    const delBtn=document.createElement('div');
+    delBtn.className='mh-cat-action-btn danger';
+    delBtn.title='Delete category';
+    delBtn.innerHTML='<i class="ti ti-trash"></i>';
+    delBtn.onclick=()=>mhDeleteCat(cat.id,cat.name);
+    actions.appendChild(saveBtn);
+    actions.appendChild(delBtn);
+    row.appendChild(coverWrap);
+    row.appendChild(info);
+    row.appendChild(actions);
+    list.appendChild(row);
+  });
+}
+
+function mhRenameCat(catId,newName){
+  if(!newName)return;
+  const cat=cats.find(c=>c.id===catId);
+  if(!cat)return;
+  cat.name=newName;
+  const meta=getCatMeta();
+  if(!meta[catId])meta[catId]={};
+  meta[catId].name=newName;
+  saveCatMeta(meta);
+  buildCats();
+  mhToast('Category renamed.');
+}
+
+function mhDeleteCat(catId,catName){
+  const cutCount=cuts.filter(c=>c.cat===catId).length;
+  const msg=cutCount>0
+    ?`Delete "${catName}"? It has ${cutCount} haircut${cutCount!==1?'s':''} — they won't be deleted, just uncategorised.`
+    :`Delete "${catName}"?`;
+  if(!confirm(msg))return;
+  const idx=cats.findIndex(c=>c.id===catId);
+  if(idx>-1)cats.splice(idx,1);
+  const meta=getCatMeta();
+  delete meta[catId];
+  saveCatMeta(meta);
+  buildCats();
+  renderMhCategories();
+  mhToast('Category deleted.');
+}
+
+function mhAddCategory(){
+  const input=document.getElementById('mhNewCatInput');
+  const name=(input.value||'').trim();
+  if(!name){input.focus();return;}
+  const id='custom_'+name.toLowerCase().replace(/\s+/g,'_')+'_'+Date.now();
+  cats.push({id,name,img:''});
+  const meta=getCatMeta();
+  meta[id]={name,img:'',custom:true};
+  saveCatMeta(meta);
+  input.value='';
+  buildCats();
+  renderMhCategories();
+  // Refresh category dropdowns in Upload pane
+  populateMhCategorySelect();
+  mhToast('Category "'+name+'" added.');
+}
+
+function populateMhCategorySelect(){
+  const sel=document.getElementById('mhCategory');
+  if(!sel)return;
+  const current=sel.value;
+  sel.innerHTML='<option value="">— Select —</option>';
+  cats.forEach(c=>{
+    const opt=document.createElement('option');
+    opt.value=c.id;opt.textContent=c.name;
+    sel.appendChild(opt);
+  });
+  if(current)sel.value=current;
+}
+
+/* ─── COVER PICKER MODAL ─── */
+let _coverPickerCatId=null;
+
+function openCatCoverModal(catId,catName){
+  _coverPickerCatId=catId;
+  document.getElementById('catCoverModalTitle').textContent='Cover for '+catName;
+  const grid=document.getElementById('catCoverGrid');
+  grid.innerHTML='';
+  const catCuts=cuts.filter(c=>c.cat===catId);
+  const cat=cats.find(c=>c.id===catId);
+  if(!catCuts.length){
+    grid.innerHTML='<div class="cat-cover-empty">No haircuts in this category yet.</div>';
+  } else {
+    catCuts.forEach(cut=>{
+      const src=getImgs(cut)[0].src;
+      const thumb=document.createElement('div');
+      thumb.className='cat-cover-thumb'+(cat&&cat.img===src?' selected':'');
+      const img=document.createElement('img');
+      img.src=src;img.alt=cut.name;
+      img.onload=()=>img.classList.add('loaded');
+      thumb.appendChild(img);
+      thumb.onclick=()=>setCatCover(catId,src);
+      grid.appendChild(thumb);
+    });
+  }
+  document.getElementById('catCoverBackdrop').classList.add('open');
+}
+
+function closeCatCoverModal(e){
+  if(e&&e.target!==document.getElementById('catCoverBackdrop'))return;
+  document.getElementById('catCoverBackdrop').classList.remove('open');
+  _coverPickerCatId=null;
+}
+
+function setCatCover(catId,imgSrc){
+  const cat=cats.find(c=>c.id===catId);
+  if(!cat)return;
+  cat.img=imgSrc;
+  const meta=getCatMeta();
+  if(!meta[catId])meta[catId]={};
+  meta[catId].img=imgSrc;
+  saveCatMeta(meta);
+  buildCats();
+  renderMhCategories();
+  document.getElementById('catCoverBackdrop').classList.remove('open');
+  mhToast('Cover updated.');
 }
 
 
@@ -3013,6 +3355,7 @@ renderHairTypeFilters();
 buildCats();
 syncThemeUI();
 restoreLockedCut();
+applyCatMeta();
 // Load home screen on first entry
 loadHomeScreen();
 refreshNotifDot();
@@ -3020,6 +3363,17 @@ maybeRunPeriodicNotifs();
 document.addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX;},false);
 document.addEventListener('touchend',e=>{touchEndX=e.changedTouches[0].screenX;handleSwipeInPeopleScreen();},false);
 </script>
+
+<!-- ── CATEGORY COVER PICKER MODAL ── -->
+<div class="cat-cover-modal-backdrop" id="catCoverBackdrop" onclick="closeCatCoverModal(event)">
+  <div class="cat-cover-modal">
+    <div class="cat-cover-modal-header">
+      <div class="cat-cover-modal-title" id="catCoverModalTitle">Set Cover Image</div>
+      <button class="cat-cover-modal-close" onclick="closeCatCoverModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="cat-cover-grid" id="catCoverGrid"></div>
+  </div>
+</div>
 
 <!-- ── NOTIFICATION TOAST ── -->
 <div class="notif-toast" id="notifToast" onclick="dismissNotifToast()">
