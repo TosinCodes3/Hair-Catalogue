@@ -550,6 +550,22 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .ann-action-btn i{font-size:14px;}
 .ann-action-btn.primary{background:var(--lock-bg);color:var(--lock-text);border-color:transparent;}
 /* Annotator picker modal */
+.ann-help-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:90;align-items:center;justify-content:center;padding:24px;}
+.ann-help-backdrop.open{display:flex;}
+.ann-help-modal{background:var(--bg);border-radius:18px;width:100%;max-width:380px;max-height:80vh;overflow-y:auto;padding:20px;}
+.ann-help-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.ann-help-title{font-size:16px;font-weight:700;color:var(--text);}
+.ann-help-close{width:30px;height:30px;border-radius:50%;background:var(--bg3);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.ann-help-close i{font-size:16px;color:var(--text2);}
+.ann-help-section{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin:14px 0 8px;}
+.ann-help-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:0.5px solid var(--border);}
+.ann-help-row:last-child{border-bottom:none;}
+.ann-help-icon{width:36px;height:36px;border-radius:10px;background:var(--bg2);border:0.5px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ann-help-icon i{font-size:17px;color:var(--text2);}
+.ann-help-icon svg{color:var(--text2);}
+.ann-help-text{flex:1;}
+.ann-help-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.ann-help-desc{font-size:12px;color:var(--text2);line-height:1.4;}
 .ann-pick-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:80;align-items:flex-end;justify-content:center;}
 .ann-pick-backdrop.open{display:flex;}
 .ann-pick-modal{background:var(--bg);border-radius:20px 20px 0 0;width:100%;max-width:420px;max-height:72vh;display:flex;flex-direction:column;overflow:hidden;}
@@ -1012,9 +1028,8 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
       <div id="donePersonBadge"></div>
       <div class="done-cut" id="doneCut"></div>
       <div class="done-opts" id="doneOpts"></div>
-      <button class="lock-btn" style="margin-top:14px;" onclick="switchTab('people')">View Profiles</button>
-      <div class="done-card"><div class="done-card-label">Note from the chair</div><div class="done-card-text" id="doneNote">Selection confirmed. Sit back and relax — we're getting started.</div></div>
-      <div class="reset-link" onclick="go('s0')">Start over</div>
+      <button class="lock-btn" style="margin-top:14px;" onclick="switchTab('mycuts')">See Haircut</button>
+      <div class="reset-link" style="margin-top:16px;" onclick="switchTab('home')">Return to Dashboard</div>
     </div>
   </div>
   <div class="screen" id="s5">
@@ -1375,11 +1390,12 @@ create policy "Allow all" on haircuts for all using (true) with check (true);
       <div class="ann-topbar">
         <div class="back-btn" onclick="go('s7')"><i class="ti ti-arrow-left"></i></div>
         <div class="ann-title">Haircut Annotator</div>
-        <div style="width:34px"></div>
+        <div class="back-btn" onclick="openAnnHelp()"><i class="ti ti-info-circle"></i></div>
       </div>
       <div class="ann-action-row" style="padding:16px 16px 12px;background:var(--bg);border-bottom:0.5px solid var(--border);">
         <div class="ann-action-btn" onclick="openAnnPicker()" title="Select Haircut"><i class="ti ti-photo"></i></div>
         <div class="ann-action-btn" onclick="annUndo()" title="Undo"><i class="ti ti-arrow-back-up"></i></div>
+        <div class="ann-action-btn" onclick="annRedo()" title="Redo"><i class="ti ti-arrow-forward-up"></i></div>
         <div class="ann-action-btn" onclick="annClear()" title="Clear"><i class="ti ti-trash"></i></div>
         <div class="ann-action-btn primary" onclick="annExport()" title="Export"><i class="ti ti-download"></i></div>
       </div>
@@ -1388,7 +1404,7 @@ create policy "Allow all" on haircuts for all using (true) with check (true);
         <canvas class="ann-canvas" id="annCanvas" style="display:none;"></canvas>
         <div class="ann-empty-state" id="annEmptyState">
           <i class="ti ti-photo-search"></i>
-          <p>Tap <strong style="color:var(--text2);">Select Haircut</strong> above<br>to load a photo and start drawing.</p>
+          <p>Tap the <strong style="color:var(--text2);">gallery button</strong> above<br>to load a photo and start drawing.</p>
         </div>
       </div>
       <div class="ann-toolbar">
@@ -1396,6 +1412,8 @@ create policy "Allow all" on haircuts for all using (true) with check (true);
           <div class="ann-tool-btn active" id="annToolPen" onclick="setAnnTool('pen')" title="Freehand"><i class="ti ti-pencil"></i></div>
           <div class="ann-tool-btn" id="annToolLine" onclick="setAnnTool('line')" title="Straight line"><i class="ti ti-line"></i></div>
           <div class="ann-tool-btn" id="annToolArrow" onclick="setAnnTool('arrow')" title="Arrow"><i class="ti ti-arrow-up-right"></i></div>
+          <div class="ann-tool-btn" id="annToolCurve" onclick="setAnnTool('curve')" title="Curve"><i style="display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2 13 Q8 1 14 13"/></svg></i></div>
+          <div class="ann-tool-btn" id="annToolDash" onclick="setAnnTool('dash')" title="Dashed line"><i style="display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="3 3"><line x1="1" y1="8" x2="15" y2="8"/></svg></i></div>
           <div class="ann-divider"></div>
           <div class="ann-color-btn active" id="annColorRed"   onclick="setAnnColor('#ef4444')" style="background:#ef4444;" title="Red"></div>
           <div class="ann-color-btn"        id="annColorGreen" onclick="setAnnColor('#22c55e')" style="background:#22c55e;" title="Green"></div>
@@ -1489,7 +1507,7 @@ function lbTouchEnd(e){const remaining=Array.from(e.touches);if(lbPinching&&rema
 
 
 /* ─── STATE ─── */
-let cur=null,curCat=null,fv='Mid',tv='Neat',isDark=true,isListView=false,selectedHairType='all',fromPeople=false,fromHome=false;
+let cur=null,curCat=null,fv='Mid',tv='Neat',isDark=localStorage.getItem('appTheme')!=='light',isListView=false,selectedHairType='all',fromPeople=false,fromHome=false;
 let metricsWalkthroughStep=0,metricsWalkthroughActive=false;
 const hairTypes=['All','Curly','Straight','Wavy','Textured'];
 const STORAGE_KEY='lockedCut',HISTORY_KEY='cutHistory',MODEL_PROFILES_KEY='modelProfiles',DASH_REFRESH_KEY='dashboardRefresh',AUTO_SCROLL_KEY='featuredAutoScroll';
@@ -1645,7 +1663,7 @@ function closeLockInSheet(){document.getElementById('lockinBackdrop').classList.
 function renderLockStep1(){const body=document.getElementById('lockinBody');body.innerHTML='';const types=[{id:'freestyle',icon:'ti-scissors',label:'Freestyle',desc:'Mannequin or personal practice — no name needed'},{id:'client',icon:'ti-user',label:'Client',desc:'A paying client — record their name'},{id:'model',icon:'ti-star',label:'Model',desc:'A model or shoot subject — record their name'}];const cards=document.createElement('div');cards.className='lockin-type-cards';types.forEach(t=>{const card=document.createElement('div');card.className='lockin-type-card';card.innerHTML=`<div class="lockin-type-icon ${t.id}"><i class="ti ${t.icon}"></i></div><div><div class="lockin-type-label">${t.label}</div><div class="lockin-type-desc">${t.desc}</div></div>`;card.onclick=()=>{_lockType=t.id;if(t.id==='freestyle')renderLockStepFreestyle();else renderLockStepNamed(t.id);};cards.appendChild(card);});body.appendChild(cards);}
 function renderLockStepFreestyle(){const body=document.getElementById('lockinBody');body.innerHTML='';document.getElementById('lockinSheet').querySelector('.lockin-sub').textContent='Freestyle — no name required';const form=document.createElement('div');form.className='lockin-form';form.innerHTML=`<div class="lockin-field"><label>Notes (optional)</label><textarea id="liDesc" rows="3" placeholder="Any notes on this cut…"></textarea></div>`;const btn=document.createElement('button');btn.className='lockin-confirm-btn';btn.innerHTML='<i class="ti ti-scissors"></i> Confirm Lock';btn.onclick=()=>{const desc=document.getElementById('liDesc').value.trim();closeLockInSheet();commitLockIn('freestyle','',desc);};form.appendChild(btn);const back=document.createElement('div');back.className='lockin-back-link';back.textContent='← Change type';back.onclick=()=>renderLockStep1();form.appendChild(back);body.appendChild(form);}
 function renderLockStepNamed(type){const body=document.getElementById('lockinBody');body.innerHTML='';const label=type==='client'?'Client':'Model';document.getElementById('lockinSheet').querySelector('.lockin-sub').textContent=`${label} — enter their name`;const form=document.createElement('div');form.className='lockin-form';form.innerHTML=`<div class="lockin-field"><label>${label} Name *</label><input id="liName" type="text" placeholder="e.g. ${type==='client'?'James Okafor':'Sofia Martins'}"></div><div class="lockin-field"><label>Notes (optional)</label><textarea id="liDesc" rows="3" placeholder="Any notes on this cut…"></textarea></div>`;const btn=document.createElement('button');btn.className='lockin-confirm-btn';btn.innerHTML=`<i class="ti ti-scissors"></i> Lock in for ${label}`;btn.onclick=()=>{const name=document.getElementById('liName').value.trim();if(!name){document.getElementById('liName').focus();document.getElementById('liName').style.borderColor='#e55';return;}const desc=document.getElementById('liDesc').value.trim();closeLockInSheet();commitLockIn(type,name,desc);};form.appendChild(btn);const savedBtn=document.createElement('div');savedBtn.className='lockin-back-link';savedBtn.innerHTML=`<i class="ti ti-users" style="font-size:13px;vertical-align:middle;margin-right:4px;"></i> Choose saved ${label.toLowerCase()}`;savedBtn.onclick=()=>openSavedClientsPicker(type);form.appendChild(savedBtn);const back=document.createElement('div');back.className='lockin-back-link';back.style.marginTop='4px';back.textContent='← Change type';back.onclick=()=>renderLockStep1();form.appendChild(back);body.appendChild(form);}
-function commitLockIn(type,personName,personDesc){addToHistory(cur,fv,tv,type,personName,personDesc);saveLockedCut(type,personName,personDesc);const fi=getImgs(cur)[0].src;loadImg(document.getElementById('doneImg'),fi,cur.name);document.getElementById('doneCut').textContent=cur.name;document.getElementById('doneOpts').textContent=fv+' fade · '+tv+' top';const badgeEl=document.getElementById('donePersonBadge');if(type==='freestyle'){badgeEl.innerHTML='<div class="done-person-badge freestyle"><i class="ti ti-scissors" style="font-size:12px"></i> Freestyle</div>';}else{const icon=type==='client'?'ti-user':'ti-star';badgeEl.innerHTML=`<div class="done-person-badge ${type}"><i class="ti ${icon}" style="font-size:12px"></i> ${personName||type}</div>`;}document.getElementById('doneNote').textContent=personDesc||'Selection confirmed. Sit back and relax — we\'re getting started.';
+function commitLockIn(type,personName,personDesc){addToHistory(cur,fv,tv,type,personName,personDesc);saveLockedCut(type,personName,personDesc);const fi=getImgs(cur)[0].src;loadImg(document.getElementById('doneImg'),fi,cur.name);document.getElementById('doneCut').textContent=cur.name;document.getElementById('doneOpts').textContent=fv+' fade · '+tv+' top';const badgeEl=document.getElementById('donePersonBadge');if(type==='freestyle'){badgeEl.innerHTML='<div class="done-person-badge freestyle"><i class="ti ti-scissors" style="font-size:12px"></i> Freestyle</div>';}else{const icon=type==='client'?'ti-user':'ti-star';badgeEl.innerHTML=`<div class="done-person-badge ${type}"><i class="ti ${icon}" style="font-size:12px"></i> ${personName||type}</div>`;}const doneNoteEl=document.getElementById('doneNote');if(doneNoteEl)doneNoteEl.textContent=personDesc||'Selection confirmed. Sit back and relax — we\'re getting started.';
   // notifications
   notifLockConfirm(cur.name,type,personName);
   notifBeforePhotoReminder(cur.name);
@@ -2056,7 +2074,7 @@ function pickCompare(cut){if(pickerTarget==='A')setCompareItem('A',cut);else set
 
 /* ─── THEME / VIEW ─── */
 function syncThemeUI(){const icon=document.getElementById('themeIcon'),sub=document.getElementById('themeSubLabel'),track=document.getElementById('themeToggle');if(icon)icon.className='ti '+(isDark?'ti-moon':'ti-sun');if(sub)sub.textContent=isDark?'Currently dark':'Currently light';if(track)track.classList.toggle('on',isDark);syncDashboardRefreshUI();syncFeaturedAutoScrollUI();}
-function toggleTheme(){isDark=!isDark;document.getElementById('app').classList.toggle('light',!isDark);document.documentElement.classList.toggle('light',!isDark);document.body.style.background=isDark?'#111':'#fff';syncThemeUI();}
+function toggleTheme(){isDark=!isDark;localStorage.setItem('appTheme',isDark?'dark':'light');document.getElementById('app').classList.toggle('light',!isDark);document.documentElement.classList.toggle('light',!isDark);document.body.style.background=isDark?'#111':'#fff';syncThemeUI();}
 function setView(type){isListView=type==='list';document.getElementById('chipGrid').classList.toggle('on',!isListView);document.getElementById('chipList').classList.toggle('on',isListView);buildCats();}
 
 
@@ -3242,8 +3260,11 @@ let _annTool='pen';
 let _annColor='#ef4444';
 let _annSize=2;
 let _annDrawing=false;
-let _annHistory=[];   // array of ImageData snapshots for undo
+let _annHistory=[];
+let _annRedoHistory=[];
 let _annStart={x:0,y:0};
+let _annCurvePhase=0; // 0=set chord, 1=set bend
+let _annCurveStart=null,_annCurveEnd=null;
 let _annSnapshot=null; // snapshot before current stroke (for line/arrow preview)
 
 function openAnnotator(){go('s20');annResizeCanvas();}
@@ -3268,10 +3289,19 @@ function annResizeCanvas(){
 
 function setAnnTool(tool){
   _annTool=tool;
-  ['pen','line','arrow'].forEach(t=>{
+  _annCurvePhase=0;_annCurveStart=null;_annCurveEnd=null;
+  ['pen','line','arrow','curve','dash'].forEach(t=>{
     const el=document.getElementById('annTool'+t.charAt(0).toUpperCase()+t.slice(1));
     if(el)el.classList.toggle('active',t===tool);
   });
+}
+function _annDrawCurve(ctx,x1,y1,cpx,cpy,x2,y2){
+  ctx.beginPath();ctx.moveTo(x1,y1);ctx.quadraticCurveTo(cpx,cpy,x2,y2);ctx.stroke();
+}
+function _annGetPosEnd(e,canvas){
+  const rect=canvas.getBoundingClientRect();
+  const src=e.changedTouches?e.changedTouches[0]:e;
+  return{x:(src.clientX-rect.left)*(canvas.width/rect.width),y:(src.clientY-rect.top)*(canvas.height/rect.height)};
 }
 
 function setAnnColor(color){
@@ -3316,37 +3346,79 @@ function annInitCanvas(){
 
   function startDraw(e){
     e.preventDefault();
-    _annDrawing=true;
     const pos=_annGetPos(e,canvas);
-    _annStart=pos;
-    // Save snapshot before this stroke
-    _annSnapshot=ctx.getImageData(0,0,canvas.width,canvas.height);
-    if(_annTool==='pen'){
-      ctx.beginPath();ctx.moveTo(pos.x,pos.y);
+    if(_annTool==='curve'){
+      if(_annCurvePhase===0){
+        _annDrawing=true;
+        _annStart=pos;
+        _annSnapshot=ctx.getImageData(0,0,canvas.width,canvas.height);
+      } else if(_annCurvePhase===1){
+        _annDrawing=true;
+      }
+      return;
     }
+    _annDrawing=true;
+    _annStart=pos;
+    _annSnapshot=ctx.getImageData(0,0,canvas.width,canvas.height);
+    if(_annTool==='pen'){ctx.beginPath();ctx.moveTo(pos.x,pos.y);}
   }
   function moveDraw(e){
     e.preventDefault();
     if(!_annDrawing)return;
     const pos=_annGetPos(e,canvas);
     ctx.strokeStyle=_annColor;ctx.lineWidth=_annSize;ctx.lineCap='round';ctx.lineJoin='round';
+    if(_annTool==='curve'){
+      ctx.putImageData(_annSnapshot,0,0);
+      ctx.strokeStyle=_annColor;ctx.lineWidth=_annSize;ctx.lineCap='round';
+      if(_annCurvePhase===0){
+        ctx.beginPath();ctx.moveTo(_annStart.x,_annStart.y);ctx.lineTo(pos.x,pos.y);ctx.stroke();
+      } else if(_annCurvePhase===1){
+        _annDrawCurve(ctx,_annCurveStart.x,_annCurveStart.y,pos.x,pos.y,_annCurveEnd.x,_annCurveEnd.y);
+      }
+      return;
+    }
     if(_annTool==='pen'){
       ctx.lineTo(pos.x,pos.y);ctx.stroke();
     } else {
-      // Restore snapshot to clear previous preview
       ctx.putImageData(_annSnapshot,0,0);
       ctx.strokeStyle=_annColor;ctx.lineWidth=_annSize;ctx.lineCap='round';
       if(_annTool==='line'){
         ctx.beginPath();ctx.moveTo(_annStart.x,_annStart.y);ctx.lineTo(pos.x,pos.y);ctx.stroke();
       } else if(_annTool==='arrow'){
         _annDrawArrow(ctx,_annStart.x,_annStart.y,pos.x,pos.y);
+      } else if(_annTool==='dash'){
+        ctx.setLineDash([6,5]);
+        ctx.beginPath();ctx.moveTo(_annStart.x,_annStart.y);ctx.lineTo(pos.x,pos.y);ctx.stroke();
+        ctx.setLineDash([]);
       }
     }
   }
   function endDraw(e){
     if(!_annDrawing)return;
     _annDrawing=false;
-    // Commit final state to history
+    if(_annTool==='curve'){
+      const pos=_annGetPosEnd(e,canvas);
+      if(_annCurvePhase===0){
+        // Chord done — show dashed preview, wait for bend drag
+        _annCurveStart={..._annStart};
+        _annCurveEnd={...pos};
+        _annCurvePhase=1;
+        ctx.putImageData(_annSnapshot,0,0);
+        ctx.strokeStyle=_annColor;ctx.lineWidth=_annSize;ctx.lineCap='round';
+        ctx.setLineDash([5,5]);
+        ctx.beginPath();ctx.moveTo(_annCurveStart.x,_annCurveStart.y);ctx.lineTo(_annCurveEnd.x,_annCurveEnd.y);ctx.stroke();
+        ctx.setLineDash([]);
+      } else if(_annCurvePhase===1){
+        // Bend done — commit
+        _annCurvePhase=0;_annCurveStart=null;_annCurveEnd=null;
+        _annRedoHistory=[];
+        _annHistory.push(ctx.getImageData(0,0,canvas.width,canvas.height));
+        if(_annHistory.length>40)_annHistory.shift();
+        _annSnapshot=null;
+      }
+      return;
+    }
+    _annRedoHistory=[];
     _annHistory.push(ctx.getImageData(0,0,canvas.width,canvas.height));
     if(_annHistory.length>40)_annHistory.shift();
     _annSnapshot=null;
@@ -3365,19 +3437,29 @@ function annUndo(){
   const canvas=document.getElementById('annCanvas');if(!canvas)return;
   const ctx=canvas.getContext('2d');
   if(_annHistory.length>1){
-    _annHistory.pop();
+    _annRedoHistory.push(_annHistory.pop());
     ctx.putImageData(_annHistory[_annHistory.length-1],0,0);
   } else {
+    if(_annHistory.length===1)_annRedoHistory.push(_annHistory.pop());
     _annHistory=[];
     ctx.clearRect(0,0,canvas.width,canvas.height);
   }
+}
+
+function annRedo(){
+  const canvas=document.getElementById('annCanvas');if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  if(!_annRedoHistory.length)return;
+  const snap=_annRedoHistory.pop();
+  _annHistory.push(snap);
+  ctx.putImageData(snap,0,0);
 }
 
 function annClear(){
   const canvas=document.getElementById('annCanvas');if(!canvas)return;
   const ctx=canvas.getContext('2d');
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  _annHistory=[];
+  _annHistory=[];_annRedoHistory=[];
 }
 
 function annExport(){
@@ -3408,6 +3490,9 @@ function _annDownload(dataUrl,filename){
 }
 
 /* Picker */
+function openAnnHelp(){document.getElementById('annHelpBackdrop').classList.add('open');}
+function closeAnnHelp(e){if(e&&e.target!==document.getElementById('annHelpBackdrop'))return;document.getElementById('annHelpBackdrop').classList.remove('open');}
+
 function openAnnPicker(){
   const grid=document.getElementById('annPickGrid');
   if(!grid)return;
@@ -3678,6 +3763,7 @@ setTimeout(()=>switchTab('home'), 5000);
 sbLoad();
 renderHairTypeFilters();
 buildCats();
+document.getElementById('app').classList.toggle('light',!isDark);document.documentElement.classList.toggle('light',!isDark);document.body.style.background=isDark?'#111':'#fff';
 syncThemeUI();
 restoreLockedCut();
 applyCatMeta();
@@ -3690,6 +3776,31 @@ document.addEventListener('touchend',e=>{touchEndX=e.changedTouches[0].screenX;h
 </script>
 
 <!-- ── ANNOTATOR HAIRCUT PICKER ── -->
+<!-- ── ANNOTATOR HELP DIALOG ── -->
+<div class="ann-help-backdrop" id="annHelpBackdrop" onclick="closeAnnHelp(event)">
+  <div class="ann-help-modal">
+    <div class="ann-help-header">
+      <div class="ann-help-title">Annotator Guide</div>
+      <button class="ann-help-close" onclick="closeAnnHelp()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="ann-help-section">Drawing Tools</div>
+    <div class="ann-help-row"><div class="ann-help-icon"><i class="ti ti-pencil"></i></div><div class="ann-help-text"><div class="ann-help-name">Freehand</div><div class="ann-help-desc">Draw freely with your finger — any shape or scribble.</div></div></div>
+    <div class="ann-help-row"><div class="ann-help-icon"><i class="ti ti-line"></i></div><div class="ann-help-text"><div class="ann-help-name">Straight Line</div><div class="ann-help-desc">Drag from start to end to draw a clean solid straight line.</div></div></div>
+    <div class="ann-help-row"><div class="ann-help-icon"><i class="ti ti-arrow-up-right"></i></div><div class="ann-help-text"><div class="ann-help-name">Arrow</div><div class="ann-help-desc">Drag to draw a straight line with an arrowhead at the end.</div></div></div>
+    <div class="ann-help-row"><div class="ann-help-icon"><svg width="17" height="17" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2 13 Q8 1 14 13"/></svg></div><div class="ann-help-text"><div class="ann-help-name">Curve</div><div class="ann-help-desc">Two gestures: first drag sets the chord (start to end), second drag bends it into a smooth arc.</div></div></div>
+    <div class="ann-help-row"><div class="ann-help-icon"><svg width="17" height="17" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="3 3"><line x1="1" y1="8" x2="15" y2="8"/></svg></div><div class="ann-help-text"><div class="ann-help-name">Dashed Line</div><div class="ann-help-desc">Drag to draw a dashed straight line — useful for guides or measurements.</div></div></div>
+    <div class="ann-help-section">Actions</div>
+    <div class="ann-help-row"><div class="ann-help-icon"><i class="ti ti-photo"></i></div><div class="ann-help-text"><div class="ann-help-name">Select Haircut</div><div class="ann-help-desc">Open your uploaded haircuts and load one as the background to annotate on.</div></div></div>
+    <div class="ann-help-row"><div class="ann-help-icon"><i class="ti ti-arrow-back-up"></i></div><div class="ann-help-text"><div class="ann-help-name">Undo</div><div class="ann-help-desc">Remove the last stroke you drew, one step at a time.</div></div></div>
+    <div class="ann-help-row"><div class="ann-help-icon"><i class="ti ti-arrow-forward-up"></i></div><div class="ann-help-text"><div class="ann-help-name">Redo</div><div class="ann-help-desc">Restore a stroke you just undid.</div></div></div>
+    <div class="ann-help-row"><div class="ann-help-icon"><i class="ti ti-trash"></i></div><div class="ann-help-text"><div class="ann-help-name">Clear</div><div class="ann-help-desc">Erase all drawings from the canvas in one go.</div></div></div>
+    <div class="ann-help-row"><div class="ann-help-icon"><i class="ti ti-download"></i></div><div class="ann-help-text"><div class="ann-help-name">Export</div><div class="ann-help-desc">Save the annotated haircut photo (drawing + image) as a PNG to your device.</div></div></div>
+    <div class="ann-help-section">Colours &amp; Size</div>
+    <div class="ann-help-row"><div class="ann-help-icon"><i class="ti ti-palette"></i></div><div class="ann-help-text"><div class="ann-help-name">Colour Dots</div><div class="ann-help-desc">Tap any colour dot in the toolbar to switch the stroke colour.</div></div></div>
+    <div class="ann-help-row"><div class="ann-help-icon"><i class="ti ti-line-height"></i></div><div class="ann-help-text"><div class="ann-help-name">S / M / L</div><div class="ann-help-desc">Sets the stroke thickness — Small, Medium, or Large.</div></div></div>
+  </div>
+</div>
+
 <div class="ann-pick-backdrop" id="annPickBackdrop" onclick="closeAnnPicker(event)">
   <div class="ann-pick-modal">
     <div class="ann-pick-header">
