@@ -449,7 +449,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 /* Header */
 .hd-header{display:flex;align-items:flex-start;justify-content:space-between;padding:32px 20px 16px;}
 .hd-title{font-size:30px;font-weight:700;color:var(--text);letter-spacing:-0.03em;line-height:1.1;}
-.hd-search-btn{width:42px;height:42px;border-radius:50%;background:var(--bg2);border:0.5px solid var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;margin-top:4px;transition:opacity 0.15s;}
+.hd-search-btn{width:42px;height:42px;border-radius:50%;background:var(--bg2);border:0.5px solid var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:opacity 0.15s;}
 .hd-search-btn:active{opacity:0.7;}
 .hd-search-btn i{font-size:18px;color:var(--text2);}
 /* Filter chips */
@@ -533,7 +533,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .ann-empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--text3);pointer-events:none;}
 .ann-empty-state i{font-size:36px;}
 .ann-empty-state p{font-size:13px;text-align:center;line-height:1.6;}
-.ann-toolbar{background:var(--bg);border-top:0.5px solid var(--border);padding:10px 14px;display:flex;flex-direction:column;gap:10px;flex-shrink:0;}
+.ann-toolbar{background:var(--bg);border-top:0.5px solid var(--border);padding:10px 14px 22px;display:flex;flex-direction:column;gap:10px;flex-shrink:0;}
 .ann-tools-row{display:flex;align-items:center;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px;}.ann-tools-row::-webkit-scrollbar{display:none;}
 .ann-tool-btn{width:40px;height:40px;border-radius:10px;border:0.5px solid var(--border2);background:var(--bg2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s;flex-shrink:0;}
 .ann-tool-btn i{font-size:18px;color:var(--text2);}
@@ -866,7 +866,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 
   <!-- ── HOME SCREEN (s11) ── -->
   <div class="screen" id="s11">
-    <div class="home-dashboard">
+    <div class="home-dashboard" id="homeDashboard">
       <!-- Header -->
       <div class="hd-header">
         <div class="hd-title">Dashboard</div>
@@ -2502,14 +2502,18 @@ function switchTab(tab){
       t==='Settings' && tab==='settings';
     document.getElementById('nav'+t).classList.toggle('active',active);
   });
-  if(tab==='home'){loadHomeScreen();go('s11');updateFeaturedAutoScroll();}
-  else if(tab==='explore'){stopFeaturedAutoScroll();go('s1');}
-  else if(tab==='people'){stopFeaturedAutoScroll();loadPeopleScreen();go('s5');}
-  else if(tab==='search'){stopFeaturedAutoScroll();runSearch();go('s6');}
-  else if(tab==='settings'){stopFeaturedAutoScroll();syncThemeUI();go('s7');}
+  if(tab==='home'){const saved=_homeDashScrollY||0;loadHomeScreen();go('s11');updateFeaturedAutoScroll();if(saved>0){setTimeout(()=>{const dash=document.getElementById('homeDashboard');if(dash)dash.scrollTop=saved;},80);}}
+  else if(tab==='explore'){_saveHomeDashScroll();stopFeaturedAutoScroll();go('s1');}
+  else if(tab==='people'){_saveHomeDashScroll();stopFeaturedAutoScroll();loadPeopleScreen();go('s5');}
+  else if(tab==='search'){_saveHomeDashScroll();stopFeaturedAutoScroll();runSearch();go('s6');}
+  else if(tab==='settings'){_saveHomeDashScroll();stopFeaturedAutoScroll();syncThemeUI();go('s7');}
   else if(tab==='mycuts'){stopFeaturedAutoScroll();loadMyCutsScreen();go('s14');}
 }
+let _homeDashScrollY=0;
+function _saveHomeDashScroll(){const dash=document.getElementById('homeDashboard');if(dash)_homeDashScrollY=dash.scrollTop;}
 function go(sid){
+  // Save home dashboard scroll when navigating away from it
+  if(sid!=='s11'){_saveHomeDashScroll();}
   // Activate the requested screen
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(sid).classList.add('active');
