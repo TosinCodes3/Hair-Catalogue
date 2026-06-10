@@ -1462,6 +1462,7 @@ create policy "Allow all" on haircuts for all using (true) with check (true);
           <div class="ann-tool-btn" id="annToolArrow" onclick="setAnnTool('arrow')" title="Arrow"><i class="ti ti-arrow-up-right"></i></div>
           <div class="ann-tool-btn" id="annToolCurve" onclick="setAnnTool('curve')" title="Curve"><i style="display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2 13 Q8 1 14 13"/></svg></i></div>
           <div class="ann-tool-btn" id="annToolDash" onclick="setAnnTool('dash')" title="Dashed line"><i style="display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="3 3"><line x1="1" y1="8" x2="15" y2="8"/></svg></i></div>
+          <div class="ann-tool-btn" id="annToolPan" onclick="setAnnTool('pan')" title="Move / pan"><i class="ti ti-hand-stop"></i></div>
           <div class="ann-divider"></div>
           <div class="ann-color-btn active" id="annColorRed"   onclick="setAnnColor('#ef4444')" style="background:#ef4444;" title="Red"></div>
           <div class="ann-color-btn"        id="annColorGreen" onclick="setAnnColor('#22c55e')" style="background:#22c55e;" title="Green"></div>
@@ -3591,7 +3592,7 @@ let _annSnapshot=null; // snapshot before current stroke (for line/arrow preview
 function openAnnotator(){go('s20');annResizeCanvas();annInitZoom();}
 
 /* ── Annotator zoom & pan ── */
-let _annZoom=1,_annPanX=0,_annPanY=0;
+let _annZoom=1,_annPanX=0,_annPanY=0,_annPanLast={x:0,y:0};
 function _annApplyZoom(){
   const layer=document.getElementById('annZoomLayer');
   if(!layer)return;
@@ -3671,7 +3672,9 @@ function annResizeCanvas(){
 function setAnnTool(tool){
   _annTool=tool;
   _annCurvePhase=0;_annCurveStart=null;_annCurveEnd=null;
-  ['pen','line','arrow','curve','dash'].forEach(t=>{
+  const canvasEl=document.getElementById('annCanvas');
+  if(canvasEl)canvasEl.style.cursor=tool==='pan'?'grab':'crosshair';
+  ['pen','line','arrow','curve','dash','pan'].forEach(t=>{
     const el=document.getElementById('annTool'+t.charAt(0).toUpperCase()+t.slice(1));
     if(el)el.classList.toggle('active',t===tool);
   });
@@ -3732,6 +3735,13 @@ function annInitCanvas(){
       return;
     }
     e.preventDefault();
+    if(_annTool==='pan'){
+      _annDrawing=true;
+      const src=e.touches?e.touches[0]:e;
+      _annPanLast={x:src.clientX,y:src.clientY};
+      canvas.style.cursor='grabbing';
+      return;
+    }
     const pos=_annGetPos(e,canvas);
     if(_annTool==='curve'){
       if(_annCurvePhase===0){
@@ -3755,6 +3765,14 @@ function annInitCanvas(){
     }
     e.preventDefault();
     if(!_annDrawing)return;
+    if(_annTool==='pan'){
+      const src=e.touches?e.touches[0]:e;
+      _annPanX+=src.clientX-_annPanLast.x;
+      _annPanY+=src.clientY-_annPanLast.y;
+      _annPanLast={x:src.clientX,y:src.clientY};
+      _annApplyZoom();
+      return;
+    }
     const pos=_annGetPos(e,canvas);
     ctx.strokeStyle=_annColor;ctx.lineWidth=_annSize;ctx.lineCap='round';ctx.lineJoin='round';
     if(_annTool==='curve'){
@@ -3786,6 +3804,7 @@ function annInitCanvas(){
   function endDraw(e){
     if(!_annDrawing)return;
     _annDrawing=false;
+    if(_annTool==='pan'){canvas.style.cursor='grab';return;}
     if(_annTool==='curve'){
       const pos=_annGetPosEnd(e,canvas);
       if(_annCurvePhase===0){
