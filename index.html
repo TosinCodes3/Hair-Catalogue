@@ -1446,8 +1446,10 @@ create policy "Allow all" on haircuts for all using (true) with check (true);
         <div class="ann-action-btn primary" onclick="annExport()" title="Export"><i class="ti ti-download"></i></div>
       </div>
       <div class="ann-canvas-wrap" id="annCanvasWrap">
+        <div id="annZoomLayer" style="position:absolute;inset:0;transform-origin:0 0;">
         <img class="ann-bg-img" id="annBgImg" src="" alt="" style="display:none;">
         <canvas class="ann-canvas" id="annCanvas" style="display:none;"></canvas>
+        </div>
         <div class="ann-empty-state" id="annEmptyState">
           <i class="ti ti-photo-search"></i>
           <p>Tap the <strong style="color:var(--text2);">gallery button</strong> above<br>to load a photo and start drawing.</p>
@@ -1974,7 +1976,44 @@ function getWeekKey(){
   return `${now.getFullYear()}_w${week}`;
 }
 
+function notifDailySummary(){
+  // Summarize the most recent fully-ended day that had activity and wasn't summarized yet
+  const doneKey='dailySummariesDone';
+  let done;try{done=JSON.parse(localStorage.getItem(doneKey)||'[]');}catch(e){done=[];}
+  const h=getHistory();if(!h.length)return;
+  const todayKey=new Date().toISOString().slice(0,10);
+  // Collect distinct day keys (local date) with sessions, excluding today
+  const dayKeys=[...new Set(h.map(x=>{const d=new Date(x.date);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}))].filter(k=>k<todayKey&&!done.includes(k)).sort();
+  if(!dayKeys.length)return;
+  // Only summarize the most recent ended day (avoid flooding old days)
+  const key=dayKeys[dayKeys.length-1];
+  const dayItems=h.filter(x=>{const d=new Date(x.date);const k=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');return k===key;});
+  if(dayItems.length){
+    const clients=dayItems.filter(x=>x.type==='client');
+    const models=dayItems.filter(x=>x.type==='model');
+    const freestyle=dayItems.length-clients.length-models.length;
+    const parts=[];
+    if(clients.length)parts.push(`${clients.length} client cut${clients.length!==1?'s':''}`+(clients.length<=2?` (${clients.map(x=>x.personName).filter(Boolean).join(', ')})`:''));
+    if(models.length)parts.push(`${models.length} model session${models.length!==1?'s':''}`+(models.length<=2?` (${models.map(x=>x.personName).filter(Boolean).join(', ')})`:''));
+    if(freestyle)parts.push(`${freestyle} freestyle session${freestyle!==1?'s':''}`);
+    const cutNames=[...new Set(dayItems.map(x=>x.name))];
+    const cutLine=cutNames.length<=3?` Styles: ${cutNames.join(', ')}.`:` Across ${cutNames.length} different styles.`;
+    const dateLabel=new Date(key+'T12:00:00').toLocaleDateString(undefined,{weekday:'long',month:'short',day:'numeric'});
+    pushNotif({
+      type:'daily_summary',
+      icon:'ti-sunset-2',
+      title:`Your day in review — ${dateLabel}`,
+      body:`${dayItems.length} cut${dayItems.length!==1?'s':''} locked in: ${parts.join(', ')}.${cutLine}`,
+      dedupeKey:'daily_summary_'+key
+    });
+  }
+  // Mark all pending days as handled so old days don't pile up later
+  localStorage.setItem(doneKey,JSON.stringify(done.concat(dayKeys).slice(-60)));
+}
+
 function maybeRunPeriodicNotifs(){
+  // Daily summary checks on every load (cheap, deduped by day)
+  try{notifDailySummary();}catch(e){}
   const key='lastPeriodicNotifCheck';
   const last=localStorage.getItem(key);
   const now=Date.now();
@@ -1984,6 +2023,8 @@ function maybeRunPeriodicNotifs(){
   notifWeeklySummary();
   notifStyleTrendInsight();
 }
+// If the app stays open past midnight, generate the summary without needing a reload
+setInterval(()=>{try{notifDailySummary();}catch(e){}},3600000);
 
 
 /* ─── SAVED CLIENTS PICKER ─── */
@@ -3541,7 +3582,67 @@ let _annCurvePhase=0; // 0=set chord, 1=set bend
 let _annCurveStart=null,_annCurveEnd=null;
 let _annSnapshot=null; // snapshot before current stroke (for line/arrow preview)
 
-function openAnnotator(){go('s20');annResizeCanvas();}
+function openAnnotator(){go('s20');annResizeCanvas();annInitZoom();}
+
+/* ── Annotator zoom & pan ── */
+let _annZoom=1,_annPanX=0,_annPanY=0;
+function _annApplyZoom(){
+  const layer=document.getElementById('annZoomLayer');
+  if(!layer)return;
+  if(_annZoom<=1.001){_annZoom=1;_annPanX=0;_annPanY=0;}
+  _annClampPan();
+  layer.style.transform=`translate(${_annPanX}px,${_annPanY}px) scale(${_annZoom})`;
+}
+function _annClampPan(){
+  const wrap=document.getElementById('annCanvasWrap');
+  if(!wrap)return;
+  const w=wrap.clientWidth,h=wrap.clientHeight;
+  // content size scaled; keep edges from drifting inside the viewport
+  _annPanX=Math.min(0,Math.max(w-w*_annZoom,_annPanX));
+  _annPanY=Math.min(0,Math.max(h-h*_annZoom,_annPanY));
+}
+function annResetZoom(){_annZoom=1;_annPanX=0;_annPanY=0;_annApplyZoom();}
+function annInitZoom(){
+  const wrap=document.getElementById('annCanvasWrap');
+  if(!wrap||wrap._annZoomInited)return;
+  wrap._annZoomInited=true;
+  let pinchDist=0,pinchZoom=1,pinchMid=null,pinchPan=null,pinching=false;
+  const dist=t=>Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY);
+  const mid=t=>{const r=wrap.getBoundingClientRect();return{x:(t[0].clientX+t[1].clientX)/2-r.left,y:(t[0].clientY+t[1].clientY)/2-r.top};};
+  wrap.addEventListener('touchstart',e=>{
+    if(e.touches.length===2){
+      pinching=true;
+      pinchDist=dist(e.touches);pinchZoom=_annZoom;
+      pinchMid=mid(e.touches);pinchPan={x:_annPanX,y:_annPanY};
+      e.preventDefault();
+    }
+  },{passive:false});
+  wrap.addEventListener('touchmove',e=>{
+    if(pinching&&e.touches.length===2){
+      const newZoom=Math.max(1,Math.min(6,pinchZoom*dist(e.touches)/pinchDist));
+      const m=mid(e.touches);
+      // keep the content point that was under the pinch midpoint anchored to it
+      _annPanX=m.x-(pinchMid.x-pinchPan.x)*(newZoom/pinchZoom);
+      _annPanY=m.y-(pinchMid.y-pinchPan.y)*(newZoom/pinchZoom);
+      _annZoom=newZoom;
+      _annApplyZoom();
+      e.preventDefault();
+    }
+  },{passive:false});
+  wrap.addEventListener('touchend',e=>{if(e.touches.length<2)pinching=false;});
+  // Desktop: wheel zoom centred on the cursor
+  wrap.addEventListener('wheel',e=>{
+    e.preventDefault();
+    const r=wrap.getBoundingClientRect();
+    const cx=e.clientX-r.left,cy=e.clientY-r.top;
+    const factor=e.deltaY<0?1.12:1/1.12;
+    const newZoom=Math.max(1,Math.min(6,_annZoom*factor));
+    _annPanX=cx-(cx-_annPanX)*(newZoom/_annZoom);
+    _annPanY=cy-(cy-_annPanY)*(newZoom/_annZoom);
+    _annZoom=newZoom;
+    _annApplyZoom();
+  },{passive:false});
+}
 
 function annResizeCanvas(){
   const wrap=document.getElementById('annCanvasWrap');
@@ -3619,6 +3720,11 @@ function annInitCanvas(){
   const ctx=canvas.getContext('2d');
 
   function startDraw(e){
+    if(e.touches&&e.touches.length>1){
+      // Second finger = pinch zoom; cancel any stroke in progress
+      if(_annDrawing){_annDrawing=false;if(_annSnapshot)ctx.putImageData(_annSnapshot,0,0);}
+      return;
+    }
     e.preventDefault();
     const pos=_annGetPos(e,canvas);
     if(_annTool==='curve'){
@@ -3637,6 +3743,10 @@ function annInitCanvas(){
     if(_annTool==='pen'){ctx.beginPath();ctx.moveTo(pos.x,pos.y);}
   }
   function moveDraw(e){
+    if(e.touches&&e.touches.length>1){
+      if(_annDrawing){_annDrawing=false;if(_annSnapshot)ctx.putImageData(_annSnapshot,0,0);}
+      return;
+    }
     e.preventDefault();
     if(!_annDrawing)return;
     const pos=_annGetPos(e,canvas);
@@ -3798,6 +3908,7 @@ function closeAnnPicker(e){
 
 function annLoadImage(src){
   document.getElementById('annPickBackdrop').classList.remove('open');
+  annResetZoom();
   const wrap=document.getElementById('annCanvasWrap');
   const bgImg=document.getElementById('annBgImg');
   const canvas=document.getElementById('annCanvas');
