@@ -2796,15 +2796,21 @@ function toggleSavedMore(){
     box.style.marginTop='14px';
     box.style.paddingTop='12px';
     box.style.borderTopColor='var(--border)';
-    box.style.maxHeight=box.scrollHeight+40+'px';
+    box.style.maxHeight=(box.scrollHeight+12)+'px';
     box.style.opacity='1';
     btn.textContent='View less';
+    // After the slide finishes, release the height cap so content can settle naturally
+    box.addEventListener('transitionend',function onEnd(ev){if(ev.propertyName==='max-height'){box.style.maxHeight='none';box.removeEventListener('transitionend',onEnd);}});
   }else{
-    box.style.maxHeight='0';
-    box.style.opacity='0';
-    box.style.marginTop='0';
-    box.style.paddingTop='0';
-    box.style.borderTopColor='transparent';
+    // Pin current height first so the collapse animates from the real value
+    box.style.maxHeight=box.scrollHeight+'px';
+    requestAnimationFrame(()=>{requestAnimationFrame(()=>{
+      box.style.maxHeight='0';
+      box.style.opacity='0';
+      box.style.marginTop='0';
+      box.style.paddingTop='0';
+      box.style.borderTopColor='transparent';
+    });});
     btn.textContent='View more';
   }
 }
