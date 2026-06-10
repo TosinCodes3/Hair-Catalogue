@@ -213,6 +213,22 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .person-cut-desc{font-size:11px;color:var(--text3);margin-top:4px;line-height:1.4;}
 .person-cut-date{font-size:11px;color:var(--text3);margin-top:5px;}
 .person-detail-empty{font-size:14px;color:var(--text2);padding:16px 0;line-height:1.6;}
+.pd-hero{width:100%;aspect-ratio:0.92;border-radius:20px;overflow:hidden;background:var(--bg2);border:0.5px solid var(--border);}
+.pd-hero img{width:100%;height:100%;object-fit:cover;display:block;}
+.pd-name{font-size:26px;font-weight:700;color:var(--text);margin:18px 4px 16px;}
+.pd-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
+.pd-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:18px;padding:16px 14px;display:flex;flex-direction:column;gap:6px;position:relative;}
+.pd-card-icon{font-size:20px;color:var(--text);margin-bottom:6px;}
+.pd-card-label{font-size:14px;font-weight:600;color:var(--text);}
+.pd-card-value{font-size:13px;color:var(--text2);word-break:break-all;}
+.pd-card-edit{position:absolute;top:14px;right:14px;font-size:11px;color:var(--text3);cursor:pointer;}
+.pd-card select{margin-top:4px;background:transparent;border:none;font-size:13px;color:var(--text2);font-family:inherit;outline:none;width:100%;cursor:pointer;}
+.pd-hist-head{display:flex;align-items:center;justify-content:space-between;margin:0 4px 12px;}
+.pd-hist-title{font-size:18px;font-weight:700;color:var(--text);}
+.pd-hist-viewall{font-size:11px;color:var(--text3);cursor:pointer;}
+.pd-hist-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;}
+.pd-hist-scroll::-webkit-scrollbar{display:none;}
+.pd-hist-thumb{width:86px;height:86px;border-radius:16px;object-fit:cover;flex-shrink:0;cursor:pointer;background:var(--bg2);border:0.5px solid var(--border);}
 
 
 /* ── MODEL PROFILE ── */
@@ -1139,13 +1155,23 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
           <div class="saved-card-title" id="savedName"></div>
           <div class="saved-card-meta" id="savedOpts"></div>
           <div class="saved-card-meta" id="savedDesc" style="margin-top:6px;"></div>
-          <button class="lock-btn" style="margin-top:14px;" onclick="openSavedCut()">View details</button>
+          <div id="savedMoreDetails" style="overflow:hidden;max-height:0;opacity:0;transition:max-height 0.5s ease,opacity 0.45s ease,margin-top 0.5s ease;margin-top:0;border-top:0.5px solid transparent;padding-top:0;">
+            <div style="display:flex;flex-direction:column;gap:9px;" id="savedDetailRows"></div>
+            <div style="margin-top:14px;text-align:center;font-size:13px;font-weight:600;color:var(--text2);text-decoration:underline;cursor:pointer;" onclick="openSavedCut()">View Haircut</div>
+          </div>
+          <button class="lock-btn" style="margin-top:14px;" id="savedMoreBtn" onclick="toggleSavedMore()">View more</button>
         </div>
       </div>
     </div>
   </div>
   <div class="screen" id="s8" style="padding-bottom:72px;">
-    <div class="compare-header"><div class="back-btn" onclick="closeCompare()"><i class="ti ti-arrow-left"></i></div><div class="compare-title">Quick Compare</div><div style="width:34px"></div></div>
+    <div class="compare-header"><div class="back-btn" onclick="closeCompare()"><i class="ti ti-arrow-left"></i></div><div class="compare-title">Quick Compare</div>
+      <div style="display:flex;gap:0;background:var(--bg3);border-radius:8px;padding:2px;flex-shrink:0;">
+        <button id="cmpViewSide" onclick="setCompareView('side')" title="Side by side" style="padding:6px 10px;border:none;border-radius:6px;font-size:11px;cursor:pointer;font-family:inherit;transition:all 0.15s;background:var(--text);color:var(--bg);display:flex;align-items:center;"><i class="ti ti-layout-columns" style="font-size:14px;"></i></button>
+        <button id="cmpViewSlider" onclick="setCompareView('slider')" title="Slider" style="padding:6px 10px;border:none;border-radius:6px;font-size:11px;cursor:pointer;font-family:inherit;transition:all 0.15s;background:transparent;color:var(--text2);display:flex;align-items:center;"><i class="ti ti-arrows-left-right" style="font-size:14px;"></i></button>
+      </div>
+    </div>
+    <div id="compareSliderArea" style="display:none;flex:1;padding:0 16px 16px;flex-direction:column;"></div>
     <div class="compare-panels" id="comparePanels">
       <div class="compare-panel" id="panelA"><div id="panelAContent"></div></div>
       <div class="compare-panel" id="panelB"><div id="panelBContent"></div></div>
@@ -1197,6 +1223,13 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
         <div class="settings-row" style="margin-top:8px;">
           <div class="settings-row-left"><div class="settings-row-icon"><i class="ti ti-users"></i></div><div><div class="settings-row-label">Include freestyle sessions</div><div class="settings-row-sub">Count freestyle in totals &amp; charts</div></div></div>
           <div class="toggle-track on" id="msFreestyleToggle" onclick="toggleMetricsSetting('includeFreestyle')"><div class="toggle-knob"></div></div>
+        </div>
+      </div>
+      <div class="settings-section">
+        <div class="settings-section-label">Danger zone</div>
+        <div class="settings-row" style="cursor:pointer;" onclick="resetAllMetrics()">
+          <div class="settings-row-left"><div class="settings-row-icon" style="color:#e55;"><i class="ti ti-trash"></i></div><div><div class="settings-row-label" style="color:#e55;">Reset all metrics</div><div class="settings-row-sub">Permanently delete all session history</div></div></div>
+          <i class="ti ti-chevron-right" style="color:var(--text3);"></i>
         </div>
       </div>
       <div class="settings-section">
@@ -1520,7 +1553,7 @@ function lbTouchEnd(e){const remaining=Array.from(e.touches);if(lbPinching&&rema
 
 
 /* ─── STATE ─── */
-let cur=null,curCat=null,fv='Mid',tv='Neat',isDark=localStorage.getItem('appTheme')!=='light',isListView=false,selectedHairType='all',fromPeople=false,fromHome=false;
+let cur=null,curCat=null,fv='Mid',tv='Neat',isDark=localStorage.getItem('appTheme')!=='light',isListView=false,selectedHairType='all',fromPeople=false,fromHome=false,fromMycuts=false;
 let metricsWalkthroughStep=0,metricsWalkthroughActive=false;
 const hairTypes=['All','Curly','Straight','Wavy','Textured'];
 const STORAGE_KEY='lockedCut',HISTORY_KEY='cutHistory',MODEL_PROFILES_KEY='modelProfiles',DASH_REFRESH_KEY='dashboardRefresh',AUTO_SCROLL_KEY='featuredAutoScroll';
@@ -2114,7 +2147,62 @@ function setCompareItemImage(side,imgIdx){const item=normalizeCompareItem(side==
 function openCompare(){if(!cur)return;setCompareItem('A',cur);compareB=null;renderComparePanels();go('s8');}
 function openCompareFromHome(){cur=null;compareA=null;compareB=null;renderComparePanels();go('s8');}
 function closeCompare(){if(cur)go('s3');else switchTab('home');}
-function renderComparePanels(){renderPanel('A',compareA,'panelAContent',true);renderPanel('B',compareB,'panelBContent',false);let vs=document.getElementById('compareVsBadge');if(!vs){vs=document.createElement('div');vs.id='compareVsBadge';vs.className='compare-vs';vs.textContent='VS';document.getElementById('comparePanels').style.position='relative';document.getElementById('comparePanels').appendChild(vs);}}
+function renderComparePanels(){renderPanel('A',compareA,'panelAContent',true);renderPanel('B',compareB,'panelBContent',false);let vs=document.getElementById('compareVsBadge');if(!vs){vs=document.createElement('div');vs.id='compareVsBadge';vs.className='compare-vs';vs.textContent='VS';document.getElementById('comparePanels').style.position='relative';document.getElementById('comparePanels').appendChild(vs);}if(compareView==='slider')renderCompareSlider();}
+let compareView='side';
+let cmpSliderPct=50;
+function setCompareView(v){
+  compareView=v;
+  const sideBtn=document.getElementById('cmpViewSide'),sliderBtn=document.getElementById('cmpViewSlider');
+  if(sideBtn&&sliderBtn){
+    sideBtn.style.background=v==='side'?'var(--text)':'transparent';sideBtn.style.color=v==='side'?'var(--bg)':'var(--text2)';
+    sliderBtn.style.background=v==='slider'?'var(--text)':'transparent';sliderBtn.style.color=v==='slider'?'var(--bg)':'var(--text2)';
+  }
+  document.getElementById('comparePanels').style.display=v==='side'?'':'none';
+  const area=document.getElementById('compareSliderArea');
+  area.style.display=v==='slider'?'flex':'none';
+  if(v==='slider')renderCompareSlider();
+}
+function renderCompareSlider(){
+  const area=document.getElementById('compareSliderArea');
+  area.innerHTML='';
+  const a=normalizeCompareItem(compareA),b=normalizeCompareItem(compareB);
+  if(!a||!a.cut||!b||!b.cut){
+    area.innerHTML='<div style="flex:1;display:flex;align-items:center;justify-content:center;text-align:center;font-size:13px;color:var(--text2);line-height:1.6;padding:24px;">Pick both cuts in side-by-side view first,<br>then switch to slider to compare.</div>';
+    return;
+  }
+  const imgA=getImgs(a.cut)[Math.max(0,Math.min(a.imgIdx,getImgs(a.cut).length-1))].src;
+  const imgB=getImgs(b.cut)[Math.max(0,Math.min(b.imgIdx,getImgs(b.cut).length-1))].src;
+  cmpSliderPct=50;
+  const wrap=document.createElement('div');
+  wrap.id='cmpSliderWrap';
+  wrap.style.cssText='position:relative;flex:1;border-radius:18px;overflow:hidden;background:var(--bg2);border:0.5px solid var(--border);touch-action:none;min-height:300px;';
+  wrap.innerHTML=`
+    <img src="${imgB}" alt="${escHtml(b.cut.name)}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+    <div id="cmpLeftWrap" style="position:absolute;top:0;left:0;bottom:0;width:50%;overflow:hidden;">
+      <img src="${imgA}" alt="${escHtml(a.cut.name)}" id="cmpLeftImg" style="position:absolute;top:0;left:0;height:100%;object-fit:cover;">
+      <div style="position:absolute;top:12px;left:12px;background:rgba(0,0,0,0.55);color:#fff;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;white-space:nowrap;">${escHtml(a.cut.name)}</div>
+    </div>
+    <div style="position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.55);color:#fff;font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;white-space:nowrap;">${escHtml(b.cut.name)}</div>
+    <div id="cmpDivider" style="position:absolute;top:0;bottom:0;left:50%;width:2px;background:#fff;box-shadow:0 0 8px rgba(0,0,0,0.4);"></div>
+    <div id="cmpHandle" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,0.35);"><i class="ti ti-arrows-left-right" style="font-size:17px;color:#111;"></i></div>`;
+  area.appendChild(wrap);
+  // size left img to wrap width so it doesn't squish as the clip changes
+  const sizeLeftImg=()=>{const li=document.getElementById('cmpLeftImg');if(li)li.style.width=wrap.clientWidth+'px';};
+  requestAnimationFrame(sizeLeftImg);
+  const applyPct=pct=>{
+    cmpSliderPct=Math.max(2,Math.min(98,pct));
+    document.getElementById('cmpLeftWrap').style.width=cmpSliderPct+'%';
+    document.getElementById('cmpDivider').style.left=cmpSliderPct+'%';
+    document.getElementById('cmpHandle').style.left=cmpSliderPct+'%';
+  };
+  let dragging=false;
+  const posPct=e=>{const r=wrap.getBoundingClientRect();const x=(e.touches?e.touches[0]:e).clientX;return((x-r.left)/r.width)*100;};
+  const startH=e=>{dragging=true;applyPct(posPct(e));e.preventDefault();};
+  const moveH=e=>{if(!dragging)return;applyPct(posPct(e));e.preventDefault();};
+  const endH=()=>{dragging=false;};
+  wrap.addEventListener('mousedown',startH);wrap.addEventListener('mousemove',moveH);window.addEventListener('mouseup',endH);
+  wrap.addEventListener('touchstart',startH,{passive:false});wrap.addEventListener('touchmove',moveH,{passive:false});wrap.addEventListener('touchend',endH);
+}
 function renderPanel(side,item,cid,isA){const c=document.getElementById(cid);c.innerHTML='';const entry=normalizeCompareItem(item);if(!entry||!entry.cut){const ph=document.createElement('div');ph.className='compare-panel-placeholder';ph.innerHTML='<i class="ti ti-plus"></i><span>Pick a cut</span>';ph.onclick=()=>openPicker(side);c.appendChild(ph);const info=document.createElement('div');info.className='compare-panel-info';info.innerHTML='<div class="compare-panel-name" style="color:var(--text3);">Choose a style</div>';c.appendChild(info);return;}const cut=entry.cut;const imgs=getImgs(cut);const selectedIdx=Math.max(0,Math.min(entry.imgIdx,imgs.length-1));const selectedImg=imgs[selectedIdx];const img=document.createElement('img');img.className='compare-panel-img';img.src=selectedImg.src;img.alt=cut.name;img.onload=()=>img.classList.add('loaded');img.onerror=()=>{img.style.opacity='0.15';};img.onclick=()=>openPicker(side);c.appendChild(img);const info=document.createElement('div');info.className='compare-panel-info';info.innerHTML='<div class="compare-panel-name">'+cut.name+'</div><div class="compare-panel-tags">'+(cut.tags.filter(Boolean).join(', ')||'—')+'</div><div class="compare-panel-desc">'+cut.desc+'</div>';c.appendChild(info);if(imgs.length>1){const angles=document.createElement('div');angles.className='compare-angle-row';imgs.forEach((imgMeta,idx)=>{const chip=document.createElement('button');chip.type='button';chip.className='compare-angle-chip'+(idx===selectedIdx?' active':'');chip.textContent=imgMeta.label||('View '+(idx+1));chip.onclick=()=>setCompareItemImage(side,idx);angles.appendChild(chip);});c.appendChild(angles);}const btn=document.createElement('button');btn.className='compare-pick-btn';btn.textContent='Lock this cut';btn.onclick=()=>{cur=cut;fv='Mid';tv='Neat';resetOpts();openLockInSheet();};c.appendChild(btn);}
 function openPicker(side){pickerTarget=side;const grid=document.getElementById('comparePickerGrid');grid.innerHTML='';cuts.forEach(c=>{const card=document.createElement('div');card.className='compare-picker-card';const img=document.createElement('img');img.src=getImgs(c)[0].src;img.alt=c.name;img.onload=()=>img.classList.add('loaded');img.onerror=()=>{img.style.opacity='0.15';};const lbl=document.createElement('div');lbl.className='compare-picker-label';lbl.textContent=c.name;card.appendChild(img);card.appendChild(lbl);card.onclick=()=>pickCompare(c);grid.appendChild(card);});document.getElementById('comparePicker').classList.add('open');}
 function closePicker(){document.getElementById('comparePicker').classList.remove('open');}
@@ -2548,14 +2636,137 @@ function loadPersonList(type,query=''){const listId=type==='client'?'clientList'
     const info=document.createElement('div');info.className='person-info';info.innerHTML=`<div class="person-name">${p.name}</div><div class="person-meta">${metaText}</div>`;
     const arrow=document.createElement('i');arrow.className='ti ti-chevron-right person-arrow';row.appendChild(av);row.appendChild(info);row.appendChild(arrow);row.onclick=()=>openPersonDetail(p.name,type);listEl.appendChild(row);});}
 function filterPersonList(type){const searchId=type==='client'?'clientSearch':'modelSearch';loadPersonList(type,document.getElementById(searchId).value);}
-function openPersonDetail(name,type){const h=getHistory();const cuts_=h.filter(item=>item.type===type&&item.personName&&item.personName.trim().toLowerCase()===name.trim().toLowerCase());document.getElementById('personDetailTitle').textContent=name;const typeEl=document.getElementById('personDetailType');typeEl.textContent=type.charAt(0).toUpperCase()+type.slice(1);typeEl.className='person-detail-type '+type;const bodyEl=document.getElementById('personDetailBody');bodyEl.innerHTML='';if(!cuts_.length){bodyEl.innerHTML='<div class="person-detail-empty">No cuts found for this person.</div>';}else{cuts_.forEach(item=>{const card=document.createElement('div');card.className='person-cut-card';card.onclick=()=>{fv=item.fade||'Mid';tv=item.top||'Neat';fromPeople=true;openCut(item.id,true);closePersonDetail();};const img=document.createElement('img');img.className='person-cut-thumb';img.src=item.img||'';img.alt=item.name;img.onload=()=>img.classList.add('loaded');img.onerror=()=>{img.style.opacity='0.1';};const info=document.createElement('div');info.className='person-cut-info';info.innerHTML=`<div class="person-cut-name">${item.name}</div><div class="person-cut-opts">${item.fade||'Mid'} fade · ${item.top||'Neat'} top</div>${item.personDesc?`<div class="person-cut-desc">${item.personDesc}</div>`:''}<div class="person-cut-date">${formatDate(item.date)}</div>`;card.appendChild(img);card.appendChild(info);bodyEl.appendChild(card);});}if(type==='model'){renderModelProfileSection(bodyEl,name);}document.getElementById('personDetailSheet').classList.add('open');}
+function openPersonDetail(name,type){
+  const h=getHistory();
+  const cuts_=h.filter(item=>item.type===type&&item.personName&&item.personName.trim().toLowerCase()===name.trim().toLowerCase());
+  document.getElementById('personDetailTitle').textContent=(type==='model'?'Model':'Client')+' Profile';
+  const typeEl=document.getElementById('personDetailType');
+  typeEl.style.display='none';
+  const bodyEl=document.getElementById('personDetailBody');
+  bodyEl.innerHTML='';
+  const profile=getModelProfile(name);
+  // Hero image (latest cut)
+  if(cuts_.length){
+    const hero=document.createElement('div');hero.className='pd-hero';
+    const heroImg=document.createElement('img');heroImg.src=cuts_[0].img||'';heroImg.alt=name;heroImg.onerror=()=>{heroImg.style.opacity='0.1';};
+    hero.appendChild(heroImg);bodyEl.appendChild(hero);
+  }
+  // Name
+  const nameEl=document.createElement('div');nameEl.className='pd-name';nameEl.textContent=name;bodyEl.appendChild(nameEl);
+  // Info card grid
+  const grid=document.createElement('div');grid.className='pd-grid';
+  if(type==='model'){
+    // Instagram card
+    const igCard=document.createElement('div');igCard.className='pd-card';
+    igCard.innerHTML=`<div class="pd-card-edit" onclick="pdEditField('${escHtml(name)}','${type}','ig')">Edit</div><i class="ti ti-brand-instagram pd-card-icon"></i><div class="pd-card-label">Instagram</div><div class="pd-card-value">${profile.ig?'@'+escHtml(profile.ig.replace(/^@/,'')):'Not set'}</div>`;
+    grid.appendChild(igCard);
+    // Contact card
+    const ctCard=document.createElement('div');ctCard.className='pd-card';
+    ctCard.innerHTML=`<div class="pd-card-edit" onclick="pdEditField('${escHtml(name)}','${type}','contact')">Edit</div><i class="ti ti-phone pd-card-icon"></i><div class="pd-card-label">Contact</div><div class="pd-card-value">${profile.contact?escHtml(profile.contact):'Not set'}</div>`;
+    grid.appendChild(ctCard);
+  }
+  // Hair type card
+  const htCard=document.createElement('div');htCard.className='pd-card';
+  htCard.innerHTML=`<div class="pd-card-label">Hair type</div><select onchange="pdSaveSelect('${escHtml(name)}','${type}','hairType',this.value)"><option value="">— Select —</option>${MODEL_HAIR_TYPES.map(t=>`<option value="${t}"${profile.hairType===t?' selected':''}>${t}</option>`).join('')}</select>`;
+  grid.appendChild(htCard);
+  // Face shape card
+  const fsCard=document.createElement('div');fsCard.className='pd-card';
+  fsCard.innerHTML=`<div class="pd-card-label">Face shape</div><select onchange="pdSaveSelect('${escHtml(name)}','${type}','faceShape',this.value)"><option value="">— Select —</option>${MODEL_FACE_SHAPES.map(s=>`<option value="${s}"${profile.faceShape===s?' selected':''}>${s}</option>`).join('')}</select>`;
+  grid.appendChild(fsCard);
+  bodyEl.appendChild(grid);
+  // Haircut history
+  const histHead=document.createElement('div');histHead.className='pd-hist-head';
+  histHead.innerHTML=`<div class="pd-hist-title">Haircut History</div>`+(cuts_.length?`<div class="pd-hist-viewall" onclick="pdToggleHistView('${escHtml(name)}','${type}')">View all</div>`:'');
+  bodyEl.appendChild(histHead);
+  const histWrap=document.createElement('div');histWrap.id='pdHistWrap';
+  bodyEl.appendChild(histWrap);
+  renderPdHistScroll(histWrap,cuts_);
+  document.getElementById('personDetailSheet').classList.add('open');
+}
+function renderPdHistScroll(wrap,cuts_){
+  wrap.innerHTML='';
+  if(!cuts_.length){wrap.innerHTML='<div class="person-detail-empty">No cuts found for this person.</div>';return;}
+  const scroll=document.createElement('div');scroll.className='pd-hist-scroll';
+  cuts_.forEach(item=>{
+    const img=document.createElement('img');img.className='pd-hist-thumb';img.src=item.img||'';img.alt=item.name;
+    img.onerror=()=>{img.style.opacity='0.1';};
+    img.onclick=()=>{fv=item.fade||'Mid';tv=item.top||'Neat';fromPeople=true;openCut(item.id,true);closePersonDetail();};
+    scroll.appendChild(img);
+  });
+  wrap.appendChild(scroll);
+}
+function pdToggleHistView(name,type){
+  const wrap=document.getElementById('pdHistWrap');if(!wrap)return;
+  const h=getHistory();
+  const cuts_=h.filter(item=>item.type===type&&item.personName&&item.personName.trim().toLowerCase()===name.trim().toLowerCase());
+  const expanded=wrap.dataset.expanded==='1';
+  if(expanded){wrap.dataset.expanded='';renderPdHistScroll(wrap,cuts_);return;}
+  wrap.dataset.expanded='1';
+  wrap.innerHTML='';
+  cuts_.forEach(item=>{
+    const card=document.createElement('div');card.className='person-cut-card';
+    card.onclick=()=>{fv=item.fade||'Mid';tv=item.top||'Neat';fromPeople=true;openCut(item.id,true);closePersonDetail();};
+    const img=document.createElement('img');img.className='person-cut-thumb';img.src=item.img||'';img.alt=item.name;img.onload=()=>img.classList.add('loaded');img.onerror=()=>{img.style.opacity='0.1';};
+    const info=document.createElement('div');info.className='person-cut-info';
+    info.innerHTML=`<div class="person-cut-name">${item.name}</div><div class="person-cut-opts">${item.fade||'Mid'} fade · ${item.top||'Neat'} top</div>${item.personDesc?`<div class="person-cut-desc">${item.personDesc}</div>`:''}<div class="person-cut-date">${formatDate(item.date)}</div>`;
+    card.appendChild(img);card.appendChild(info);wrap.appendChild(card);
+  });
+}
+function pdEditField(name,type,field){
+  const profile=getModelProfile(name);
+  const labels={ig:'Instagram handle (e.g. @username)',contact:'Contact number'};
+  const val=prompt(labels[field],profile[field]||'');
+  if(val===null)return;
+  profile[field]=val.trim();
+  saveModelProfile(name,profile);
+  sbUpsertProfile(name,type,profile);
+  openPersonDetail(name,type);
+}
+function pdSaveSelect(name,type,field,value){
+  const profile=getModelProfile(name);
+  profile[field]=value;
+  saveModelProfile(name,profile);
+  sbUpsertProfile(name,type,profile);
+}
 function closePersonDetail(){document.getElementById('personDetailSheet').classList.remove('open');}
 
 
 /* ─── SAVED CUT ─── */
 function saveLockedCut(type,personName,personDesc){if(!cur)return;localStorage.setItem(STORAGE_KEY,JSON.stringify({id:cur.id,fv,tv,type:type||'freestyle',personName:personName||'',personDesc:personDesc||''}));}
 function loadSavedCut(){const raw=localStorage.getItem(STORAGE_KEY),emptyEl=document.getElementById('savedEmpty'),cardEl=document.getElementById('savedCard');if(!raw){emptyEl.style.display='block';cardEl.style.display='none';return;}try{const saved=JSON.parse(raw),cut=cuts.find(c=>c.id===saved.id);if(!cut){emptyEl.style.display='block';cardEl.style.display='none';return;}emptyEl.style.display='none';cardEl.style.display='block';loadImg(document.getElementById('savedImg'),getImgs(cut)[0].src,cut.name);document.getElementById('savedName').textContent=cut.name;const typeLabel=saved.type&&saved.type!=='freestyle'?` · ${saved.type.charAt(0).toUpperCase()+saved.type.slice(1)}${saved.personName?' ('+saved.personName+')':''}`:'';;document.getElementById('savedOpts').textContent=(saved.fv||'Mid')+' fade · '+(saved.tv||'Neat')+' top'+typeLabel;document.getElementById('savedDesc').textContent=saved.personDesc||cut.desc;cur=cut;}catch(e){emptyEl.style.display='block';cardEl.style.display='none';}}
-function openSavedCut(){const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return;try{const s=JSON.parse(raw);fv=s.fv||'Mid';tv=s.tv||'Neat';fromPeople=true;openCut(s.id,true);}catch(e){}}
+function openSavedCut(){const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return;try{const s=JSON.parse(raw);fv=s.fv||'Mid';tv=s.tv||'Neat';fromMycuts=true;openCut(s.id,true);}catch(e){}}
+function toggleSavedMore(){
+  const box=document.getElementById('savedMoreDetails'),btn=document.getElementById('savedMoreBtn');
+  const isOpen=box.style.maxHeight&&box.style.maxHeight!=='0px';
+  if(!isOpen){
+    const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return;
+    let s;try{s=JSON.parse(raw);}catch(e){return;}
+    const cut=cuts.find(c=>c.id===s.id);
+    const typeLabel=(s.type||'freestyle').charAt(0).toUpperCase()+(s.type||'freestyle').slice(1);
+    const rows=[
+      ['Haircut',cut?cut.name:'—'],
+      ['Type',typeLabel],
+      [s.type==='client'?'Client name':s.type==='model'?'Model name':'Name',s.personName||'—'],
+      ['Fade level',s.fv||'—'],
+      ['Top finish',s.tv||'—'],
+      ['Notes',s.personDesc||'—']
+    ];
+    document.getElementById('savedDetailRows').innerHTML=rows.map(([k,v])=>`<div style="display:flex;justify-content:space-between;gap:12px;"><span style="font-size:12px;color:var(--text2);">${k}</span><span style="font-size:12.5px;font-weight:600;color:var(--text);text-align:right;">${v}</span></div>`).join('');
+    box.style.marginTop='14px';
+    box.style.paddingTop='12px';
+    box.style.borderTopColor='var(--border)';
+    box.style.maxHeight=box.scrollHeight+40+'px';
+    box.style.opacity='1';
+    btn.textContent='View less';
+  }else{
+    box.style.maxHeight='0';
+    box.style.opacity='0';
+    box.style.marginTop='0';
+    box.style.paddingTop='0';
+    box.style.borderTopColor='transparent';
+    btn.textContent='View more';
+  }
+}
 
 
 /* ─── SEARCH ─── */
@@ -2570,7 +2781,7 @@ function selectHairType(type){selectedHairType=type;renderHairTypeFilters();buil
 function openLockInIntro(){const bd=document.getElementById('lockinIntroBackdrop');const sh=document.getElementById('lockinIntroSheet');if(!bd||!sh)return;bd.classList.add('open');requestAnimationFrame(()=>sh.classList.add('open'));}
 function closeLockInIntro(){const bd=document.getElementById('lockinIntroBackdrop');const sh=document.getElementById('lockinIntroSheet');if(!bd||!sh)return;sh.classList.remove('open');bd.classList.remove('open');}
 function openCut(id,preserveOpts=false){cur=cuts.find(c=>c.id===id);const fi=getImgs(cur)[0].src;const cThumbEl=document.getElementById('cThumb');if(cThumbEl)loadImg(cThumbEl,fi,cur.name);document.getElementById('dName').textContent=cur.name;document.getElementById('dSub').textContent=cur.tags.join(' · ');document.getElementById('dBadges').innerHTML=cur.tags.map(t=>'<div class="badge">'+t+'</div>').join('');document.getElementById('dDesc').textContent=cur.desc;const cNameEl=document.getElementById('cName');if(cNameEl)cNameEl.textContent=cur.name;const s3BackEl=document.getElementById('s3Back');if(s3BackEl)s3BackEl.textContent=curCat?curCat.name:'Back';if(preserveOpts){document.querySelectorAll('#fadeRow .opt').forEach(b=>b.classList.toggle('on',b.textContent===fv));document.querySelectorAll('#topRow .opt').forEach(b=>b.classList.toggle('on',b.textContent===tv));updateConfirm();}else{resetOpts();}go('s3');requestAnimationFrame(()=>buildHero(cur));setTimeout(openLockInIntro,350);}
-function goBackToCategory(){if(fromPeople){fromPeople=false;switchTab('people');}else if(fromHome){fromHome=false;switchTab('home');}else if(curCat)openCat(curCat.id,curCat.name);else go('s1');}
+function goBackToCategory(){if(fromMycuts){fromMycuts=false;switchTab('mycuts');}else if(fromPeople){fromPeople=false;switchTab('people');}else if(fromHome){fromHome=false;switchTab('home');}else if(curCat)openCat(curCat.id,curCat.name);else go('s1');}
 function resetOpts(){fv='Low Fade';tv='Neat';document.querySelectorAll('#fadeRow .opt').forEach((b,i)=>b.classList.toggle('on',i===0));document.querySelectorAll('#topRow .opt').forEach((b,i)=>b.classList.toggle('on',i===0));updateConfirm();}
 function pick(el,type){const row=type==='fade'?'fadeRow':'topRow';document.querySelectorAll('#'+row+' .opt').forEach(b=>b.classList.remove('on'));el.classList.add('on');if(type==='fade')fv=el.textContent;else tv=el.textContent;updateConfirm();}
 function updateConfirm(){const cOptsEl=document.getElementById('cOpts');if(cOptsEl)cOptsEl.textContent=fv+' · '+tv+' top';}
@@ -2594,6 +2805,16 @@ function getMetricsSettings(){
   catch(e){return{period:'6m',granularity:'month',chart:'line',valueLabels:true,includeFreestyle:true};}
 }
 function saveMetricsSettings(s){localStorage.setItem(METRICS_SETTINGS_KEY,JSON.stringify(s));}
+async function resetAllMetrics(){
+  if(!confirm('Reset all metrics? This permanently deletes every session record. This cannot be undone.'))return;
+  localStorage.removeItem(HISTORY_KEY);
+  if(_sb.connected){
+    try{await sbFetch('sessions?date=not.is.null',{method:'DELETE'});}
+    catch(e){console.warn('Failed to delete Supabase sessions',e);}
+  }
+  pushNotif({icon:'ti-trash',title:'Metrics reset',body:'All session history has been deleted.',ts:Date.now()});
+  alert('All metrics have been reset.');
+}
 
 
 let _msFromScreen='s7'; // track which screen opened settings to route back correctly
@@ -2684,7 +2905,7 @@ let _drillTrendView='line';
 let _drillTrendData=[];
 let _drillTrendMonths=[];
 let _drillTrendH=[];
-function renderDrillTrend(body,h,months){_drillTrendH=h;_drillTrendMonths=months;_drillTrendData=months.map(m=>({...m,count:h.filter(x=>itemMonthKey(x)===m.key).length}));const thisMonth=_drillTrendData[_drillTrendData.length-1];const sumEl=document.createElement('div');sumEl.className='drill-summary';sumEl.innerHTML=`<div class="drill-stat"><div class="drill-stat-label">All time</div><div class="drill-stat-value">${h.length}</div><div class="drill-stat-sub">total locks</div></div><div class="drill-stat"><div class="drill-stat-label">This month</div><div class="drill-stat-value">${thisMonth.count}</div><div class="drill-stat-sub">sessions</div></div>`;body.appendChild(sumEl);const chartCard=document.createElement('div');chartCard.className='m-chart-card';chartCard.style.marginBottom='16px';chartCard.id='drillTrendCard';const toggleRow=document.createElement('div');toggleRow.style.cssText='display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;';toggleRow.innerHTML=`<div id="drillTrendInfo" style="font-size:12px;color:var(--text2);min-height:16px;"></div><div style="display:flex;gap:0;background:var(--bg3);border-radius:8px;padding:2px;flex-shrink:0;"><button id="drillToggleLine" onclick="setDrillTrendView('line')" style="padding:5px 11px;border:none;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s;background:var(--text);color:var(--bg);display:flex;align-items:center;gap:4px;"><i class="ti ti-trending-up" style="font-size:12px;"></i>Line</button><button id="drillToggleBar" onclick="setDrillTrendView('bar')" style="padding:5px 11px;border:none;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s;background:transparent;color:var(--text2);display:flex;align-items:center;gap:4px;"><i class="ti ti-chart-bar" style="font-size:12px;"></i>Bar</button></div>`;chartCard.appendChild(toggleRow);const chartArea=document.createElement('div');chartArea.id='drillTrendChartArea';chartCard.appendChild(chartArea);const resetEl=document.createElement('div');resetEl.id='drillTrendReset';resetEl.style.cssText='font-size:11px;color:var(--text2);cursor:pointer;text-decoration:underline;display:none;margin-top:8px;';resetEl.textContent='Show all months';resetEl.onclick=()=>selectTrendMonth(null);chartCard.appendChild(resetEl);body.appendChild(chartCard);const listEl=document.createElement('div');listEl.id='drillTrendList';body.appendChild(listEl);_drillTrendView='line';renderDrillTrendChartArea();renderTrendList(listEl,h,null);}
+function renderDrillTrend(body,h,months){_drillTrendH=h;_drillTrendMonths=months;_drillTrendData=months.map(m=>({...m,count:h.filter(x=>itemMonthKey(x)===m.key).length}));const thisMonth=_drillTrendData[_drillTrendData.length-1];const sumEl=document.createElement('div');sumEl.className='drill-summary';sumEl.innerHTML=`<div class="drill-stat"><div class="drill-stat-label">All time</div><div class="drill-stat-value">${h.length}</div><div class="drill-stat-sub">total locks</div></div><div class="drill-stat"><div class="drill-stat-label">This month</div><div class="drill-stat-value">${thisMonth.count}</div><div class="drill-stat-sub">sessions</div></div>`;body.appendChild(sumEl);const chartCard=document.createElement('div');chartCard.className='m-chart-card';chartCard.style.marginBottom='16px';chartCard.id='drillTrendCard';const toggleRow=document.createElement('div');toggleRow.style.cssText='display:flex;align-items:center;justify-content:space-between;margin-bottom:34px;';toggleRow.innerHTML=`<div id="drillTrendInfo" style="font-size:12px;color:var(--text2);min-height:16px;"></div><div style="display:flex;gap:0;background:var(--bg3);border-radius:8px;padding:2px;flex-shrink:0;"><button id="drillToggleLine" onclick="setDrillTrendView('line')" style="padding:5px 11px;border:none;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s;background:var(--text);color:var(--bg);display:flex;align-items:center;gap:4px;"><i class="ti ti-trending-up" style="font-size:12px;"></i>Line</button><button id="drillToggleBar" onclick="setDrillTrendView('bar')" style="padding:5px 11px;border:none;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s;background:transparent;color:var(--text2);display:flex;align-items:center;gap:4px;"><i class="ti ti-chart-bar" style="font-size:12px;"></i>Bar</button></div>`;chartCard.appendChild(toggleRow);const chartArea=document.createElement('div');chartArea.id='drillTrendChartArea';chartCard.appendChild(chartArea);const resetEl=document.createElement('div');resetEl.id='drillTrendReset';resetEl.style.cssText='font-size:11px;color:var(--text2);cursor:pointer;text-decoration:underline;display:none;margin-top:8px;';resetEl.textContent='Show all months';resetEl.onclick=()=>selectTrendMonth(null);chartCard.appendChild(resetEl);body.appendChild(chartCard);const listEl=document.createElement('div');listEl.id='drillTrendList';body.appendChild(listEl);_drillTrendView='line';renderDrillTrendChartArea();renderTrendList(listEl,h,null);}
 function setDrillTrendView(view){_drillTrendView=view;const lineBtn=document.getElementById('drillToggleLine');const barBtn=document.getElementById('drillToggleBar');if(lineBtn&&barBtn){lineBtn.style.background=view==='line'?'var(--text)':'transparent';lineBtn.style.color=view==='line'?'var(--bg)':'var(--text2)';barBtn.style.background=view==='bar'?'var(--text)':'transparent';barBtn.style.color=view==='bar'?'var(--bg)':'var(--text2)';}drillFilter.month=null;const resetEl=document.getElementById('drillTrendReset');if(resetEl)resetEl.style.display='none';const infoEl=document.getElementById('drillTrendInfo');if(infoEl)infoEl.textContent='';renderDrillTrendChartArea();renderTrendList(document.getElementById('drillTrendList'),_drillTrendH,null);}
 function renderDrillTrendChartArea(){const area=document.getElementById('drillTrendChartArea');if(!area)return;area.innerHTML='';if(_drillTrendView==='line'){_renderDrillTrendLine(area);}else{_renderDrillTrendBars(area);}}
 function _renderDrillTrendLine(area){const trendData=_drillTrendData;const counts=trendData.map(d=>d.count);const maxT=Math.max(...counts,1);const W=290,H=72;const pts=counts.map((v,i)=>`${Math.round(i*(W/(counts.length-1||1)))},${Math.round(H-v/maxT*H)}`);const areaPath=`M${pts.join('L')} L${W},${H} L0,${H} Z`;const flatPts=counts.map((_,i)=>`${Math.round(i*(W/(counts.length-1||1)))},${H}`).join('L');const flatArea=`M${flatPts} L${W},${H} L0,${H} Z`;const dotEls=counts.map((v,i)=>{const cx=Math.round(i*(W/(counts.length-1||1)));const targetCy=Math.round(H-v/maxT*H);return `<circle class="dt-dot" cx="${cx}" cy="${H}" r="3.5" fill="var(--text)" data-target-cy="${targetCy}" data-key="${trendData[i].key}" style="cursor:pointer;"/><text class="dt-val" x="${cx}" y="${H}" text-anchor="middle" font-size="9" fill="var(--text2)" opacity="0" data-target-y="${targetCy-9}" data-label="${v||''}">${v||''}</text>`;}).join('');area.innerHTML=`<svg id="drillLineSvg" viewBox="0 0 ${W} ${H+6}" style="width:100%;height:${H+6}px;overflow:visible;"><defs><linearGradient id="dtGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="var(--text)" stop-opacity="0.18"/><stop offset="100%" stop-color="var(--text)" stop-opacity="0"/></linearGradient></defs><path id="dtArea" d="${flatArea}" fill="url(#dtGrad)"/><path id="dtLine" d="M${flatPts}" fill="none" stroke="var(--text2)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>${dotEls}</svg><div style="display:flex;gap:4px;margin-top:8px;">${trendData.map(m=>`<div style="flex:1;text-align:center;font-size:9px;color:var(--text3);">${m.label}</div>`).join('')}</div><div style="font-size:11px;color:var(--text3);margin-top:10px;text-align:center;">Tap a dot to filter sessions below</div>`;requestAnimationFrame(()=>{const svg=area.querySelector('#drillLineSvg');if(!svg)return;setTimeout(()=>{const linePath=svg.querySelector('#dtLine');const areaEl=svg.querySelector('#dtArea');if(linePath){linePath.style.transition='d 0.9s cubic-bezier(.4,0,.2,1)';linePath.setAttribute('d',`M${pts.join('L')}`);}if(areaEl){areaEl.style.transition='d 0.9s cubic-bezier(.4,0,.2,1)';areaEl.setAttribute('d',areaPath);}svg.querySelectorAll('.dt-dot').forEach((dot,i)=>{dot.style.transition=`cy 0.9s cubic-bezier(.4,0,.2,1) ${i*0.04}s`;dot.setAttribute('cy',dot.dataset.targetCy);dot.addEventListener('click',()=>selectTrendMonth(dot.dataset.key));});svg.querySelectorAll('.dt-val').forEach((val,i)=>{if(!val.dataset.label)return;setTimeout(()=>{val.setAttribute('y',val.dataset.targetY);val.setAttribute('opacity','1');val.style.transition='opacity 0.4s ease';},600+i*40);});},60);});}
