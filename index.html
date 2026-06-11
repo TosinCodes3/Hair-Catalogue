@@ -67,7 +67,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .intro-btn:active{opacity:0.8;}
 .intro-dots{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--text3);letter-spacing:0.06em;}
 .home-header{padding:32px 16px 24px;margin-bottom:20px;}
-.home-title{font-size:24px;font-weight:700;color:var(--text);letter-spacing:-0.02em;}
+.home-title{font-size:18px;font-weight:700;color:var(--text);letter-spacing:-0.02em;}
 .home-sub{font-size:13px;color:var(--text2);margin-top:3px;}
 .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 24px;}
 .cat-card{border-radius:4px;overflow:hidden;position:relative;aspect-ratio:1;cursor:pointer;background:var(--bg2);}
@@ -77,8 +77,9 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 .cat-card-overlay{position:absolute;inset:0;background:var(--overlay);display:flex;flex-direction:column;justify-content:flex-end;padding:12px;}
 .cat-card-name{font-size:15px;font-weight:600;color:#fff;letter-spacing:-0.01em;}
 .cat-card-count{font-size:11px;color:rgba(255,255,255,0.6);margin-top:2px;}
-.filter-bar{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 14px;}
-.filter-chip{padding:8px 12px;border-radius:999px;border:0.5px solid var(--border2);background:var(--bg2);color:var(--text2);font-size:12px;cursor:pointer;transition:all 0.15s;font-family:inherit;}
+.filter-bar{display:flex;gap:8px;padding:0 16px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.filter-bar::-webkit-scrollbar{display:none;}
+.filter-chip{padding:8px 12px;border-radius:999px;border:0.5px solid var(--border2);background:var(--bg2);color:var(--text2);font-size:12px;cursor:pointer;transition:all 0.15s;font-family:inherit;white-space:nowrap;flex-shrink:0;}
 .filter-chip.active{background:var(--opt-on-bg);border-color:var(--opt-on-border);color:var(--text);}
 .cat-grid.list-view{display:flex;flex-direction:column;gap:10px;}
 .cat-grid.list-view .cat-card{display:flex;align-items:center;aspect-ratio:auto;min-height:100px;padding:0;}
@@ -1015,7 +1016,7 @@ body{background:var(--bg);transition:background 0.2s;min-height:100vh;font-famil
 
   <div class="screen" id="s1">
     <div class="home-header" style="padding-bottom:8px;display:flex;align-items:center;justify-content:space-between;">
-      <div class="home-title">Haircut Categories</div>
+      <div class="home-title">What are we looking for today?</div>
       <div class="hd-search-btn" style="margin-top:0;" onclick="switchTab('search')"><i class="ti ti-search"></i></div>
     </div>
     <div class="filter-bar" id="filterBar"></div>
@@ -1346,10 +1347,13 @@ create policy "Allow all" on haircuts for all using (true) with check (true);
           <div class="mh-field">
             <label>Hair type</label>
             <select id="mhHairType">
+              <option value="curly">Curly</option>
               <option value="straight">Straight</option>
               <option value="wavy">Wavy</option>
-              <option value="curly">Curly</option>
-              <option value="textured">Textured</option>
+              <option value="coily">Coily</option>
+              <option value="medium straight">Medium Straight</option>
+              <option value="thick wavy">Thick Wavy</option>
+              <option value="fine straight">Fine Straight</option>
             </select>
           </div>
         </div>
@@ -1524,7 +1528,7 @@ create policy "Allow all" on haircuts for all using (true) with check (true);
 </div>
 <div class="bottom-nav">
   <button class="nav-item active" id="navHome"     onclick="switchTab('home')"><i class="ti ti-home"></i><span>Home</span></button>
-  <button class="nav-item"        id="navExplore"  onclick="switchTab('explore')"><i class="ti ti-layout-grid"></i><span>Categories</span></button>
+  <button class="nav-item"        id="navExplore"  onclick="switchTab('explore')"><i class="ti ti-layout-grid"></i><span>Consultations</span></button>
   <button class="nav-item"        id="navPeople"   onclick="switchTab('people')"><i class="ti ti-users"></i><span>Profiles</span></button>
   <button class="nav-item"        id="navSearch"   onclick="switchTab('mycuts')"><i class="ti ti-scissors"></i><span>Locked Cut</span></button>
   <button class="nav-item"        id="navSettings" onclick="switchTab('settings')"><i class="ti ti-settings"></i><span>Settings</span></button>
@@ -1574,7 +1578,7 @@ function lbTouchEnd(e){const remaining=Array.from(e.touches);if(lbPinching&&rema
 /* ─── STATE ─── */
 let cur=null,curCat=null,fv='Mid',tv='Neat',isDark=localStorage.getItem('appTheme')!=='light',isListView=false,selectedHairType='all',fromPeople=false,fromHome=false,fromMycuts=false;
 let metricsWalkthroughStep=0,metricsWalkthroughActive=false;
-const hairTypes=['All','Curly','Straight','Wavy','Textured'];
+const hairTypes=['All','Curly','Straight','Wavy','Coily','Medium Straight','Thick Wavy','Fine Straight'];
 const STORAGE_KEY='lockedCut',HISTORY_KEY='cutHistory',MODEL_PROFILES_KEY='modelProfiles',DASH_REFRESH_KEY='dashboardRefresh',AUTO_SCROLL_KEY='featuredAutoScroll';
 
 
@@ -2143,8 +2147,9 @@ function buildGalleryItem(src){
 }
 
 function getAllGalleryImages(){
+  // One tile per haircut — only the main/front image; other angles live in the detail page
   const seen=new Set();const srcs=[];
-  cuts.forEach(cut=>{getImgs(cut).forEach(im=>{if(im.src&&!seen.has(im.src)){seen.add(im.src);srcs.push(im.src);}});});
+  cuts.forEach(cut=>{const im=getImgs(cut)[0];if(im&&im.src&&!seen.has(im.src)){seen.add(im.src);srcs.push(im.src);}});
   return srcs;
 }
 
@@ -2230,6 +2235,17 @@ function renderHaircutDetail(){
     <div onclick="event.stopPropagation();closeHaircutDetail();" style="position:absolute;top:28px;left:16px;z-index:10;width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;cursor:pointer;"><i class="ti ti-arrow-left" style="font-size:18px;color:#fff;"></i></div>
     <div id="hcdFavBtn" onclick="event.stopPropagation();hcdToggleFav();" style="position:absolute;top:28px;right:16px;z-index:10;width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;cursor:pointer;"><i class="ti ti-heart${faved?'-filled':''}" style="font-size:17px;color:#fff;"></i></div>`;
   body.appendChild(hero);
+  // 1b. Angle thumbnails (when the cut has multiple images)
+  if(imgs.length>1){
+    const angles=document.createElement('div');
+    angles.style.cssText='display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:12px 16px 0;';
+    angles.innerHTML=imgs.map(im=>`
+      <div onclick="_hcdImgSrc='${im.src}';renderHaircutDetail();" style="flex-shrink:0;width:64px;cursor:pointer;">
+        <div style="width:64px;height:64px;border-radius:12px;overflow:hidden;border:2px solid ${im.src===heroSrc?'var(--text)':'transparent'};background:var(--bg2);"><img src="${im.src}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+        ${im.label?`<div style="font-size:10px;color:${im.src===heroSrc?'var(--text2)':'var(--text3)'};text-align:center;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${im.label}</div>`:''}
+      </div>`).join('');
+    body.appendChild(angles);
+  }
   // 2. Info
   const info=document.createElement('div');
   info.style.cssText='padding:18px 16px 4px;';
@@ -2258,11 +2274,11 @@ function renderHaircutDetail(){
   const sessions=getHistory().filter(x=>x.id===cut.id&&x.personName);
   if(sessions.length){
     const people=[...new Map(sessions.map(x=>[x.personName.toLowerCase()+x.type,x])).values()].slice(0,5);
-    addSection(hcdSectionLabel('Worn by')+people.map(p=>`
-      <div style="display:flex;align-items:center;gap:10px;padding:7px 0;cursor:pointer;" onclick="openPersonDetail('${p.personName.replace(/'/g,"\\'")}','${p.type}')">
-        <div style="width:34px;height:34px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;"><i class="ti ${p.type==='client'?'ti-user':'ti-star'}" style="font-size:15px;color:${p.type==='client'?'var(--client-color)':'var(--model-color)'};"></i></div>
-        <div><div style="font-size:13.5px;font-weight:600;color:var(--text);">${p.personName}</div><div style="font-size:11px;color:var(--text3);text-transform:capitalize;">${p.type}</div></div>
-      </div>`).join(''));
+    addSection(hcdSectionLabel('Worn by')+`<div style="display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px;">`+people.map(p=>`
+      <div style="display:flex;align-items:center;gap:9px;padding:8px 14px 8px 9px;border-radius:30px;background:var(--bg2);border:0.5px solid var(--border2);cursor:pointer;flex-shrink:0;" onclick="openPersonDetail('${p.personName.replace(/'/g,"\\'")}','${p.type}')">
+        <div style="width:30px;height:30px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="ti ${p.type==='client'?'ti-user':'ti-star'}" style="font-size:14px;color:${p.type==='client'?'var(--client-color)':'var(--model-color)'};"></i></div>
+        <div><div style="font-size:12.5px;font-weight:600;color:var(--text);white-space:nowrap;">${p.personName}</div><div style="font-size:10.5px;color:var(--text3);text-transform:capitalize;">${p.type}</div></div>
+      </div>`).join('')+`</div>`);
   }
   // 6. Content links
   const links=cut.links||{};
@@ -2546,7 +2562,7 @@ function renderHdFilterChips(){
   const bar=document.getElementById('hdFilterChips');
   if(!bar)return;
   bar.innerHTML='';
-  const types=['All','Curly','Straight','Wavy','Textured'];
+  const types=['All','Curly','Straight','Wavy','Coily','Medium Straight','Thick Wavy','Fine Straight'];
   types.forEach(type=>{
     const key=type.toLowerCase();
     const chip=document.createElement('button');
@@ -3465,7 +3481,7 @@ async function loadSbCuts(){
 
 
 function injectSbCutsIntoApp(data){
-  const sbAppCuts=data.map(row=>({id:'sb_'+row.id,name:row.name,cat:row.category,hairType:row.hair_type||'straight',tags:row.tags||[],desc:row.description||'',imgs:Array.isArray(row.images)&&row.images.length>1?row.images:undefined,img:Array.isArray(row.images)&&row.images.length?row.images[0].src:'',before_image:row.before_image||null,after_image:row.after_image||null,created_at:row.created_at||null,links:{instagram:row.instagram_link||null,tiktok:row.tiktok_link||null,youtube:row.youtube_link||null}}));
+  const sbAppCuts=data.map(row=>({id:'sb_'+row.id,name:row.name,cat:row.category,hairType:(row.hair_type==='textured'?'wavy':row.hair_type)||'straight',tags:row.tags||[],desc:row.description||'',imgs:Array.isArray(row.images)&&row.images.length>1?row.images:undefined,img:Array.isArray(row.images)&&row.images.length?row.images[0].src:'',before_image:row.before_image||null,after_image:row.after_image||null,created_at:row.created_at||null,links:{instagram:row.instagram_link||null,tiktok:row.tiktok_link||null,youtube:row.youtube_link||null}}));
   const baseIdx=cuts.findIndex(c=>String(c.id).startsWith('sb_'));
   if(baseIdx>-1)cuts.splice(baseIdx);
   cuts.push(...sbAppCuts);
@@ -3585,10 +3601,13 @@ function renderMhLibrary(){
         </div>
         <div class="mh-field"><label>Hair type</label>
           <select id="mhEHair_${row.id}">
-            <option value="straight"${row.hair_type==='straight'?' selected':''}>Straight</option>
-            <option value="wavy"${row.hair_type==='wavy'?' selected':''}>Wavy</option>
             <option value="curly"${row.hair_type==='curly'?' selected':''}>Curly</option>
-            <option value="textured"${row.hair_type==='textured'?' selected':''}>Textured</option>
+            <option value="straight"${row.hair_type==='straight'?' selected':''}>Straight</option>
+            <option value="wavy"${row.hair_type==='wavy'||row.hair_type==='textured'?' selected':''}>Wavy</option>
+            <option value="coily"${row.hair_type==='coily'?' selected':''}>Coily</option>
+            <option value="medium straight"${row.hair_type==='medium straight'?' selected':''}>Medium Straight</option>
+            <option value="thick wavy"${row.hair_type==='thick wavy'?' selected':''}>Thick Wavy</option>
+            <option value="fine straight"${row.hair_type==='fine straight'?' selected':''}>Fine Straight</option>
           </select>
         </div>
       </div>
