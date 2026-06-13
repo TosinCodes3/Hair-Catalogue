@@ -2083,8 +2083,8 @@ function renderHaircutDetail(){
   if(cut.before_image&&cut.after_image){
     addSection(hcdSectionLabel('Before & After')+`
       <div style="display:flex;gap:3px;border-radius:14px;overflow:hidden;">
-        <div style="flex:1;position:relative;aspect-ratio:3/4;background:var(--bg2);"><img src="${cut.before_image}" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;">BEFORE</div></div>
-        <div style="flex:1;position:relative;aspect-ratio:3/4;background:var(--bg2);"><img src="${cut.after_image}" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;">AFTER</div></div>
+        <div onclick="openBeforeAfterForCut('${cut.id}')" style="flex:1;position:relative;aspect-ratio:3/4;background:var(--bg2);cursor:pointer;"><img src="${cut.before_image}" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;">BEFORE</div></div>
+        <div onclick="openBeforeAfterForCut('${cut.id}')" style="flex:1;position:relative;aspect-ratio:3/4;background:var(--bg2);cursor:pointer;"><img src="${cut.after_image}" style="width:100%;height:100%;object-fit:cover;display:block;"><div style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.55);color:#fff;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;">AFTER</div></div>
       </div>`);
   }
   // 5. Model / client info (from lock history)
@@ -2219,6 +2219,14 @@ let baSliderPct=50;
 function openBeforeAfter(){
   go('s12');
   updateBaSlider();
+}
+
+
+function openBeforeAfterForCut(cutId){
+  const cut=cuts.find(c=>c.id===cutId);
+  if(!cut||!cut.before_image||!cut.after_image)return;
+  selectBaCut(cut);
+  go('s12');
 }
 
 
